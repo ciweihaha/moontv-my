@@ -1,1 +1,193 @@
-ewogIC8vI3JlZ2lvbiAgLy8qPT09PT09PT09PT0gUmVhY3QgPT09PT09PT09PT0KICAiaW1wb3J0IFJlYWN0IjogewogICAgInByZWZpeCI6ICJpciIsCiAgICAiYm9keSI6IFsiaW1wb3J0ICogYXMgUmVhY3QgZnJvbSAncmVhY3QnOyJdCiAgfSwKICAiUmVhY3QudXNlU3RhdGUiOiB7CiAgICAicHJlZml4IjogInVzIiwKICAgICJib2R5IjogWwogICAgICAiY29uc3QgWyR7MX0sIHNldCR7MS8oXlthLXpBLVpdKSguKikvJHsxOi91cGNhc2V9JHsyfS99XSA9IFJlYWN0LnVzZVN0YXRlPCQzPigkezI6aW5pdGlhbCR7MS8oXlthLXpBLVpdKSguKikvJHsxOi91cGNhc2V9JHsyfS99fSkkMCIKICAgIF0KICB9LAogICJSZWFjdC51c2VFZmZlY3QiOiB7CiAgICAicHJlZml4IjogInVmIiwKICAgICJib2R5IjogWyJSZWFjdC51c2VFZmZlY3QoKCkgPT4geyIsICIgICQwIiwgIn0sIFtdKTsiXQogIH0sCiAgIlJlYWN0LnVzZVJlZHVjZXIiOiB7CiAgICAicHJlZml4IjogInVyIiwKICAgICJib2R5IjogWwogICAgICAiY29uc3QgW3N0YXRlLCBkaXNwYXRjaF0gPSBSZWFjdC51c2VSZWR1Y2VyKCR7MDpzb21lUmVkdWNlcn0sIHsiLAogICAgICAiICAiLAogICAgICAifSkiCiAgICBdCiAgfSwKICAiUmVhY3QudXNlUmVmIjogewogICAgInByZWZpeCI6ICJ1cmYiLAogICAgImJvZHkiOiBbImNvbnN0ICR7MTpzb21lUmVmfSA9IFJlYWN0LnVzZVJlZigkMCkiXQogIH0sCiAgIlJlYWN0IEZ1bmN0aW9uYWwgQ29tcG9uZW50IjogewogICAgInByZWZpeCI6ICJyYyIsCiAgICAiYm9keSI6IFsKICAgICAgImltcG9ydCAqIGFzIFJlYWN0IGZyb20gJ3JlYWN0JztcbiIsCiAgICAgICJleHBvcnQgZGVmYXVsdCBmdW5jdGlvbiAkezE6JHtUTV9GSUxFTkFNRV9CQVNFfX0oKSB7IiwKICAgICAgIiAgcmV0dXJuICgiLAogICAgICAiICAgIDxkaXY+IiwKICAgICAgIiAgICAgICQwIiwKICAgICAgIiAgICA8L2Rpdj4iLAogICAgICAiICApIiwKICAgICAgIn0iCiAgICBdCiAgfSwKICAiUmVhY3QgRnVuY3Rpb25hbCBDb21wb25lbnQgd2l0aCBQcm9wcyI6IHsKICAgICJwcmVmaXgiOiAicmNwIiwKICAgICJib2R5IjogWwogICAgICAiaW1wb3J0ICogYXMgUmVhY3QgZnJvbSAncmVhY3QnO1xuIiwKICAgICAgImltcG9ydCBjbHN4bSBmcm9tICdAL2xpYi9jbHN4bSc7XG4iLAogICAgICAidHlwZSAkezE6JHtUTV9GSUxFTkFNRV9CQVNFfX1Qcm9wcz0ge1xuIiwKICAgICAgIn0gJiBSZWFjdC5Db21wb25lbnRQcm9wc1dpdGhvdXRSZWY8J2Rpdic+XG4iLAogICAgICAiZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gJHsxOiR7VE1fRklMRU5BTUVfQkFTRX19KHtjbGFzc05hbWUsIC4uLnJlc3R9OiAkezE6JHtUTV9GSUxFTkFNRV9CQVNFfX1Qcm9wcykgeyIsCiAgICAgICIgIHJldHVybiAoIiwKICAgICAgIiAgICA8ZGl2IGNsYXNzTmFtZT17Y2xzeG0oWycnLCBjbGFzc05hbWVdKX0gey4uLnJlc3R9PiIsCiAgICAgICIgICAgICAkMCIsCiAgICAgICIgICAgPC9kaXY+IiwKICAgICAgIiAgKSIsCiAgICAgICJ9IgogICAgXQogIH0sCiAgLy8jZW5kcmVnaW9uICAvLyo9PT09PT09PSBSZWFjdCA9PT09PT09PT09PQoKICAvLyNyZWdpb24gIC8vKj09PT09PT09PT09IENvbW1vbnMgPT09PT09PT09PT0KICAiUmVnaW9uIjogewogICAgInByZWZpeCI6ICJyZWciLAogICAgInNjb3BlIjogImphdmFzY3JpcHQsIHR5cGVzY3JpcHQsIGphdmFzY3JpcHRyZWFjdCwgdHlwZXNjcmlwdHJlYWN0IiwKICAgICJib2R5IjogWwogICAgICAiLy8jcmVnaW9uICAvLyo9PT09PT09PT09PSAkezF9ID09PT09PT09PT09IiwKICAgICAgIiR7VE1fU0VMRUNURURfVEVYVH0kMCIsCiAgICAgICIvLyNlbmRyZWdpb24gIC8vKj09PT09PT09ICR7MX0gPT09PT09PT09PT0iCiAgICBdCiAgfSwKICAiUmVnaW9uIENTUyI6IHsKICAgICJwcmVmaXgiOiAicmVnYyIsCiAgICAic2NvcGUiOiAiY3NzLCBzY3NzIiwKICAgICJib2R5IjogWwogICAgICAiLyogI3JlZ2lvbiAgLyoqPT09PT09PT09PT0gJHsxfSA9PT09PT09PT09PSAqLyIsCiAgICAgICIke1RNX1NFTEVDVEVEX1RFWFR9JDAiLAogICAgICAiLyogI2VuZHJlZ2lvbiAgLyoqPT09PT09PT0gJHsxfSA9PT09PT09PT09PSAqLyIKICAgIF0KICB9LAogIC8vI2VuZHJlZ2lvbiAgLy8qPT09PT09PT0gQ29tbW9ucyA9PT09PT09PT09PQoKICAvLyNyZWdpb24gIC8vKj09PT09PT09PT09IE5leHQuanMgPT09PT09PT09PT0KICAiTmV4dCBQYWdlcyI6IHsKICAgICJwcmVmaXgiOiAibnAiLAogICAgImJvZHkiOiBbCiAgICAgICJpbXBvcnQgKiBhcyBSZWFjdCBmcm9tICdyZWFjdCc7XG4iLAogICAgICAiaW1wb3J0IExheW91dCBmcm9tICdAL2NvbXBvbmVudHMvbGF5b3V0L0xheW91dCc7IiwKICAgICAgImltcG9ydCBTZW8gZnJvbSAnQC9jb21wb25lbnRzL1Nlbyc7XG4iLAogICAgICAiZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gJHsxOiR7VE1fRklMRU5BTUVfQkFTRS8oXlthLXpBLVpdKSguKikvJHsxOi91cGNhc2V9JHsyfS99fVBhZ2UoKSB7IiwKICAgICAgIiAgcmV0dXJuICgiLAogICAgICAiICAgIDxMYXlvdXQ+IiwKICAgICAgIiAgICAgIDxTZW8gdGVtcGxhdGVUaXRsZT0nJHsxOiR7VE1fRklMRU5BTUVfQkFTRS8oXlthLXpBLVpdKSguKikvJHsxOi91cGNhc2V9JHsyfS99fScgLz5cbiIsCiAgICAgICIgICAgICA8bWFpbj5cbiIsCiAgICAgICIgICAgICAgIDxzZWN0aW9uIGNsYXNzTmFtZT0nJz4iLAogICAgICAiICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSdsYXlvdXQgcHktMjAgbWluLWgtc2NyZWVuJz4iLAogICAgICAiICAgICAgICAgICAgJDAiLAogICAgICAiICAgICAgICAgIDwvZGl2PiIsCiAgICAgICIgICAgICAgIDwvc2VjdGlvbj4iLAogICAgICAiICAgICAgPC9tYWluPiIsCiAgICAgICIgICAgPC9MYXlvdXQ+IiwKICAgICAgIiAgKSIsCiAgICAgICJ9IgogICAgXQogIH0sCiAgIk5leHQgQVBJIjogewogICAgInByZWZpeCI6ICJuYXBpIiwKICAgICJib2R5IjogWwogICAgICAiaW1wb3J0IHsgTmV4dEFwaVJlcXVlc3QsIE5leHRBcGlSZXNwb25zZSB9IGZyb20gJ25leHQnO1xuIiwKICAgICAgImV4cG9ydCBkZWZhdWx0IGFzeW5jIGZ1bmN0aW9uIGhhbmRsZXIocmVxOiBOZXh0QXBpUmVxdWVzdCwgcmVzOiBOZXh0QXBpUmVzcG9uc2UpIHsiLAogICAgICAiICBpZiAocmVxLm1ldGhvZCA9PT0gJ0dFVCcpIHsiLAogICAgICAiICAgIHJlcy5zdGF0dXMoMjAwKS5qc29uKHsgbmFtZTogJ0JhbWJhbmcnIH0pOyIsCiAgICAgICIgIH0gZWxzZSB7IiwKICAgICAgIiAgICByZXMuc3RhdHVzKDQwNSkuanNvbih7IG1lc3NhZ2U6ICdNZXRob2QgTm90IEFsbG93ZWQnIH0pOyIsCiAgICAgICIgIH0iLAogICAgICAifSIKICAgIF0KICB9LAogICJHZXQgU3RhdGljIFByb3BzIjogewogICAgInByZWZpeCI6ICJnc3AiLAogICAgImJvZHkiOiBbCiAgICAgICJleHBvcnQgY29uc3QgZ2V0U3RhdGljUHJvcHMgPSBhc3luYyAoY29udGV4dDogR2V0U3RhdGljUHJvcHNDb250ZXh0KSA9PiB7IiwKICAgICAgIiAgcmV0dXJuIHsiLAogICAgICAiICAgIHByb3BzOiB7fSIsCiAgICAgICIgIH07IiwKICAgICAgIn0iCiAgICBdCiAgfSwKICAiR2V0IFN0YXRpYyBQYXRocyI6IHsKICAgICJwcmVmaXgiOiAiZ3NwYSIsCiAgICAiYm9keSI6IFsKICAgICAgImV4cG9ydCBjb25zdCBnZXRTdGF0aWNQYXRoczogR2V0U3RhdGljUGF0aHMgPSBhc3luYyAoKSA9PiB7IiwKICAgICAgIiAgcmV0dXJuIHsiLAogICAgICAiICAgIHBhdGhzOiBbIiwKICAgICAgIiAgICAgIHsgcGFyYW1zOiB7ICQxIH19IiwKICAgICAgIiAgICBdLCIsCiAgICAgICIgICAgZmFsbGJhY2s6ICIsCiAgICAgICIgIH07IiwKICAgICAgIn0iCiAgICBdCiAgfSwKICAiR2V0IFNlcnZlciBTaWRlIFByb3BzIjogewogICAgInByZWZpeCI6ICJnc3NwIiwKICAgICJib2R5IjogWwogICAgICAiZXhwb3J0IGNvbnN0IGdldFNlcnZlclNpZGVQcm9wcyA9IGFzeW5jIChjb250ZXh0OiBHZXRTZXJ2ZXJTaWRlUHJvcHNDb250ZXh0KSA9PiB7IiwKICAgICAgIiAgcmV0dXJuIHsiLAogICAgICAiICAgIHByb3BzOiB7fSIsCiAgICAgICIgIH07IiwKICAgICAgIn0iCiAgICBdCiAgfSwKICAiSW5mZXIgR2V0IFN0YXRpYyBQcm9wcyI6IHsKICAgICJwcmVmaXgiOiAiaWdzcCIsCiAgICAiYm9keSI6ICJJbmZlckdldFN0YXRpY1Byb3BzVHlwZTx0eXBlb2YgZ2V0U3RhdGljUHJvcHM+IgogIH0sCiAgIkluZmVyIEdldCBTZXJ2ZXIgU2lkZSBQcm9wcyI6IHsKICAgICJwcmVmaXgiOiAiaWdzc3AiLAogICAgImJvZHkiOiAiSW5mZXJHZXRTZXJ2ZXJTaWRlUHJvcHNUeXBlPHR5cGVvZiBnZXRTZXJ2ZXJTaWRlUHJvcHM+IgogIH0sCiAgIkltcG9ydCB1c2VSb3V0ZXIiOiB7CiAgICAicHJlZml4IjogImltdXN0IiwKICAgICJib2R5IjogWyJpbXBvcnQgeyB1c2VSb3V0ZXIgfSBmcm9tICduZXh0L3JvdXRlcic7Il0KICB9LAogICJJbXBvcnQgTmV4dCBJbWFnZSI6IHsKICAgICJwcmVmaXgiOiAiaW1pbWciLAogICAgImJvZHkiOiBbImltcG9ydCBJbWFnZSBmcm9tICduZXh0L2ltYWdlJzsiXQogIH0sCiAgIkltcG9ydCBOZXh0IExpbmsiOiB7CiAgICAicHJlZml4IjogImltbCIsCiAgICAiYm9keSI6IFsiaW1wb3J0IExpbmsgZnJvbSAnbmV4dC9saW5rJzsiXQogIH0sCiAgLy8jZW5kcmVnaW9uICAvLyo9PT09PT09PSBOZXh0LmpzID09PT09PT09PT09CgogIC8vI3JlZ2lvbiAgLy8qPT09PT09PT09PT0gU25pcHBldCBXcmFwID09PT09PT09PT09CiAgIldyYXAgd2l0aCBGcmFnbWVudCI6IHsKICAgICJwcmVmaXgiOiAiZmYiLAogICAgImJvZHkiOiBbIjw+IiwgIlx0JHtUTV9TRUxFQ1RFRF9URVhUfSIsICI8Lz4iXQogIH0sCiAgIldyYXAgd2l0aCBjbHN4IjogewogICAgInByZWZpeCI6ICJjeCIsCiAgICAiYm9keSI6IFsie2Nsc3goWyR7VE1fU0VMRUNURURfVEVYVH0kMF0pfSJdCiAgfSwKICAiV3JhcCB3aXRoIGNsc3htIjogewogICAgInByZWZpeCI6ICJjeG0iLAogICAgImJvZHkiOiBbIntjbHN4bShbJHtUTV9TRUxFQ1RFRF9URVhUfSQwLCBjbGFzc05hbWVdKX0iXQogIH0sCiAgLy8jZW5kcmVnaW9uICAvLyo9PT09PT09PSBTbmlwcGV0IFdyYXAgPT09PT09PT09PT0KCiAgIkxvZ2dlciI6IHsKICAgICJwcmVmaXgiOiAibGciLAogICAgImJvZHkiOiBbCiAgICAgICJsb2dnZXIoeyAkezE6JHtDTElQQk9BUkR9fSB9LCAnJHtUTV9GSUxFTkFNRX0gbGluZSAke1RNX0xJTkVfTlVNQkVSfScpIgogICAgXQogIH0KfQo=
+{
+  //#region  //*=========== React ===========
+  "import React": {
+    "prefix": "ir",
+    "body": ["import * as React from 'react';"]
+  },
+  "React.useState": {
+    "prefix": "us",
+    "body": [
+      "const [${1}, set${1/(^[a-zA-Z])(.*)/${1:/upcase}${2}/}] = React.useState<$3>(${2:initial${1/(^[a-zA-Z])(.*)/${1:/upcase}${2}/}})$0"
+    ]
+  },
+  "React.useEffect": {
+    "prefix": "uf",
+    "body": ["React.useEffect(() => {", "  $0", "}, []);"]
+  },
+  "React.useReducer": {
+    "prefix": "ur",
+    "body": [
+      "const [state, dispatch] = React.useReducer(${0:someReducer}, {",
+      "  ",
+      "})"
+    ]
+  },
+  "React.useRef": {
+    "prefix": "urf",
+    "body": ["const ${1:someRef} = React.useRef($0)"]
+  },
+  "React Functional Component": {
+    "prefix": "rc",
+    "body": [
+      "import * as React from 'react';\n",
+      "export default function ${1:${TM_FILENAME_BASE}}() {",
+      "  return (",
+      "    <div>",
+      "      $0",
+      "    </div>",
+      "  )",
+      "}"
+    ]
+  },
+  "React Functional Component with Props": {
+    "prefix": "rcp",
+    "body": [
+      "import * as React from 'react';\n",
+      "import clsxm from '@/lib/clsxm';\n",
+      "type ${1:${TM_FILENAME_BASE}}Props= {\n",
+      "} & React.ComponentPropsWithoutRef<'div'>\n",
+      "export default function ${1:${TM_FILENAME_BASE}}({className, ...rest}: ${1:${TM_FILENAME_BASE}}Props) {",
+      "  return (",
+      "    <div className={clsxm(['', className])} {...rest}>",
+      "      $0",
+      "    </div>",
+      "  )",
+      "}"
+    ]
+  },
+  //#endregion  //*======== React ===========
+
+  //#region  //*=========== Commons ===========
+  "Region": {
+    "prefix": "reg",
+    "scope": "javascript, typescript, javascriptreact, typescriptreact",
+    "body": [
+      "//#region  //*=========== ${1} ===========",
+      "${TM_SELECTED_TEXT}$0",
+      "//#endregion  //*======== ${1} ==========="
+    ]
+  },
+  "Region CSS": {
+    "prefix": "regc",
+    "scope": "css, scss",
+    "body": [
+      "/* #region  /**=========== ${1} =========== */",
+      "${TM_SELECTED_TEXT}$0",
+      "/* #endregion  /**======== ${1} =========== */"
+    ]
+  },
+  //#endregion  //*======== Commons ===========
+
+  //#region  //*=========== Next.js ===========
+  "Next Pages": {
+    "prefix": "np",
+    "body": [
+      "import * as React from 'react';\n",
+      "import Layout from '@/components/layout/Layout';",
+      "import Seo from '@/components/Seo';\n",
+      "export default function ${1:${TM_FILENAME_BASE/(^[a-zA-Z])(.*)/${1:/upcase}${2}/}}Page() {",
+      "  return (",
+      "    <Layout>",
+      "      <Seo templateTitle='${1:${TM_FILENAME_BASE/(^[a-zA-Z])(.*)/${1:/upcase}${2}/}}' />\n",
+      "      <main>\n",
+      "        <section className=''>",
+      "          <div className='layout py-20 min-h-screen'>",
+      "            $0",
+      "          </div>",
+      "        </section>",
+      "      </main>",
+      "    </Layout>",
+      "  )",
+      "}"
+    ]
+  },
+  "Next API": {
+    "prefix": "napi",
+    "body": [
+      "import { NextApiRequest, NextApiResponse } from 'next';\n",
+      "export default async function handler(req: NextApiRequest, res: NextApiResponse) {",
+      "  if (req.method === 'GET') {",
+      "    res.status(200).json({ name: 'Bambang' });",
+      "  } else {",
+      "    res.status(405).json({ message: 'Method Not Allowed' });",
+      "  }",
+      "}"
+    ]
+  },
+  "Get Static Props": {
+    "prefix": "gsp",
+    "body": [
+      "export const getStaticProps = async (context: GetStaticPropsContext) => {",
+      "  return {",
+      "    props: {}",
+      "  };",
+      "}"
+    ]
+  },
+  "Get Static Paths": {
+    "prefix": "gspa",
+    "body": [
+      "export const getStaticPaths: GetStaticPaths = async () => {",
+      "  return {",
+      "    paths: [",
+      "      { params: { $1 }}",
+      "    ],",
+      "    fallback: ",
+      "  };",
+      "}"
+    ]
+  },
+  "Get Server Side Props": {
+    "prefix": "gssp",
+    "body": [
+      "export const getServerSideProps = async (context: GetServerSidePropsContext) => {",
+      "  return {",
+      "    props: {}",
+      "  };",
+      "}"
+    ]
+  },
+  "Infer Get Static Props": {
+    "prefix": "igsp",
+    "body": "InferGetStaticPropsType<typeof getStaticProps>"
+  },
+  "Infer Get Server Side Props": {
+    "prefix": "igssp",
+    "body": "InferGetServerSidePropsType<typeof getServerSideProps>"
+  },
+  "Import useRouter": {
+    "prefix": "imust",
+    "body": ["import { useRouter } from 'next/router';"]
+  },
+  "Import Next Image": {
+    "prefix": "imimg",
+    "body": ["import Image from 'next/image';"]
+  },
+  "Import Next Link": {
+    "prefix": "iml",
+    "body": ["import Link from 'next/link';"]
+  },
+  //#endregion  //*======== Next.js ===========
+
+  //#region  //*=========== Snippet Wrap ===========
+  "Wrap with Fragment": {
+    "prefix": "ff",
+    "body": ["<>", "\t${TM_SELECTED_TEXT}", "</>"]
+  },
+  "Wrap with clsx": {
+    "prefix": "cx",
+    "body": ["{clsx([${TM_SELECTED_TEXT}$0])}"]
+  },
+  "Wrap with clsxm": {
+    "prefix": "cxm",
+    "body": ["{clsxm([${TM_SELECTED_TEXT}$0, className])}"]
+  },
+  //#endregion  //*======== Snippet Wrap ===========
+
+  "Logger": {
+    "prefix": "lg",
+    "body": [
+      "logger({ ${1:${CLIPBOARD}} }, '${TM_FILENAME} line ${TM_LINE_NUMBER}')"
+    ]
+  }
+}
