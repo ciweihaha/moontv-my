@@ -1,1 +1,40 @@
-Ly8g5Zu+54mH5Y2g5L2N56ym57uE5Lu2IC0g5a6e546w6aqo5p625bGP5pWI5p6c77yI5pSv5oyB5pqX6Imy5qih5byP77yJCmNvbnN0IEltYWdlUGxhY2Vob2xkZXIgPSAoeyBhc3BlY3RSYXRpbyB9OiB7IGFzcGVjdFJhdGlvOiBzdHJpbmcgfSkgPT4gKAogIDxkaXYKICAgIGNsYXNzTmFtZT17YHctZnVsbCAke2FzcGVjdFJhdGlvfSByb3VuZGVkLWxnYH0KICAgIHN0eWxlPXt7CiAgICAgIGJhY2tncm91bmQ6CiAgICAgICAgJ2xpbmVhci1ncmFkaWVudCg5MGRlZywgdmFyKC0tc2tlbGV0b24tY29sb3IpIDI1JSwgdmFyKC0tc2tlbGV0b24taGlnaGxpZ2h0KSA1MCUsIHZhcigtLXNrZWxldG9uLWNvbG9yKSA3NSUpJywKICAgICAgYmFja2dyb3VuZFNpemU6ICcyMDAlIDEwMCUnLAogICAgICBhbmltYXRpb246ICdzaGluZSAxLjVzIGluZmluaXRlJywKICAgIH19CiAgPgogICAgPHN0eWxlPntgCiAgICAgIEBrZXlmcmFtZXMgc2hpbmUgewogICAgICAgIDAlIHsgYmFja2dyb3VuZC1wb3NpdGlvbjogLTIwMCUgMDsgfQogICAgICAgIDEwMCUgeyBiYWNrZ3JvdW5kLXBvc2l0aW9uOiAyMDAlIDA7IH0KICAgICAgfQogICAgICAKICAgICAgLyog5Lqu6Imy5qih5byP5Y+Y6YePICovCiAgICAgIDpyb290IHsKICAgICAgICAtLXNrZWxldG9uLWNvbG9yOiAjZjBmMGYwOwogICAgICAgIC0tc2tlbGV0b24taGlnaGxpZ2h0OiAjZTBlMGUwOwogICAgICB9CiAgICAgIAogICAgICAvKiDmmpfoibLmqKHlvI/lj5jph48gKi8KICAgICAgQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyaykgewogICAgICAgIDpyb290IHsKICAgICAgICAgIC0tc2tlbGV0b24tY29sb3I6ICMyZDJkMmQ7CiAgICAgICAgICAtLXNrZWxldG9uLWhpZ2hsaWdodDogIzNkM2QzZDsKICAgICAgICB9CiAgICAgIH0KICAgICAgCiAgICAgIC5kYXJrIHsKICAgICAgICAtLXNrZWxldG9uLWNvbG9yOiAjMmQyZDJkOwogICAgICAgIC0tc2tlbGV0b24taGlnaGxpZ2h0OiAjM2QzZDNkOwogICAgICB9CiAgICBgfTwvc3R5bGU+CiAgPC9kaXY+Cik7CgpleHBvcnQgeyBJbWFnZVBsYWNlaG9sZGVyIH07Cg==
+// 图片占位符组件 - 实现骨架屏效果（支持暗色模式）
+const ImagePlaceholder = ({ aspectRatio }: { aspectRatio: string }) => (
+  <div
+    className={`w-full ${aspectRatio} rounded-lg`}
+    style={{
+      background:
+        'linear-gradient(90deg, var(--skeleton-color) 25%, var(--skeleton-highlight) 50%, var(--skeleton-color) 75%)',
+      backgroundSize: '200% 100%',
+      animation: 'shine 1.5s infinite',
+    }}
+  >
+    <style>{`
+      @keyframes shine {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+      
+      /* 亮色模式变量 */
+      :root {
+        --skeleton-color: #f0f0f0;
+        --skeleton-highlight: #e0e0e0;
+      }
+      
+      /* 暗色模式变量 */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --skeleton-color: #2d2d2d;
+          --skeleton-highlight: #3d3d3d;
+        }
+      }
+      
+      .dark {
+        --skeleton-color: #2d2d2d;
+        --skeleton-highlight: #3d3d3d;
+      }
+    `}</style>
+  </div>
+);
+
+export { ImagePlaceholder };
