@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 
 import { getAvailableApiSites, getCacheTime } from '@/lib/config';
 import { getDetailFromApi } from '@/lib/downstream';
-import { yellowWords } from '@/lib/yellow';
+import { jsonWithCache } from '@/lib/http';
+import { yellowRegex } from '@/lib/yellow';
 
 export const runtime = 'edge';
 
@@ -29,21 +30,17 @@ export async function GET(request: Request) {
 
     const result = await getDetailFromApi(apiSite, id);
 
-    // 黄色词过滤（与搜索接口对齐，防止绕过）
-    const checkText = (result.title || '') + (result.type_name || '');
-    if (yellowWords.some((word: string) => checkText.includes(word))) {
+    // 黄色词过滤（与搜索接口对齐，防止绕过）；转小写做大小写归一化
+    // PERF-R1: 预编译正则一次匹配，替代逐词 includes
+    const checkText = ((result.title || '') + (result.type_name || '')).toLowerCase();
+    if (yellowRegex.test(checkText)) {
       return NextResponse.json({ error: '内容不可用' }, { status: 451 });
     }
 
     const cacheTime = await getCacheTime();
 
-    return NextResponse.json(result, {
-      headers: {
-        'Cache-Control': `public, max-age=${cacheTime}, s-maxage=${cacheTime}`,
-        'CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
-        'Vercel-CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
-      },
-    });
+    // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
+    return jsonWithCache(result, cacheTime);
   } catch (error) {
     // 不泄露上游错误原文，记录到服务端日志
     console.error('详情获取失败:', error);
