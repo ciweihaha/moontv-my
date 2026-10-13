@@ -1,1 +1,74 @@
-LyoqIEB0eXBlIHtpbXBvcnQoJ25leHQnKS5OZXh0Q29uZmlnfSAqLwovKiBlc2xpbnQtZGlzYWJsZSBAdHlwZXNjcmlwdC1lc2xpbnQvbm8tdmFyLXJlcXVpcmVzICovCmNvbnN0IG5leHRDb25maWcgPSB7CiAgZXNsaW50OiB7CiAgICBkaXJzOiBbJ3NyYyddLAogIH0sCgogIHJlYWN0U3RyaWN0TW9kZTogZmFsc2UsCiAgc3djTWluaWZ5OiB0cnVlLAoKICAvLyBVbmNvbWVudCB0byBhZGQgZG9tYWluIHdoaXRlbGlzdAogIGltYWdlczogewogICAgdW5vcHRpbWl6ZWQ6IHRydWUsCiAgICByZW1vdGVQYXR0ZXJuczogWwogICAgICB7CiAgICAgICAgcHJvdG9jb2w6ICdodHRwcycsCiAgICAgICAgaG9zdG5hbWU6ICcqKicsCiAgICAgIH0sCiAgICAgIHsKICAgICAgICBwcm90b2NvbDogJ2h0dHAnLAogICAgICAgIGhvc3RuYW1lOiAnKionLAogICAgICB9LAogICAgXSwKICB9LAoKICB3ZWJwYWNrKGNvbmZpZykgewogICAgLy8gR3JhYiB0aGUgZXhpc3RpbmcgcnVsZSB0aGF0IGhhbmRsZXMgU1ZHIGltcG9ydHMKICAgIGNvbnN0IGZpbGVMb2FkZXJSdWxlID0gY29uZmlnLm1vZHVsZS5ydWxlcy5maW5kKChydWxlKSA9PgogICAgICBydWxlLnRlc3Q/LnRlc3Q/LignLnN2ZycpCiAgICApOwoKICAgIGNvbmZpZy5tb2R1bGUucnVsZXMucHVzaCgKICAgICAgLy8gUmVhcHBseSB0aGUgZXhpc3RpbmcgcnVsZSwgYnV0IG9ubHkgZm9yIHN2ZyBpbXBvcnRzIGVuZGluZyBpbiA/dXJsCiAgICAgIHsKICAgICAgICAuLi5maWxlTG9hZGVyUnVsZSwKICAgICAgICB0ZXN0OiAvXC5zdmckL2ksCiAgICAgICAgcmVzb3VyY2VRdWVyeTogL3VybC8sIC8vICouc3ZnP3VybAogICAgICB9LAogICAgICAvLyBDb252ZXJ0IGFsbCBvdGhlciAqLnN2ZyBpbXBvcnRzIHRvIFJlYWN0IGNvbXBvbmVudHMKICAgICAgewogICAgICAgIHRlc3Q6IC9cLnN2ZyQvaSwKICAgICAgICBpc3N1ZXI6IHsgbm90OiAvXC4oY3NzfHNjc3N8c2FzcykkLyB9LAogICAgICAgIHJlc291cmNlUXVlcnk6IHsgbm90OiAvdXJsLyB9LCAvLyBleGNsdWRlIGlmICouc3ZnP3VybAogICAgICAgIGxvYWRlcjogJ0BzdmdyL3dlYnBhY2snLAogICAgICAgIG9wdGlvbnM6IHsKICAgICAgICAgIGRpbWVuc2lvbnM6IGZhbHNlLAogICAgICAgICAgdGl0bGVQcm9wOiB0cnVlLAogICAgICAgIH0sCiAgICAgIH0KICAgICk7CgogICAgLy8gTW9kaWZ5IHRoZSBmaWxlIGxvYWRlciBydWxlIHRvIGlnbm9yZSAqLnN2Zywgc2luY2Ugd2UgaGF2ZSBpdCBoYW5kbGVkIG5vdy4KICAgIGZpbGVMb2FkZXJSdWxlLmV4Y2x1ZGUgPSAvXC5zdmckL2k7CgogICAgY29uZmlnLnJlc29sdmUuZmFsbGJhY2sgPSB7CiAgICAgIC4uLmNvbmZpZy5yZXNvbHZlLmZhbGxiYWNrLAogICAgICBuZXQ6IGZhbHNlLAogICAgICB0bHM6IGZhbHNlLAogICAgICBjcnlwdG86IGZhbHNlLAogICAgfTsKCiAgICByZXR1cm4gY29uZmlnOwogIH0sCn07Cgpjb25zdCB3aXRoUFdBID0gcmVxdWlyZSgnbmV4dC1wd2EnKSh7CiAgZGVzdDogJ3B1YmxpYycsCiAgZGlzYWJsZToKICAgIHByb2Nlc3MuZW52Lk5PREVfRU5WID09PSAnZGV2ZWxvcG1lbnQnIHx8IHByb2Nlc3MuZW52LkNGX1BBR0VTID09PSAnMScsCiAgcmVnaXN0ZXI6IHRydWUsCiAgc2tpcFdhaXRpbmc6IHRydWUsCn0pOwoKbW9kdWxlLmV4cG9ydHMgPSB3aXRoUFdBKG5leHRDb25maWcpOwo=
+/** @type {import('next').NextConfig} */
+/* eslint-disable @typescript-eslint/no-var-requires */
+const nextConfig = {
+  eslint: {
+    dirs: ['src'],
+  },
+
+  reactStrictMode: false,
+  swcMinify: true,
+
+  // Uncoment to add domain whitelist
+  images: {
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+    ],
+  },
+
+  webpack(config) {
+    // Grab the existing rule that handles SVG imports
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.('.svg')
+    );
+
+    config.module.rules.push(
+      // Reapply the existing rule, but only for svg imports ending in ?url
+      {
+        ...fileLoaderRule,
+        test: /\.svg$/i,
+        resourceQuery: /url/, // *.svg?url
+      },
+      // Convert all other *.svg imports to React components
+      {
+        test: /\.svg$/i,
+        issuer: { not: /\.(css|scss|sass)$/ },
+        resourceQuery: { not: /url/ }, // exclude if *.svg?url
+        loader: '@svgr/webpack',
+        options: {
+          dimensions: false,
+          titleProp: true,
+        },
+      }
+    );
+
+    // Modify the file loader rule to ignore *.svg, since we have it handled now.
+    fileLoaderRule.exclude = /\.svg$/i;
+
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      net: false,
+      tls: false,
+      crypto: false,
+    };
+
+    return config;
+  },
+};
+
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable:
+    process.env.NODE_ENV === 'development' || process.env.CF_PAGES === '1',
+  register: true,
+  skipWaiting: true,
+});
+
+module.exports = withPWA(nextConfig);
