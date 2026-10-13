@@ -1,1 +1,28 @@
-J3VzZSBjbGllbnQnOwoKaW1wb3J0IHsgY3JlYXRlQ29udGV4dCwgUmVhY3ROb2RlLCB1c2VDb250ZXh0IH0gZnJvbSAncmVhY3QnOwoKY29uc3QgU2l0ZUNvbnRleHQgPSBjcmVhdGVDb250ZXh0PHsgc2l0ZU5hbWU6IHN0cmluZzsgYW5ub3VuY2VtZW50Pzogc3RyaW5nIH0+KHsKICAvLyDpu5jorqTlgLwKICBzaXRlTmFtZTogJ01vb25UVicsCiAgYW5ub3VuY2VtZW50OgogICAgJ+acrOe9keermeS7heaPkOS+m+W9seinhuS/oeaBr+aQnOe0ouacjeWKoe+8jOaJgOacieWGheWuueWdh+adpeiHquesrOS4ieaWuee9keermeOAguacrOermeS4jeWtmOWCqOS7u+S9leinhumikei1hOa6kO+8jOS4jeWvueS7u+S9leWGheWuueeahOWHhuehruaAp+OAgeWQiOazleaAp+OAgeWujOaVtOaAp+i0n+i0o+OAgicsCn0pOwoKZXhwb3J0IGNvbnN0IHVzZVNpdGUgPSAoKSA9PiB1c2VDb250ZXh0KFNpdGVDb250ZXh0KTsKCmV4cG9ydCBmdW5jdGlvbiBTaXRlUHJvdmlkZXIoewogIGNoaWxkcmVuLAogIHNpdGVOYW1lLAogIGFubm91bmNlbWVudCwKfTogewogIGNoaWxkcmVuOiBSZWFjdE5vZGU7CiAgc2l0ZU5hbWU6IHN0cmluZzsKICBhbm5vdW5jZW1lbnQ/OiBzdHJpbmc7Cn0pIHsKICByZXR1cm4gKAogICAgPFNpdGVDb250ZXh0LlByb3ZpZGVyIHZhbHVlPXt7IHNpdGVOYW1lLCBhbm5vdW5jZW1lbnQgfX0+CiAgICAgIHtjaGlsZHJlbn0KICAgIDwvU2l0ZUNvbnRleHQuUHJvdmlkZXI+CiAgKTsKfQo=
+'use client';
+
+import { createContext, ReactNode, useContext } from 'react';
+
+const SiteContext = createContext<{ siteName: string; announcement?: string }>({
+  // 默认值
+  siteName: 'MoonTV',
+  announcement:
+    '本网站仅提供影视信息搜索服务，所有内容均来自第三方网站。本站不存储任何视频资源，不对任何内容的准确性、合法性、完整性负责。',
+});
+
+export const useSite = () => useContext(SiteContext);
+
+export function SiteProvider({
+  children,
+  siteName,
+  announcement,
+}: {
+  children: ReactNode;
+  siteName: string;
+  announcement?: string;
+}) {
+  return (
+    <SiteContext.Provider value={{ siteName, announcement }}>
+      {children}
+    </SiteContext.Provider>
+  );
+}
