@@ -1,1 +1,75 @@
-aW1wb3J0IHsgTmV4dFJlc3BvbnNlIH0gZnJvbSAnbmV4dC9zZXJ2ZXInOwoKaW1wb3J0IHsgZ2V0Q2FjaGVUaW1lLCBnZXRDb25maWcgfSBmcm9tICdAL2xpYi9jb25maWcnOwppbXBvcnQgeyBzZWFyY2hGcm9tQXBpIH0gZnJvbSAnQC9saWIvZG93bnN0cmVhbSc7CmltcG9ydCB7IHllbGxvd1dvcmRzIH0gZnJvbSAnQC9saWIveWVsbG93JzsKCmV4cG9ydCBjb25zdCBydW50aW1lID0gJ2VkZ2UnOwoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVChyZXF1ZXN0OiBSZXF1ZXN0KSB7CiAgY29uc3QgeyBzZWFyY2hQYXJhbXMgfSA9IG5ldyBVUkwocmVxdWVzdC51cmwpOwogIGNvbnN0IHF1ZXJ5ID0gc2VhcmNoUGFyYW1zLmdldCgncScpOwoKICBpZiAoIXF1ZXJ5KSB7CiAgICBjb25zdCBjYWNoZVRpbWUgPSBhd2FpdCBnZXRDYWNoZVRpbWUoKTsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyByZXN1bHRzOiBbXSB9LAogICAgICB7CiAgICAgICAgaGVhZGVyczogewogICAgICAgICAgJ0NhY2hlLUNvbnRyb2wnOiBgcHVibGljLCBtYXgtYWdlPSR7Y2FjaGVUaW1lfSwgcy1tYXhhZ2U9JHtjYWNoZVRpbWV9YCwKICAgICAgICAgICdDRE4tQ2FjaGUtQ29udHJvbCc6IGBwdWJsaWMsIHMtbWF4YWdlPSR7Y2FjaGVUaW1lfWAsCiAgICAgICAgICAnVmVyY2VsLUNETi1DYWNoZS1Db250cm9sJzogYHB1YmxpYywgcy1tYXhhZ2U9JHtjYWNoZVRpbWV9YCwKICAgICAgICB9LAogICAgICB9CiAgICApOwogIH0KCiAgY29uc3QgY29uZmlnID0gYXdhaXQgZ2V0Q29uZmlnKCk7CiAgY29uc3QgYXBpU2l0ZXMgPSBjb25maWcuU291cmNlQ29uZmlnLmZpbHRlcigoc2l0ZSkgPT4gIXNpdGUuZGlzYWJsZWQpOwoKICAvLyBSMTog5oyJ5LiK5ri4IGFwaSDlnLDlnYDljrvph43vvIznm7jlkIzlnLDlnYDlj6ror7fmsYLkuIDmrKHvvIg5IOe7hOmHjeWkjeWcsOWdgCDihpIgNDQg5Liq5ZSv5LiA5Zyw5Z2A77yJCiAgY29uc3Qgc2l0ZXNCeUFwaSA9IG5ldyBNYXA8c3RyaW5nLCB0eXBlb2YgYXBpU2l0ZXM+KCk7CiAgZm9yIChjb25zdCBzaXRlIG9mIGFwaVNpdGVzKSB7CiAgICBjb25zdCBncm91cCA9IHNpdGVzQnlBcGkuZ2V0KHNpdGUuYXBpKTsKICAgIGlmIChncm91cCkgewogICAgICBncm91cC5wdXNoKHNpdGUpOwogICAgfSBlbHNlIHsKICAgICAgc2l0ZXNCeUFwaS5zZXQoc2l0ZS5hcGksIFtzaXRlXSk7CiAgICB9CiAgfQogIGNvbnN0IHNlYXJjaFByb21pc2VzID0gQXJyYXkuZnJvbShzaXRlc0J5QXBpLnZhbHVlcygpKS5tYXAoCiAgICBhc3luYyAoc2l0ZXM6IHR5cGVvZiBhcGlTaXRlcykgPT4gewogICAgICAvLyDnlKjnu4TlhoXnrKzkuIDkuKrnq5nngrnkvZzkuLrku6Pooajlj5Hotbfor7fmsYIKICAgICAgY29uc3QgcmVzdWx0cyA9IGF3YWl0IHNlYXJjaEZyb21BcGkoc2l0ZXNbMF0sIHF1ZXJ5KTsKICAgICAgLy8g57uT5p6c5bGV5byA5Zue57uE5YaF5q+P5Liq56uZ54K577yM5L+d55WZ5ZCE6Ieq55qEIHNvdXJjZSBrZXkg5ZKMIHNvdXJjZV9uYW1lCiAgICAgIHJldHVybiBzaXRlcy5mbGF0TWFwKChzaXRlOiAodHlwZW9mIGFwaVNpdGVzKVtudW1iZXJdKSA9PgogICAgICAgIHJlc3VsdHMubWFwKChyKSA9PiAoeyAuLi5yLCBzb3VyY2U6IHNpdGUua2V5LCBzb3VyY2VfbmFtZTogc2l0ZS5uYW1lIH0pKQogICAgICApOwogICAgfQogICk7CgogIHRyeSB7CiAgICBjb25zdCByZXN1bHRzID0gYXdhaXQgUHJvbWlzZS5hbGwoc2VhcmNoUHJvbWlzZXMpOwogICAgbGV0IGZsYXR0ZW5lZFJlc3VsdHMgPSByZXN1bHRzLmZsYXQoKTsKICAgIGlmICghY29uZmlnLlNpdGVDb25maWcuRGlzYWJsZVllbGxvd0ZpbHRlcikgewogICAgICBmbGF0dGVuZWRSZXN1bHRzID0gZmxhdHRlbmVkUmVzdWx0cy5maWx0ZXIoKHJlc3VsdCkgPT4gewogICAgICAgIGNvbnN0IHR5cGVOYW1lID0gcmVzdWx0LnR5cGVfbmFtZSB8fCAnJzsKICAgICAgICByZXR1cm4gIXllbGxvd1dvcmRzLnNvbWUoKHdvcmQ6IHN0cmluZykgPT4gdHlwZU5hbWUuaW5jbHVkZXMod29yZCkpOwogICAgICB9KTsKICAgIH0KICAgIGNvbnN0IGNhY2hlVGltZSA9IGF3YWl0IGdldENhY2hlVGltZSgpOwoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyByZXN1bHRzOiBmbGF0dGVuZWRSZXN1bHRzIH0sCiAgICAgIHsKICAgICAgICBoZWFkZXJzOiB7CiAgICAgICAgICAnQ2FjaGUtQ29udHJvbCc6IGBwdWJsaWMsIG1heC1hZ2U9JHtjYWNoZVRpbWV9LCBzLW1heGFnZT0ke2NhY2hlVGltZX1gLAogICAgICAgICAgJ0NETi1DYWNoZS1Db250cm9sJzogYHB1YmxpYywgcy1tYXhhZ2U9JHtjYWNoZVRpbWV9YCwKICAgICAgICAgICdWZXJjZWwtQ0ROLUNhY2hlLUNvbnRyb2wnOiBgcHVibGljLCBzLW1heGFnZT0ke2NhY2hlVGltZX1gLAogICAgICAgIH0sCiAgICAgIH0KICAgICk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn5pCc57Si5aSx6LSlJyB9LCB7IHN0YXR1czogNTAwIH0pOwogIH0KfQo=
+import { NextResponse } from 'next/server';
+
+import { getCacheTime, getConfig } from '@/lib/config';
+import { searchFromApi } from '@/lib/downstream';
+import { yellowWords } from '@/lib/yellow';
+
+export const runtime = 'edge';
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get('q');
+
+  if (!query) {
+    const cacheTime = await getCacheTime();
+    return NextResponse.json(
+      { results: [] },
+      {
+        headers: {
+          'Cache-Control': `public, max-age=${cacheTime}, s-maxage=${cacheTime}`,
+          'CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+          'Vercel-CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+        },
+      }
+    );
+  }
+
+  const config = await getConfig();
+  const apiSites = config.SourceConfig.filter((site) => !site.disabled);
+
+  // R1: 按上游 api 地址去重，相同地址只请求一次（9 组重复地址 → 44 个唯一地址）
+  const sitesByApi = new Map<string, typeof apiSites>();
+  for (const site of apiSites) {
+    const group = sitesByApi.get(site.api);
+    if (group) {
+      group.push(site);
+    } else {
+      sitesByApi.set(site.api, [site]);
+    }
+  }
+  const searchPromises = Array.from(sitesByApi.values()).map(
+    async (sites: typeof apiSites) => {
+      // 用组内第一个站点作为代表发起请求
+      const results = await searchFromApi(sites[0], query);
+      // 结果展开回组内每个站点，保留各自的 source key 和 source_name
+      return sites.flatMap((site: (typeof apiSites)[number]) =>
+        results.map((r) => ({ ...r, source: site.key, source_name: site.name }))
+      );
+    }
+  );
+
+  try {
+    const results = await Promise.all(searchPromises);
+    let flattenedResults = results.flat();
+    if (!config.SiteConfig.DisableYellowFilter) {
+      flattenedResults = flattenedResults.filter((result) => {
+        const typeName = result.type_name || '';
+        return !yellowWords.some((word: string) => typeName.includes(word));
+      });
+    }
+    const cacheTime = await getCacheTime();
+
+    return NextResponse.json(
+      { results: flattenedResults },
+      {
+        headers: {
+          'Cache-Control': `public, max-age=${cacheTime}, s-maxage=${cacheTime}`,
+          'CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+          'Vercel-CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+        },
+      }
+    );
+  } catch (error) {
+    return NextResponse.json({ error: '搜索失败' }, { status: 500 });
+  }
+}
