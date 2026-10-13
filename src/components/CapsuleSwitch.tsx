@@ -1,1 +1,103 @@
-LyogZXNsaW50LWRpc2FibGUgcmVhY3QtaG9va3MvZXhoYXVzdGl2ZS1kZXBzICovCgppbXBvcnQgUmVhY3QsIHsgdXNlRWZmZWN0LCB1c2VSZWYsIHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnOwoKaW50ZXJmYWNlIENhcHN1bGVTd2l0Y2hQcm9wcyB7CiAgb3B0aW9uczogeyBsYWJlbDogc3RyaW5nOyB2YWx1ZTogc3RyaW5nIH1bXTsKICBhY3RpdmU6IHN0cmluZzsKICBvbkNoYW5nZTogKHZhbHVlOiBzdHJpbmcpID0+IHZvaWQ7CiAgY2xhc3NOYW1lPzogc3RyaW5nOwp9Cgpjb25zdCBDYXBzdWxlU3dpdGNoOiBSZWFjdC5GQzxDYXBzdWxlU3dpdGNoUHJvcHM+ID0gKHsKICBvcHRpb25zLAogIGFjdGl2ZSwKICBvbkNoYW5nZSwKICBjbGFzc05hbWUsCn0pID0+IHsKICBjb25zdCBjb250YWluZXJSZWYgPSB1c2VSZWY8SFRNTERpdkVsZW1lbnQ+KG51bGwpOwogIGNvbnN0IGJ1dHRvblJlZnMgPSB1c2VSZWY8KEhUTUxCdXR0b25FbGVtZW50IHwgbnVsbClbXT4oW10pOwogIGNvbnN0IFtpbmRpY2F0b3JTdHlsZSwgc2V0SW5kaWNhdG9yU3R5bGVdID0gdXNlU3RhdGU8ewogICAgbGVmdDogbnVtYmVyOwogICAgd2lkdGg6IG51bWJlcjsKICB9Pih7IGxlZnQ6IDAsIHdpZHRoOiAwIH0pOwoKICBjb25zdCBhY3RpdmVJbmRleCA9IG9wdGlvbnMuZmluZEluZGV4KChvcHQpID0+IG9wdC52YWx1ZSA9PT0gYWN0aXZlKTsKCiAgLy8g5pu05paw5oyH56S65Zmo5L2N572uCiAgY29uc3QgdXBkYXRlSW5kaWNhdG9yUG9zaXRpb24gPSAoKSA9PiB7CiAgICBpZiAoCiAgICAgIGFjdGl2ZUluZGV4ID49IDAgJiYKICAgICAgYnV0dG9uUmVmcy5jdXJyZW50W2FjdGl2ZUluZGV4XSAmJgogICAgICBjb250YWluZXJSZWYuY3VycmVudAogICAgKSB7CiAgICAgIGNvbnN0IGJ1dHRvbiA9IGJ1dHRvblJlZnMuY3VycmVudFthY3RpdmVJbmRleF07CiAgICAgIGNvbnN0IGNvbnRhaW5lciA9IGNvbnRhaW5lclJlZi5jdXJyZW50OwogICAgICBpZiAoYnV0dG9uICYmIGNvbnRhaW5lcikgewogICAgICAgIGNvbnN0IGJ1dHRvblJlY3QgPSBidXR0b24uZ2V0Qm91bmRpbmdDbGllbnRSZWN0KCk7CiAgICAgICAgY29uc3QgY29udGFpbmVyUmVjdCA9IGNvbnRhaW5lci5nZXRCb3VuZGluZ0NsaWVudFJlY3QoKTsKCiAgICAgICAgaWYgKGJ1dHRvblJlY3Qud2lkdGggPiAwKSB7CiAgICAgICAgICBzZXRJbmRpY2F0b3JTdHlsZSh7CiAgICAgICAgICAgIGxlZnQ6IGJ1dHRvblJlY3QubGVmdCAtIGNvbnRhaW5lclJlY3QubGVmdCwKICAgICAgICAgICAgd2lkdGg6IGJ1dHRvblJlY3Qud2lkdGgsCiAgICAgICAgICB9KTsKICAgICAgICB9CiAgICAgIH0KICAgIH0KICB9OwoKICAvLyDnu4Tku7bmjILovb3ml7bnq4vljbPorqHnrpfliJ3lp4vkvY3nva4KICB1c2VFZmZlY3QoKCkgPT4gewogICAgY29uc3QgdGltZW91dElkID0gc2V0VGltZW91dCh1cGRhdGVJbmRpY2F0b3JQb3NpdGlvbiwgMCk7CiAgICByZXR1cm4gKCkgPT4gY2xlYXJUaW1lb3V0KHRpbWVvdXRJZCk7CiAgfSwgW10pOwoKICAvLyDnm5HlkKzpgInkuK3pobnlj5jljJYKICB1c2VFZmZlY3QoKCkgPT4gewogICAgY29uc3QgdGltZW91dElkID0gc2V0VGltZW91dCh1cGRhdGVJbmRpY2F0b3JQb3NpdGlvbiwgMCk7CiAgICByZXR1cm4gKCkgPT4gY2xlYXJUaW1lb3V0KHRpbWVvdXRJZCk7CiAgfSwgW2FjdGl2ZUluZGV4XSk7CgogIHJldHVybiAoCiAgICA8ZGl2CiAgICAgIHJlZj17Y29udGFpbmVyUmVmfQogICAgICBjbGFzc05hbWU9e2ByZWxhdGl2ZSBpbmxpbmUtZmxleCBiZy1ncmF5LTMwMC84MCByb3VuZGVkLWZ1bGwgcC0xIGRhcms6YmctZ3JheS03MDAgJHsKICAgICAgICBjbGFzc05hbWUgfHwgJycKICAgICAgfWB9CiAgICA+CiAgICAgIHsvKiDmu5HliqjnmoTnmb3oibLog4zmma/mjIfnpLrlmaggKi99CiAgICAgIHtpbmRpY2F0b3JTdHlsZS53aWR0aCA+IDAgJiYgKAogICAgICAgIDxkaXYKICAgICAgICAgIGNsYXNzTmFtZT0nYWJzb2x1dGUgdG9wLTEgYm90dG9tLTEgYmctd2hpdGUgZGFyazpiZy1ncmF5LTUwMCByb3VuZGVkLWZ1bGwgc2hhZG93LXNtIHRyYW5zaXRpb24tYWxsIGR1cmF0aW9uLTMwMCBlYXNlLW91dCcKICAgICAgICAgIHN0eWxlPXt7CiAgICAgICAgICAgIGxlZnQ6IGAke2luZGljYXRvclN0eWxlLmxlZnR9cHhgLAogICAgICAgICAgICB3aWR0aDogYCR7aW5kaWNhdG9yU3R5bGUud2lkdGh9cHhgLAogICAgICAgICAgfX0KICAgICAgICAvPgogICAgICApfQoKICAgICAge29wdGlvbnMubWFwKChvcHQsIGluZGV4KSA9PiB7CiAgICAgICAgY29uc3QgaXNBY3RpdmUgPSBhY3RpdmUgPT09IG9wdC52YWx1ZTsKICAgICAgICByZXR1cm4gKAogICAgICAgICAgPGJ1dHRvbgogICAgICAgICAgICBrZXk9e29wdC52YWx1ZX0KICAgICAgICAgICAgcmVmPXsoZWwpID0+IHsKICAgICAgICAgICAgICBidXR0b25SZWZzLmN1cnJlbnRbaW5kZXhdID0gZWw7CiAgICAgICAgICAgIH19CiAgICAgICAgICAgIG9uQ2xpY2s9eygpID0+IG9uQ2hhbmdlKG9wdC52YWx1ZSl9CiAgICAgICAgICAgIGNsYXNzTmFtZT17YHJlbGF0aXZlIHotMTAgdy0xNiBweC0zIHB5LTEgdGV4dC14cyBzbTp3LTIwIHNtOnB5LTIgc206dGV4dC1zbSByb3VuZGVkLWZ1bGwgZm9udC1tZWRpdW0gdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMjAwIGN1cnNvci1wb2ludGVyICR7CiAgICAgICAgICAgICAgaXNBY3RpdmUKICAgICAgICAgICAgICAgID8gJ3RleHQtZ3JheS05MDAgZGFyazp0ZXh0LWdyYXktMTAwJwogICAgICAgICAgICAgICAgOiAndGV4dC1ncmF5LTcwMCBob3Zlcjp0ZXh0LWdyYXktOTAwIGRhcms6dGV4dC1ncmF5LTQwMCBkYXJrOmhvdmVyOnRleHQtZ3JheS0xMDAnCiAgICAgICAgICAgIH1gfQogICAgICAgICAgPgogICAgICAgICAgICB7b3B0LmxhYmVsfQogICAgICAgICAgPC9idXR0b24+CiAgICAgICAgKTsKICAgICAgfSl9CiAgICA8L2Rpdj4KICApOwp9OwoKZXhwb3J0IGRlZmF1bHQgQ2Fwc3VsZVN3aXRjaDsK
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import React, { useEffect, useRef, useState } from 'react';
+
+interface CapsuleSwitchProps {
+  options: { label: string; value: string }[];
+  active: string;
+  onChange: (value: string) => void;
+  className?: string;
+}
+
+const CapsuleSwitch: React.FC<CapsuleSwitchProps> = ({
+  options,
+  active,
+  onChange,
+  className,
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [indicatorStyle, setIndicatorStyle] = useState<{
+    left: number;
+    width: number;
+  }>({ left: 0, width: 0 });
+
+  const activeIndex = options.findIndex((opt) => opt.value === active);
+
+  // 更新指示器位置
+  const updateIndicatorPosition = () => {
+    if (
+      activeIndex >= 0 &&
+      buttonRefs.current[activeIndex] &&
+      containerRef.current
+    ) {
+      const button = buttonRefs.current[activeIndex];
+      const container = containerRef.current;
+      if (button && container) {
+        const buttonRect = button.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+
+        if (buttonRect.width > 0) {
+          setIndicatorStyle({
+            left: buttonRect.left - containerRect.left,
+            width: buttonRect.width,
+          });
+        }
+      }
+    }
+  };
+
+  // 组件挂载时立即计算初始位置
+  useEffect(() => {
+    const timeoutId = setTimeout(updateIndicatorPosition, 0);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  // 监听选中项变化
+  useEffect(() => {
+    const timeoutId = setTimeout(updateIndicatorPosition, 0);
+    return () => clearTimeout(timeoutId);
+  }, [activeIndex]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`relative inline-flex bg-gray-300/80 rounded-full p-1 dark:bg-gray-700 ${
+        className || ''
+      }`}
+    >
+      {/* 滑动的白色背景指示器 */}
+      {indicatorStyle.width > 0 && (
+        <div
+          className='absolute top-1 bottom-1 bg-white dark:bg-gray-500 rounded-full shadow-sm transition-all duration-300 ease-out'
+          style={{
+            left: `${indicatorStyle.left}px`,
+            width: `${indicatorStyle.width}px`,
+          }}
+        />
+      )}
+
+      {options.map((opt, index) => {
+        const isActive = active === opt.value;
+        return (
+          <button
+            key={opt.value}
+            ref={(el) => {
+              buttonRefs.current[index] = el;
+            }}
+            onClick={() => onChange(opt.value)}
+            className={`relative z-10 w-16 px-3 py-1 text-xs sm:w-20 sm:py-2 sm:text-sm rounded-full font-medium transition-all duration-200 cursor-pointer ${
+              isActive
+                ? 'text-gray-900 dark:text-gray-100'
+                : 'text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
+            }`}
+          >
+            {opt.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
+export default CapsuleSwitch;
