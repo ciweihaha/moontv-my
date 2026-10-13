@@ -1,1 +1,18 @@
-J3VzZSBjbGllbnQnOwoKaW1wb3J0IHR5cGUgeyBUaGVtZVByb3ZpZGVyUHJvcHMgfSBmcm9tICduZXh0LXRoZW1lcyc7CmltcG9ydCB7IFRoZW1lUHJvdmlkZXIgYXMgTmV4dFRoZW1lc1Byb3ZpZGVyIH0gZnJvbSAnbmV4dC10aGVtZXMnOwppbXBvcnQgKiBhcyBSZWFjdCBmcm9tICdyZWFjdCc7CgpleHBvcnQgZnVuY3Rpb24gVGhlbWVQcm92aWRlcih7IGNoaWxkcmVuLCAuLi5wcm9wcyB9OiBUaGVtZVByb3ZpZGVyUHJvcHMpIHsKICByZXR1cm4gKAogICAgPE5leHRUaGVtZXNQcm92aWRlcgogICAgICBhdHRyaWJ1dGU9J2NsYXNzJwogICAgICBkZWZhdWx0VGhlbWU9J3N5c3RlbScKICAgICAgZW5hYmxlU3lzdGVtCiAgICAgIHsuLi5wcm9wc30KICAgID4KICAgICAge2NoaWxkcmVufQogICAgPC9OZXh0VGhlbWVzUHJvdmlkZXI+CiAgKTsKfQo=
+'use client';
+
+import type { ThemeProviderProps } from 'next-themes';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import * as React from 'react';
+
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return (
+    <NextThemesProvider
+      attribute='class'
+      defaultTheme='system'
+      enableSystem
+      {...props}
+    >
+      {children}
+    </NextThemesProvider>
+  );
+}
