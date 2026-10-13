@@ -1,1 +1,245 @@
-LyogZXNsaW50LWRpc2FibGUgQHR5cGVzY3JpcHQtZXNsaW50L25vLWV4cGxpY2l0LWFueSAqLwoKJ3VzZSBjbGllbnQnOwoKaW1wb3J0IHsgQWxlcnRDaXJjbGUsIENoZWNrQ2lyY2xlIH0gZnJvbSAnbHVjaWRlLXJlYWN0JzsKaW1wb3J0IHsgdXNlUm91dGVyLCB1c2VTZWFyY2hQYXJhbXMgfSBmcm9tICduZXh0L25hdmlnYXRpb24nOwppbXBvcnQgeyBTdXNwZW5zZSwgdXNlRWZmZWN0LCB1c2VTdGF0ZSB9IGZyb20gJ3JlYWN0JzsKCmltcG9ydCB7IGNoZWNrRm9yVXBkYXRlcywgQ1VSUkVOVF9WRVJTSU9OLCBVcGRhdGVTdGF0dXMgfSBmcm9tICdAL2xpYi92ZXJzaW9uJzsKCmltcG9ydCB7IHVzZVNpdGUgfSBmcm9tICdAL2NvbXBvbmVudHMvU2l0ZVByb3ZpZGVyJzsKaW1wb3J0IHsgVGhlbWVUb2dnbGUgfSBmcm9tICdAL2NvbXBvbmVudHMvVGhlbWVUb2dnbGUnOwoKLy8g54mI5pys5pi+56S657uE5Lu2CmZ1bmN0aW9uIFZlcnNpb25EaXNwbGF5KCkgewogIGNvbnN0IFt1cGRhdGVTdGF0dXMsIHNldFVwZGF0ZVN0YXR1c10gPSB1c2VTdGF0ZTxVcGRhdGVTdGF0dXMgfCBudWxsPihudWxsKTsKICBjb25zdCBbaXNDaGVja2luZywgc2V0SXNDaGVja2luZ10gPSB1c2VTdGF0ZSh0cnVlKTsKCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIGNvbnN0IGNoZWNrVXBkYXRlID0gYXN5bmMgKCkgPT4gewogICAgICB0cnkgewogICAgICAgIGNvbnN0IHN0YXR1cyA9IGF3YWl0IGNoZWNrRm9yVXBkYXRlcygpOwogICAgICAgIHNldFVwZGF0ZVN0YXR1cyhzdGF0dXMpOwogICAgICB9IGNhdGNoIChfKSB7CiAgICAgICAgLy8gZG8gbm90aGluZwogICAgICB9IGZpbmFsbHkgewogICAgICAgIHNldElzQ2hlY2tpbmcoZmFsc2UpOwogICAgICB9CiAgICB9OwoKICAgIGNoZWNrVXBkYXRlKCk7CiAgfSwgW10pOwoKICByZXR1cm4gKAogICAgPGJ1dHRvbgogICAgICBvbkNsaWNrPXsoKSA9PgogICAgICAgIHdpbmRvdy5vcGVuKCdodHRwczovL2dpdGh1Yi5jb20vc2Vuc2hpbnlhL01vb25UVicsICdfYmxhbmsnKQogICAgICB9CiAgICAgIGNsYXNzTmFtZT0nYWJzb2x1dGUgYm90dG9tLTQgbGVmdC0xLzIgdHJhbnNmb3JtIC10cmFuc2xhdGUteC0xLzIgZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTIgdGV4dC14cyB0ZXh0LWdyYXktNTAwIGRhcms6dGV4dC1ncmF5LTQwMCB0cmFuc2l0aW9uLWNvbG9ycyBjdXJzb3ItcG9pbnRlcicKICAgID4KICAgICAgPHNwYW4gY2xhc3NOYW1lPSdmb250LW1vbm8nPnZ7Q1VSUkVOVF9WRVJTSU9OfTwvc3Bhbj4KICAgICAgeyFpc0NoZWNraW5nICYmIHVwZGF0ZVN0YXR1cyAhPT0gVXBkYXRlU3RhdHVzLkZFVENIX0ZBSUxFRCAmJiAoCiAgICAgICAgPGRpdgogICAgICAgICAgY2xhc3NOYW1lPXtgZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTEuNSAkewogICAgICAgICAgICB1cGRhdGVTdGF0dXMgPT09IFVwZGF0ZVN0YXR1cy5IQVNfVVBEQVRFCiAgICAgICAgICAgICAgPyAndGV4dC15ZWxsb3ctNjAwIGRhcms6dGV4dC15ZWxsb3ctNDAwJwogICAgICAgICAgICAgIDogdXBkYXRlU3RhdHVzID09PSBVcGRhdGVTdGF0dXMuTk9fVVBEQVRFCiAgICAgICAgICAgICAgPyAndGV4dC1ncmVlbi02MDAgZGFyazp0ZXh0LWdyZWVuLTQwMCcKICAgICAgICAgICAgICA6ICcnCiAgICAgICAgICB9YH0KICAgICAgICA+CiAgICAgICAgICB7dXBkYXRlU3RhdHVzID09PSBVcGRhdGVTdGF0dXMuSEFTX1VQREFURSAmJiAoCiAgICAgICAgICAgIDw+CiAgICAgICAgICAgICAgPEFsZXJ0Q2lyY2xlIGNsYXNzTmFtZT0ndy0zLjUgaC0zLjUnIC8+CiAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSdmb250LXNlbWlib2xkIHRleHQteHMnPuacieaWsOeJiOacrDwvc3Bhbj4KICAgICAgICAgICAgPC8+CiAgICAgICAgICApfQogICAgICAgICAge3VwZGF0ZVN0YXR1cyA9PT0gVXBkYXRlU3RhdHVzLk5PX1VQREFURSAmJiAoCiAgICAgICAgICAgIDw+CiAgICAgICAgICAgICAgPENoZWNrQ2lyY2xlIGNsYXNzTmFtZT0ndy0zLjUgaC0zLjUnIC8+CiAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSdmb250LXNlbWlib2xkIHRleHQteHMnPuW3suaYr+acgOaWsDwvc3Bhbj4KICAgICAgICAgICAgPC8+CiAgICAgICAgICApfQogICAgICAgIDwvZGl2PgogICAgICApfQogICAgPC9idXR0b24+CiAgKTsKfQoKZnVuY3Rpb24gTG9naW5QYWdlQ2xpZW50KCkgewogIGNvbnN0IHJvdXRlciA9IHVzZVJvdXRlcigpOwogIGNvbnN0IHNlYXJjaFBhcmFtcyA9IHVzZVNlYXJjaFBhcmFtcygpOwogIGNvbnN0IFtwYXNzd29yZCwgc2V0UGFzc3dvcmRdID0gdXNlU3RhdGUoJycpOwogIGNvbnN0IFt1c2VybmFtZSwgc2V0VXNlcm5hbWVdID0gdXNlU3RhdGUoJycpOwogIGNvbnN0IFtlcnJvciwgc2V0RXJyb3JdID0gdXNlU3RhdGU8c3RyaW5nIHwgbnVsbD4obnVsbCk7CiAgY29uc3QgW2xvYWRpbmcsIHNldExvYWRpbmddID0gdXNlU3RhdGUoZmFsc2UpOwogIGNvbnN0IFtzaG91bGRBc2tVc2VybmFtZSwgc2V0U2hvdWxkQXNrVXNlcm5hbWVdID0gdXNlU3RhdGUoZmFsc2UpOwogIGNvbnN0IFtlbmFibGVSZWdpc3Rlciwgc2V0RW5hYmxlUmVnaXN0ZXJdID0gdXNlU3RhdGUoZmFsc2UpOwogIGNvbnN0IHsgc2l0ZU5hbWUgfSA9IHVzZVNpdGUoKTsKCiAgLy8g5Zyo5a6i5oi356uv5oyC6L295ZCO6K6+572u6YWN572uCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIGlmICh0eXBlb2Ygd2luZG93ICE9PSAndW5kZWZpbmVkJykgewogICAgICBjb25zdCBzdG9yYWdlVHlwZSA9ICh3aW5kb3cgYXMgYW55KS5SVU5USU1FX0NPTkZJRz8uU1RPUkFHRV9UWVBFOwogICAgICBzZXRTaG91bGRBc2tVc2VybmFtZShzdG9yYWdlVHlwZSAmJiBzdG9yYWdlVHlwZSAhPT0gJ2xvY2Fsc3RvcmFnZScpOwogICAgICBzZXRFbmFibGVSZWdpc3RlcigKICAgICAgICBCb29sZWFuKCh3aW5kb3cgYXMgYW55KS5SVU5USU1FX0NPTkZJRz8uRU5BQkxFX1JFR0lTVEVSKQogICAgICApOwogICAgfQogIH0sIFtdKTsKCiAgY29uc3QgaGFuZGxlU3VibWl0ID0gYXN5bmMgKGU6IFJlYWN0LkZvcm1FdmVudDxIVE1MRm9ybUVsZW1lbnQ+KSA9PiB7CiAgICBlLnByZXZlbnREZWZhdWx0KCk7CiAgICBzZXRFcnJvcihudWxsKTsKCiAgICBpZiAoIXBhc3N3b3JkIHx8IChzaG91bGRBc2tVc2VybmFtZSAmJiAhdXNlcm5hbWUpKSByZXR1cm47CgogICAgdHJ5IHsKICAgICAgc2V0TG9hZGluZyh0cnVlKTsKICAgICAgY29uc3QgcmVzID0gYXdhaXQgZmV0Y2goJy9hcGkvbG9naW4nLCB7CiAgICAgICAgbWV0aG9kOiAnUE9TVCcsCiAgICAgICAgaGVhZGVyczogeyAnQ29udGVudC1UeXBlJzogJ2FwcGxpY2F0aW9uL2pzb24nIH0sCiAgICAgICAgYm9keTogSlNPTi5zdHJpbmdpZnkoewogICAgICAgICAgcGFzc3dvcmQsCiAgICAgICAgICAuLi4oc2hvdWxkQXNrVXNlcm5hbWUgPyB7IHVzZXJuYW1lIH0gOiB7fSksCiAgICAgICAgfSksCiAgICAgIH0pOwoKICAgICAgaWYgKHJlcy5vaykgewogICAgICAgIGNvbnN0IHJlZGlyZWN0ID0gc2VhcmNoUGFyYW1zLmdldCgncmVkaXJlY3QnKSB8fCAnLyc7CiAgICAgICAgcm91dGVyLnJlcGxhY2UocmVkaXJlY3QpOwogICAgICB9IGVsc2UgaWYgKHJlcy5zdGF0dXMgPT09IDQwMSkgewogICAgICAgIHNldEVycm9yKCflr4bnoIHplJnor68nKTsKICAgICAgfSBlbHNlIHsKICAgICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzLmpzb24oKS5jYXRjaCgoKSA9PiAoe30pKTsKICAgICAgICBzZXRFcnJvcihkYXRhLmVycm9yID8/ICfmnI3liqHlmajplJnor68nKTsKICAgICAgfQogICAgfSBjYXRjaCAoZXJyb3IpIHsKICAgICAgc2V0RXJyb3IoJ+e9kee7nOmUmeivr++8jOivt+eojeWQjumHjeivlScpOwogICAgfSBmaW5hbGx5IHsKICAgICAgc2V0TG9hZGluZyhmYWxzZSk7CiAgICB9CiAgfTsKCiAgLy8g5aSE55CG5rOo5YaM6YC76L6RCiAgY29uc3QgaGFuZGxlUmVnaXN0ZXIgPSBhc3luYyAoKSA9PiB7CiAgICBzZXRFcnJvcihudWxsKTsKICAgIGlmICghcGFzc3dvcmQgfHwgIXVzZXJuYW1lKSByZXR1cm47CgogICAgdHJ5IHsKICAgICAgc2V0TG9hZGluZyh0cnVlKTsKICAgICAgY29uc3QgcmVzID0gYXdhaXQgZmV0Y2goJy9hcGkvcmVnaXN0ZXInLCB7CiAgICAgICAgbWV0aG9kOiAnUE9TVCcsCiAgICAgICAgaGVhZGVyczogeyAnQ29udGVudC1UeXBlJzogJ2FwcGxpY2F0aW9uL2pzb24nIH0sCiAgICAgICAgYm9keTogSlNPTi5zdHJpbmdpZnkoeyB1c2VybmFtZSwgcGFzc3dvcmQgfSksCiAgICAgIH0pOwoKICAgICAgaWYgKHJlcy5vaykgewogICAgICAgIGNvbnN0IHJlZGlyZWN0ID0gc2VhcmNoUGFyYW1zLmdldCgncmVkaXJlY3QnKSB8fCAnLyc7CiAgICAgICAgcm91dGVyLnJlcGxhY2UocmVkaXJlY3QpOwogICAgICB9IGVsc2UgewogICAgICAgIGNvbnN0IGRhdGEgPSBhd2FpdCByZXMuanNvbigpLmNhdGNoKCgpID0+ICh7fSkpOwogICAgICAgIHNldEVycm9yKGRhdGEuZXJyb3IgPz8gJ+acjeWKoeWZqOmUmeivrycpOwogICAgICB9CiAgICB9IGNhdGNoIChlcnJvcikgewogICAgICBzZXRFcnJvcign572R57uc6ZSZ6K+v77yM6K+356iN5ZCO6YeN6K+VJyk7CiAgICB9IGZpbmFsbHkgewogICAgICBzZXRMb2FkaW5nKGZhbHNlKTsKICAgIH0KICB9OwoKICByZXR1cm4gKAogICAgPGRpdiBjbGFzc05hbWU9J3JlbGF0aXZlIG1pbi1oLXNjcmVlbiBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBweC00IG92ZXJmbG93LWhpZGRlbic+CiAgICAgIDxkaXYgY2xhc3NOYW1lPSdhYnNvbHV0ZSB0b3AtNCByaWdodC00Jz4KICAgICAgICA8VGhlbWVUb2dnbGUgLz4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3NOYW1lPSdyZWxhdGl2ZSB6LTEwIHctZnVsbCBtYXgtdy1tZCByb3VuZGVkLTN4bCBiZy1ncmFkaWVudC10by1iIGZyb20td2hpdGUvOTAgdmlhLXdoaXRlLzcwIHRvLXdoaXRlLzQwIGRhcms6ZnJvbS16aW5jLTkwMC85MCBkYXJrOnZpYS16aW5jLTkwMC83MCBkYXJrOnRvLXppbmMtOTAwLzQwIGJhY2tkcm9wLWJsdXIteGwgc2hhZG93LTJ4bCBwLTEwIGRhcms6Ym9yZGVyIGRhcms6Ym9yZGVyLXppbmMtODAwJz4KICAgICAgICA8aDEgY2xhc3NOYW1lPSd0ZXh0LWdyZWVuLTYwMCB0cmFja2luZy10aWdodCB0ZXh0LWNlbnRlciB0ZXh0LTN4bCBmb250LWV4dHJhYm9sZCBtYi04IGJnLWNsaXAtdGV4dCBkcm9wLXNoYWRvdy1zbSc+CiAgICAgICAgICB7c2l0ZU5hbWV9CiAgICAgICAgPC9oMT4KICAgICAgICA8Zm9ybSBvblN1Ym1pdD17aGFuZGxlU3VibWl0fSBjbGFzc05hbWU9J3NwYWNlLXktOCc+CiAgICAgICAgICB7c2hvdWxkQXNrVXNlcm5hbWUgJiYgKAogICAgICAgICAgICA8ZGl2PgogICAgICAgICAgICAgIDxsYWJlbCBodG1sRm9yPSd1c2VybmFtZScgY2xhc3NOYW1lPSdzci1vbmx5Jz4KICAgICAgICAgICAgICAgIOeUqOaIt+WQjQogICAgICAgICAgICAgIDwvbGFiZWw+CiAgICAgICAgICAgICAgPGlucHV0CiAgICAgICAgICAgICAgICBpZD0ndXNlcm5hbWUnCiAgICAgICAgICAgICAgICB0eXBlPSd0ZXh0JwogICAgICAgICAgICAgICAgYXV0b0NvbXBsZXRlPSd1c2VybmFtZScKICAgICAgICAgICAgICAgIGNsYXNzTmFtZT0nYmxvY2sgdy1mdWxsIHJvdW5kZWQtbGcgYm9yZGVyLTAgcHktMyBweC00IHRleHQtZ3JheS05MDAgZGFyazp0ZXh0LWdyYXktMTAwIHNoYWRvdy1zbSByaW5nLTEgcmluZy13aGl0ZS82MCBkYXJrOnJpbmctd2hpdGUvMjAgcGxhY2Vob2xkZXI6dGV4dC1ncmF5LTUwMCBkYXJrOnBsYWNlaG9sZGVyOnRleHQtZ3JheS00MDAgZm9jdXM6cmluZy0yIGZvY3VzOnJpbmctZ3JlZW4tNTAwIGZvY3VzOm91dGxpbmUtbm9uZSBzbTp0ZXh0LWJhc2UgYmctd2hpdGUvNjAgZGFyazpiZy16aW5jLTgwMC82MCBiYWNrZHJvcC1ibHVyJwogICAgICAgICAgICAgICAgcGxhY2Vob2xkZXI9J+i+k+WFpeeUqOaIt+WQjScKICAgICAgICAgICAgICAgIHZhbHVlPXt1c2VybmFtZX0KICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0VXNlcm5hbWUoZS50YXJnZXQudmFsdWUpfQogICAgICAgICAgICAgIC8+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgKX0KCiAgICAgICAgICA8ZGl2PgogICAgICAgICAgICA8bGFiZWwgaHRtbEZvcj0ncGFzc3dvcmQnIGNsYXNzTmFtZT0nc3Itb25seSc+CiAgICAgICAgICAgICAg5a+G56CBCiAgICAgICAgICAgIDwvbGFiZWw+CiAgICAgICAgICAgIDxpbnB1dAogICAgICAgICAgICAgIGlkPSdwYXNzd29yZCcKICAgICAgICAgICAgICB0eXBlPSdwYXNzd29yZCcKICAgICAgICAgICAgICBhdXRvQ29tcGxldGU9J2N1cnJlbnQtcGFzc3dvcmQnCiAgICAgICAgICAgICAgY2xhc3NOYW1lPSdibG9jayB3LWZ1bGwgcm91bmRlZC1sZyBib3JkZXItMCBweS0zIHB4LTQgdGV4dC1ncmF5LTkwMCBkYXJrOnRleHQtZ3JheS0xMDAgc2hhZG93LXNtIHJpbmctMSByaW5nLXdoaXRlLzYwIGRhcms6cmluZy13aGl0ZS8yMCBwbGFjZWhvbGRlcjp0ZXh0LWdyYXktNTAwIGRhcms6cGxhY2Vob2xkZXI6dGV4dC1ncmF5LTQwMCBmb2N1czpyaW5nLTIgZm9jdXM6cmluZy1ncmVlbi01MDAgZm9jdXM6b3V0bGluZS1ub25lIHNtOnRleHQtYmFzZSBiZy13aGl0ZS82MCBkYXJrOmJnLXppbmMtODAwLzYwIGJhY2tkcm9wLWJsdXInCiAgICAgICAgICAgICAgcGxhY2Vob2xkZXI9J+i+k+WFpeiuv+mXruWvhueggScKICAgICAgICAgICAgICB2YWx1ZT17cGFzc3dvcmR9CiAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXRQYXNzd29yZChlLnRhcmdldC52YWx1ZSl9CiAgICAgICAgICAgIC8+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICB7ZXJyb3IgJiYgKAogICAgICAgICAgICA8cCBjbGFzc05hbWU9J3RleHQtc20gdGV4dC1yZWQtNjAwIGRhcms6dGV4dC1yZWQtNDAwJz57ZXJyb3J9PC9wPgogICAgICAgICAgKX0KCiAgICAgICAgICB7Lyog55m75b2VIC8g5rOo5YaM5oyJ6ZKuICovfQogICAgICAgICAge3Nob3VsZEFza1VzZXJuYW1lICYmIGVuYWJsZVJlZ2lzdGVyID8gKAogICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0nZmxleCBnYXAtNCc+CiAgICAgICAgICAgICAgPGJ1dHRvbgogICAgICAgICAgICAgICAgdHlwZT0nYnV0dG9uJwogICAgICAgICAgICAgICAgb25DbGljaz17aGFuZGxlUmVnaXN0ZXJ9CiAgICAgICAgICAgICAgICBkaXNhYmxlZD17IXBhc3N3b3JkIHx8ICF1c2VybmFtZSB8fCBsb2FkaW5nfQogICAgICAgICAgICAgICAgY2xhc3NOYW1lPSdmbGV4LTEgaW5saW5lLWZsZXgganVzdGlmeS1jZW50ZXIgcm91bmRlZC1sZyBiZy1ibHVlLTYwMCBweS0zIHRleHQtYmFzZSBmb250LXNlbWlib2xkIHRleHQtd2hpdGUgc2hhZG93LWxnIHRyYW5zaXRpb24tYWxsIGR1cmF0aW9uLTIwMCBob3ZlcjpiZy1ibHVlLTcwMCBkaXNhYmxlZDpjdXJzb3Itbm90LWFsbG93ZWQgZGlzYWJsZWQ6b3BhY2l0eS01MCcKICAgICAgICAgICAgICA+CiAgICAgICAgICAgICAgICB7bG9hZGluZyA/ICfms6jlhozkuK0uLi4nIDogJ+azqOWGjCd9CiAgICAgICAgICAgICAgPC9idXR0b24+CiAgICAgICAgICAgICAgPGJ1dHRvbgogICAgICAgICAgICAgICAgdHlwZT0nc3VibWl0JwogICAgICAgICAgICAgICAgZGlzYWJsZWQ9ewogICAgICAgICAgICAgICAgICAhcGFzc3dvcmQgfHwgbG9hZGluZyB8fCAoc2hvdWxkQXNrVXNlcm5hbWUgJiYgIXVzZXJuYW1lKQogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgY2xhc3NOYW1lPSdmbGV4LTEgaW5saW5lLWZsZXgganVzdGlmeS1jZW50ZXIgcm91bmRlZC1sZyBiZy1ncmVlbi02MDAgcHktMyB0ZXh0LWJhc2UgZm9udC1zZW1pYm9sZCB0ZXh0LXdoaXRlIHNoYWRvdy1sZyB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0yMDAgaG92ZXI6ZnJvbS1ncmVlbi02MDAgaG92ZXI6dG8tYmx1ZS02MDAgZGlzYWJsZWQ6Y3Vyc29yLW5vdC1hbGxvd2VkIGRpc2FibGVkOm9wYWNpdHktNTAnCiAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAge2xvYWRpbmcgPyAn55m75b2V5LitLi4uJyA6ICfnmbvlvZUnfQogICAgICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICkgOiAoCiAgICAgICAgICAgIDxidXR0b24KICAgICAgICAgICAgICB0eXBlPSdzdWJtaXQnCiAgICAgICAgICAgICAgZGlzYWJsZWQ9ewogICAgICAgICAgICAgICAgIXBhc3N3b3JkIHx8IGxvYWRpbmcgfHwgKHNob3VsZEFza1VzZXJuYW1lICYmICF1c2VybmFtZSkKICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgY2xhc3NOYW1lPSdpbmxpbmUtZmxleCB3LWZ1bGwganVzdGlmeS1jZW50ZXIgcm91bmRlZC1sZyBiZy1ncmVlbi02MDAgcHktMyB0ZXh0LWJhc2UgZm9udC1zZW1pYm9sZCB0ZXh0LXdoaXRlIHNoYWRvdy1sZyB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0yMDAgaG92ZXI6ZnJvbS1ncmVlbi02MDAgaG92ZXI6dG8tYmx1ZS02MDAgZGlzYWJsZWQ6Y3Vyc29yLW5vdC1hbGxvd2VkIGRpc2FibGVkOm9wYWNpdHktNTAnCiAgICAgICAgICAgID4KICAgICAgICAgICAgICB7bG9hZGluZyA/ICfnmbvlvZXkuK0uLi4nIDogJ+eZu+W9lSd9CiAgICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgICAgKX0KICAgICAgICA8L2Zvcm0+CiAgICAgIDwvZGl2PgoKICAgICAgey8qIOeJiOacrOS/oeaBr+aYvuekuiAqL30KICAgICAgPFZlcnNpb25EaXNwbGF5IC8+CiAgICA8L2Rpdj4KICApOwp9CgpleHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBMb2dpblBhZ2UoKSB7CiAgcmV0dXJuICgKICAgIDxTdXNwZW5zZSBmYWxsYmFjaz17PGRpdj5Mb2FkaW5nLi4uPC9kaXY+fT4KICAgICAgPExvZ2luUGFnZUNsaWVudCAvPgogICAgPC9TdXNwZW5zZT4KICApOwp9Cg==
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+'use client';
+
+import { AlertCircle, CheckCircle } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+
+import { checkForUpdates, CURRENT_VERSION, UpdateStatus } from '@/lib/version';
+
+import { useSite } from '@/components/SiteProvider';
+import { ThemeToggle } from '@/components/ThemeToggle';
+
+// 版本显示组件
+function VersionDisplay() {
+  const [updateStatus, setUpdateStatus] = useState<UpdateStatus | null>(null);
+  const [isChecking, setIsChecking] = useState(true);
+
+  useEffect(() => {
+    const checkUpdate = async () => {
+      try {
+        const status = await checkForUpdates();
+        setUpdateStatus(status);
+      } catch (_) {
+        // do nothing
+      } finally {
+        setIsChecking(false);
+      }
+    };
+
+    checkUpdate();
+  }, []);
+
+  return (
+    <button
+      onClick={() =>
+        window.open('https://github.com/senshinya/MoonTV', '_blank')
+      }
+      className='absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 transition-colors cursor-pointer'
+    >
+      <span className='font-mono'>v{CURRENT_VERSION}</span>
+      {!isChecking && updateStatus !== UpdateStatus.FETCH_FAILED && (
+        <div
+          className={`flex items-center gap-1.5 ${
+            updateStatus === UpdateStatus.HAS_UPDATE
+              ? 'text-yellow-600 dark:text-yellow-400'
+              : updateStatus === UpdateStatus.NO_UPDATE
+              ? 'text-green-600 dark:text-green-400'
+              : ''
+          }`}
+        >
+          {updateStatus === UpdateStatus.HAS_UPDATE && (
+            <>
+              <AlertCircle className='w-3.5 h-3.5' />
+              <span className='font-semibold text-xs'>有新版本</span>
+            </>
+          )}
+          {updateStatus === UpdateStatus.NO_UPDATE && (
+            <>
+              <CheckCircle className='w-3.5 h-3.5' />
+              <span className='font-semibold text-xs'>已是最新</span>
+            </>
+          )}
+        </div>
+      )}
+    </button>
+  );
+}
+
+function LoginPageClient() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [shouldAskUsername, setShouldAskUsername] = useState(false);
+  const [enableRegister, setEnableRegister] = useState(false);
+  const { siteName } = useSite();
+
+  // 在客户端挂载后设置配置
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storageType = (window as any).RUNTIME_CONFIG?.STORAGE_TYPE;
+      setShouldAskUsername(storageType && storageType !== 'localstorage');
+      setEnableRegister(
+        Boolean((window as any).RUNTIME_CONFIG?.ENABLE_REGISTER)
+      );
+    }
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+
+    if (!password || (shouldAskUsername && !username)) return;
+
+    try {
+      setLoading(true);
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password,
+          ...(shouldAskUsername ? { username } : {}),
+        }),
+      });
+
+      if (res.ok) {
+        const redirect = searchParams.get('redirect') || '/';
+        router.replace(redirect);
+      } else if (res.status === 401) {
+        setError('密码错误');
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? '服务器错误');
+      }
+    } catch (error) {
+      setError('网络错误，请稍后重试');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 处理注册逻辑
+  const handleRegister = async () => {
+    setError(null);
+    if (!password || !username) return;
+
+    try {
+      setLoading(true);
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (res.ok) {
+        const redirect = searchParams.get('redirect') || '/';
+        router.replace(redirect);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? '服务器错误');
+      }
+    } catch (error) {
+      setError('网络错误，请稍后重试');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className='relative min-h-screen flex items-center justify-center px-4 overflow-hidden'>
+      <div className='absolute top-4 right-4'>
+        <ThemeToggle />
+      </div>
+      <div className='relative z-10 w-full max-w-md rounded-3xl bg-gradient-to-b from-white/90 via-white/70 to-white/40 dark:from-zinc-900/90 dark:via-zinc-900/70 dark:to-zinc-900/40 backdrop-blur-xl shadow-2xl p-10 dark:border dark:border-zinc-800'>
+        <h1 className='text-green-600 tracking-tight text-center text-3xl font-extrabold mb-8 bg-clip-text drop-shadow-sm'>
+          {siteName}
+        </h1>
+        <form onSubmit={handleSubmit} className='space-y-8'>
+          {shouldAskUsername && (
+            <div>
+              <label htmlFor='username' className='sr-only'>
+                用户名
+              </label>
+              <input
+                id='username'
+                type='text'
+                autoComplete='username'
+                className='block w-full rounded-lg border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-white/60 dark:ring-white/20 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:ring-green-500 focus:outline-none sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur'
+                placeholder='输入用户名'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+          )}
+
+          <div>
+            <label htmlFor='password' className='sr-only'>
+              密码
+            </label>
+            <input
+              id='password'
+              type='password'
+              autoComplete='current-password'
+              className='block w-full rounded-lg border-0 py-3 px-4 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-white/60 dark:ring-white/20 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:ring-2 focus:ring-green-500 focus:outline-none sm:text-base bg-white/60 dark:bg-zinc-800/60 backdrop-blur'
+              placeholder='输入访问密码'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          {error && (
+            <p className='text-sm text-red-600 dark:text-red-400'>{error}</p>
+          )}
+
+          {/* 登录 / 注册按钮 */}
+          {shouldAskUsername && enableRegister ? (
+            <div className='flex gap-4'>
+              <button
+                type='button'
+                onClick={handleRegister}
+                disabled={!password || !username || loading}
+                className='flex-1 inline-flex justify-center rounded-lg bg-blue-600 py-3 text-base font-semibold text-white shadow-lg transition-all duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50'
+              >
+                {loading ? '注册中...' : '注册'}
+              </button>
+              <button
+                type='submit'
+                disabled={
+                  !password || loading || (shouldAskUsername && !username)
+                }
+                className='flex-1 inline-flex justify-center rounded-lg bg-green-600 py-3 text-base font-semibold text-white shadow-lg transition-all duration-200 hover:from-green-600 hover:to-blue-600 disabled:cursor-not-allowed disabled:opacity-50'
+              >
+                {loading ? '登录中...' : '登录'}
+              </button>
+            </div>
+          ) : (
+            <button
+              type='submit'
+              disabled={
+                !password || loading || (shouldAskUsername && !username)
+              }
+              className='inline-flex w-full justify-center rounded-lg bg-green-600 py-3 text-base font-semibold text-white shadow-lg transition-all duration-200 hover:from-green-600 hover:to-blue-600 disabled:cursor-not-allowed disabled:opacity-50'
+            >
+              {loading ? '登录中...' : '登录'}
+            </button>
+          )}
+        </form>
+      </div>
+
+      {/* 版本信息显示 */}
+      <VersionDisplay />
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginPageClient />
+    </Suspense>
+  );
+}
