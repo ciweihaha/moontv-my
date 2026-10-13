@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { db } from '@/lib/db';
 import { fetchVideoDetail } from '@/lib/fetchVideoDetail';
+import { constantTimeEqual } from '@/lib/rateLimit';
 import { SearchResult } from '@/lib/types';
 
 export const runtime = 'edge';
@@ -11,6 +12,25 @@ export const runtime = 'edge';
 export async function GET(request: NextRequest) {
   console.log(request.url);
   try {
+    // SEC-R5: cron 接口认证。配置 CRON_SECRET 环境变量后，调用方必须携带
+    // Authorization: Bearer <secret> 或 ?secret=<secret>；未配置时放行并告警（兼容旧部署）
+    const cronSecret = process.env.CRON_SECRET;
+    if (cronSecret) {
+      const authHeader = request.headers.get('authorization');
+      const querySecret = new URL(request.url).searchParams.get('secret');
+      const provided =
+        (authHeader?.startsWith('Bearer ')
+          ? authHeader.slice(7).trim()
+          : '') || querySecret || '';
+      if (!constantTimeEqual(provided, cronSecret)) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+    } else {
+      console.warn(
+        '警告: 未配置 CRON_SECRET，/api/cron 允许匿名触发，建议配置后加强防护'
+      );
+    }
+
     console.log('Cron job triggered:', new Date().toISOString());
 
     refreshRecordAndFavorites();
@@ -27,7 +47,6 @@ export async function GET(request: NextRequest) {
       {
         success: false,
         message: 'Cron job failed',
-        error: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString(),
       },
       { status: 500 }
