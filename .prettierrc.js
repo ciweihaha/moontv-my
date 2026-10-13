@@ -1,1 +1,7 @@
-bW9kdWxlLmV4cG9ydHMgPSB7CiAgYXJyb3dQYXJlbnM6ICdhbHdheXMnLAogIHNpbmdsZVF1b3RlOiB0cnVlLAogIGpzeFNpbmdsZVF1b3RlOiB0cnVlLAogIHRhYldpZHRoOiAyLAogIHNlbWk6IHRydWUsCn07Cg==
+module.exports = {
+  arrowParens: 'always',
+  singleQuote: true,
+  jsxSingleQuote: true,
+  tabWidth: 2,
+  semi: true,
+};
