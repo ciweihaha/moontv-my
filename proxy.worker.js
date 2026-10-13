@@ -1,1 +1,240 @@
-LyogZXNsaW50LWRpc2FibGUgKi8KCmFkZEV2ZW50TGlzdGVuZXIoJ2ZldGNoJywgKGV2ZW50KSA9PiB7CiAgZXZlbnQucmVzcG9uZFdpdGgoaGFuZGxlUmVxdWVzdChldmVudC5yZXF1ZXN0KSk7Cn0pOwoKYXN5bmMgZnVuY3Rpb24gaGFuZGxlUmVxdWVzdChyZXF1ZXN0KSB7CiAgdHJ5IHsKICAgIGNvbnN0IHVybCA9IG5ldyBVUkwocmVxdWVzdC51cmwpOwoKICAgIC8vIOWmguaenOiuv+mXruagueebruW9le+8jOi/lOWbnkhUTUwKICAgIGlmICh1cmwucGF0aG5hbWUgPT09ICcvJykgewogICAgICByZXR1cm4gbmV3IFJlc3BvbnNlKGdldFJvb3RIdG1sKCksIHsKICAgICAgICBoZWFkZXJzOiB7CiAgICAgICAgICAnQ29udGVudC1UeXBlJzogJ3RleHQvaHRtbDsgY2hhcnNldD11dGYtOCcsCiAgICAgICAgfSwKICAgICAgfSk7CiAgICB9CgogICAgLy8g5LuO6K+35rGC6Lev5b6E5Lit5o+Q5Y+W55uu5qCHIFVSTAogICAgbGV0IGFjdHVhbFVybFN0ciA9IGRlY29kZVVSSUNvbXBvbmVudCh1cmwucGF0aG5hbWUucmVwbGFjZSgnLycsICcnKSk7CgogICAgLy8g5Yik5pat55So5oi36L6T5YWl55qEIFVSTCDmmK/lkKbluKbmnInljY/orq4KICAgIGFjdHVhbFVybFN0ciA9IGVuc3VyZVByb3RvY29sKGFjdHVhbFVybFN0ciwgdXJsLnByb3RvY29sKTsKCiAgICAvLyDkv53nlZnmn6Xor6Llj4LmlbAKICAgIGFjdHVhbFVybFN0ciArPSB1cmwuc2VhcmNoOwoKICAgIC8vIOWIm+W7uuaWsCBIZWFkZXJzIOWvueixoe+8jOaOkumZpOS7pSAnY2YtJyDlvIDlpLTnmoTor7fmsYLlpLQKICAgIGNvbnN0IG5ld0hlYWRlcnMgPSBmaWx0ZXJIZWFkZXJzKAogICAgICByZXF1ZXN0LmhlYWRlcnMsCiAgICAgIChuYW1lKSA9PiAhbmFtZS5zdGFydHNXaXRoKCdjZi0nKQogICAgKTsKCiAgICAvLyDliJvlu7rkuIDkuKrmlrDnmoTor7fmsYLku6Xorr/pl67nm67moIcgVVJMCiAgICBjb25zdCBtb2RpZmllZFJlcXVlc3QgPSBuZXcgUmVxdWVzdChhY3R1YWxVcmxTdHIsIHsKICAgICAgaGVhZGVyczogbmV3SGVhZGVycywKICAgICAgbWV0aG9kOiByZXF1ZXN0Lm1ldGhvZCwKICAgICAgYm9keTogcmVxdWVzdC5ib2R5LAogICAgICByZWRpcmVjdDogJ21hbnVhbCcsCiAgICB9KTsKCiAgICAvLyDlj5Hotbflr7nnm67moIcgVVJMIOeahOivt+axggogICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChtb2RpZmllZFJlcXVlc3QpOwogICAgbGV0IGJvZHkgPSByZXNwb25zZS5ib2R5OwoKICAgIC8vIOWkhOeQhumHjeWumuWQkQogICAgaWYgKFszMDEsIDMwMiwgMzAzLCAzMDcsIDMwOF0uaW5jbHVkZXMocmVzcG9uc2Uuc3RhdHVzKSkgewogICAgICBib2R5ID0gcmVzcG9uc2UuYm9keTsKICAgICAgLy8g5Yib5bu65paw55qEIFJlc3BvbnNlIOWvueixoeS7peS/ruaUuSBMb2NhdGlvbiDlpLTpg6gKICAgICAgcmV0dXJuIGhhbmRsZVJlZGlyZWN0KHJlc3BvbnNlLCBib2R5KTsKICAgIH0gZWxzZSBpZiAocmVzcG9uc2UuaGVhZGVycy5nZXQoJ0NvbnRlbnQtVHlwZScpPy5pbmNsdWRlcygndGV4dC9odG1sJykpIHsKICAgICAgYm9keSA9IGF3YWl0IGhhbmRsZUh0bWxDb250ZW50KAogICAgICAgIHJlc3BvbnNlLAogICAgICAgIHVybC5wcm90b2NvbCwKICAgICAgICB1cmwuaG9zdCwKICAgICAgICBhY3R1YWxVcmxTdHIKICAgICAgKTsKICAgIH0KCiAgICAvLyDliJvlu7rkv67mlLnlkI7nmoTlk43lupTlr7nosaEKICAgIGNvbnN0IG1vZGlmaWVkUmVzcG9uc2UgPSBuZXcgUmVzcG9uc2UoYm9keSwgewogICAgICBzdGF0dXM6IHJlc3BvbnNlLnN0YXR1cywKICAgICAgc3RhdHVzVGV4dDogcmVzcG9uc2Uuc3RhdHVzVGV4dCwKICAgICAgaGVhZGVyczogcmVzcG9uc2UuaGVhZGVycywKICAgIH0pOwoKICAgIC8vIOa3u+WKoOemgeeUqOe8k+WtmOeahOWktOmDqAogICAgc2V0Tm9DYWNoZUhlYWRlcnMobW9kaWZpZWRSZXNwb25zZS5oZWFkZXJzKTsKCiAgICAvLyDmt7vliqAgQ09SUyDlpLTpg6jvvIzlhYHorrjot6jln5/orr/pl64KICAgIHNldENvcnNIZWFkZXJzKG1vZGlmaWVkUmVzcG9uc2UuaGVhZGVycyk7CgogICAgcmV0dXJuIG1vZGlmaWVkUmVzcG9uc2U7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIC8vIOWmguaenOivt+axguebruagh+WcsOWdgOaXtuWHuueOsOmUmeivr++8jOi/lOWbnuW4puaciemUmeivr+a2iOaBr+eahOWTjeW6lOWSjOeKtuaAgeeggSA1MDDvvIjmnI3liqHlmajplJnor6/vvIkKICAgIHJldHVybiBqc29uUmVzcG9uc2UoCiAgICAgIHsKICAgICAgICBlcnJvcjogZXJyb3IubWVzc2FnZSwKICAgICAgfSwKICAgICAgNTAwCiAgICApOwogIH0KfQoKLy8g56Gu5L+dIFVSTCDluKbmnInljY/orq4KZnVuY3Rpb24gZW5zdXJlUHJvdG9jb2wodXJsLCBkZWZhdWx0UHJvdG9jb2wpIHsKICByZXR1cm4gdXJsLnN0YXJ0c1dpdGgoJ2h0dHA6Ly8nKSB8fCB1cmwuc3RhcnRzV2l0aCgnaHR0cHM6Ly8nKQogICAgPyB1cmwKICAgIDogZGVmYXVsdFByb3RvY29sICsgJy8vJyArIHVybDsKfQoKLy8g5aSE55CG6YeN5a6a5ZCRCmZ1bmN0aW9uIGhhbmRsZVJlZGlyZWN0KHJlc3BvbnNlLCBib2R5KSB7CiAgY29uc3QgbG9jYXRpb24gPSBuZXcgVVJMKHJlc3BvbnNlLmhlYWRlcnMuZ2V0KCdsb2NhdGlvbicpKTsKICBjb25zdCBtb2RpZmllZExvY2F0aW9uID0gYC8ke2VuY29kZVVSSUNvbXBvbmVudChsb2NhdGlvbi50b1N0cmluZygpKX1gOwogIHJldHVybiBuZXcgUmVzcG9uc2UoYm9keSwgewogICAgc3RhdHVzOiByZXNwb25zZS5zdGF0dXMsCiAgICBzdGF0dXNUZXh0OiByZXNwb25zZS5zdGF0dXNUZXh0LAogICAgaGVhZGVyczogewogICAgICAuLi5yZXNwb25zZS5oZWFkZXJzLAogICAgICBMb2NhdGlvbjogbW9kaWZpZWRMb2NhdGlvbiwKICAgIH0sCiAgfSk7Cn0KCi8vIOWkhOeQhiBIVE1MIOWGheWuueS4reeahOebuOWvuei3r+W+hAphc3luYyBmdW5jdGlvbiBoYW5kbGVIdG1sQ29udGVudChyZXNwb25zZSwgcHJvdG9jb2wsIGhvc3QsIGFjdHVhbFVybFN0cikgewogIGNvbnN0IG9yaWdpbmFsVGV4dCA9IGF3YWl0IHJlc3BvbnNlLnRleHQoKTsKICBjb25zdCByZWdleCA9IG5ldyBSZWdFeHAoJygoaHJlZnxzcmN8YWN0aW9uKT1bIlwnXSkvKD8hLyknLCAnZycpOwogIGxldCBtb2RpZmllZFRleHQgPSByZXBsYWNlUmVsYXRpdmVQYXRocygKICAgIG9yaWdpbmFsVGV4dCwKICAgIHByb3RvY29sLAogICAgaG9zdCwKICAgIG5ldyBVUkwoYWN0dWFsVXJsU3RyKS5vcmlnaW4KICApOwoKICByZXR1cm4gbW9kaWZpZWRUZXh0Owp9CgovLyDmm7/mjaIgSFRNTCDlhoXlrrnkuK3nmoTnm7jlr7not6/lvoQKZnVuY3Rpb24gcmVwbGFjZVJlbGF0aXZlUGF0aHModGV4dCwgcHJvdG9jb2wsIGhvc3QsIG9yaWdpbikgewogIGNvbnN0IHJlZ2V4ID0gbmV3IFJlZ0V4cCgnKChocmVmfHNyY3xhY3Rpb24pPVsiXCddKS8oPyEvKScsICdnJyk7CiAgcmV0dXJuIHRleHQucmVwbGFjZShyZWdleCwgYCQxJHtwcm90b2NvbH0vLyR7aG9zdH0vJHtvcmlnaW59L2ApOwp9CgovLyDov5Tlm54gSlNPTiDmoLzlvI/nmoTlk43lupQKZnVuY3Rpb24ganNvblJlc3BvbnNlKGRhdGEsIHN0YXR1cykgewogIHJldHVybiBuZXcgUmVzcG9uc2UoSlNPTi5zdHJpbmdpZnkoZGF0YSksIHsKICAgIHN0YXR1czogc3RhdHVzLAogICAgaGVhZGVyczogewogICAgICAnQ29udGVudC1UeXBlJzogJ2FwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9dXRmLTgnLAogICAgfSwKICB9KTsKfQoKLy8g6L+H5ruk6K+35rGC5aS0CmZ1bmN0aW9uIGZpbHRlckhlYWRlcnMoaGVhZGVycywgZmlsdGVyRnVuYykgewogIHJldHVybiBuZXcgSGVhZGVycyhbLi4uaGVhZGVyc10uZmlsdGVyKChbbmFtZV0pID0+IGZpbHRlckZ1bmMobmFtZSkpKTsKfQoKLy8g6K6+572u56aB55So57yT5a2Y55qE5aS06YOoCmZ1bmN0aW9uIHNldE5vQ2FjaGVIZWFkZXJzKGhlYWRlcnMpIHsKICBoZWFkZXJzLnNldCgnQ2FjaGUtQ29udHJvbCcsICduby1zdG9yZScpOwp9CgovLyDorr7nva4gQ09SUyDlpLTpg6gKZnVuY3Rpb24gc2V0Q29yc0hlYWRlcnMoaGVhZGVycykgewogIGhlYWRlcnMuc2V0KCdBY2Nlc3MtQ29udHJvbC1BbGxvdy1PcmlnaW4nLCAnKicpOwogIGhlYWRlcnMuc2V0KCdBY2Nlc3MtQ29udHJvbC1BbGxvdy1NZXRob2RzJywgJ0dFVCwgUE9TVCwgUFVULCBERUxFVEUnKTsKICBoZWFkZXJzLnNldCgnQWNjZXNzLUNvbnRyb2wtQWxsb3ctSGVhZGVycycsICcqJyk7Cn0KCi8vIOi/lOWbnuagueebruW9leeahCBIVE1MCmZ1bmN0aW9uIGdldFJvb3RIdG1sKCkgewogIHJldHVybiBgPCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9InpoLUNOIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPgogIDxsaW5rIGhyZWY9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL21hdGVyaWFsaXplLzEuMC4wL2Nzcy9tYXRlcmlhbGl6ZS5taW4uY3NzIiByZWw9InN0eWxlc2hlZXQiPgogIDx0aXRsZT5Qcm94eSBFdmVyeXRoaW5nPC90aXRsZT4KICA8bGluayByZWw9Imljb24iIHR5cGU9ImltYWdlL3BuZyIgaHJlZj0iaHR0cHM6Ly9pbWcuaWNvbnM4LmNvbS9jb2xvci8xMDAwL2thd2FpaS1icmVhZC0xLnBuZyI+CiAgPG1ldGEgbmFtZT0iRGVzY3JpcHRpb24iIGNvbnRlbnQ9IlByb3h5IEV2ZXJ5dGhpbmcgd2l0aCBDRiBXb3JrZXJzLiI+CiAgPG1ldGEgcHJvcGVydHk9Im9nOmRlc2NyaXB0aW9uIiBjb250ZW50PSJQcm94eSBFdmVyeXRoaW5nIHdpdGggQ0YgV29ya2Vycy4iPgogIDxtZXRhIHByb3BlcnR5PSJvZzppbWFnZSIgY29udGVudD0iaHR0cHM6Ly9pbWcuaWNvbnM4LmNvbS9jb2xvci8xMDAwL2thd2FpaS1icmVhZC0xLnBuZyI+CiAgPG1ldGEgbmFtZT0icm9ib3RzIiBjb250ZW50PSJpbmRleCwgZm9sbG93Ij4KICA8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LUxhbmd1YWdlIiBjb250ZW50PSJ6aC1DTiI+CiAgPG1ldGEgbmFtZT0iY29weXJpZ2h0IiBjb250ZW50PSJDb3B5cmlnaHQgwqkgeW15dXV1Ij4KICA8bWV0YSBuYW1lPSJhdXRob3IiIGNvbnRlbnQ9InlteXV1dSI+CiAgPGxpbmsgcmVsPSJhcHBsZS10b3VjaC1pY29uLXByZWNvbXBvc2VkIiBzaXplcz0iMTIweDEyMCIgaHJlZj0iaHR0cHM6Ly9pbWcuaWNvbnM4LmNvbS9jb2xvci8xMDAwL2thd2FpaS1icmVhZC0xLnBuZyI+CiAgPG1ldGEgbmFtZT0iYXBwbGUtbW9iaWxlLXdlYi1hcHAtY2FwYWJsZSIgY29udGVudD0ieWVzIj4KICA8bWV0YSBuYW1lPSJhcHBsZS1tb2JpbGUtd2ViLWFwcC1zdGF0dXMtYmFyLXN0eWxlIiBjb250ZW50PSJibGFjay10cmFuc2x1Y2VudCI+CiAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgdXNlci1zY2FsYWJsZT1ubywgaW5pdGlhbC1zY2FsZT0xLjAsIG1heGltdW0tc2NhbGU9MS4wLCBtaW5pbXVtLXNjYWxlPTEuMCwgdXNlci1zY2FsYWJsZT1ubyI+CiAgPHN0eWxlPgogICAgICBib2R5LCBodG1sIHsKICAgICAgICAgIGhlaWdodDogMTAwJTsKICAgICAgICAgIG1hcmdpbjogMDsKICAgICAgfQogICAgICAuYmFja2dyb3VuZCB7CiAgICAgICAgICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoJ2h0dHBzOi8vaW1nYXBpLmNuL2JpbmcucGhwJyk7CiAgICAgICAgICBiYWNrZ3JvdW5kLXNpemU6IGNvdmVyOwogICAgICAgICAgYmFja2dyb3VuZC1wb3NpdGlvbjogY2VudGVyOwogICAgICAgICAgaGVpZ2h0OiAxMDAlOwogICAgICAgICAgZGlzcGxheTogZmxleDsKICAgICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICAgICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsKICAgICAgfQogICAgICAuY2FyZCB7CiAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuOCk7CiAgICAgICAgICB0cmFuc2l0aW9uOiBiYWNrZ3JvdW5kLWNvbG9yIDAuM3MgZWFzZSwgYm94LXNoYWRvdyAwLjNzIGVhc2U7CiAgICAgIH0KICAgICAgLmNhcmQ6aG92ZXIgewogICAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgyNTUsIDI1NSwgMjU1LCAxKTsKICAgICAgICAgIGJveC1zaGFkb3c6IDBweCA4cHggMTZweCByZ2JhKDAsIDAsIDAsIDAuMyk7CiAgICAgIH0KICAgICAgLmlucHV0LWZpZWxkIGlucHV0W3R5cGU9dGV4dF0gewogICAgICAgICAgY29sb3I6ICMyYzNlNTA7CiAgICAgIH0KICAgICAgLmlucHV0LWZpZWxkIGlucHV0W3R5cGU9dGV4dF06Zm9jdXMrbGFiZWwgewogICAgICAgICAgY29sb3I6ICMyYzNlNTAgIWltcG9ydGFudDsKICAgICAgfQogICAgICAuaW5wdXQtZmllbGQgaW5wdXRbdHlwZT10ZXh0XTpmb2N1cyB7CiAgICAgICAgICBib3JkZXItYm90dG9tOiAxcHggc29saWQgIzJjM2U1MCAhaW1wb3J0YW50OwogICAgICAgICAgYm94LXNoYWRvdzogMCAxcHggMCAwICMyYzNlNTAgIWltcG9ydGFudDsKICAgICAgfQogIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CiAgPGRpdiBjbGFzcz0iYmFja2dyb3VuZCI+CiAgICAgIDxkaXYgY2xhc3M9ImNvbnRhaW5lciI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJyb3ciPgogICAgICAgICAgICAgIDxkaXYgY2xhc3M9ImNvbCBzMTIgbTggb2Zmc2V0LW0yIGw2IG9mZnNldC1sMyI+CiAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9ImNhcmQiPgogICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iY2FyZC1jb250ZW50Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0iY2FyZC10aXRsZSBjZW50ZXItYWxpZ24iPjxpIGNsYXNzPSJtYXRlcmlhbC1pY29ucyBsZWZ0Ij5saW5rPC9pPlByb3h5IEV2ZXJ5dGhpbmc8L3NwYW4+CiAgICAgICAgICAgICAgICAgICAgICAgICAgPGZvcm0gaWQ9InVybEZvcm0iIG9uc3VibWl0PSJyZWRpcmVjdFRvUHJveHkoZXZlbnQpIj4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iaW5wdXQtZmllbGQiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGlucHV0IHR5cGU9InRleHQiIGlkPSJ0YXJnZXRVcmwiIHBsYWNlaG9sZGVyPSLlnKjmraTovpPlhaXnm67moIflnLDlnYAiIHJlcXVpcmVkPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxhYmVsIGZvcj0idGFyZ2V0VXJsIj7nm67moIflnLDlnYA8L2xhYmVsPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGJ1dHRvbiB0eXBlPSJzdWJtaXQiIGNsYXNzPSJidG4gd2F2ZXMtZWZmZWN0IHdhdmVzLWxpZ2h0IHRlYWwgZGFya2VuLTIgZnVsbC13aWR0aCI+6Lez6L2sPC9idXR0b24+CiAgICAgICAgICAgICAgICAgICAgICAgICAgPC9mb3JtPgogICAgICAgICAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgIDwvZGl2PgogIDwvZGl2PgogIDxzY3JpcHQgc3JjPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9tYXRlcmlhbGl6ZS8xLjAuMC9qcy9tYXRlcmlhbGl6ZS5taW4uanMiPjwvc2NyaXB0PgogIDxzY3JpcHQ+CiAgICAgIGZ1bmN0aW9uIHJlZGlyZWN0VG9Qcm94eShldmVudCkgewogICAgICAgICAgZXZlbnQucHJldmVudERlZmF1bHQoKTsKICAgICAgICAgIGNvbnN0IHRhcmdldFVybCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd0YXJnZXRVcmwnKS52YWx1ZS50cmltKCk7CiAgICAgICAgICBjb25zdCBjdXJyZW50T3JpZ2luID0gd2luZG93LmxvY2F0aW9uLm9yaWdpbjsKICAgICAgICAgIHdpbmRvdy5vcGVuKGN1cnJlbnRPcmlnaW4gKyAnLycgKyBlbmNvZGVVUklDb21wb25lbnQodGFyZ2V0VXJsKSwgJ19ibGFuaycpOwogICAgICB9CiAgPC9zY3JpcHQ+CjwvYm9keT4KPC9odG1sPmA7Cn0K
+/* eslint-disable */
+
+addEventListener('fetch', (event) => {
+  event.respondWith(handleRequest(event.request));
+});
+
+async function handleRequest(request) {
+  try {
+    const url = new URL(request.url);
+
+    // 如果访问根目录，返回HTML
+    if (url.pathname === '/') {
+      return new Response(getRootHtml(), {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+        },
+      });
+    }
+
+    // 从请求路径中提取目标 URL
+    let actualUrlStr = decodeURIComponent(url.pathname.replace('/', ''));
+
+    // 判断用户输入的 URL 是否带有协议
+    actualUrlStr = ensureProtocol(actualUrlStr, url.protocol);
+
+    // 保留查询参数
+    actualUrlStr += url.search;
+
+    // 创建新 Headers 对象，排除以 'cf-' 开头的请求头
+    const newHeaders = filterHeaders(
+      request.headers,
+      (name) => !name.startsWith('cf-')
+    );
+
+    // 创建一个新的请求以访问目标 URL
+    const modifiedRequest = new Request(actualUrlStr, {
+      headers: newHeaders,
+      method: request.method,
+      body: request.body,
+      redirect: 'manual',
+    });
+
+    // 发起对目标 URL 的请求
+    const response = await fetch(modifiedRequest);
+    let body = response.body;
+
+    // 处理重定向
+    if ([301, 302, 303, 307, 308].includes(response.status)) {
+      body = response.body;
+      // 创建新的 Response 对象以修改 Location 头部
+      return handleRedirect(response, body);
+    } else if (response.headers.get('Content-Type')?.includes('text/html')) {
+      body = await handleHtmlContent(
+        response,
+        url.protocol,
+        url.host,
+        actualUrlStr
+      );
+    }
+
+    // 创建修改后的响应对象
+    const modifiedResponse = new Response(body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+    });
+
+    // 添加禁用缓存的头部
+    setNoCacheHeaders(modifiedResponse.headers);
+
+    // 添加 CORS 头部，允许跨域访问
+    setCorsHeaders(modifiedResponse.headers);
+
+    return modifiedResponse;
+  } catch (error) {
+    // 如果请求目标地址时出现错误，返回带有错误消息的响应和状态码 500（服务器错误）
+    return jsonResponse(
+      {
+        error: error.message,
+      },
+      500
+    );
+  }
+}
+
+// 确保 URL 带有协议
+function ensureProtocol(url, defaultProtocol) {
+  return url.startsWith('http://') || url.startsWith('https://')
+    ? url
+    : defaultProtocol + '//' + url;
+}
+
+// 处理重定向
+function handleRedirect(response, body) {
+  const location = new URL(response.headers.get('location'));
+  const modifiedLocation = `/${encodeURIComponent(location.toString())}`;
+  return new Response(body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: {
+      ...response.headers,
+      Location: modifiedLocation,
+    },
+  });
+}
+
+// 处理 HTML 内容中的相对路径
+async function handleHtmlContent(response, protocol, host, actualUrlStr) {
+  const originalText = await response.text();
+  const regex = new RegExp('((href|src|action)=["\'])/(?!/)', 'g');
+  let modifiedText = replaceRelativePaths(
+    originalText,
+    protocol,
+    host,
+    new URL(actualUrlStr).origin
+  );
+
+  return modifiedText;
+}
+
+// 替换 HTML 内容中的相对路径
+function replaceRelativePaths(text, protocol, host, origin) {
+  const regex = new RegExp('((href|src|action)=["\'])/(?!/)', 'g');
+  return text.replace(regex, `$1${protocol}//${host}/${origin}/`);
+}
+
+// 返回 JSON 格式的响应
+function jsonResponse(data, status) {
+  return new Response(JSON.stringify(data), {
+    status: status,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+  });
+}
+
+// 过滤请求头
+function filterHeaders(headers, filterFunc) {
+  return new Headers([...headers].filter(([name]) => filterFunc(name)));
+}
+
+// 设置禁用缓存的头部
+function setNoCacheHeaders(headers) {
+  headers.set('Cache-Control', 'no-store');
+}
+
+// 设置 CORS 头部
+function setCorsHeaders(headers) {
+  headers.set('Access-Control-Allow-Origin', '*');
+  headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  headers.set('Access-Control-Allow-Headers', '*');
+}
+
+// 返回根目录的 HTML
+function getRootHtml() {
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <title>Proxy Everything</title>
+  <link rel="icon" type="image/png" href="https://img.icons8.com/color/1000/kawaii-bread-1.png">
+  <meta name="Description" content="Proxy Everything with CF Workers.">
+  <meta property="og:description" content="Proxy Everything with CF Workers.">
+  <meta property="og:image" content="https://img.icons8.com/color/1000/kawaii-bread-1.png">
+  <meta name="robots" content="index, follow">
+  <meta http-equiv="Content-Language" content="zh-CN">
+  <meta name="copyright" content="Copyright © ymyuuu">
+  <meta name="author" content="ymyuuu">
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://img.icons8.com/color/1000/kawaii-bread-1.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <style>
+      body, html {
+          height: 100%;
+          margin: 0;
+      }
+      .background {
+          background-image: url('https://imgapi.cn/bing.php');
+          background-size: cover;
+          background-position: center;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      .card {
+          background-color: rgba(255, 255, 255, 0.8);
+          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+          background-color: rgba(255, 255, 255, 1);
+          box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+      }
+      .input-field input[type=text] {
+          color: #2c3e50;
+      }
+      .input-field input[type=text]:focus+label {
+          color: #2c3e50 !important;
+      }
+      .input-field input[type=text]:focus {
+          border-bottom: 1px solid #2c3e50 !important;
+          box-shadow: 0 1px 0 0 #2c3e50 !important;
+      }
+  </style>
+</head>
+<body>
+  <div class="background">
+      <div class="container">
+          <div class="row">
+              <div class="col s12 m8 offset-m2 l6 offset-l3">
+                  <div class="card">
+                      <div class="card-content">
+                          <span class="card-title center-align"><i class="material-icons left">link</i>Proxy Everything</span>
+                          <form id="urlForm" onsubmit="redirectToProxy(event)">
+                              <div class="input-field">
+                                  <input type="text" id="targetUrl" placeholder="在此输入目标地址" required>
+                                  <label for="targetUrl">目标地址</label>
+                              </div>
+                              <button type="submit" class="btn waves-effect waves-light teal darken-2 full-width">跳转</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+      function redirectToProxy(event) {
+          event.preventDefault();
+          const targetUrl = document.getElementById('targetUrl').value.trim();
+          const currentOrigin = window.location.origin;
+          window.open(currentOrigin + '/' + encodeURIComponent(targetUrl), '_blank');
+      }
+  </script>
+</body>
+</html>`;
+}
