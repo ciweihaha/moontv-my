@@ -1,1 +1,97 @@
-aW1wb3J0IHsgTWV0YWRhdGEgfSBmcm9tICduZXh0JzsKCmV4cG9ydCBjb25zdCBtZXRhZGF0YTogTWV0YWRhdGEgPSB7CiAgdGl0bGU6ICflronlhajorablkYogLSBNb29uVFYnLAogIGRlc2NyaXB0aW9uOiAn56uZ54K55a6J5YWo6YWN572u6K2m5ZGKJywKfTsKCmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIFdhcm5pbmdQYWdlKCkgewogIHJldHVybiAoCiAgICA8ZGl2IGNsYXNzTmFtZT0nbWluLWgtc2NyZWVuIGJnLWdyYWRpZW50LXRvLWJyIGZyb20tcmVkLTUwIHRvLW9yYW5nZS01MCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBwLTQnPgogICAgICA8ZGl2IGNsYXNzTmFtZT0nbWF4LXctMnhsIHctZnVsbCBiZy13aGl0ZSByb3VuZGVkLTJ4bCBzaGFkb3ctMnhsIHAtNCBzbTpwLTggYm9yZGVyIGJvcmRlci1yZWQtMjAwJz4KICAgICAgICB7Lyog6K2m5ZGK5Zu+5qCHICovfQogICAgICAgIDxkaXYgY2xhc3NOYW1lPSdmbGV4IGp1c3RpZnktY2VudGVyIG1iLTQgc206bWItNic+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ndy0xNiBoLTE2IHNtOnctMjAgc206aC0yMCBiZy1yZWQtMTAwIHJvdW5kZWQtZnVsbCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlcic+CiAgICAgICAgICAgIDxzdmcKICAgICAgICAgICAgICBjbGFzc05hbWU9J3ctMTAgaC0xMCBzbTp3LTEyIHNtOmgtMTIgdGV4dC1yZWQtNjAwJwogICAgICAgICAgICAgIGZpbGw9J25vbmUnCiAgICAgICAgICAgICAgc3Ryb2tlPSdjdXJyZW50Q29sb3InCiAgICAgICAgICAgICAgdmlld0JveD0nMCAwIDI0IDI0JwogICAgICAgICAgICA+CiAgICAgICAgICAgICAgPHBhdGgKICAgICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9J3JvdW5kJwogICAgICAgICAgICAgICAgc3Ryb2tlTGluZWpvaW49J3JvdW5kJwogICAgICAgICAgICAgICAgc3Ryb2tlV2lkdGg9ezJ9CiAgICAgICAgICAgICAgICBkPSdNMTIgOXYybTAgNGguMDFtLTYuOTM4IDRoMTMuODU2YzEuNTQgMCAyLjUwMi0xLjY2NyAxLjczMi0yLjVMMTMuNzMyIDRjLS43Ny0uODMzLTEuOTY0LS44MzMtMi43MzIgMEwzLjczMiAxNi41Yy0uNzcuODMzLjE5MiAyLjUgMS43MzIgMi41eicKICAgICAgICAgICAgICAvPgogICAgICAgICAgICA8L3N2Zz4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgoKICAgICAgICB7Lyog5qCH6aKYICovfQogICAgICAgIDxkaXYgY2xhc3NOYW1lPSd0ZXh0LWNlbnRlciBtYi02IHNtOm1iLTgnPgogICAgICAgICAgPGgxIGNsYXNzTmFtZT0ndGV4dC0yeGwgc206dGV4dC0zeGwgZm9udC1ib2xkIHRleHQtZ3JheS05MDAgbWItMic+CiAgICAgICAgICAgIOWuieWFqOWQiOinhOmFjee9ruitpuWRigogICAgICAgICAgPC9oMT4KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSd3LTEyIHNtOnctMTYgaC0xIGJnLXJlZC01MDAgbXgtYXV0byByb3VuZGVkLWZ1bGwnPjwvZGl2PgogICAgICAgIDwvZGl2PgoKICAgICAgICB7Lyog6K2m5ZGK5YaF5a65ICovfQogICAgICAgIDxkaXYgY2xhc3NOYW1lPSdzcGFjZS15LTQgc206c3BhY2UteS02IHRleHQtZ3JheS03MDAnPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9J2JnLXJlZC01MCBib3JkZXItbC00IGJvcmRlci1yZWQtNTAwIHAtMyBzbTpwLTQgcm91bmRlZC1yLWxnJz4KICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSd0ZXh0LWJhc2Ugc206dGV4dC1sZyBmb250LXNlbWlib2xkIHRleHQtcmVkLTgwMCBtYi0yJz4KICAgICAgICAgICAgICDimqDvuI8g5a6J5YWo6aOO6Zmp5o+Q56S6CiAgICAgICAgICAgIDwvcD4KICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSd0ZXh0LXNtIHNtOnRleHQtYmFzZSB0ZXh0LXJlZC03MDAnPgogICAgICAgICAgICAgIOajgOa1i+WIsOaCqOeahOermeeCueacqumFjee9ruiuv+mXruaOp+WItu+8jOWtmOWcqOa9nOWcqOeahOWuieWFqOmjjumZqeWSjOazleW+i+WQiOinhOmXrumimOOAggogICAgICAgICAgICA8L3A+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0nc3BhY2UteS0zIHNtOnNwYWNlLXktNCc+CiAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9J3RleHQtbGcgc206dGV4dC14bCBmb250LXNlbWlib2xkIHRleHQtZ3JheS05MDAnPgogICAgICAgICAgICAgIOS4u+imgemjjumZqQogICAgICAgICAgICA8L2gyPgogICAgICAgICAgICA8dWwgY2xhc3NOYW1lPSdzcGFjZS15LTIgc206c3BhY2UteS0zIHRleHQtc20gc206dGV4dC1iYXNlIHRleHQtZ3JheS02MDAnPgogICAgICAgICAgICAgIDxsaSBjbGFzc05hbWU9J2ZsZXggaXRlbXMtc3RhcnQnPgogICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSd0ZXh0LXJlZC01MDAgbXItMiBtdC0wLjUnPuKAojwvc3Bhbj4KICAgICAgICAgICAgICAgIDxzcGFuPuacque7j+aOiOadg+eahOiuv+mXruWPr+iDveWvvOiHtOWGheWuueiiq+aBtuaEj+S8oOaSrTwvc3Bhbj4KICAgICAgICAgICAgICA8L2xpPgogICAgICAgICAgICAgIDxsaSBjbGFzc05hbWU9J2ZsZXggaXRlbXMtc3RhcnQnPgogICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSd0ZXh0LXJlZC01MDAgbXItMiBtdC0wLjUnPuKAojwvc3Bhbj4KICAgICAgICAgICAgICAgIDxzcGFuPuacjeWKoeWZqOi1hOa6kOWPr+iDveiiq+a7peeUqO+8jOW9seWTjeato+W4uOacjeWKoTwvc3Bhbj4KICAgICAgICAgICAgICA8L2xpPgogICAgICAgICAgICAgIDxsaSBjbGFzc05hbWU9J2ZsZXggaXRlbXMtc3RhcnQnPgogICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSd0ZXh0LXJlZC01MDAgbXItMiBtdC0wLjUnPuKAojwvc3Bhbj4KICAgICAgICAgICAgICAgIDxzcGFuPuWPr+iDveaUtuWIsOebuOWFs+adg+WIqeaWueeahOazleW+i+mAmuefpTwvc3Bhbj4KICAgICAgICAgICAgICA8L2xpPgogICAgICAgICAgICAgIDxsaSBjbGFzc05hbWU9J2ZsZXggaXRlbXMtc3RhcnQnPgogICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSd0ZXh0LXJlZC01MDAgbXItMiBtdC0wLjUnPuKAojwvc3Bhbj4KICAgICAgICAgICAgICAgIDxzcGFuPuacjeWKoeaPkOS+m+WVhuWPr+iDveWboOWQiOinhOmXrumimOe7iOatouacjeWKoTwvc3Bhbj4KICAgICAgICAgICAgICA8L2xpPgogICAgICAgICAgICA8L3VsPgogICAgICAgICAgPC9kaXY+CgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9J2JnLXllbGxvdy01MCBib3JkZXIgYm9yZGVyLXllbGxvdy0yMDAgcm91bmRlZC1sZyBwLTMgc206cC00Jz4KICAgICAgICAgICAgPGgzIGNsYXNzTmFtZT0ndGV4dC1iYXNlIHNtOnRleHQtbGcgZm9udC1zZW1pYm9sZCB0ZXh0LXllbGxvdy04MDAgbWItMic+CiAgICAgICAgICAgICAg8J+UkiDlronlhajphY3nva7lu7rorq4KICAgICAgICAgICAgPC9oMz4KICAgICAgICAgICAgPHAgY2xhc3NOYW1lPSd0ZXh0LXNtIHNtOnRleHQtYmFzZSB0ZXh0LXllbGxvdy03MDAnPgogICAgICAgICAgICAgIOivt+eri+WNs+mFjee9rnsnICd9CiAgICAgICAgICAgICAgPGNvZGUgY2xhc3NOYW1lPSdiZy15ZWxsb3ctMTAwIHB4LTEuNSBweS0wLjUgcm91bmRlZCB0ZXh0LXhzIHNtOnRleHQtc20gZm9udC1tb25vJz4KICAgICAgICAgICAgICAgIFBBU1NXT1JECiAgICAgICAgICAgICAgPC9jb2RlPnsnICd9CiAgICAgICAgICAgICAg546v5aKD5Y+Y6YeP5Lul5ZCv55So6K6/6Zeu5o6n5Yi244CCCiAgICAgICAgICAgIDwvcD4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgoKICAgICAgICB7Lyog5bqV6YOo6KOF6aWwICovfQogICAgICAgIDxkaXYgY2xhc3NOYW1lPSdtdC02IHNtOm10LTggcHQtNCBzbTpwdC02IGJvcmRlci10IGJvcmRlci1ncmF5LTIwMCc+CiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ndGV4dC1jZW50ZXIgdGV4dC14cyBzbTp0ZXh0LXNtIHRleHQtZ3JheS01MDAnPgogICAgICAgICAgICA8cD7kuLrnoa7kv53ns7vnu5/lronlhajmgKflkozlkIjop4TmgKfvvIzor7flj4rml7blrozmiJDlronlhajphY3nva48L3A+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgPC9kaXY+CiAgICA8L2Rpdj4KICApOwp9Cg==
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '安全警告 - MoonTV',
+  description: '站点安全配置警告',
+};
+
+export default function WarningPage() {
+  return (
+    <div className='min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center p-4'>
+      <div className='max-w-2xl w-full bg-white rounded-2xl shadow-2xl p-4 sm:p-8 border border-red-200'>
+        {/* 警告图标 */}
+        <div className='flex justify-center mb-4 sm:mb-6'>
+          <div className='w-16 h-16 sm:w-20 sm:h-20 bg-red-100 rounded-full flex items-center justify-center'>
+            <svg
+              className='w-10 h-10 sm:w-12 sm:h-12 text-red-600'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z'
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* 标题 */}
+        <div className='text-center mb-6 sm:mb-8'>
+          <h1 className='text-2xl sm:text-3xl font-bold text-gray-900 mb-2'>
+            安全合规配置警告
+          </h1>
+          <div className='w-12 sm:w-16 h-1 bg-red-500 mx-auto rounded-full'></div>
+        </div>
+
+        {/* 警告内容 */}
+        <div className='space-y-4 sm:space-y-6 text-gray-700'>
+          <div className='bg-red-50 border-l-4 border-red-500 p-3 sm:p-4 rounded-r-lg'>
+            <p className='text-base sm:text-lg font-semibold text-red-800 mb-2'>
+              ⚠️ 安全风险提示
+            </p>
+            <p className='text-sm sm:text-base text-red-700'>
+              检测到您的站点未配置访问控制，存在潜在的安全风险和法律合规问题。
+            </p>
+          </div>
+
+          <div className='space-y-3 sm:space-y-4'>
+            <h2 className='text-lg sm:text-xl font-semibold text-gray-900'>
+              主要风险
+            </h2>
+            <ul className='space-y-2 sm:space-y-3 text-sm sm:text-base text-gray-600'>
+              <li className='flex items-start'>
+                <span className='text-red-500 mr-2 mt-0.5'>•</span>
+                <span>未经授权的访问可能导致内容被恶意传播</span>
+              </li>
+              <li className='flex items-start'>
+                <span className='text-red-500 mr-2 mt-0.5'>•</span>
+                <span>服务器资源可能被滥用，影响正常服务</span>
+              </li>
+              <li className='flex items-start'>
+                <span className='text-red-500 mr-2 mt-0.5'>•</span>
+                <span>可能收到相关权利方的法律通知</span>
+              </li>
+              <li className='flex items-start'>
+                <span className='text-red-500 mr-2 mt-0.5'>•</span>
+                <span>服务提供商可能因合规问题终止服务</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className='bg-yellow-50 border border-yellow-200 rounded-lg p-3 sm:p-4'>
+            <h3 className='text-base sm:text-lg font-semibold text-yellow-800 mb-2'>
+              🔒 安全配置建议
+            </h3>
+            <p className='text-sm sm:text-base text-yellow-700'>
+              请立即配置{' '}
+              <code className='bg-yellow-100 px-1.5 py-0.5 rounded text-xs sm:text-sm font-mono'>
+                PASSWORD
+              </code>{' '}
+              环境变量以启用访问控制。
+            </p>
+          </div>
+        </div>
+
+        {/* 底部装饰 */}
+        <div className='mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200'>
+          <div className='text-center text-xs sm:text-sm text-gray-500'>
+            <p>为确保系统安全性和合规性，请及时完成安全配置</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
