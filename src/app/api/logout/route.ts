@@ -1,1 +1,18 @@
-aW1wb3J0IHsgTmV4dFJlc3BvbnNlIH0gZnJvbSAnbmV4dC9zZXJ2ZXInOwoKZXhwb3J0IGNvbnN0IHJ1bnRpbWUgPSAnZWRnZSc7CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gUE9TVCgpIHsKICBjb25zdCByZXNwb25zZSA9IE5leHRSZXNwb25zZS5qc29uKHsgb2s6IHRydWUgfSk7CgogIC8vIOa4hemZpOiupOivgWNvb2tpZQogIHJlc3BvbnNlLmNvb2tpZXMuc2V0KCdhdXRoJywgJycsIHsKICAgIHBhdGg6ICcvJywKICAgIGV4cGlyZXM6IG5ldyBEYXRlKDApLAogICAgc2FtZVNpdGU6ICdsYXgnLCAvLyDmlLnkuLogbGF4IOS7peaUr+aMgSBQV0EKICAgIGh0dHBPbmx5OiBmYWxzZSwgLy8gUFdBIOmcgOimgeWuouaIt+err+WPr+iuv+mXrgogICAgc2VjdXJlOiBmYWxzZSwgLy8g5qC55o2u5Y2P6K6u6Ieq5Yqo6K6+572uCiAgfSk7CgogIHJldHVybiByZXNwb25zZTsKfQo=
+import { NextResponse } from 'next/server';
+
+export const runtime = 'edge';
+
+export async function POST() {
+  const response = NextResponse.json({ ok: true });
+
+  // 清除认证cookie
+  response.cookies.set('auth', '', {
+    path: '/',
+    expires: new Date(0),
+    sameSite: 'lax', // 改为 lax 以支持 PWA
+    httpOnly: false, // PWA 需要客户端可访问
+    secure: false, // 根据协议自动设置
+  });
+
+  return response;
+}
