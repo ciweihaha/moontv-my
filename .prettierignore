@@ -1,1 +1,41 @@
-IyBTZWUgaHR0cHM6Ly9oZWxwLmdpdGh1Yi5jb20vYXJ0aWNsZXMvaWdub3JpbmctZmlsZXMvIGZvciBtb3JlIGFib3V0IGlnbm9yaW5nIGZpbGVzLgoKIyBkZXBlbmRlbmNpZXMKL25vZGVfbW9kdWxlcwovLnBucAoucG5wLmpzCgojIHRlc3RpbmcKL2NvdmVyYWdlCgojIG5leHQuanMKLm5leHQKLy5uZXh0Lwovb3V0LwoKIyBwcm9kdWN0aW9uCi9idWlsZAoKIyBtaXNjCi5EU19TdG9yZQoqLnBlbQoKIyBkZWJ1ZwpucG0tZGVidWcubG9nKgp5YXJuLWRlYnVnLmxvZyoKeWFybi1lcnJvci5sb2cqCi5wbnBtLWRlYnVnLmxvZyoKCiMgbG9jYWwgZW52IGZpbGVzCi5lbnYubG9jYWwKLmVudi5kZXZlbG9wbWVudC5sb2NhbAouZW52LnRlc3QubG9jYWwKLmVudi5wcm9kdWN0aW9uLmxvY2FsCgojIHZlcmNlbAoudmVyY2VsCgojIGNoYW5nZWxvZwpDSEFOR0VMT0cubWQKCnBucG0tbG9jay55YW1sCg==
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+.next
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# changelog
+CHANGELOG.md
+
+pnpm-lock.yaml
