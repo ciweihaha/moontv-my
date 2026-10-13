@@ -1,1 +1,288 @@
-LyogZXNsaW50LWRpc2FibGUgQHR5cGVzY3JpcHQtZXNsaW50L25vLWV4cGxpY2l0LWFueSAqLwoKJ3VzZSBjbGllbnQnOwoKaW1wb3J0IHsgQ2xvdmVyLCBGaWxtLCBIb21lLCBNZW51LCBTZWFyY2gsIFN0YXIsIFR2IH0gZnJvbSAnbHVjaWRlLXJlYWN0JzsKaW1wb3J0IExpbmsgZnJvbSAnbmV4dC9saW5rJzsKaW1wb3J0IHsgdXNlUGF0aG5hbWUsIHVzZVJvdXRlciwgdXNlU2VhcmNoUGFyYW1zIH0gZnJvbSAnbmV4dC9uYXZpZ2F0aW9uJzsKaW1wb3J0IHsKICBjcmVhdGVDb250ZXh0LAogIHVzZUNhbGxiYWNrLAogIHVzZUNvbnRleHQsCiAgdXNlRWZmZWN0LAogIHVzZUxheW91dEVmZmVjdCwKICB1c2VTdGF0ZSwKfSBmcm9tICdyZWFjdCc7CgppbXBvcnQgeyB1c2VTaXRlIH0gZnJvbSAnLi9TaXRlUHJvdmlkZXInOwoKaW50ZXJmYWNlIFNpZGViYXJDb250ZXh0VHlwZSB7CiAgaXNDb2xsYXBzZWQ6IGJvb2xlYW47Cn0KCmNvbnN0IFNpZGViYXJDb250ZXh0ID0gY3JlYXRlQ29udGV4dDxTaWRlYmFyQ29udGV4dFR5cGU+KHsKICBpc0NvbGxhcHNlZDogZmFsc2UsCn0pOwoKZXhwb3J0IGNvbnN0IHVzZVNpZGViYXIgPSAoKSA9PiB1c2VDb250ZXh0KFNpZGViYXJDb250ZXh0KTsKCi8vIOWPr+abv+aNouS4uuS9oOiHquW3seeahCBsb2dvIOWbvueJhwpjb25zdCBMb2dvID0gKCkgPT4gewogIGNvbnN0IHsgc2l0ZU5hbWUgfSA9IHVzZVNpdGUoKTsKICByZXR1cm4gKAogICAgPExpbmsKICAgICAgaHJlZj0nLycKICAgICAgY2xhc3NOYW1lPSdmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBoLTE2IHNlbGVjdC1ub25lIGhvdmVyOm9wYWNpdHktODAgdHJhbnNpdGlvbi1vcGFjaXR5IGR1cmF0aW9uLTIwMCcKICAgID4KICAgICAgPHNwYW4gY2xhc3NOYW1lPSd0ZXh0LTJ4bCBmb250LWJvbGQgdGV4dC1ncmVlbi02MDAgdHJhY2tpbmctdGlnaHQnPgogICAgICAgIHtzaXRlTmFtZX0KICAgICAgPC9zcGFuPgogICAgPC9MaW5rPgogICk7Cn07CgppbnRlcmZhY2UgU2lkZWJhclByb3BzIHsKICBvblRvZ2dsZT86IChjb2xsYXBzZWQ6IGJvb2xlYW4pID0+IHZvaWQ7CiAgYWN0aXZlUGF0aD86IHN0cmluZzsKfQoKLy8g5Zyo5rWP6KeI5Zmo546v5aKD5LiL6YCa6L+H5YWo5bGA5Y+Y6YeP57yT5a2Y5oqY5Y+g54q25oCB77yM6YG/5YWN57uE5Lu26YeN5paw5oyC6L295pe25Ye6546w5Yid5aeL5YC86Zeq54OBCmRlY2xhcmUgZ2xvYmFsIHsKICBpbnRlcmZhY2UgV2luZG93IHsKICAgIF9fc2lkZWJhckNvbGxhcHNlZD86IGJvb2xlYW47CiAgfQp9Cgpjb25zdCBTaWRlYmFyID0gKHsgb25Ub2dnbGUsIGFjdGl2ZVBhdGggPSAnLycgfTogU2lkZWJhclByb3BzKSA9PiB7CiAgY29uc3Qgcm91dGVyID0gdXNlUm91dGVyKCk7CiAgY29uc3QgcGF0aG5hbWUgPSB1c2VQYXRobmFtZSgpOwogIGNvbnN0IHNlYXJjaFBhcmFtcyA9IHVzZVNlYXJjaFBhcmFtcygpOwogIC8vIOiLpeWQjOS4gOasoSBTUEEg5Lya6K+d5Lit5bey57uP6K+75Y+W6L+H5oqY5Y+g54q25oCB77yM5YiZ55u05o6l5aSN55So77yM6YG/5YWN6Zeq54OBCiAgY29uc3QgW2lzQ29sbGFwc2VkLCBzZXRJc0NvbGxhcHNlZF0gPSB1c2VTdGF0ZTxib29sZWFuPigoKSA9PiB7CiAgICBpZiAoCiAgICAgIHR5cGVvZiB3aW5kb3cgIT09ICd1bmRlZmluZWQnICYmCiAgICAgIHR5cGVvZiB3aW5kb3cuX19zaWRlYmFyQ29sbGFwc2VkID09PSAnYm9vbGVhbicKICAgICkgewogICAgICByZXR1cm4gd2luZG93Ll9fc2lkZWJhckNvbGxhcHNlZDsKICAgIH0KICAgIHJldHVybiBmYWxzZTsgLy8g6buY6K6k5bGV5byACiAgfSk7CgogIC8vIOmmluasoeaMgui9veaXtuivu+WPliBsb2NhbFN0b3JhZ2XvvIzku6Xkvr/liLfmlrDlkI7ku43kv53mjIHkuIrmrKHnmoTmipjlj6DnirbmgIEKICB1c2VMYXlvdXRFZmZlY3QoKCkgPT4gewogICAgY29uc3Qgc2F2ZWQgPSBsb2NhbFN0b3JhZ2UuZ2V0SXRlbSgnc2lkZWJhckNvbGxhcHNlZCcpOwogICAgaWYgKHNhdmVkICE9PSBudWxsKSB7CiAgICAgIGNvbnN0IHZhbCA9IEpTT04ucGFyc2Uoc2F2ZWQpOwogICAgICBzZXRJc0NvbGxhcHNlZCh2YWwpOwogICAgICB3aW5kb3cuX19zaWRlYmFyQ29sbGFwc2VkID0gdmFsOwogICAgfQogIH0sIFtdKTsKCiAgLy8g5b2T5oqY5Y+g54q25oCB5Y+Y5YyW5pe277yM5ZCM5q2l5YiwIDxodG1sPiBkYXRhIOWxnuaAp++8jOS+m+mmluWxjyBDU1Mg5L2/55SoCiAgdXNlTGF5b3V0RWZmZWN0KCgpID0+IHsKICAgIGlmICh0eXBlb2YgZG9jdW1lbnQgIT09ICd1bmRlZmluZWQnKSB7CiAgICAgIGlmIChpc0NvbGxhcHNlZCkgewogICAgICAgIGRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5kYXRhc2V0LnNpZGViYXJDb2xsYXBzZWQgPSAndHJ1ZSc7CiAgICAgIH0gZWxzZSB7CiAgICAgICAgZGVsZXRlIGRvY3VtZW50LmRvY3VtZW50RWxlbWVudC5kYXRhc2V0LnNpZGViYXJDb2xsYXBzZWQ7CiAgICAgIH0KICAgIH0KICB9LCBbaXNDb2xsYXBzZWRdKTsKCiAgY29uc3QgW2FjdGl2ZSwgc2V0QWN0aXZlXSA9IHVzZVN0YXRlKGFjdGl2ZVBhdGgpOwoKICB1c2VFZmZlY3QoKCkgPT4gewogICAgLy8g5LyY5YWI5L2/55So5Lyg5YWl55qEIGFjdGl2ZVBhdGgKICAgIGlmIChhY3RpdmVQYXRoKSB7CiAgICAgIHNldEFjdGl2ZShhY3RpdmVQYXRoKTsKICAgIH0gZWxzZSB7CiAgICAgIC8vIOWQpuWImeS9v+eUqOW9k+WJjei3r+W+hAogICAgICBjb25zdCBnZXRDdXJyZW50RnVsbFBhdGggPSAoKSA9PiB7CiAgICAgICAgY29uc3QgcXVlcnlTdHJpbmcgPSBzZWFyY2hQYXJhbXMudG9TdHJpbmcoKTsKICAgICAgICByZXR1cm4gcXVlcnlTdHJpbmcgPyBgJHtwYXRobmFtZX0/JHtxdWVyeVN0cmluZ31gIDogcGF0aG5hbWU7CiAgICAgIH07CiAgICAgIGNvbnN0IGZ1bGxQYXRoID0gZ2V0Q3VycmVudEZ1bGxQYXRoKCk7CiAgICAgIHNldEFjdGl2ZShmdWxsUGF0aCk7CiAgICB9CiAgfSwgW2FjdGl2ZVBhdGgsIHBhdGhuYW1lLCBzZWFyY2hQYXJhbXNdKTsKCiAgY29uc3QgaGFuZGxlVG9nZ2xlID0gdXNlQ2FsbGJhY2soKCkgPT4gewogICAgY29uc3QgbmV3U3RhdGUgPSAhaXNDb2xsYXBzZWQ7CiAgICBzZXRJc0NvbGxhcHNlZChuZXdTdGF0ZSk7CiAgICBsb2NhbFN0b3JhZ2Uuc2V0SXRlbSgnc2lkZWJhckNvbGxhcHNlZCcsIEpTT04uc3RyaW5naWZ5KG5ld1N0YXRlKSk7CiAgICBpZiAodHlwZW9mIHdpbmRvdyAhPT0gJ3VuZGVmaW5lZCcpIHsKICAgICAgd2luZG93Ll9fc2lkZWJhckNvbGxhcHNlZCA9IG5ld1N0YXRlOwogICAgfQogICAgb25Ub2dnbGU/LihuZXdTdGF0ZSk7CiAgfSwgW2lzQ29sbGFwc2VkLCBvblRvZ2dsZV0pOwoKICBjb25zdCBoYW5kbGVTZWFyY2hDbGljayA9IHVzZUNhbGxiYWNrKCgpID0+IHsKICAgIHJvdXRlci5wdXNoKCcvc2VhcmNoJyk7CiAgfSwgW3JvdXRlcl0pOwoKICBjb25zdCBjb250ZXh0VmFsdWUgPSB7CiAgICBpc0NvbGxhcHNlZCwKICB9OwoKICBjb25zdCBbbWVudUl0ZW1zLCBzZXRNZW51SXRlbXNdID0gdXNlU3RhdGUoWwogICAgewogICAgICBpY29uOiBGaWxtLAogICAgICBsYWJlbDogJ+eUteW9sScsCiAgICAgIGhyZWY6ICcvZG91YmFuP3R5cGU9bW92aWUnLAogICAgfSwKICAgIHsKICAgICAgaWNvbjogVHYsCiAgICAgIGxhYmVsOiAn5Ymn6ZuGJywKICAgICAgaHJlZjogJy9kb3ViYW4/dHlwZT10dicsCiAgICB9LAogICAgewogICAgICBpY29uOiBDbG92ZXIsCiAgICAgIGxhYmVsOiAn57u86Im6JywKICAgICAgaHJlZjogJy9kb3ViYW4/dHlwZT1zaG93JywKICAgIH0sCiAgXSk7CgogIHVzZUVmZmVjdCgoKSA9PiB7CiAgICBjb25zdCBydW50aW1lQ29uZmlnID0gKHdpbmRvdyBhcyBhbnkpLlJVTlRJTUVfQ09ORklHOwogICAgaWYgKHJ1bnRpbWVDb25maWc/LkNVU1RPTV9DQVRFR09SSUVTPy5sZW5ndGggPiAwKSB7CiAgICAgIHNldE1lbnVJdGVtcygocHJldkl0ZW1zKSA9PiBbCiAgICAgICAgLi4ucHJldkl0ZW1zLAogICAgICAgIHsKICAgICAgICAgIGljb246IFN0YXIsCiAgICAgICAgICBsYWJlbDogJ+iHquWumuS5iScsCiAgICAgICAgICBocmVmOiAnL2RvdWJhbj90eXBlPWN1c3RvbScsCiAgICAgICAgfSwKICAgICAgXSk7CiAgICB9CiAgfSwgW10pOwoKICByZXR1cm4gKAogICAgPFNpZGViYXJDb250ZXh0LlByb3ZpZGVyIHZhbHVlPXtjb250ZXh0VmFsdWV9PgogICAgICB7Lyog5Zyo56e75Yqo56uv6ZqQ6JeP5L6n6L655qCPICovfQogICAgICA8ZGl2IGNsYXNzTmFtZT0naGlkZGVuIG1kOmZsZXgnPgogICAgICAgIDxhc2lkZQogICAgICAgICAgZGF0YS1zaWRlYmFyCiAgICAgICAgICBjbGFzc05hbWU9e2BmaXhlZCB0b3AtMCBsZWZ0LTAgaC1zY3JlZW4gYmctd2hpdGUvNDAgYmFja2Ryb3AtYmx1ci14bCB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0zMDAgYm9yZGVyLXIgYm9yZGVyLWdyYXktMjAwLzUwIHotMTAgc2hhZG93LWxnIGRhcms6YmctZ3JheS05MDAvNzAgZGFyazpib3JkZXItZ3JheS03MDAvNTAgJHsKICAgICAgICAgICAgaXNDb2xsYXBzZWQgPyAndy0xNicgOiAndy02NCcKICAgICAgICAgIH1gfQogICAgICAgICAgc3R5bGU9e3sKICAgICAgICAgICAgYmFja2Ryb3BGaWx0ZXI6ICdibHVyKDIwcHgpJywKICAgICAgICAgICAgV2Via2l0QmFja2Ryb3BGaWx0ZXI6ICdibHVyKDIwcHgpJywKICAgICAgICAgIH19CiAgICAgICAgPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9J2ZsZXggaC1mdWxsIGZsZXgtY29sJz4KICAgICAgICAgICAgey8qIOmhtumDqCBMb2dvIOWMuuWfnyAqL30KICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9J3JlbGF0aXZlIGgtMTYnPgogICAgICAgICAgICAgIDxkaXYKICAgICAgICAgICAgICAgIGNsYXNzTmFtZT17YGFic29sdXRlIGluc2V0LTAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgdHJhbnNpdGlvbi1vcGFjaXR5IGR1cmF0aW9uLTIwMCAkewogICAgICAgICAgICAgICAgICBpc0NvbGxhcHNlZCA/ICdvcGFjaXR5LTAnIDogJ29wYWNpdHktMTAwJwogICAgICAgICAgICAgICAgfWB9CiAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9J3ctW2NhbGMoMTAwJS00cmVtKV0gZmxleCBqdXN0aWZ5LWNlbnRlcic+CiAgICAgICAgICAgICAgICAgIHshaXNDb2xsYXBzZWQgJiYgPExvZ28gLz59CiAgICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgICA8YnV0dG9uCiAgICAgICAgICAgICAgICBvbkNsaWNrPXtoYW5kbGVUb2dnbGV9CiAgICAgICAgICAgICAgICBjbGFzc05hbWU9e2BhYnNvbHV0ZSB0b3AtMS8yIC10cmFuc2xhdGUteS0xLzIgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgdy04IGgtOCByb3VuZGVkLWxnIHRleHQtZ3JheS01MDAgaG92ZXI6dGV4dC1ncmF5LTcwMCBob3ZlcjpiZy1ncmF5LTEwMC81MCB0cmFuc2l0aW9uLWNvbG9ycyBkdXJhdGlvbi0yMDAgei0xMCBkYXJrOnRleHQtZ3JheS00MDAgZGFyazpob3Zlcjp0ZXh0LWdyYXktMjAwIGRhcms6aG92ZXI6YmctZ3JheS03MDAvNTAgJHsKICAgICAgICAgICAgICAgICAgaXNDb2xsYXBzZWQgPyAnbGVmdC0xLzIgLXRyYW5zbGF0ZS14LTEvMicgOiAncmlnaHQtMicKICAgICAgICAgICAgICAgIH1gfQogICAgICAgICAgICAgID4KICAgICAgICAgICAgICAgIDxNZW51IGNsYXNzTmFtZT0naC00IHctNCcgLz4KICAgICAgICAgICAgICA8L2J1dHRvbj4KICAgICAgICAgICAgPC9kaXY+CgogICAgICAgICAgICB7Lyog6aaW6aG15ZKM5pCc57Si5a+86IiqICovfQogICAgICAgICAgICA8bmF2IGNsYXNzTmFtZT0ncHgtMiBtdC00IHNwYWNlLXktMSc+CiAgICAgICAgICAgICAgPExpbmsKICAgICAgICAgICAgICAgIGhyZWY9Jy8nCiAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiBzZXRBY3RpdmUoJy8nKX0KICAgICAgICAgICAgICAgIGRhdGEtYWN0aXZlPXthY3RpdmUgPT09ICcvJ30KICAgICAgICAgICAgICAgIGNsYXNzTmFtZT17YGdyb3VwIGZsZXggaXRlbXMtY2VudGVyIHJvdW5kZWQtbGcgcHgtMiBweS0yIHBsLTQgdGV4dC1ncmF5LTcwMCBob3ZlcjpiZy1ncmF5LTEwMC8zMCBob3Zlcjp0ZXh0LWdyZWVuLTYwMCBkYXRhLVthY3RpdmU9dHJ1ZV06YmctZ3JlZW4tNTAwLzIwIGRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTcwMCBmb250LW1lZGl1bSB0cmFuc2l0aW9uLWNvbG9ycyBkdXJhdGlvbi0yMDAgbWluLWgtWzQwcHhdIGRhcms6dGV4dC1ncmF5LTMwMCBkYXJrOmhvdmVyOnRleHQtZ3JlZW4tNDAwIGRhcms6ZGF0YS1bYWN0aXZlPXRydWVdOmJnLWdyZWVuLTUwMC8xMCBkYXJrOmRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTQwMCAkewogICAgICAgICAgICAgICAgICBpc0NvbGxhcHNlZCA/ICd3LWZ1bGwgbWF4LXctbm9uZSBteC0wJyA6ICdteC0wJwogICAgICAgICAgICAgICAgfSBnYXAtMyBqdXN0aWZ5LXN0YXJ0YH0KICAgICAgICAgICAgICA+CiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ndy00IGgtNCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlcic+CiAgICAgICAgICAgICAgICAgIDxIb21lIGNsYXNzTmFtZT0naC00IHctNCB0ZXh0LWdyYXktNTAwIGdyb3VwLWhvdmVyOnRleHQtZ3JlZW4tNjAwIGRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTcwMCBkYXJrOnRleHQtZ3JheS00MDAgZGFyazpncm91cC1ob3Zlcjp0ZXh0LWdyZWVuLTQwMCBkYXJrOmRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTQwMCcgLz4KICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgeyFpc0NvbGxhcHNlZCAmJiAoCiAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0nd2hpdGVzcGFjZS1ub3dyYXAgdHJhbnNpdGlvbi1vcGFjaXR5IGR1cmF0aW9uLTIwMCBvcGFjaXR5LTEwMCc+CiAgICAgICAgICAgICAgICAgICAg6aaW6aG1CiAgICAgICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgICAgICl9CiAgICAgICAgICAgICAgPC9MaW5rPgogICAgICAgICAgICAgIDxMaW5rCiAgICAgICAgICAgICAgICBocmVmPScvc2VhcmNoJwogICAgICAgICAgICAgICAgb25DbGljaz17KGUpID0+IHsKICAgICAgICAgICAgICAgICAgZS5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgICAgICAgICAgICBoYW5kbGVTZWFyY2hDbGljaygpOwogICAgICAgICAgICAgICAgICBzZXRBY3RpdmUoJy9zZWFyY2gnKTsKICAgICAgICAgICAgICAgIH19CiAgICAgICAgICAgICAgICBkYXRhLWFjdGl2ZT17YWN0aXZlID09PSAnL3NlYXJjaCd9CiAgICAgICAgICAgICAgICBjbGFzc05hbWU9e2Bncm91cCBmbGV4IGl0ZW1zLWNlbnRlciByb3VuZGVkLWxnIHB4LTIgcHktMiBwbC00IHRleHQtZ3JheS03MDAgaG92ZXI6YmctZ3JheS0xMDAvMzAgaG92ZXI6dGV4dC1ncmVlbi02MDAgZGF0YS1bYWN0aXZlPXRydWVdOmJnLWdyZWVuLTUwMC8yMCBkYXRhLVthY3RpdmU9dHJ1ZV06dGV4dC1ncmVlbi03MDAgZm9udC1tZWRpdW0gdHJhbnNpdGlvbi1jb2xvcnMgZHVyYXRpb24tMjAwIG1pbi1oLVs0MHB4XSBkYXJrOnRleHQtZ3JheS0zMDAgZGFyazpob3Zlcjp0ZXh0LWdyZWVuLTQwMCBkYXJrOmRhdGEtW2FjdGl2ZT10cnVlXTpiZy1ncmVlbi01MDAvMTAgZGFyazpkYXRhLVthY3RpdmU9dHJ1ZV06dGV4dC1ncmVlbi00MDAgJHsKICAgICAgICAgICAgICAgICAgaXNDb2xsYXBzZWQgPyAndy1mdWxsIG1heC13LW5vbmUgbXgtMCcgOiAnbXgtMCcKICAgICAgICAgICAgICAgIH0gZ2FwLTMganVzdGlmeS1zdGFydGB9CiAgICAgICAgICAgICAgPgogICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9J3ctNCBoLTQgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXInPgogICAgICAgICAgICAgICAgICA8U2VhcmNoIGNsYXNzTmFtZT0naC00IHctNCB0ZXh0LWdyYXktNTAwIGdyb3VwLWhvdmVyOnRleHQtZ3JlZW4tNjAwIGRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTcwMCBkYXJrOnRleHQtZ3JheS00MDAgZGFyazpncm91cC1ob3Zlcjp0ZXh0LWdyZWVuLTQwMCBkYXJrOmRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTQwMCcgLz4KICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgeyFpc0NvbGxhcHNlZCAmJiAoCiAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0nd2hpdGVzcGFjZS1ub3dyYXAgdHJhbnNpdGlvbi1vcGFjaXR5IGR1cmF0aW9uLTIwMCBvcGFjaXR5LTEwMCc+CiAgICAgICAgICAgICAgICAgICAg5pCc57SiCiAgICAgICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgICAgICl9CiAgICAgICAgICAgICAgPC9MaW5rPgogICAgICAgICAgICA8L25hdj4KCiAgICAgICAgICAgIHsvKiDoj5zljZXpobkgKi99CiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSdmbGV4LTEgb3ZlcmZsb3cteS1hdXRvIHB4LTIgcHQtNCc+CiAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9J3NwYWNlLXktMSc+CiAgICAgICAgICAgICAgICB7bWVudUl0ZW1zLm1hcCgoaXRlbSkgPT4gewogICAgICAgICAgICAgICAgICAvLyDmo4Dmn6XlvZPliY3ot6/lvoTmmK/lkKbljLnphY3ov5nkuKroj5zljZXpobkKICAgICAgICAgICAgICAgICAgY29uc3QgdHlwZU1hdGNoID0gaXRlbS5ocmVmLm1hdGNoKC90eXBlPShbXiZdKykvKT8uWzFdOwoKICAgICAgICAgICAgICAgICAgLy8g6Kej56CBVVJM5Lul6L+b6KGM5q2j56Gu55qE5q+U6L6DCiAgICAgICAgICAgICAgICAgIGNvbnN0IGRlY29kZWRBY3RpdmUgPSBkZWNvZGVVUklDb21wb25lbnQoYWN0aXZlKTsKICAgICAgICAgICAgICAgICAgY29uc3QgZGVjb2RlZEl0ZW1IcmVmID0gZGVjb2RlVVJJQ29tcG9uZW50KGl0ZW0uaHJlZik7CgogICAgICAgICAgICAgICAgICBjb25zdCBpc0FjdGl2ZSA9CiAgICAgICAgICAgICAgICAgICAgZGVjb2RlZEFjdGl2ZSA9PT0gZGVjb2RlZEl0ZW1IcmVmIHx8CiAgICAgICAgICAgICAgICAgICAgKGRlY29kZWRBY3RpdmUuc3RhcnRzV2l0aCgnL2RvdWJhbicpICYmCiAgICAgICAgICAgICAgICAgICAgICBkZWNvZGVkQWN0aXZlLmluY2x1ZGVzKGB0eXBlPSR7dHlwZU1hdGNofWApKTsKICAgICAgICAgICAgICAgICAgY29uc3QgSWNvbiA9IGl0ZW0uaWNvbjsKICAgICAgICAgICAgICAgICAgcmV0dXJuICgKICAgICAgICAgICAgICAgICAgICA8TGluawogICAgICAgICAgICAgICAgICAgICAga2V5PXtpdGVtLmxhYmVsfQogICAgICAgICAgICAgICAgICAgICAgaHJlZj17aXRlbS5ocmVmfQogICAgICAgICAgICAgICAgICAgICAgb25DbGljaz17KCkgPT4gc2V0QWN0aXZlKGl0ZW0uaHJlZil9CiAgICAgICAgICAgICAgICAgICAgICBkYXRhLWFjdGl2ZT17aXNBY3RpdmV9CiAgICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9e2Bncm91cCBmbGV4IGl0ZW1zLWNlbnRlciByb3VuZGVkLWxnIHB4LTIgcHktMiBwbC00IHRleHQtc20gdGV4dC1ncmF5LTcwMCBob3ZlcjpiZy1ncmF5LTEwMC8zMCBob3Zlcjp0ZXh0LWdyZWVuLTYwMCBkYXRhLVthY3RpdmU9dHJ1ZV06YmctZ3JlZW4tNTAwLzIwIGRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTcwMCB0cmFuc2l0aW9uLWNvbG9ycyBkdXJhdGlvbi0yMDAgbWluLWgtWzQwcHhdIGRhcms6dGV4dC1ncmF5LTMwMCBkYXJrOmhvdmVyOnRleHQtZ3JlZW4tNDAwIGRhcms6ZGF0YS1bYWN0aXZlPXRydWVdOmJnLWdyZWVuLTUwMC8xMCBkYXJrOmRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTQwMCAkewogICAgICAgICAgICAgICAgICAgICAgICBpc0NvbGxhcHNlZCA/ICd3LWZ1bGwgbWF4LXctbm9uZSBteC0wJyA6ICdteC0wJwogICAgICAgICAgICAgICAgICAgICAgfSBnYXAtMyBqdXN0aWZ5LXN0YXJ0YH0KICAgICAgICAgICAgICAgICAgICA+CiAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ndy00IGgtNCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlcic+CiAgICAgICAgICAgICAgICAgICAgICAgIDxJY29uIGNsYXNzTmFtZT0naC00IHctNCB0ZXh0LWdyYXktNTAwIGdyb3VwLWhvdmVyOnRleHQtZ3JlZW4tNjAwIGRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTcwMCBkYXJrOnRleHQtZ3JheS00MDAgZGFyazpncm91cC1ob3Zlcjp0ZXh0LWdyZWVuLTQwMCBkYXJrOmRhdGEtW2FjdGl2ZT10cnVlXTp0ZXh0LWdyZWVuLTQwMCcgLz4KICAgICAgICAgICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgICAgICAgeyFpc0NvbGxhcHNlZCAmJiAoCiAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0nd2hpdGVzcGFjZS1ub3dyYXAgdHJhbnNpdGlvbi1vcGFjaXR5IGR1cmF0aW9uLTIwMCBvcGFjaXR5LTEwMCc+CiAgICAgICAgICAgICAgICAgICAgICAgICAge2l0ZW0ubGFiZWx9CiAgICAgICAgICAgICAgICAgICAgICAgIDwvc3Bhbj4KICAgICAgICAgICAgICAgICAgICAgICl9CiAgICAgICAgICAgICAgICAgICAgPC9MaW5rPgogICAgICAgICAgICAgICAgICApOwogICAgICAgICAgICAgICAgfSl9CiAgICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9hc2lkZT4KICAgICAgICA8ZGl2CiAgICAgICAgICBjbGFzc05hbWU9e2B0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0zMDAgc2lkZWJhci1vZmZzZXQgJHsKICAgICAgICAgICAgaXNDb2xsYXBzZWQgPyAndy0xNicgOiAndy02NCcKICAgICAgICAgIH1gfQogICAgICAgID48L2Rpdj4KICAgICAgPC9kaXY+CiAgICA8L1NpZGViYXJDb250ZXh0LlByb3ZpZGVyPgogICk7Cn07CgpleHBvcnQgZGVmYXVsdCBTaWRlYmFyOwo=
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+'use client';
+
+import { Clover, Film, Home, Menu, Search, Star, Tv } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
+
+import { useSite } from './SiteProvider';
+
+interface SidebarContextType {
+  isCollapsed: boolean;
+}
+
+const SidebarContext = createContext<SidebarContextType>({
+  isCollapsed: false,
+});
+
+export const useSidebar = () => useContext(SidebarContext);
+
+// 可替换为你自己的 logo 图片
+const Logo = () => {
+  const { siteName } = useSite();
+  return (
+    <Link
+      href='/'
+      className='flex items-center justify-center h-16 select-none hover:opacity-80 transition-opacity duration-200'
+    >
+      <span className='text-2xl font-bold text-green-600 tracking-tight'>
+        {siteName}
+      </span>
+    </Link>
+  );
+};
+
+interface SidebarProps {
+  onToggle?: (collapsed: boolean) => void;
+  activePath?: string;
+}
+
+// 在浏览器环境下通过全局变量缓存折叠状态，避免组件重新挂载时出现初始值闪烁
+declare global {
+  interface Window {
+    __sidebarCollapsed?: boolean;
+  }
+}
+
+const Sidebar = ({ onToggle, activePath = '/' }: SidebarProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  // 若同一次 SPA 会话中已经读取过折叠状态，则直接复用，避免闪烁
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.__sidebarCollapsed === 'boolean'
+    ) {
+      return window.__sidebarCollapsed;
+    }
+    return false; // 默认展开
+  });
+
+  // 首次挂载时读取 localStorage，以便刷新后仍保持上次的折叠状态
+  useLayoutEffect(() => {
+    const saved = localStorage.getItem('sidebarCollapsed');
+    if (saved !== null) {
+      const val = JSON.parse(saved);
+      setIsCollapsed(val);
+      window.__sidebarCollapsed = val;
+    }
+  }, []);
+
+  // 当折叠状态变化时，同步到 <html> data 属性，供首屏 CSS 使用
+  useLayoutEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (isCollapsed) {
+        document.documentElement.dataset.sidebarCollapsed = 'true';
+      } else {
+        delete document.documentElement.dataset.sidebarCollapsed;
+      }
+    }
+  }, [isCollapsed]);
+
+  const [active, setActive] = useState(activePath);
+
+  useEffect(() => {
+    // 优先使用传入的 activePath
+    if (activePath) {
+      setActive(activePath);
+    } else {
+      // 否则使用当前路径
+      const getCurrentFullPath = () => {
+        const queryString = searchParams.toString();
+        return queryString ? `${pathname}?${queryString}` : pathname;
+      };
+      const fullPath = getCurrentFullPath();
+      setActive(fullPath);
+    }
+  }, [activePath, pathname, searchParams]);
+
+  const handleToggle = useCallback(() => {
+    const newState = !isCollapsed;
+    setIsCollapsed(newState);
+    localStorage.setItem('sidebarCollapsed', JSON.stringify(newState));
+    if (typeof window !== 'undefined') {
+      window.__sidebarCollapsed = newState;
+    }
+    onToggle?.(newState);
+  }, [isCollapsed, onToggle]);
+
+  const handleSearchClick = useCallback(() => {
+    router.push('/search');
+  }, [router]);
+
+  const contextValue = {
+    isCollapsed,
+  };
+
+  const [menuItems, setMenuItems] = useState([
+    {
+      icon: Film,
+      label: '电影',
+      href: '/douban?type=movie',
+    },
+    {
+      icon: Tv,
+      label: '剧集',
+      href: '/douban?type=tv',
+    },
+    {
+      icon: Clover,
+      label: '综艺',
+      href: '/douban?type=show',
+    },
+  ]);
+
+  useEffect(() => {
+    const runtimeConfig = (window as any).RUNTIME_CONFIG;
+    if (runtimeConfig?.CUSTOM_CATEGORIES?.length > 0) {
+      setMenuItems((prevItems) => [
+        ...prevItems,
+        {
+          icon: Star,
+          label: '自定义',
+          href: '/douban?type=custom',
+        },
+      ]);
+    }
+  }, []);
+
+  return (
+    <SidebarContext.Provider value={contextValue}>
+      {/* 在移动端隐藏侧边栏 */}
+      <div className='hidden md:flex'>
+        <aside
+          data-sidebar
+          className={`fixed top-0 left-0 h-screen bg-white/40 backdrop-blur-xl transition-all duration-300 border-r border-gray-200/50 z-10 shadow-lg dark:bg-gray-900/70 dark:border-gray-700/50 ${
+            isCollapsed ? 'w-16' : 'w-64'
+          }`}
+          style={{
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+          }}
+        >
+          <div className='flex h-full flex-col'>
+            {/* 顶部 Logo 区域 */}
+            <div className='relative h-16'>
+              <div
+                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-200 ${
+                  isCollapsed ? 'opacity-0' : 'opacity-100'
+                }`}
+              >
+                <div className='w-[calc(100%-4rem)] flex justify-center'>
+                  {!isCollapsed && <Logo />}
+                </div>
+              </div>
+              <button
+                onClick={handleToggle}
+                className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 transition-colors duration-200 z-10 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-700/50 ${
+                  isCollapsed ? 'left-1/2 -translate-x-1/2' : 'right-2'
+                }`}
+              >
+                <Menu className='h-4 w-4' />
+              </button>
+            </div>
+
+            {/* 首页和搜索导航 */}
+            <nav className='px-2 mt-4 space-y-1'>
+              <Link
+                href='/'
+                onClick={() => setActive('/')}
+                data-active={active === '/'}
+                className={`group flex items-center rounded-lg px-2 py-2 pl-4 text-gray-700 hover:bg-gray-100/30 hover:text-green-600 data-[active=true]:bg-green-500/20 data-[active=true]:text-green-700 font-medium transition-colors duration-200 min-h-[40px] dark:text-gray-300 dark:hover:text-green-400 dark:data-[active=true]:bg-green-500/10 dark:data-[active=true]:text-green-400 ${
+                  isCollapsed ? 'w-full max-w-none mx-0' : 'mx-0'
+                } gap-3 justify-start`}
+              >
+                <div className='w-4 h-4 flex items-center justify-center'>
+                  <Home className='h-4 w-4 text-gray-500 group-hover:text-green-600 data-[active=true]:text-green-700 dark:text-gray-400 dark:group-hover:text-green-400 dark:data-[active=true]:text-green-400' />
+                </div>
+                {!isCollapsed && (
+                  <span className='whitespace-nowrap transition-opacity duration-200 opacity-100'>
+                    首页
+                  </span>
+                )}
+              </Link>
+              <Link
+                href='/search'
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSearchClick();
+                  setActive('/search');
+                }}
+                data-active={active === '/search'}
+                className={`group flex items-center rounded-lg px-2 py-2 pl-4 text-gray-700 hover:bg-gray-100/30 hover:text-green-600 data-[active=true]:bg-green-500/20 data-[active=true]:text-green-700 font-medium transition-colors duration-200 min-h-[40px] dark:text-gray-300 dark:hover:text-green-400 dark:data-[active=true]:bg-green-500/10 dark:data-[active=true]:text-green-400 ${
+                  isCollapsed ? 'w-full max-w-none mx-0' : 'mx-0'
+                } gap-3 justify-start`}
+              >
+                <div className='w-4 h-4 flex items-center justify-center'>
+                  <Search className='h-4 w-4 text-gray-500 group-hover:text-green-600 data-[active=true]:text-green-700 dark:text-gray-400 dark:group-hover:text-green-400 dark:data-[active=true]:text-green-400' />
+                </div>
+                {!isCollapsed && (
+                  <span className='whitespace-nowrap transition-opacity duration-200 opacity-100'>
+                    搜索
+                  </span>
+                )}
+              </Link>
+            </nav>
+
+            {/* 菜单项 */}
+            <div className='flex-1 overflow-y-auto px-2 pt-4'>
+              <div className='space-y-1'>
+                {menuItems.map((item) => {
+                  // 检查当前路径是否匹配这个菜单项
+                  const typeMatch = item.href.match(/type=([^&]+)/)?.[1];
+
+                  // 解码URL以进行正确的比较
+                  const decodedActive = decodeURIComponent(active);
+                  const decodedItemHref = decodeURIComponent(item.href);
+
+                  const isActive =
+                    decodedActive === decodedItemHref ||
+                    (decodedActive.startsWith('/douban') &&
+                      decodedActive.includes(`type=${typeMatch}`));
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setActive(item.href)}
+                      data-active={isActive}
+                      className={`group flex items-center rounded-lg px-2 py-2 pl-4 text-sm text-gray-700 hover:bg-gray-100/30 hover:text-green-600 data-[active=true]:bg-green-500/20 data-[active=true]:text-green-700 transition-colors duration-200 min-h-[40px] dark:text-gray-300 dark:hover:text-green-400 dark:data-[active=true]:bg-green-500/10 dark:data-[active=true]:text-green-400 ${
+                        isCollapsed ? 'w-full max-w-none mx-0' : 'mx-0'
+                      } gap-3 justify-start`}
+                    >
+                      <div className='w-4 h-4 flex items-center justify-center'>
+                        <Icon className='h-4 w-4 text-gray-500 group-hover:text-green-600 data-[active=true]:text-green-700 dark:text-gray-400 dark:group-hover:text-green-400 dark:data-[active=true]:text-green-400' />
+                      </div>
+                      {!isCollapsed && (
+                        <span className='whitespace-nowrap transition-opacity duration-200 opacity-100'>
+                          {item.label}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </aside>
+        <div
+          className={`transition-all duration-300 sidebar-offset ${
+            isCollapsed ? 'w-16' : 'w-64'
+          }`}
+        ></div>
+      </div>
+    </SidebarContext.Provider>
+  );
+};
+
+export default Sidebar;
