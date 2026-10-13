@@ -1,1 +1,61 @@
-IyEvdXNyL2Jpbi9lbnYgbm9kZQovKiBlc2xpbnQtZGlzYWJsZSAqLwovLyBBVVRPLUdFTkVSQVRFRCBTQ1JJUFQ6IENvbnZlcnRzIGNvbmZpZy5qc29uIHRvIFR5cGVTY3JpcHQgZGVmaW5pdGlvbi4KLy8gVXNhZ2U6IG5vZGUgc2NyaXB0cy9jb252ZXJ0LWNvbmZpZy5qcwoKY29uc3QgZnMgPSByZXF1aXJlKCdmcycpOwpjb25zdCBwYXRoID0gcmVxdWlyZSgncGF0aCcpOwoKLy8gUmVzb2x2ZSBwcm9qZWN0IHJvb3QgKG9uZSBsZXZlbCB1cCBmcm9tIHNjcmlwdHMgZm9sZGVyKQpjb25zdCBwcm9qZWN0Um9vdCA9IHBhdGgucmVzb2x2ZShfX2Rpcm5hbWUsICcuLicpOwoKLy8gUGF0aHMKY29uc3QgY29uZmlnUGF0aCA9IHBhdGguam9pbihwcm9qZWN0Um9vdCwgJ2NvbmZpZy5qc29uJyk7CmNvbnN0IGxpYkRpciA9IHBhdGguam9pbihwcm9qZWN0Um9vdCwgJ3NyYycsICdsaWInKTsKY29uc3Qgb2xkUnVudGltZVBhdGggPSBwYXRoLmpvaW4obGliRGlyLCAncnVudGltZS50cycpOwpjb25zdCBuZXdSdW50aW1lUGF0aCA9IHBhdGguam9pbihsaWJEaXIsICdydW50aW1lLnRzJyk7CgovLyBEZWxldGUgdGhlIG9sZCBydW50aW1lLnRzIGZpbGUgaWYgaXQgZXhpc3RzCmlmIChmcy5leGlzdHNTeW5jKG9sZFJ1bnRpbWVQYXRoKSkgewogIGZzLnVubGlua1N5bmMob2xkUnVudGltZVBhdGgpOwogIGNvbnNvbGUubG9nKCfml6fnmoQgcnVudGltZS50cyDlt7LliKDpmaQnKTsKfQoKLy8gUmVhZCBhbmQgcGFyc2UgY29uZmlnLmpzb24KbGV0IHJhd0NvbmZpZzsKdHJ5IHsKICByYXdDb25maWcgPSBmcy5yZWFkRmlsZVN5bmMoY29uZmlnUGF0aCwgJ3V0ZjgnKTsKfSBjYXRjaCAoZXJyKSB7CiAgY29uc29sZS5lcnJvcihg5peg5rOV6K+75Y+WICR7Y29uZmlnUGF0aH06YCwgZXJyKTsKICBwcm9jZXNzLmV4aXQoMSk7Cn0KCmxldCBjb25maWc7CnRyeSB7CiAgY29uZmlnID0gSlNPTi5wYXJzZShyYXdDb25maWcpOwp9IGNhdGNoIChlcnIpIHsKICBjb25zb2xlLmVycm9yKCdjb25maWcuanNvbiDkuI3mmK/mnInmlYjnmoQgSlNPTjonLCBlcnIpOwogIHByb2Nlc3MuZXhpdCgxKTsKfQoKLy8gUHJlcGFyZSBUeXBlU2NyaXB0IGZpbGUgY29udGVudApjb25zdCB0c0NvbnRlbnQgPQogIGAvLyDor6Xmlofku7bnlLEgc2NyaXB0cy9jb252ZXJ0LWNvbmZpZy5qcyDoh6rliqjnlJ/miJDvvIzor7fli7/miYvliqjkv67mlLlcbmAgKwogIGAvKiBlc2xpbnQtZGlzYWJsZSAqL1xuXG5gICsKICBgZXhwb3J0IGNvbnN0IGNvbmZpZyA9ICR7SlNPTi5zdHJpbmdpZnkoY29uZmlnLCBudWxsLCAyKX0gYXMgY29uc3Q7XG5cbmAgKwogIGBleHBvcnQgdHlwZSBSdW50aW1lQ29uZmlnID0gdHlwZW9mIGNvbmZpZztcblxuYCArCiAgYGV4cG9ydCBkZWZhdWx0IGNvbmZpZztcbmA7CgovLyBFbnN1cmUgbGliIGRpcmVjdG9yeSBleGlzdHMKaWYgKCFmcy5leGlzdHNTeW5jKGxpYkRpcikpIHsKICBmcy5ta2RpclN5bmMobGliRGlyLCB7IHJlY3Vyc2l2ZTogdHJ1ZSB9KTsKfQoKLy8gV3JpdGUgdG8gcnVudGltZS50cwp0cnkgewogIGZzLndyaXRlRmlsZVN5bmMobmV3UnVudGltZVBhdGgsIHRzQ29udGVudCwgJ3V0ZjgnKTsKICBjb25zb2xlLmxvZygn5bey55Sf5oiQIHNyYy9saWIvcnVudGltZS50cycpOwp9IGNhdGNoIChlcnIpIHsKICBjb25zb2xlLmVycm9yKCflhpnlhaUgcnVudGltZS50cyDlpLHotKU6JywgZXJyKTsKICBwcm9jZXNzLmV4aXQoMSk7Cn0K
+#!/usr/bin/env node
+/* eslint-disable */
+// AUTO-GENERATED SCRIPT: Converts config.json to TypeScript definition.
+// Usage: node scripts/convert-config.js
+
+const fs = require('fs');
+const path = require('path');
+
+// Resolve project root (one level up from scripts folder)
+const projectRoot = path.resolve(__dirname, '..');
+
+// Paths
+const configPath = path.join(projectRoot, 'config.json');
+const libDir = path.join(projectRoot, 'src', 'lib');
+const oldRuntimePath = path.join(libDir, 'runtime.ts');
+const newRuntimePath = path.join(libDir, 'runtime.ts');
+
+// Delete the old runtime.ts file if it exists
+if (fs.existsSync(oldRuntimePath)) {
+  fs.unlinkSync(oldRuntimePath);
+  console.log('旧的 runtime.ts 已删除');
+}
+
+// Read and parse config.json
+let rawConfig;
+try {
+  rawConfig = fs.readFileSync(configPath, 'utf8');
+} catch (err) {
+  console.error(`无法读取 ${configPath}:`, err);
+  process.exit(1);
+}
+
+let config;
+try {
+  config = JSON.parse(rawConfig);
+} catch (err) {
+  console.error('config.json 不是有效的 JSON:', err);
+  process.exit(1);
+}
+
+// Prepare TypeScript file content
+const tsContent =
+  `// 该文件由 scripts/convert-config.js 自动生成，请勿手动修改\n` +
+  `/* eslint-disable */\n\n` +
+  `export const config = ${JSON.stringify(config, null, 2)} as const;\n\n` +
+  `export type RuntimeConfig = typeof config;\n\n` +
+  `export default config;\n`;
+
+// Ensure lib directory exists
+if (!fs.existsSync(libDir)) {
+  fs.mkdirSync(libDir, { recursive: true });
+}
+
+// Write to runtime.ts
+try {
+  fs.writeFileSync(newRuntimePath, tsContent, 'utf8');
+  console.log('已生成 src/lib/runtime.ts');
+} catch (err) {
+  console.error('写入 runtime.ts 失败:', err);
+  process.exit(1);
+}
