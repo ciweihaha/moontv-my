@@ -1,1 +1,318 @@
-LyogZXNsaW50LWRpc2FibGUgcmVhY3QtaG9va3MvZXhoYXVzdGl2ZS1kZXBzICovCgondXNlIGNsaWVudCc7CgppbXBvcnQgUmVhY3QsIHsgdXNlRWZmZWN0LCB1c2VSZWYsIHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnOwoKaW50ZXJmYWNlIEN1c3RvbUNhdGVnb3J5IHsKICBuYW1lOiBzdHJpbmc7CiAgdHlwZTogJ21vdmllJyB8ICd0dic7CiAgcXVlcnk6IHN0cmluZzsKfQoKaW50ZXJmYWNlIERvdWJhbkN1c3RvbVNlbGVjdG9yUHJvcHMgewogIGN1c3RvbUNhdGVnb3JpZXM6IEN1c3RvbUNhdGVnb3J5W107CiAgcHJpbWFyeVNlbGVjdGlvbj86IHN0cmluZzsKICBzZWNvbmRhcnlTZWxlY3Rpb24/OiBzdHJpbmc7CiAgb25QcmltYXJ5Q2hhbmdlOiAodmFsdWU6IHN0cmluZykgPT4gdm9pZDsKICBvblNlY29uZGFyeUNoYW5nZTogKHZhbHVlOiBzdHJpbmcpID0+IHZvaWQ7Cn0KCmNvbnN0IERvdWJhbkN1c3RvbVNlbGVjdG9yOiBSZWFjdC5GQzxEb3ViYW5DdXN0b21TZWxlY3RvclByb3BzPiA9ICh7CiAgY3VzdG9tQ2F0ZWdvcmllcywKICBwcmltYXJ5U2VsZWN0aW9uLAogIHNlY29uZGFyeVNlbGVjdGlvbiwKICBvblByaW1hcnlDaGFuZ2UsCiAgb25TZWNvbmRhcnlDaGFuZ2UsCn0pID0+IHsKICAvLyDkuLrkuI3lkIznmoTpgInmi6nlmajliJvlu7rni6znq4vnmoRyZWZz5ZKM54q25oCBCiAgY29uc3QgcHJpbWFyeUNvbnRhaW5lclJlZiA9IHVzZVJlZjxIVE1MRGl2RWxlbWVudD4obnVsbCk7CiAgY29uc3QgcHJpbWFyeUJ1dHRvblJlZnMgPSB1c2VSZWY8KEhUTUxCdXR0b25FbGVtZW50IHwgbnVsbClbXT4oW10pOwogIGNvbnN0IFtwcmltYXJ5SW5kaWNhdG9yU3R5bGUsIHNldFByaW1hcnlJbmRpY2F0b3JTdHlsZV0gPSB1c2VTdGF0ZTx7CiAgICBsZWZ0OiBudW1iZXI7CiAgICB3aWR0aDogbnVtYmVyOwogIH0+KHsgbGVmdDogMCwgd2lkdGg6IDAgfSk7CgogIGNvbnN0IHNlY29uZGFyeUNvbnRhaW5lclJlZiA9IHVzZVJlZjxIVE1MRGl2RWxlbWVudD4obnVsbCk7CiAgY29uc3Qgc2Vjb25kYXJ5QnV0dG9uUmVmcyA9IHVzZVJlZjwoSFRNTEJ1dHRvbkVsZW1lbnQgfCBudWxsKVtdPihbXSk7CiAgY29uc3QgW3NlY29uZGFyeUluZGljYXRvclN0eWxlLCBzZXRTZWNvbmRhcnlJbmRpY2F0b3JTdHlsZV0gPSB1c2VTdGF0ZTx7CiAgICBsZWZ0OiBudW1iZXI7CiAgICB3aWR0aDogbnVtYmVyOwogIH0+KHsgbGVmdDogMCwgd2lkdGg6IDAgfSk7CgogIC8vIOS6jOe6p+mAieaLqeWZqOa7muWKqOWuueWZqOeahHJlZgogIGNvbnN0IHNlY29uZGFyeVNjcm9sbENvbnRhaW5lclJlZiA9IHVzZVJlZjxIVE1MRGl2RWxlbWVudD4obnVsbCk7CgogIC8vIOagueaNriBjdXN0b21DYXRlZ29yaWVzIOeUn+aIkOS4gOe6p+mAieaLqeWZqOmAiemhue+8iOaMiSB0eXBlIOWIhue7hO+8jOeUteW9seS8mOWFiO+8iQogIGNvbnN0IHByaW1hcnlPcHRpb25zID0gUmVhY3QudXNlTWVtbygoKSA9PiB7CiAgICBjb25zdCB0eXBlcyA9IEFycmF5LmZyb20obmV3IFNldChjdXN0b21DYXRlZ29yaWVzLm1hcCgoY2F0KSA9PiBjYXQudHlwZSkpKTsKICAgIC8vIOehruS/neeUteW9seexu+Wei+aOkuWcqOWJjemdogogICAgY29uc3Qgc29ydGVkVHlwZXMgPSB0eXBlcy5zb3J0KChhLCBiKSA9PiB7CiAgICAgIGlmIChhID09PSAnbW92aWUnICYmIGIgIT09ICdtb3ZpZScpIHJldHVybiAtMTsKICAgICAgaWYgKGEgIT09ICdtb3ZpZScgJiYgYiA9PT0gJ21vdmllJykgcmV0dXJuIDE7CiAgICAgIHJldHVybiAwOwogICAgfSk7CiAgICByZXR1cm4gc29ydGVkVHlwZXMubWFwKCh0eXBlKSA9PiAoewogICAgICBsYWJlbDogdHlwZSA9PT0gJ21vdmllJyA/ICfnlLXlvbEnIDogJ+WJp+mbhicsCiAgICAgIHZhbHVlOiB0eXBlLAogICAgfSkpOwogIH0sIFtjdXN0b21DYXRlZ29yaWVzXSk7CgogIC8vIOagueaNrumAieS4reeahOS4gOe6p+mAiemhueeUn+aIkOS6jOe6p+mAieaLqeWZqOmAiemhuQogIGNvbnN0IHNlY29uZGFyeU9wdGlvbnMgPSBSZWFjdC51c2VNZW1vKCgpID0+IHsKICAgIGlmICghcHJpbWFyeVNlbGVjdGlvbikgcmV0dXJuIFtdOwogICAgcmV0dXJuIGN1c3RvbUNhdGVnb3JpZXMKICAgICAgLmZpbHRlcigoY2F0KSA9PiBjYXQudHlwZSA9PT0gcHJpbWFyeVNlbGVjdGlvbikKICAgICAgLm1hcCgoY2F0KSA9PiAoewogICAgICAgIGxhYmVsOiBjYXQubmFtZSB8fCBjYXQucXVlcnksCiAgICAgICAgdmFsdWU6IGNhdC5xdWVyeSwKICAgICAgfSkpOwogIH0sIFtjdXN0b21DYXRlZ29yaWVzLCBwcmltYXJ5U2VsZWN0aW9uXSk7CgogIC8vIOWkhOeQhuS6jOe6p+mAieaLqeWZqOeahOm8oOagh+a7mui9ruS6i+S7tu+8iOWOn+eUnyBET00g5LqL5Lu277yJCiAgY29uc3QgaGFuZGxlU2Vjb25kYXJ5V2hlZWwgPSBSZWFjdC51c2VDYWxsYmFjaygoZTogV2hlZWxFdmVudCkgPT4gewogICAgZS5wcmV2ZW50RGVmYXVsdCgpOwogICAgZS5zdG9wUHJvcGFnYXRpb24oKTsKICAgIGNvbnN0IGNvbnRhaW5lciA9IHNlY29uZGFyeVNjcm9sbENvbnRhaW5lclJlZi5jdXJyZW50OwogICAgaWYgKGNvbnRhaW5lcikgewogICAgICBjb25zdCBzY3JvbGxBbW91bnQgPSBlLmRlbHRhWSAqIDI7CiAgICAgIGNvbnRhaW5lci5zY3JvbGxMZWZ0ICs9IHNjcm9sbEFtb3VudDsKICAgIH0KICB9LCBbXSk7CgogIC8vIOa3u+WKoOS6jOe6p+mAieaLqeWZqOeahOm8oOagh+a7mui9ruS6i+S7tuebkeWQrOWZqAogIHVzZUVmZmVjdCgoKSA9PiB7CiAgICBjb25zdCBzY3JvbGxDb250YWluZXIgPSBzZWNvbmRhcnlTY3JvbGxDb250YWluZXJSZWYuY3VycmVudDsKICAgIGNvbnN0IGNhcHN1bGVDb250YWluZXIgPSBzZWNvbmRhcnlDb250YWluZXJSZWYuY3VycmVudDsKCiAgICBpZiAoc2Nyb2xsQ29udGFpbmVyICYmIGNhcHN1bGVDb250YWluZXIpIHsKICAgICAgLy8g5ZCM5pe255uR5ZCs5rua5Yqo5a655Zmo5ZKM6IO25ZuK5a655Zmo55qE5rua6L2u5LqL5Lu2CiAgICAgIHNjcm9sbENvbnRhaW5lci5hZGRFdmVudExpc3RlbmVyKCd3aGVlbCcsIGhhbmRsZVNlY29uZGFyeVdoZWVsLCB7CiAgICAgICAgcGFzc2l2ZTogZmFsc2UsCiAgICAgIH0pOwogICAgICBjYXBzdWxlQ29udGFpbmVyLmFkZEV2ZW50TGlzdGVuZXIoJ3doZWVsJywgaGFuZGxlU2Vjb25kYXJ5V2hlZWwsIHsKICAgICAgICBwYXNzaXZlOiBmYWxzZSwKICAgICAgfSk7CgogICAgICByZXR1cm4gKCkgPT4gewogICAgICAgIHNjcm9sbENvbnRhaW5lci5yZW1vdmVFdmVudExpc3RlbmVyKCd3aGVlbCcsIGhhbmRsZVNlY29uZGFyeVdoZWVsKTsKICAgICAgICBjYXBzdWxlQ29udGFpbmVyLnJlbW92ZUV2ZW50TGlzdGVuZXIoJ3doZWVsJywgaGFuZGxlU2Vjb25kYXJ5V2hlZWwpOwogICAgICB9OwogICAgfQogIH0sIFtoYW5kbGVTZWNvbmRhcnlXaGVlbF0pOwoKICAvLyDlvZPkuoznuqfpgInpobnlj5jljJbml7bph43mlrDmt7vliqDkuovku7bnm5HlkKzlmagKICB1c2VFZmZlY3QoKCkgPT4gewogICAgY29uc3Qgc2Nyb2xsQ29udGFpbmVyID0gc2Vjb25kYXJ5U2Nyb2xsQ29udGFpbmVyUmVmLmN1cnJlbnQ7CiAgICBjb25zdCBjYXBzdWxlQ29udGFpbmVyID0gc2Vjb25kYXJ5Q29udGFpbmVyUmVmLmN1cnJlbnQ7CgogICAgaWYgKHNjcm9sbENvbnRhaW5lciAmJiBjYXBzdWxlQ29udGFpbmVyICYmIHNlY29uZGFyeU9wdGlvbnMubGVuZ3RoID4gMCkgewogICAgICAvLyDph43mlrDmt7vliqDkuovku7bnm5HlkKzlmagKICAgICAgc2Nyb2xsQ29udGFpbmVyLmFkZEV2ZW50TGlzdGVuZXIoJ3doZWVsJywgaGFuZGxlU2Vjb25kYXJ5V2hlZWwsIHsKICAgICAgICBwYXNzaXZlOiBmYWxzZSwKICAgICAgfSk7CiAgICAgIGNhcHN1bGVDb250YWluZXIuYWRkRXZlbnRMaXN0ZW5lcignd2hlZWwnLCBoYW5kbGVTZWNvbmRhcnlXaGVlbCwgewogICAgICAgIHBhc3NpdmU6IGZhbHNlLAogICAgICB9KTsKCiAgICAgIHJldHVybiAoKSA9PiB7CiAgICAgICAgc2Nyb2xsQ29udGFpbmVyLnJlbW92ZUV2ZW50TGlzdGVuZXIoJ3doZWVsJywgaGFuZGxlU2Vjb25kYXJ5V2hlZWwpOwogICAgICAgIGNhcHN1bGVDb250YWluZXIucmVtb3ZlRXZlbnRMaXN0ZW5lcignd2hlZWwnLCBoYW5kbGVTZWNvbmRhcnlXaGVlbCk7CiAgICAgIH07CiAgICB9CiAgfSwgW2hhbmRsZVNlY29uZGFyeVdoZWVsLCBzZWNvbmRhcnlPcHRpb25zXSk7CgogIC8vIOabtOaWsOaMh+ekuuWZqOS9jee9rueahOmAmueUqOWHveaVsAogIGNvbnN0IHVwZGF0ZUluZGljYXRvclBvc2l0aW9uID0gKAogICAgYWN0aXZlSW5kZXg6IG51bWJlciwKICAgIGNvbnRhaW5lclJlZjogUmVhY3QuUmVmT2JqZWN0PEhUTUxEaXZFbGVtZW50PiwKICAgIGJ1dHRvblJlZnM6IFJlYWN0Lk11dGFibGVSZWZPYmplY3Q8KEhUTUxCdXR0b25FbGVtZW50IHwgbnVsbClbXT4sCiAgICBzZXRJbmRpY2F0b3JTdHlsZTogUmVhY3QuRGlzcGF0Y2g8CiAgICAgIFJlYWN0LlNldFN0YXRlQWN0aW9uPHsgbGVmdDogbnVtYmVyOyB3aWR0aDogbnVtYmVyIH0+CiAgICA+CiAgKSA9PiB7CiAgICBpZiAoCiAgICAgIGFjdGl2ZUluZGV4ID49IDAgJiYKICAgICAgYnV0dG9uUmVmcy5jdXJyZW50W2FjdGl2ZUluZGV4XSAmJgogICAgICBjb250YWluZXJSZWYuY3VycmVudAogICAgKSB7CiAgICAgIGNvbnN0IHRpbWVvdXRJZCA9IHNldFRpbWVvdXQoKCkgPT4gewogICAgICAgIGNvbnN0IGJ1dHRvbiA9IGJ1dHRvblJlZnMuY3VycmVudFthY3RpdmVJbmRleF07CiAgICAgICAgY29uc3QgY29udGFpbmVyID0gY29udGFpbmVyUmVmLmN1cnJlbnQ7CiAgICAgICAgaWYgKGJ1dHRvbiAmJiBjb250YWluZXIpIHsKICAgICAgICAgIGNvbnN0IGJ1dHRvblJlY3QgPSBidXR0b24uZ2V0Qm91bmRpbmdDbGllbnRSZWN0KCk7CiAgICAgICAgICBjb25zdCBjb250YWluZXJSZWN0ID0gY29udGFpbmVyLmdldEJvdW5kaW5nQ2xpZW50UmVjdCgpOwoKICAgICAgICAgIGlmIChidXR0b25SZWN0LndpZHRoID4gMCkgewogICAgICAgICAgICBzZXRJbmRpY2F0b3JTdHlsZSh7CiAgICAgICAgICAgICAgbGVmdDogYnV0dG9uUmVjdC5sZWZ0IC0gY29udGFpbmVyUmVjdC5sZWZ0LAogICAgICAgICAgICAgIHdpZHRoOiBidXR0b25SZWN0LndpZHRoLAogICAgICAgICAgICB9KTsKICAgICAgICAgIH0KICAgICAgICB9CiAgICAgIH0sIDApOwogICAgICByZXR1cm4gKCkgPT4gY2xlYXJUaW1lb3V0KHRpbWVvdXRJZCk7CiAgICB9CiAgfTsKCiAgLy8g57uE5Lu25oyC6L295pe256uL5Y2z6K6h566X5Yid5aeL5L2N572uCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIC8vIOS4u+mAieaLqeWZqOWIneWni+S9jee9rgogICAgaWYgKHByaW1hcnlPcHRpb25zLmxlbmd0aCA+IDApIHsKICAgICAgY29uc3QgYWN0aXZlSW5kZXggPSBwcmltYXJ5T3B0aW9ucy5maW5kSW5kZXgoCiAgICAgICAgKG9wdCkgPT4gb3B0LnZhbHVlID09PSAocHJpbWFyeVNlbGVjdGlvbiB8fCBwcmltYXJ5T3B0aW9uc1swXS52YWx1ZSkKICAgICAgKTsKICAgICAgdXBkYXRlSW5kaWNhdG9yUG9zaXRpb24oCiAgICAgICAgYWN0aXZlSW5kZXgsCiAgICAgICAgcHJpbWFyeUNvbnRhaW5lclJlZiwKICAgICAgICBwcmltYXJ5QnV0dG9uUmVmcywKICAgICAgICBzZXRQcmltYXJ5SW5kaWNhdG9yU3R5bGUKICAgICAgKTsKICAgIH0KCiAgICAvLyDlia/pgInmi6nlmajliJ3lp4vkvY3nva4KICAgIGlmIChzZWNvbmRhcnlPcHRpb25zLmxlbmd0aCA+IDApIHsKICAgICAgY29uc3QgYWN0aXZlSW5kZXggPSBzZWNvbmRhcnlPcHRpb25zLmZpbmRJbmRleCgKICAgICAgICAob3B0KSA9PiBvcHQudmFsdWUgPT09IChzZWNvbmRhcnlTZWxlY3Rpb24gfHwgc2Vjb25kYXJ5T3B0aW9uc1swXS52YWx1ZSkKICAgICAgKTsKICAgICAgdXBkYXRlSW5kaWNhdG9yUG9zaXRpb24oCiAgICAgICAgYWN0aXZlSW5kZXgsCiAgICAgICAgc2Vjb25kYXJ5Q29udGFpbmVyUmVmLAogICAgICAgIHNlY29uZGFyeUJ1dHRvblJlZnMsCiAgICAgICAgc2V0U2Vjb25kYXJ5SW5kaWNhdG9yU3R5bGUKICAgICAgKTsKICAgIH0KICB9LCBbcHJpbWFyeU9wdGlvbnMsIHNlY29uZGFyeU9wdGlvbnNdKTsgLy8g5b2T6YCJ6aG55Y+Y5YyW5pe26YeN5paw6K6h566XCgogIC8vIOebkeWQrOS4u+mAieaLqeWZqOWPmOWMlgogIHVzZUVmZmVjdCgoKSA9PiB7CiAgICBpZiAocHJpbWFyeU9wdGlvbnMubGVuZ3RoID4gMCkgewogICAgICBjb25zdCBhY3RpdmVJbmRleCA9IHByaW1hcnlPcHRpb25zLmZpbmRJbmRleCgKICAgICAgICAob3B0KSA9PiBvcHQudmFsdWUgPT09IHByaW1hcnlTZWxlY3Rpb24KICAgICAgKTsKICAgICAgY29uc3QgY2xlYW51cCA9IHVwZGF0ZUluZGljYXRvclBvc2l0aW9uKAogICAgICAgIGFjdGl2ZUluZGV4LAogICAgICAgIHByaW1hcnlDb250YWluZXJSZWYsCiAgICAgICAgcHJpbWFyeUJ1dHRvblJlZnMsCiAgICAgICAgc2V0UHJpbWFyeUluZGljYXRvclN0eWxlCiAgICAgICk7CiAgICAgIHJldHVybiBjbGVhbnVwOwogICAgfQogIH0sIFtwcmltYXJ5U2VsZWN0aW9uLCBwcmltYXJ5T3B0aW9uc10pOwoKICAvLyDnm5HlkKzlia/pgInmi6nlmajlj5jljJYKICB1c2VFZmZlY3QoKCkgPT4gewogICAgaWYgKHNlY29uZGFyeU9wdGlvbnMubGVuZ3RoID4gMCkgewogICAgICBjb25zdCBhY3RpdmVJbmRleCA9IHNlY29uZGFyeU9wdGlvbnMuZmluZEluZGV4KAogICAgICAgIChvcHQpID0+IG9wdC52YWx1ZSA9PT0gc2Vjb25kYXJ5U2VsZWN0aW9uCiAgICAgICk7CiAgICAgIGNvbnN0IGNsZWFudXAgPSB1cGRhdGVJbmRpY2F0b3JQb3NpdGlvbigKICAgICAgICBhY3RpdmVJbmRleCwKICAgICAgICBzZWNvbmRhcnlDb250YWluZXJSZWYsCiAgICAgICAgc2Vjb25kYXJ5QnV0dG9uUmVmcywKICAgICAgICBzZXRTZWNvbmRhcnlJbmRpY2F0b3JTdHlsZQogICAgICApOwogICAgICByZXR1cm4gY2xlYW51cDsKICAgIH0KICB9LCBbc2Vjb25kYXJ5U2VsZWN0aW9uLCBzZWNvbmRhcnlPcHRpb25zXSk7CgogIC8vIOa4suafk+iDtuWbiuW8j+mAieaLqeWZqAogIGNvbnN0IHJlbmRlckNhcHN1bGVTZWxlY3RvciA9ICgKICAgIG9wdGlvbnM6IHsgbGFiZWw6IHN0cmluZzsgdmFsdWU6IHN0cmluZyB9W10sCiAgICBhY3RpdmVWYWx1ZTogc3RyaW5nIHwgdW5kZWZpbmVkLAogICAgb25DaGFuZ2U6ICh2YWx1ZTogc3RyaW5nKSA9PiB2b2lkLAogICAgaXNQcmltYXJ5ID0gZmFsc2UKICApID0+IHsKICAgIGNvbnN0IGNvbnRhaW5lclJlZiA9IGlzUHJpbWFyeQogICAgICA/IHByaW1hcnlDb250YWluZXJSZWYKICAgICAgOiBzZWNvbmRhcnlDb250YWluZXJSZWY7CiAgICBjb25zdCBidXR0b25SZWZzID0gaXNQcmltYXJ5ID8gcHJpbWFyeUJ1dHRvblJlZnMgOiBzZWNvbmRhcnlCdXR0b25SZWZzOwogICAgY29uc3QgaW5kaWNhdG9yU3R5bGUgPSBpc1ByaW1hcnkKICAgICAgPyBwcmltYXJ5SW5kaWNhdG9yU3R5bGUKICAgICAgOiBzZWNvbmRhcnlJbmRpY2F0b3JTdHlsZTsKCiAgICByZXR1cm4gKAogICAgICA8ZGl2CiAgICAgICAgcmVmPXtjb250YWluZXJSZWZ9CiAgICAgICAgY2xhc3NOYW1lPSdyZWxhdGl2ZSBpbmxpbmUtZmxleCBiZy1ncmF5LTIwMC82MCByb3VuZGVkLWZ1bGwgcC0wLjUgc206cC0xIGRhcms6YmctZ3JheS03MDAvNjAgYmFja2Ryb3AtYmx1ci1zbScKICAgICAgPgogICAgICAgIHsvKiDmu5HliqjnmoTnmb3oibLog4zmma/mjIfnpLrlmaggKi99CiAgICAgICAge2luZGljYXRvclN0eWxlLndpZHRoID4gMCAmJiAoCiAgICAgICAgICA8ZGl2CiAgICAgICAgICAgIGNsYXNzTmFtZT0nYWJzb2x1dGUgdG9wLTAuNSBib3R0b20tMC41IHNtOnRvcC0xIHNtOmJvdHRvbS0xIGJnLXdoaXRlIGRhcms6YmctZ3JheS01MDAgcm91bmRlZC1mdWxsIHNoYWRvdy1zbSB0cmFuc2l0aW9uLWFsbCBkdXJhdGlvbi0zMDAgZWFzZS1vdXQnCiAgICAgICAgICAgIHN0eWxlPXt7CiAgICAgICAgICAgICAgbGVmdDogYCR7aW5kaWNhdG9yU3R5bGUubGVmdH1weGAsCiAgICAgICAgICAgICAgd2lkdGg6IGAke2luZGljYXRvclN0eWxlLndpZHRofXB4YCwKICAgICAgICAgICAgfX0KICAgICAgICAgIC8+CiAgICAgICAgKX0KCiAgICAgICAge29wdGlvbnMubWFwKChvcHRpb24sIGluZGV4KSA9PiB7CiAgICAgICAgICBjb25zdCBpc0FjdGl2ZSA9IGFjdGl2ZVZhbHVlID09PSBvcHRpb24udmFsdWU7CiAgICAgICAgICByZXR1cm4gKAogICAgICAgICAgICA8YnV0dG9uCiAgICAgICAgICAgICAga2V5PXtvcHRpb24udmFsdWV9CiAgICAgICAgICAgICAgcmVmPXsoZWwpID0+IHsKICAgICAgICAgICAgICAgIGJ1dHRvblJlZnMuY3VycmVudFtpbmRleF0gPSBlbDsKICAgICAgICAgICAgICB9fQogICAgICAgICAgICAgIG9uQ2xpY2s9eygpID0+IG9uQ2hhbmdlKG9wdGlvbi52YWx1ZSl9CiAgICAgICAgICAgICAgY2xhc3NOYW1lPXtgcmVsYXRpdmUgei0xMCBweC0yIHB5LTEgc206cHgtNCBzbTpweS0yIHRleHQteHMgc206dGV4dC1zbSBmb250LW1lZGl1bSByb3VuZGVkLWZ1bGwgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMjAwIHdoaXRlc3BhY2Utbm93cmFwICR7CiAgICAgICAgICAgICAgICBpc0FjdGl2ZQogICAgICAgICAgICAgICAgICA/ICd0ZXh0LWdyYXktOTAwIGRhcms6dGV4dC1ncmF5LTEwMCBjdXJzb3ItZGVmYXVsdCcKICAgICAgICAgICAgICAgICAgOiAndGV4dC1ncmF5LTcwMCBob3Zlcjp0ZXh0LWdyYXktOTAwIGRhcms6dGV4dC1ncmF5LTQwMCBkYXJrOmhvdmVyOnRleHQtZ3JheS0xMDAgY3Vyc29yLXBvaW50ZXInCiAgICAgICAgICAgICAgfWB9CiAgICAgICAgICAgID4KICAgICAgICAgICAgICB7b3B0aW9uLmxhYmVsfQogICAgICAgICAgICA8L2J1dHRvbj4KICAgICAgICAgICk7CiAgICAgICAgfSl9CiAgICAgIDwvZGl2PgogICAgKTsKICB9OwoKICAvLyDlpoLmnpzmsqHmnInoh6rlrprkuYnliIbnsbvvvIzliJnkuI3muLLmn5Pku7vkvZXlhoXlrrkKICBpZiAoIWN1c3RvbUNhdGVnb3JpZXMgfHwgY3VzdG9tQ2F0ZWdvcmllcy5sZW5ndGggPT09IDApIHsKICAgIHJldHVybiBudWxsOwogIH0KCiAgcmV0dXJuICgKICAgIDxkaXYgY2xhc3NOYW1lPSdzcGFjZS15LTQgc206c3BhY2UteS02Jz4KICAgICAgey8qIOS4pOe6p+mAieaLqeWZqOWMheijhSAqL30KICAgICAgPGRpdiBjbGFzc05hbWU9J3NwYWNlLXktMyBzbTpzcGFjZS15LTQnPgogICAgICAgIHsvKiDkuIDnuqfpgInmi6nlmaggKi99CiAgICAgICAgPGRpdiBjbGFzc05hbWU9J2ZsZXggZmxleC1jb2wgc206ZmxleC1yb3cgc206aXRlbXMtY2VudGVyIGdhcC0yJz4KICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT0ndGV4dC14cyBzbTp0ZXh0LXNtIGZvbnQtbWVkaXVtIHRleHQtZ3JheS02MDAgZGFyazp0ZXh0LWdyYXktNDAwIG1pbi13LVs0OHB4XSc+CiAgICAgICAgICAgIOexu+WeiwogICAgICAgICAgPC9zcGFuPgogICAgICAgICAgPGRpdiBjbGFzc05hbWU9J292ZXJmbG93LXgtYXV0byc+CiAgICAgICAgICAgIHtyZW5kZXJDYXBzdWxlU2VsZWN0b3IoCiAgICAgICAgICAgICAgcHJpbWFyeU9wdGlvbnMsCiAgICAgICAgICAgICAgcHJpbWFyeVNlbGVjdGlvbiB8fCBwcmltYXJ5T3B0aW9uc1swXT8udmFsdWUsCiAgICAgICAgICAgICAgb25QcmltYXJ5Q2hhbmdlLAogICAgICAgICAgICAgIHRydWUKICAgICAgICAgICAgKX0KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgoKICAgICAgICB7Lyog5LqM57qn6YCJ5oup5ZmoICovfQogICAgICAgIHtzZWNvbmRhcnlPcHRpb25zLmxlbmd0aCA+IDAgJiYgKAogICAgICAgICAgPGRpdiBjbGFzc05hbWU9J2ZsZXggZmxleC1jb2wgc206ZmxleC1yb3cgc206aXRlbXMtY2VudGVyIGdhcC0yJz4KICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPSd0ZXh0LXhzIHNtOnRleHQtc20gZm9udC1tZWRpdW0gdGV4dC1ncmF5LTYwMCBkYXJrOnRleHQtZ3JheS00MDAgbWluLXctWzQ4cHhdJz4KICAgICAgICAgICAgICDniYfljZUKICAgICAgICAgICAgPC9zcGFuPgogICAgICAgICAgICA8ZGl2IHJlZj17c2Vjb25kYXJ5U2Nyb2xsQ29udGFpbmVyUmVmfSBjbGFzc05hbWU9J292ZXJmbG93LXgtYXV0byc+CiAgICAgICAgICAgICAge3JlbmRlckNhcHN1bGVTZWxlY3RvcigKICAgICAgICAgICAgICAgIHNlY29uZGFyeU9wdGlvbnMsCiAgICAgICAgICAgICAgICBzZWNvbmRhcnlTZWxlY3Rpb24gfHwgc2Vjb25kYXJ5T3B0aW9uc1swXT8udmFsdWUsCiAgICAgICAgICAgICAgICBvblNlY29uZGFyeUNoYW5nZSwKICAgICAgICAgICAgICAgIGZhbHNlCiAgICAgICAgICAgICAgKX0KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICApfQogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogICk7Cn07CgpleHBvcnQgZGVmYXVsdCBEb3ViYW5DdXN0b21TZWxlY3RvcjsK
+/* eslint-disable react-hooks/exhaustive-deps */
+
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+
+interface CustomCategory {
+  name: string;
+  type: 'movie' | 'tv';
+  query: string;
+}
+
+interface DoubanCustomSelectorProps {
+  customCategories: CustomCategory[];
+  primarySelection?: string;
+  secondarySelection?: string;
+  onPrimaryChange: (value: string) => void;
+  onSecondaryChange: (value: string) => void;
+}
+
+const DoubanCustomSelector: React.FC<DoubanCustomSelectorProps> = ({
+  customCategories,
+  primarySelection,
+  secondarySelection,
+  onPrimaryChange,
+  onSecondaryChange,
+}) => {
+  // 为不同的选择器创建独立的refs和状态
+  const primaryContainerRef = useRef<HTMLDivElement>(null);
+  const primaryButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [primaryIndicatorStyle, setPrimaryIndicatorStyle] = useState<{
+    left: number;
+    width: number;
+  }>({ left: 0, width: 0 });
+
+  const secondaryContainerRef = useRef<HTMLDivElement>(null);
+  const secondaryButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [secondaryIndicatorStyle, setSecondaryIndicatorStyle] = useState<{
+    left: number;
+    width: number;
+  }>({ left: 0, width: 0 });
+
+  // 二级选择器滚动容器的ref
+  const secondaryScrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // 根据 customCategories 生成一级选择器选项（按 type 分组，电影优先）
+  const primaryOptions = React.useMemo(() => {
+    const types = Array.from(new Set(customCategories.map((cat) => cat.type)));
+    // 确保电影类型排在前面
+    const sortedTypes = types.sort((a, b) => {
+      if (a === 'movie' && b !== 'movie') return -1;
+      if (a !== 'movie' && b === 'movie') return 1;
+      return 0;
+    });
+    return sortedTypes.map((type) => ({
+      label: type === 'movie' ? '电影' : '剧集',
+      value: type,
+    }));
+  }, [customCategories]);
+
+  // 根据选中的一级选项生成二级选择器选项
+  const secondaryOptions = React.useMemo(() => {
+    if (!primarySelection) return [];
+    return customCategories
+      .filter((cat) => cat.type === primarySelection)
+      .map((cat) => ({
+        label: cat.name || cat.query,
+        value: cat.query,
+      }));
+  }, [customCategories, primarySelection]);
+
+  // 处理二级选择器的鼠标滚轮事件（原生 DOM 事件）
+  const handleSecondaryWheel = React.useCallback((e: WheelEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const container = secondaryScrollContainerRef.current;
+    if (container) {
+      const scrollAmount = e.deltaY * 2;
+      container.scrollLeft += scrollAmount;
+    }
+  }, []);
+
+  // 添加二级选择器的鼠标滚轮事件监听器
+  useEffect(() => {
+    const scrollContainer = secondaryScrollContainerRef.current;
+    const capsuleContainer = secondaryContainerRef.current;
+
+    if (scrollContainer && capsuleContainer) {
+      // 同时监听滚动容器和胶囊容器的滚轮事件
+      scrollContainer.addEventListener('wheel', handleSecondaryWheel, {
+        passive: false,
+      });
+      capsuleContainer.addEventListener('wheel', handleSecondaryWheel, {
+        passive: false,
+      });
+
+      return () => {
+        scrollContainer.removeEventListener('wheel', handleSecondaryWheel);
+        capsuleContainer.removeEventListener('wheel', handleSecondaryWheel);
+      };
+    }
+  }, [handleSecondaryWheel]);
+
+  // 当二级选项变化时重新添加事件监听器
+  useEffect(() => {
+    const scrollContainer = secondaryScrollContainerRef.current;
+    const capsuleContainer = secondaryContainerRef.current;
+
+    if (scrollContainer && capsuleContainer && secondaryOptions.length > 0) {
+      // 重新添加事件监听器
+      scrollContainer.addEventListener('wheel', handleSecondaryWheel, {
+        passive: false,
+      });
+      capsuleContainer.addEventListener('wheel', handleSecondaryWheel, {
+        passive: false,
+      });
+
+      return () => {
+        scrollContainer.removeEventListener('wheel', handleSecondaryWheel);
+        capsuleContainer.removeEventListener('wheel', handleSecondaryWheel);
+      };
+    }
+  }, [handleSecondaryWheel, secondaryOptions]);
+
+  // 更新指示器位置的通用函数
+  const updateIndicatorPosition = (
+    activeIndex: number,
+    containerRef: React.RefObject<HTMLDivElement>,
+    buttonRefs: React.MutableRefObject<(HTMLButtonElement | null)[]>,
+    setIndicatorStyle: React.Dispatch<
+      React.SetStateAction<{ left: number; width: number }>
+    >
+  ) => {
+    if (
+      activeIndex >= 0 &&
+      buttonRefs.current[activeIndex] &&
+      containerRef.current
+    ) {
+      const timeoutId = setTimeout(() => {
+        const button = buttonRefs.current[activeIndex];
+        const container = containerRef.current;
+        if (button && container) {
+          const buttonRect = button.getBoundingClientRect();
+          const containerRect = container.getBoundingClientRect();
+
+          if (buttonRect.width > 0) {
+            setIndicatorStyle({
+              left: buttonRect.left - containerRect.left,
+              width: buttonRect.width,
+            });
+          }
+        }
+      }, 0);
+      return () => clearTimeout(timeoutId);
+    }
+  };
+
+  // 组件挂载时立即计算初始位置
+  useEffect(() => {
+    // 主选择器初始位置
+    if (primaryOptions.length > 0) {
+      const activeIndex = primaryOptions.findIndex(
+        (opt) => opt.value === (primarySelection || primaryOptions[0].value)
+      );
+      updateIndicatorPosition(
+        activeIndex,
+        primaryContainerRef,
+        primaryButtonRefs,
+        setPrimaryIndicatorStyle
+      );
+    }
+
+    // 副选择器初始位置
+    if (secondaryOptions.length > 0) {
+      const activeIndex = secondaryOptions.findIndex(
+        (opt) => opt.value === (secondarySelection || secondaryOptions[0].value)
+      );
+      updateIndicatorPosition(
+        activeIndex,
+        secondaryContainerRef,
+        secondaryButtonRefs,
+        setSecondaryIndicatorStyle
+      );
+    }
+  }, [primaryOptions, secondaryOptions]); // 当选项变化时重新计算
+
+  // 监听主选择器变化
+  useEffect(() => {
+    if (primaryOptions.length > 0) {
+      const activeIndex = primaryOptions.findIndex(
+        (opt) => opt.value === primarySelection
+      );
+      const cleanup = updateIndicatorPosition(
+        activeIndex,
+        primaryContainerRef,
+        primaryButtonRefs,
+        setPrimaryIndicatorStyle
+      );
+      return cleanup;
+    }
+  }, [primarySelection, primaryOptions]);
+
+  // 监听副选择器变化
+  useEffect(() => {
+    if (secondaryOptions.length > 0) {
+      const activeIndex = secondaryOptions.findIndex(
+        (opt) => opt.value === secondarySelection
+      );
+      const cleanup = updateIndicatorPosition(
+        activeIndex,
+        secondaryContainerRef,
+        secondaryButtonRefs,
+        setSecondaryIndicatorStyle
+      );
+      return cleanup;
+    }
+  }, [secondarySelection, secondaryOptions]);
+
+  // 渲染胶囊式选择器
+  const renderCapsuleSelector = (
+    options: { label: string; value: string }[],
+    activeValue: string | undefined,
+    onChange: (value: string) => void,
+    isPrimary = false
+  ) => {
+    const containerRef = isPrimary
+      ? primaryContainerRef
+      : secondaryContainerRef;
+    const buttonRefs = isPrimary ? primaryButtonRefs : secondaryButtonRefs;
+    const indicatorStyle = isPrimary
+      ? primaryIndicatorStyle
+      : secondaryIndicatorStyle;
+
+    return (
+      <div
+        ref={containerRef}
+        className='relative inline-flex bg-gray-200/60 rounded-full p-0.5 sm:p-1 dark:bg-gray-700/60 backdrop-blur-sm'
+      >
+        {/* 滑动的白色背景指示器 */}
+        {indicatorStyle.width > 0 && (
+          <div
+            className='absolute top-0.5 bottom-0.5 sm:top-1 sm:bottom-1 bg-white dark:bg-gray-500 rounded-full shadow-sm transition-all duration-300 ease-out'
+            style={{
+              left: `${indicatorStyle.left}px`,
+              width: `${indicatorStyle.width}px`,
+            }}
+          />
+        )}
+
+        {options.map((option, index) => {
+          const isActive = activeValue === option.value;
+          return (
+            <button
+              key={option.value}
+              ref={(el) => {
+                buttonRefs.current[index] = el;
+              }}
+              onClick={() => onChange(option.value)}
+              className={`relative z-10 px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium rounded-full transition-all duration-200 whitespace-nowrap ${
+                isActive
+                  ? 'text-gray-900 dark:text-gray-100 cursor-default'
+                  : 'text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 cursor-pointer'
+              }`}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
+
+  // 如果没有自定义分类，则不渲染任何内容
+  if (!customCategories || customCategories.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className='space-y-4 sm:space-y-6'>
+      {/* 两级选择器包装 */}
+      <div className='space-y-3 sm:space-y-4'>
+        {/* 一级选择器 */}
+        <div className='flex flex-col sm:flex-row sm:items-center gap-2'>
+          <span className='text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 min-w-[48px]'>
+            类型
+          </span>
+          <div className='overflow-x-auto'>
+            {renderCapsuleSelector(
+              primaryOptions,
+              primarySelection || primaryOptions[0]?.value,
+              onPrimaryChange,
+              true
+            )}
+          </div>
+        </div>
+
+        {/* 二级选择器 */}
+        {secondaryOptions.length > 0 && (
+          <div className='flex flex-col sm:flex-row sm:items-center gap-2'>
+            <span className='text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 min-w-[48px]'>
+              片单
+            </span>
+            <div ref={secondaryScrollContainerRef} className='overflow-x-auto'>
+              {renderCapsuleSelector(
+                secondaryOptions,
+                secondarySelection || secondaryOptions[0]?.value,
+                onSecondaryChange,
+                false
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default DoubanCustomSelector;
