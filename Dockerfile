@@ -1,1 +1,66 @@
-IyAtLS0tIOesrCAxIOmYtuaute+8muWuieijheS+nei1liAtLS0tCkZST00gbm9kZToyMC1hbHBpbmUgQVMgZGVwcwoKIyDlkK/nlKggY29yZXBhY2sg5bm25r+A5rS7IHBucG3vvIhOb2RlMjAg6buY6K6k5o+Q5L6bIGNvcmVwYWNr77yJClJVTiBjb3JlcGFjayBlbmFibGUgJiYgY29yZXBhY2sgcHJlcGFyZSBwbnBtQGxhdGVzdCAtLWFjdGl2YXRlCgpXT1JLRElSIC9hcHAKCiMg5LuF5aSN5Yi25L6d6LWW5riF5Y2V77yM5o+Q6auY5p6E5bu657yT5a2Y5Yip55So546HCkNPUFkgcGFja2FnZS5qc29uIHBucG0tbG9jay55YW1sIC4vCgojIOWuieijheaJgOacieS+nei1lu+8iOWQqyBkZXZEZXBlbmRlbmNpZXPvvIzlkI7nu63kvJroo4HliarvvIkKUlVOIHBucG0gaW5zdGFsbCAtLWZyb3plbi1sb2NrZmlsZQoKIyAtLS0tIOesrCAyIOmYtuaute+8muaehOW7uumhueebriAtLS0tCkZST00gbm9kZToyMC1hbHBpbmUgQVMgYnVpbGRlcgpSVU4gY29yZXBhY2sgZW5hYmxlICYmIGNvcmVwYWNrIHByZXBhcmUgcG5wbUBsYXRlc3QgLS1hY3RpdmF0ZQpXT1JLRElSIC9hcHAKCiMg5aSN5Yi25L6d6LWWCkNPUFkgLS1mcm9tPWRlcHMgL2FwcC9ub2RlX21vZHVsZXMgLi9ub2RlX21vZHVsZXMKIyDlpI3liLblhajpg6jmupDku6PnoIEKQ09QWSAuIC4KCiMg5Zyo5p6E5bu66Zi25q615Lmf5pi+5byP6K6+572uIERPQ0tFUl9FTlbvvIwKIyDnoa7kv50gTmV4dC5qcyDlnKjnvJbor5Hml7bljbPpgInmi6kgTm9kZSBSdW50aW1lIOiAjOS4jeaYryBFZGdlIFJ1bnRpbWUKUlVOIGZpbmQgLi9zcmMgLXR5cGUgZiAtbmFtZSAicm91dGUudHMiIC1wcmludDAgXAogIHwgeGFyZ3MgLTAgc2VkIC1pICJzL2V4cG9ydCBjb25zdCBydW50aW1lID0gJ2VkZ2UnOy9leHBvcnQgY29uc3QgcnVudGltZSA9ICdub2RlanMnOy9nIgpFTlYgRE9DS0VSX0VOVj10cnVlCgojIEZvciBEb2NrZXIgYnVpbGRzLCBmb3JjZSBkeW5hbWljIHJlbmRlcmluZyB0byByZWFkIHJ1bnRpbWUgZW52aXJvbm1lbnQgdmFyaWFibGVzLgpSVU4gc2VkIC1pICIvY29uc3QgaW50ZXIgPSBJbnRlcih7IHN1YnNldHM6IFxbJ2xhdGluJ10gfSk7L2EgZXhwb3J0IGNvbnN0IGR5bmFtaWMgPSAnZm9yY2UtZHluYW1pYyc7IiBzcmMvYXBwL2xheW91dC50c3gKCiMg55Sf5oiQ55Sf5Lqn5p6E5bu6ClJVTiBwbnBtIHJ1biBidWlsZAoKIyAtLS0tIOesrCAzIOmYtuaute+8mueUn+aIkOi/kOihjOaXtumVnOWDjyAtLS0tCkZST00gbm9kZToyMC1hbHBpbmUgQVMgcnVubmVyCgojIOWIm+W7uumdniByb290IOeUqOaItwpSVU4gYWRkZ3JvdXAgLWcgMTAwMSAtUyBub2RlanMgJiYgYWRkdXNlciAtdSAxMDAxIC1TIG5leHRqcyAtRyBub2RlanMKCldPUktESVIgL2FwcApFTlYgTk9ERV9FTlY9cHJvZHVjdGlvbgpFTlYgSE9TVE5BTUU9MC4wLjAuMApFTlYgUE9SVD0zMDAwCkVOViBET0NLRVJfRU5WPXRydWUKCiMg5LuO5p6E5bu65Zmo5Lit5aSN5Yi2IHN0YW5kYWxvbmUg6L6T5Ye6CkNPUFkgLS1mcm9tPWJ1aWxkZXIgLS1jaG93bj1uZXh0anM6bm9kZWpzIC9hcHAvLm5leHQvc3RhbmRhbG9uZSAuLwojIOS7juaehOW7uuWZqOS4reWkjeWItiBzY3JpcHRzIOebruW9lQpDT1BZIC0tZnJvbT1idWlsZGVyIC0tY2hvd249bmV4dGpzOm5vZGVqcyAvYXBwL3NjcmlwdHMgLi9zY3JpcHRzCiMg5LuO5p6E5bu65Zmo5Lit5aSN5Yi2IHN0YXJ0LmpzCkNPUFkgLS1mcm9tPWJ1aWxkZXIgLS1jaG93bj1uZXh0anM6bm9kZWpzIC9hcHAvc3RhcnQuanMgLi9zdGFydC5qcwojIOS7juaehOW7uuWZqOS4reWkjeWItiBwdWJsaWMg5ZKMIC5uZXh0L3N0YXRpYyDnm67lvZUKQ09QWSAtLWZyb209YnVpbGRlciAtLWNob3duPW5leHRqczpub2RlanMgL2FwcC9wdWJsaWMgLi9wdWJsaWMKQ09QWSAtLWZyb209YnVpbGRlciAtLWNob3duPW5leHRqczpub2RlanMgL2FwcC8ubmV4dC9zdGF0aWMgLi8ubmV4dC9zdGF0aWMKQ09QWSAtLWZyb209YnVpbGRlciAtLWNob3duPW5leHRqczpub2RlanMgL2FwcC9jb25maWcuanNvbiAuL2NvbmZpZy5qc29uCgojIOWIh+aNouWIsOmdnueJueadg+eUqOaItwpVU0VSIG5leHRqcwoKRVhQT1NFIDMwMDAKCiMg5L2/55So6Ieq5a6a5LmJ5ZCv5Yqo6ISa5pys77yM5YWI6aKE5Yqg6L296YWN572u5YaN5ZCv5Yqo5pyN5Yqh5ZmoCkNNRCBbIm5vZGUiLCAic3RhcnQuanMiXSA=
+# ---- 第 1 阶段：安装依赖 ----
+FROM node:20-alpine AS deps
+
+# 启用 corepack 并激活 pnpm（Node20 默认提供 corepack）
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+WORKDIR /app
+
+# 仅复制依赖清单，提高构建缓存利用率
+COPY package.json pnpm-lock.yaml ./
+
+# 安装所有依赖（含 devDependencies，后续会裁剪）
+RUN pnpm install --frozen-lockfile
+
+# ---- 第 2 阶段：构建项目 ----
+FROM node:20-alpine AS builder
+RUN corepack enable && corepack prepare pnpm@latest --activate
+WORKDIR /app
+
+# 复制依赖
+COPY --from=deps /app/node_modules ./node_modules
+# 复制全部源代码
+COPY . .
+
+# 在构建阶段也显式设置 DOCKER_ENV，
+# 确保 Next.js 在编译时即选择 Node Runtime 而不是 Edge Runtime
+RUN find ./src -type f -name "route.ts" -print0 \
+  | xargs -0 sed -i "s/export const runtime = 'edge';/export const runtime = 'nodejs';/g"
+ENV DOCKER_ENV=true
+
+# For Docker builds, force dynamic rendering to read runtime environment variables.
+RUN sed -i "/const inter = Inter({ subsets: \['latin'] });/a export const dynamic = 'force-dynamic';" src/app/layout.tsx
+
+# 生成生产构建
+RUN pnpm run build
+
+# ---- 第 3 阶段：生成运行时镜像 ----
+FROM node:20-alpine AS runner
+
+# 创建非 root 用户
+RUN addgroup -g 1001 -S nodejs && adduser -u 1001 -S nextjs -G nodejs
+
+WORKDIR /app
+ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
+ENV DOCKER_ENV=true
+
+# 从构建器中复制 standalone 输出
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+# 从构建器中复制 scripts 目录
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+# 从构建器中复制 start.js
+COPY --from=builder --chown=nextjs:nodejs /app/start.js ./start.js
+# 从构建器中复制 public 和 .next/static 目录
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/config.json ./config.json
+
+# 切换到非特权用户
+USER nextjs
+
+EXPOSE 3000
+
+# 使用自定义启动脚本，先预加载配置再启动服务器
+CMD ["node", "start.js"] 
