@@ -1,1 +1,21 @@
-aW1wb3J0IHsgSW1hZ2VQbGFjZWhvbGRlciB9IGZyb20gJ0AvY29tcG9uZW50cy9JbWFnZVBsYWNlaG9sZGVyJzsKCmNvbnN0IERvdWJhbkNhcmRTa2VsZXRvbiA9ICgpID0+IHsKICByZXR1cm4gKAogICAgPGRpdiBjbGFzc05hbWU9J3ctZnVsbCc+CiAgICAgIDxkaXYgY2xhc3NOYW1lPSdncm91cCByZWxhdGl2ZSB3LWZ1bGwgcm91bmRlZC1sZyBiZy10cmFuc3BhcmVudCBzaGFkb3ctbm9uZSBmbGV4IGZsZXgtY29sJz4KICAgICAgICB7Lyog5Zu+54mH5Y2g5L2N56ymIC0g6aqo5p625bGP5pWI5p6cICovfQogICAgICAgIDxJbWFnZVBsYWNlaG9sZGVyIGFzcGVjdFJhdGlvPSdhc3BlY3QtWzIvM10nIC8+CgogICAgICAgIHsvKiDkv6Hmga/lsYLpqqjmnrYgKi99CiAgICAgICAgPGRpdiBjbGFzc05hbWU9J2Fic29sdXRlIHRvcC1bY2FsYygxMDAlKzAuNXJlbSldIGxlZnQtMCByaWdodC0wJz4KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSdmbGV4IGZsZXgtY29sIGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlcic+CiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSdoLTQgdy0yNCBzbTp3LTMyIGJnLWdyYXktMjAwIHJvdW5kZWQgYW5pbWF0ZS1wdWxzZSBtYi0yJz48L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogICk7Cn07CgpleHBvcnQgZGVmYXVsdCBEb3ViYW5DYXJkU2tlbGV0b247Cg==
+import { ImagePlaceholder } from '@/components/ImagePlaceholder';
+
+const DoubanCardSkeleton = () => {
+  return (
+    <div className='w-full'>
+      <div className='group relative w-full rounded-lg bg-transparent shadow-none flex flex-col'>
+        {/* 图片占位符 - 骨架屏效果 */}
+        <ImagePlaceholder aspectRatio='aspect-[2/3]' />
+
+        {/* 信息层骨架 */}
+        <div className='absolute top-[calc(100%+0.5rem)] left-0 right-0'>
+          <div className='flex flex-col items-center justify-center'>
+            <div className='h-4 w-24 sm:w-32 bg-gray-200 rounded animate-pulse mb-2'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DoubanCardSkeleton;
