@@ -1,1 +1,44 @@
-J3VzZSBjbGllbnQnOwoKaW1wb3J0IExpbmsgZnJvbSAnbmV4dC9saW5rJzsKCmltcG9ydCB7IEJhY2tCdXR0b24gfSBmcm9tICcuL0JhY2tCdXR0b24nOwppbXBvcnQgeyB1c2VTaXRlIH0gZnJvbSAnLi9TaXRlUHJvdmlkZXInOwppbXBvcnQgeyBUaGVtZVRvZ2dsZSB9IGZyb20gJy4vVGhlbWVUb2dnbGUnOwppbXBvcnQgeyBVc2VyTWVudSB9IGZyb20gJy4vVXNlck1lbnUnOwoKaW50ZXJmYWNlIE1vYmlsZUhlYWRlclByb3BzIHsKICBzaG93QmFja0J1dHRvbj86IGJvb2xlYW47Cn0KCmNvbnN0IE1vYmlsZUhlYWRlciA9ICh7IHNob3dCYWNrQnV0dG9uID0gZmFsc2UgfTogTW9iaWxlSGVhZGVyUHJvcHMpID0+IHsKICBjb25zdCB7IHNpdGVOYW1lIH0gPSB1c2VTaXRlKCk7CiAgcmV0dXJuICgKICAgIDxoZWFkZXIgY2xhc3NOYW1lPSdtZDpoaWRkZW4gcmVsYXRpdmUgdy1mdWxsIGJnLXdoaXRlLzcwIGJhY2tkcm9wLWJsdXIteGwgYm9yZGVyLWIgYm9yZGVyLWdyYXktMjAwLzUwIHNoYWRvdy1zbSBkYXJrOmJnLWdyYXktOTAwLzcwIGRhcms6Ym9yZGVyLWdyYXktNzAwLzUwJz4KICAgICAgPGRpdiBjbGFzc05hbWU9J2gtMTIgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIHB4LTQnPgogICAgICAgIHsvKiDlt6bkvqfvvJrov5Tlm57mjInpkq7lkozorr7nva7mjInpkq4gKi99CiAgICAgICAgPGRpdiBjbGFzc05hbWU9J2ZsZXggaXRlbXMtY2VudGVyIGdhcC0yJz4KICAgICAgICAgIHtzaG93QmFja0J1dHRvbiAmJiA8QmFja0J1dHRvbiAvPn0KICAgICAgICA8L2Rpdj4KCiAgICAgICAgey8qIOWPs+S+p+aMiemSriAqL30KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0nZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTInPgogICAgICAgICAgPFRoZW1lVG9nZ2xlIC8+CiAgICAgICAgICA8VXNlck1lbnUgLz4KICAgICAgICA8L2Rpdj4KICAgICAgPC9kaXY+CgogICAgICB7Lyog5Lit6Ze077yaTG9nb++8iOe7neWvueWxheS4re+8iSAqL30KICAgICAgPGRpdiBjbGFzc05hbWU9J2Fic29sdXRlIHRvcC0xLzIgbGVmdC0xLzIgLXRyYW5zbGF0ZS14LTEvMiAtdHJhbnNsYXRlLXktMS8yJz4KICAgICAgICA8TGluawogICAgICAgICAgaHJlZj0nLycKICAgICAgICAgIGNsYXNzTmFtZT0ndGV4dC0yeGwgZm9udC1ib2xkIHRleHQtZ3JlZW4tNjAwIHRyYWNraW5nLXRpZ2h0IGhvdmVyOm9wYWNpdHktODAgdHJhbnNpdGlvbi1vcGFjaXR5JwogICAgICAgID4KICAgICAgICAgIHtzaXRlTmFtZX0KICAgICAgICA8L0xpbms+CiAgICAgIDwvZGl2PgogICAgPC9oZWFkZXI+CiAgKTsKfTsKCmV4cG9ydCBkZWZhdWx0IE1vYmlsZUhlYWRlcjsK
+'use client';
+
+import Link from 'next/link';
+
+import { BackButton } from './BackButton';
+import { useSite } from './SiteProvider';
+import { ThemeToggle } from './ThemeToggle';
+import { UserMenu } from './UserMenu';
+
+interface MobileHeaderProps {
+  showBackButton?: boolean;
+}
+
+const MobileHeader = ({ showBackButton = false }: MobileHeaderProps) => {
+  const { siteName } = useSite();
+  return (
+    <header className='md:hidden relative w-full bg-white/70 backdrop-blur-xl border-b border-gray-200/50 shadow-sm dark:bg-gray-900/70 dark:border-gray-700/50'>
+      <div className='h-12 flex items-center justify-between px-4'>
+        {/* 左侧：返回按钮和设置按钮 */}
+        <div className='flex items-center gap-2'>
+          {showBackButton && <BackButton />}
+        </div>
+
+        {/* 右侧按钮 */}
+        <div className='flex items-center gap-2'>
+          <ThemeToggle />
+          <UserMenu />
+        </div>
+      </div>
+
+      {/* 中间：Logo（绝对居中） */}
+      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+        <Link
+          href='/'
+          className='text-2xl font-bold text-green-600 tracking-tight hover:opacity-80 transition-opacity'
+        >
+          {siteName}
+        </Link>
+      </div>
+    </header>
+  );
+};
+
+export default MobileHeader;
