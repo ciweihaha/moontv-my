@@ -1,1 +1,19 @@
-bmFtZSA9ICJtb29udHYiCmNvbXBhdGliaWxpdHlfZGF0ZSA9ICIyMDI0LTAxLTAxIgoKW3ZhcnNdCk5FWFRfUFVCTElDX1NUT1JBR0VfVFlQRSA9ICJkMSIKU0lURV9OQU1FID0gIk1vb25UViIKCltbZDFfZGF0YWJhc2VzXV0KYmluZGluZyA9ICJEQiIKZGF0YWJhc2VfbmFtZSA9ICJtb29udHYtZGIiCmRhdGFiYXNlX2lkID0gIllPVVJfRDFfREFUQUJBU0VfSUQiCgpbYnVpbGRdCmNvbW1hbmQgPSAicG5wbSBpbnN0YWxsICYmIHBucG0gZ2VuOnJ1bnRpbWUgJiYgcG5wbSBnZW46bWFuaWZlc3QgJiYgcG5wbSBidWlsZCIKd2F0Y2hfZGlyID0gInNyYyIKCltkZXZdCnBvcnQgPSA4Nzg3CmxvY2FsX3Byb3RvY29sID0gImh0dHAiCg==
+name = "moontv"
+compatibility_date = "2024-01-01"
+
+[vars]
+NEXT_PUBLIC_STORAGE_TYPE = "d1"
+SITE_NAME = "MoonTV"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "moontv-db"
+database_id = "YOUR_D1_DATABASE_ID"
+
+[build]
+command = "pnpm install && pnpm gen:runtime && pnpm gen:manifest && pnpm build"
+watch_dir = "src"
+
+[dev]
+port = 8787
+local_protocol = "http"
