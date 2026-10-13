@@ -1,1 +1,22 @@
-ZXhwb3J0IGNvbnN0IHllbGxvd1dvcmRzID0gWwogICfkvKbnkIbniYcnLAogICfnpo/liKknLAogICfph4znlarliqjmvKsnLAogICfpl6jkuovku7YnLAogICfokJ3ojonlsJHlpbMnLAogICfliLbmnI3or7Hmg5EnLAogICflm73kuqfkvKDlqpInLAogICdjb3NwbGF5JywKICAn6buR5Lid6K+x5oORJywKICAn5peg56CBJywKICAn5pel5pys5peg56CBJywKICAn5pyJ56CBJywKICAn5pel5pys5pyJ56CBJywKICAnU1dBRycsCiAgJ+e9kee6ouS4u+aSrScsCiAgJ+iJsuaDheeJhycsCiAgJ+WQjOaAp+eJhycsCiAgJ+emj+WIqeinhumikScsCiAgJ+emj+WIqeeJhycsCiAgJ+WGmeecn+eDreiInicsCl07Cg==
+export const yellowWords = [
+  '伦理片',
+  '福利',
+  '里番动漫',
+  '门事件',
+  '萝莉少女',
+  '制服诱惑',
+  '国产传媒',
+  'cosplay',
+  '黑丝诱惑',
+  '无码',
+  '日本无码',
+  '有码',
+  '日本有码',
+  'SWAG',
+  '网红主播',
+  '色情片',
+  '同性片',
+  '福利视频',
+  '福利片',
+  '写真热舞',
+];
