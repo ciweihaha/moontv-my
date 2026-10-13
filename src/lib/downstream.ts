@@ -1,4 +1,4 @@
-import { API_CONFIG, ApiSite, getConfig } from '@/lib/config';
+import { API_CONFIG, ApiSite } from '@/lib/config';
 import { SearchResult } from '@/lib/types';
 import { cleanHtmlTags } from '@/lib/utils';
 
@@ -15,9 +15,82 @@ interface ApiSearchItem {
   type_name?: string;
 }
 
+// R3: 读取时字节数硬上限。content-length 响应头在分块传输（chunked）时缺失，
+// 仅靠头部检查会被绕过；此处在实际读取 body 后校验字节数，超限返回 null。
+const MAX_SEARCH_BODY_BYTES = 5 * 1024 * 1024;
+const MAX_DETAIL_BODY_BYTES = 2 * 1024 * 1024;
+
+// PERF-R1: 正则提升到模块级，避免在每条目 map 回调内重复编译
+const SEARCH_M3U8_REGEX = /\$(https?:\/\/[^"'\s]+?\.m3u8)/g;
+
+/** 从 vod_play_url 提取 m3u8 剧集链接（去重并清理）
+ * @param splitBest 为 true 时按 $$$ 分片取匹配最多的一段（第一页逻辑）；
+ *                  为 false 时直接全串匹配（翻页逻辑，保持原行为） */
+function extractSearchEpisodes(
+  vodPlayUrl: string | undefined,
+  splitBest: boolean
+): string[] {
+  if (!vodPlayUrl) return [];
+  let episodes: string[] = [];
+  if (splitBest) {
+    const vod_play_url_array = vodPlayUrl.split('$$$');
+    vod_play_url_array.forEach((url: string) => {
+      // 注意：全局正则需重置 lastIndex，避免跨分片污染
+      SEARCH_M3U8_REGEX.lastIndex = 0;
+      const matches = url.match(SEARCH_M3U8_REGEX) || [];
+      if (matches.length > episodes.length) {
+        episodes = matches;
+      }
+    });
+  } else {
+    SEARCH_M3U8_REGEX.lastIndex = 0;
+    episodes = vodPlayUrl.match(SEARCH_M3U8_REGEX) || [];
+  }
+  return Array.from(new Set(episodes)).map((link: string) => {
+    link = link.substring(1); // 去掉开头的 $
+    const parenIndex = link.indexOf('(');
+    return parenIndex > 0 ? link.substring(0, parenIndex) : link;
+  });
+}
+
+/** 将上游搜索条目映射为统一 SearchResult */
+function mapSearchItem(
+  item: ApiSearchItem,
+  source: string,
+  sourceName: string,
+  splitBest: boolean
+): SearchResult {
+  return {
+    id: item.vod_id.toString(),
+    title: item.vod_name.trim().replace(/\s+/g, ' '),
+    poster: item.vod_pic,
+    episodes: extractSearchEpisodes(item.vod_play_url, splitBest),
+    source,
+    source_name: sourceName,
+    class: item.vod_class,
+    year: item.vod_year ? item.vod_year.match(/\d{4}/)?.[0] || '' : 'unknown',
+    desc: cleanHtmlTags(item.vod_content || ''),
+    type_name: item.type_name,
+    douban_id: item.vod_douban_id,
+  };
+}
+
+async function readBodyWithLimit(
+  response: Response,
+  maxBytes: number
+): Promise<ArrayBuffer | null> {
+  const buf = await response.arrayBuffer();
+  if (buf.byteLength > maxBytes) {
+    return null;
+  }
+  return buf;
+}
+
 export async function searchFromApi(
   apiSite: ApiSite,
-  query: string
+  query: string,
+  // PERF-R1: 由调用方一次性传入，避免每次搜索对每个上游重复读取配置（44 次/搜索）
+  maxSearchPages: number = 2
 ): Promise<SearchResult[]> {
   try {
     const apiBaseUrl = apiSite.api;
@@ -36,9 +109,10 @@ export async function searchFromApi(
 
     clearTimeout(timeoutId);
 
-    // R3: 响应体大小预检查，防止异常上游返回超大响应
+    // R3: 响应头 content-length 只是快速预检；分块传输时头部缺失，
+    // 读取时再做字节数硬上限，防止超大响应占满内存
     const contentLength = response.headers.get('content-length');
-    if (contentLength && parseInt(contentLength, 10) > 5 * 1024 * 1024) {
+    if (contentLength && parseInt(contentLength, 10) > MAX_SEARCH_BODY_BYTES) {
       return [];
     }
 
@@ -46,7 +120,14 @@ export async function searchFromApi(
       return [];
     }
 
-    const data = await response.json();
+    const searchBody = await readBodyWithLimit(
+      response,
+      MAX_SEARCH_BODY_BYTES
+    );
+    if (searchBody === null) {
+      return [];
+    }
+    const data = JSON.parse(new TextDecoder().decode(searchBody));
     if (
       !data ||
       !data.list ||
@@ -55,49 +136,13 @@ export async function searchFromApi(
     ) {
       return [];
     }
-    // 处理第一页结果
-    const results = data.list.map((item: ApiSearchItem) => {
-      let episodes: string[] = [];
+    // 处理第一页结果（PERF-R1: 复用模块级 mapSearchItem，避免重复代码）
+    const results = data.list.map((item: ApiSearchItem) =>
+      mapSearchItem(item, apiSite.key, apiName, true)
+    );
 
-      // 使用正则表达式从 vod_play_url 提取 m3u8 链接
-      if (item.vod_play_url) {
-        const m3u8Regex = /\$(https?:\/\/[^"'\s]+?\.m3u8)/g;
-        // 先用 $$$ 分割
-        const vod_play_url_array = item.vod_play_url.split('$$$');
-        // 对每个分片做匹配，取匹配到最多的作为结果
-        vod_play_url_array.forEach((url: string) => {
-          const matches = url.match(m3u8Regex) || [];
-          if (matches.length > episodes.length) {
-            episodes = matches;
-          }
-        });
-      }
-
-      episodes = Array.from(new Set(episodes)).map((link: string) => {
-        link = link.substring(1); // 去掉开头的 $
-        const parenIndex = link.indexOf('(');
-        return parenIndex > 0 ? link.substring(0, parenIndex) : link;
-      });
-
-      return {
-        id: item.vod_id.toString(),
-        title: item.vod_name.trim().replace(/\s+/g, ' '),
-        poster: item.vod_pic,
-        episodes,
-        source: apiSite.key,
-        source_name: apiName,
-        class: item.vod_class,
-        year: item.vod_year
-          ? item.vod_year.match(/\d{4}/)?.[0] || ''
-          : 'unknown',
-        desc: cleanHtmlTags(item.vod_content || ''),
-        type_name: item.type_name,
-        douban_id: item.vod_douban_id,
-      };
-    });
-
-    const config = await getConfig();
-    const MAX_SEARCH_PAGES: number = config.SiteConfig.SearchDownstreamMaxPage;
+    // PERF-R1: 最大页数由调用方传入，不再每次重复读取配置
+    const MAX_SEARCH_PAGES: number = maxSearchPages;
 
     // 获取总页数
     const pageCount = data.pagecount || 1;
@@ -130,48 +175,26 @@ export async function searchFromApi(
 
             clearTimeout(pageTimeoutId);
 
-            // R3: 响应体大小预检查
+            // R3: 响应头预检 + 读取时硬上限（防分块传输绕过）
             const pageCL = pageResponse.headers.get('content-length');
-            if (pageCL && parseInt(pageCL, 10) > 5 * 1024 * 1024) return [];
+            if (pageCL && parseInt(pageCL, 10) > MAX_SEARCH_BODY_BYTES)
+              return [];
 
             if (!pageResponse.ok) return [];
 
-            const pageData = await pageResponse.json();
+            const pageBody = await readBodyWithLimit(
+              pageResponse,
+              MAX_SEARCH_BODY_BYTES
+            );
+            if (pageBody === null) return [];
+            const pageData = JSON.parse(new TextDecoder().decode(pageBody));
 
             if (!pageData || !pageData.list || !Array.isArray(pageData.list))
               return [];
 
-            return pageData.list.map((item: ApiSearchItem) => {
-              let episodes: string[] = [];
-
-              // 使用正则表达式从 vod_play_url 提取 m3u8 链接
-              if (item.vod_play_url) {
-                const m3u8Regex = /\$(https?:\/\/[^"'\s]+?\.m3u8)/g;
-                episodes = item.vod_play_url.match(m3u8Regex) || [];
-              }
-
-              episodes = Array.from(new Set(episodes)).map((link: string) => {
-                link = link.substring(1); // 去掉开头的 $
-                const parenIndex = link.indexOf('(');
-                return parenIndex > 0 ? link.substring(0, parenIndex) : link;
-              });
-
-              return {
-                id: item.vod_id.toString(),
-                title: item.vod_name.trim().replace(/\s+/g, ' '),
-                poster: item.vod_pic,
-                episodes,
-                source: apiSite.key,
-                source_name: apiName,
-                class: item.vod_class,
-                year: item.vod_year
-                  ? item.vod_year.match(/\d{4}/)?.[0] || ''
-                  : 'unknown',
-                desc: cleanHtmlTags(item.vod_content || ''),
-                type_name: item.type_name,
-                douban_id: item.vod_douban_id,
-              };
-            });
+            return pageData.list.map((item: ApiSearchItem) =>
+              mapSearchItem(item, apiSite.key, apiName, false)
+            );
           } catch (error) {
             return [];
           }
@@ -220,9 +243,9 @@ export async function getDetailFromApi(
 
   clearTimeout(timeoutId);
 
-  // R3: 响应体大小预检查（详情 2MB 上限）
+  // R3: 响应头预检（详情 2MB 上限）+ 读取时硬上限（防分块传输绕过）
   const detailCL = response.headers.get('content-length');
-  if (detailCL && parseInt(detailCL, 10) > 2 * 1024 * 1024) {
+  if (detailCL && parseInt(detailCL, 10) > MAX_DETAIL_BODY_BYTES) {
     throw new Error('详情响应体过大');
   }
 
@@ -230,7 +253,11 @@ export async function getDetailFromApi(
     throw new Error(`详情请求失败: ${response.status}`);
   }
 
-  const data = await response.json();
+  const detailBody = await readBodyWithLimit(response, MAX_DETAIL_BODY_BYTES);
+  if (detailBody === null) {
+    throw new Error('详情响应体过大');
+  }
+  const data = JSON.parse(new TextDecoder().decode(detailBody));
 
   if (
     !data ||
@@ -301,9 +328,9 @@ async function handleSpecialSourceDetail(
 
   clearTimeout(timeoutId);
 
-  // R3: 响应体大小预检查（详情 2MB 上限）
+  // R3: 响应头预检（详情 2MB 上限）+ 读取时硬上限（防分块传输绕过）
   const specialCL = response.headers.get('content-length');
-  if (specialCL && parseInt(specialCL, 10) > 2 * 1024 * 1024) {
+  if (specialCL && parseInt(specialCL, 10) > MAX_DETAIL_BODY_BYTES) {
     throw new Error('详情响应体过大');
   }
 
@@ -311,7 +338,11 @@ async function handleSpecialSourceDetail(
     throw new Error(`详情页请求失败: ${response.status}`);
   }
 
-  const html = await response.text();
+  const specialBody = await readBodyWithLimit(response, MAX_DETAIL_BODY_BYTES);
+  if (specialBody === null) {
+    throw new Error('详情响应体过大');
+  }
+  const html = new TextDecoder().decode(specialBody);
   let matches: string[] = [];
 
   if (apiSite.key === 'ffzy') {
