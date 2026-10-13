@@ -1,1 +1,23 @@
-aW1wb3J0IHsgTmV4dFJlc3BvbnNlIH0gZnJvbSAnbmV4dC9zZXJ2ZXInOwoKaW1wb3J0IHsgZ2V0QXZhaWxhYmxlQXBpU2l0ZXMsIGdldENhY2hlVGltZSB9IGZyb20gJ0AvbGliL2NvbmZpZyc7CgpleHBvcnQgY29uc3QgcnVudGltZSA9ICdlZGdlJzsKCi8vIE9yaW9uVFYg5YW85a655o6l5Y+jCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBHRVQoKSB7CiAgdHJ5IHsKICAgIGNvbnN0IGFwaVNpdGVzID0gYXdhaXQgZ2V0QXZhaWxhYmxlQXBpU2l0ZXMoKTsKICAgIGNvbnN0IGNhY2hlVGltZSA9IGF3YWl0IGdldENhY2hlVGltZSgpOwoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbihhcGlTaXRlcywgewogICAgICBoZWFkZXJzOiB7CiAgICAgICAgJ0NhY2hlLUNvbnRyb2wnOiBgcHVibGljLCBtYXgtYWdlPSR7Y2FjaGVUaW1lfSwgcy1tYXhhZ2U9JHtjYWNoZVRpbWV9YCwKICAgICAgICAnQ0ROLUNhY2hlLUNvbnRyb2wnOiBgcHVibGljLCBzLW1heGFnZT0ke2NhY2hlVGltZX1gLAogICAgICAgICdWZXJjZWwtQ0ROLUNhY2hlLUNvbnRyb2wnOiBgcHVibGljLCBzLW1heGFnZT0ke2NhY2hlVGltZX1gLAogICAgICB9LAogICAgfSk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn6I635Y+W6LWE5rqQ5aSx6LSlJyB9LCB7IHN0YXR1czogNTAwIH0pOwogIH0KfQo=
+import { NextResponse } from 'next/server';
+
+import { getAvailableApiSites, getCacheTime } from '@/lib/config';
+
+export const runtime = 'edge';
+
+// OrionTV 兼容接口
+export async function GET() {
+  try {
+    const apiSites = await getAvailableApiSites();
+    const cacheTime = await getCacheTime();
+
+    return NextResponse.json(apiSites, {
+      headers: {
+        'Cache-Control': `public, max-age=${cacheTime}, s-maxage=${cacheTime}`,
+        'CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+        'Vercel-CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+      },
+    });
+  } catch (error) {
+    return NextResponse.json({ error: '获取资源失败' }, { status: 500 });
+  }
+}
