@@ -1,1 +1,4 @@
-IyEvYmluL3NoCi4gIiQoZGlybmFtZSAiJDAiKS9fL2h1c2t5LnNoIgoKcG5wbSBpbnN0YWxsCg==
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+pnpm install
