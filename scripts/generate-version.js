@@ -1,1 +1,45 @@
-IyEvdXNyL2Jpbi9lbnYgbm9kZQovKiBlc2xpbnQtZGlzYWJsZSAqLwoKY29uc3QgZnMgPSByZXF1aXJlKCdmcycpOwpjb25zdCBwYXRoID0gcmVxdWlyZSgncGF0aCcpOwoKLy8g6I635Y+W5b2T5YmN5pe26Ze05bm25qC85byP5YyW5Li6IFlZWVlNTURESEhNTVNTIOagvOW8jwpmdW5jdGlvbiBnZW5lcmF0ZVZlcnNpb24oKSB7CiAgY29uc3Qgbm93ID0gbmV3IERhdGUoKTsKCiAgY29uc3QgeWVhciA9IG5vdy5nZXRGdWxsWWVhcigpOwogIGNvbnN0IG1vbnRoID0gU3RyaW5nKG5vdy5nZXRNb250aCgpICsgMSkucGFkU3RhcnQoMiwgJzAnKTsKICBjb25zdCBkYXkgPSBTdHJpbmcobm93LmdldERhdGUoKSkucGFkU3RhcnQoMiwgJzAnKTsKICBjb25zdCBob3VycyA9IFN0cmluZyhub3cuZ2V0SG91cnMoKSkucGFkU3RhcnQoMiwgJzAnKTsKICBjb25zdCBtaW51dGVzID0gU3RyaW5nKG5vdy5nZXRNaW51dGVzKCkpLnBhZFN0YXJ0KDIsICcwJyk7CiAgY29uc3Qgc2Vjb25kcyA9IFN0cmluZyhub3cuZ2V0U2Vjb25kcygpKS5wYWRTdGFydCgyLCAnMCcpOwoKICBjb25zdCB2ZXJzaW9uID0gYCR7eWVhcn0ke21vbnRofSR7ZGF5fSR7aG91cnN9JHttaW51dGVzfSR7c2Vjb25kc31gOwoKICByZXR1cm4gdmVyc2lvbjsKfQoKLy8g55Sf5oiQ54mI5pys5Y+3CmNvbnN0IGN1cnJlbnRWZXJzaW9uID0gZ2VuZXJhdGVWZXJzaW9uKCk7CgovLyDor7vlj5bnjrDmnInnmoQgdmVyc2lvbi50cyDmlofku7YKY29uc3QgdmVyc2lvbkZpbGVQYXRoID0gcGF0aC5qb2luKF9fZGlybmFtZSwgJy4uJywgJ3NyYycsICdsaWInLCAndmVyc2lvbi50cycpOwpsZXQgZmlsZUNvbnRlbnQgPSBmcy5yZWFkRmlsZVN5bmModmVyc2lvbkZpbGVQYXRoLCAndXRmOCcpOwoKLy8g5L2/55So5q2j5YiZ6KGo6L6+5byP5pu/5o2iIENVUlJFTlRfVkVSU0lPTiDnmoTlgLwKY29uc3QgdXBkYXRlZENvbnRlbnQgPSBmaWxlQ29udGVudC5yZXBsYWNlKAogIC9jb25zdCBDVVJSRU5UX1ZFUlNJT04gPSAnLio/Jy8sCiAgYGNvbnN0IENVUlJFTlRfVkVSU0lPTiA9ICcke2N1cnJlbnRWZXJzaW9ufSdgCik7CgovLyDlhpnlhaXmm7TmlrDlkI7nmoTlhoXlrrkKZnMud3JpdGVGaWxlU3luYyh2ZXJzaW9uRmlsZVBhdGgsIHVwZGF0ZWRDb250ZW50LCAndXRmOCcpOwoKLy8g5bCG54mI5pys5Y+35YaZ5YWl5qC555uu5b2V5LiL55qEIFZFUlNJT04udHh0IOaWh+S7tgpjb25zdCB2ZXJzaW9uVHh0UGF0aCA9IHBhdGguam9pbihfX2Rpcm5hbWUsICcuLicsICdWRVJTSU9OLnR4dCcpOwpmcy53cml0ZUZpbGVTeW5jKHZlcnNpb25UeHRQYXRoLCBjdXJyZW50VmVyc2lvbiwgJ3V0ZjgnKTsKCmNvbnNvbGUubG9nKGDniYjmnKzlj7flt7Lmm7TmlrDkuLo6ICR7Y3VycmVudFZlcnNpb259YCk7CmNvbnNvbGUubG9nKGDmlofku7blt7Lmm7TmlrA6ICR7dmVyc2lvbkZpbGVQYXRofWApOwpjb25zb2xlLmxvZyhgVkVSU0lPTi50eHQg5bey5pu05pawOiAke3ZlcnNpb25UeHRQYXRofWApOwo=
+#!/usr/bin/env node
+/* eslint-disable */
+
+const fs = require('fs');
+const path = require('path');
+
+// 获取当前时间并格式化为 YYYYMMDDHHMMSS 格式
+function generateVersion() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const version = `${year}${month}${day}${hours}${minutes}${seconds}`;
+
+  return version;
+}
+
+// 生成版本号
+const currentVersion = generateVersion();
+
+// 读取现有的 version.ts 文件
+const versionFilePath = path.join(__dirname, '..', 'src', 'lib', 'version.ts');
+let fileContent = fs.readFileSync(versionFilePath, 'utf8');
+
+// 使用正则表达式替换 CURRENT_VERSION 的值
+const updatedContent = fileContent.replace(
+  /const CURRENT_VERSION = '.*?'/,
+  `const CURRENT_VERSION = '${currentVersion}'`
+);
+
+// 写入更新后的内容
+fs.writeFileSync(versionFilePath, updatedContent, 'utf8');
+
+// 将版本号写入根目录下的 VERSION.txt 文件
+const versionTxtPath = path.join(__dirname, '..', 'VERSION.txt');
+fs.writeFileSync(versionTxtPath, currentVersion, 'utf8');
+
+console.log(`版本号已更新为: ${currentVersion}`);
+console.log(`文件已更新: ${versionFilePath}`);
+console.log(`VERSION.txt 已更新: ${versionTxtPath}`);
