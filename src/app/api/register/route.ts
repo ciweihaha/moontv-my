@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
+import { generateSignature } from '@/lib/auth';
 
 export const runtime = 'edge';
 
@@ -15,32 +16,7 @@ const STORAGE_TYPE =
     | 'upstash'
     | undefined) || 'localstorage';
 
-// 生成签名
-async function generateSignature(
-  data: string,
-  secret: string
-): Promise<string> {
-  const encoder = new TextEncoder();
-  const keyData = encoder.encode(secret);
-  const messageData = encoder.encode(data);
-
-  // 导入密钥
-  const key = await crypto.subtle.importKey(
-    'raw',
-    keyData,
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign']
-  );
-
-  // 生成签名
-  const signature = await crypto.subtle.sign('HMAC', key, messageData);
-
-  // 转换为十六进制字符串
-  return Array.from(new Uint8Array(signature))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-}
+// QUALITY-R3: generateSignature 已移至 @/lib/auth，避免与 login 路由重复定义
 
 // 生成认证Cookie（带签名）
 async function generateAuthCookie(username: string): Promise<string> {
@@ -79,8 +55,22 @@ export async function POST(req: NextRequest) {
     if (!username || typeof username !== 'string') {
       return NextResponse.json({ error: '用户名不能为空' }, { status: 400 });
     }
+    // SEC-R2: 用户名格式校验（2-20 位，字母/数字/下划线/中文），防注入与异常数据
+    if (!/^[a-zA-Z0-9_\u4e00-\u9fa5]{2,20}$/.test(username)) {
+      return NextResponse.json(
+        { error: '用户名格式不正确（2-20位，仅限字母、数字、下划线、中文）' },
+        { status: 400 }
+      );
+    }
     if (!password || typeof password !== 'string') {
       return NextResponse.json({ error: '密码不能为空' }, { status: 400 });
+    }
+    // SEC-R2: 密码最小长度 4 位
+    if (password.length < 4) {
+      return NextResponse.json(
+        { error: '密码长度至少 4 位' },
+        { status: 400 }
+      );
     }
 
     // 检查是否和管理员重复
