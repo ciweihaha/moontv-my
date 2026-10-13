@@ -1,1 +1,189 @@
-LyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSAqLwoKaW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gJ25leHQvc2VydmVyJzsKCmltcG9ydCB7IGRiIH0gZnJvbSAnQC9saWIvZGInOwppbXBvcnQgeyBmZXRjaFZpZGVvRGV0YWlsIH0gZnJvbSAnQC9saWIvZmV0Y2hWaWRlb0RldGFpbCc7CmltcG9ydCB7IFNlYXJjaFJlc3VsdCB9IGZyb20gJ0AvbGliL3R5cGVzJzsKCmV4cG9ydCBjb25zdCBydW50aW1lID0gJ2VkZ2UnOwoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIGNvbnNvbGUubG9nKHJlcXVlc3QudXJsKTsKICB0cnkgewogICAgY29uc29sZS5sb2coJ0Nyb24gam9iIHRyaWdnZXJlZDonLCBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCkpOwoKICAgIHJlZnJlc2hSZWNvcmRBbmRGYXZvcml0ZXMoKTsKCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oewogICAgICBzdWNjZXNzOiB0cnVlLAogICAgICBtZXNzYWdlOiAnQ3JvbiBqb2IgZXhlY3V0ZWQgc3VjY2Vzc2Z1bGx5JywKICAgICAgdGltZXN0YW1wOiBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCksCiAgICB9KTsKICB9IGNhdGNoIChlcnJvcikgewogICAgY29uc29sZS5lcnJvcignQ3JvbiBqb2IgZmFpbGVkOicsIGVycm9yKTsKCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsKICAgICAgICBzdWNjZXNzOiBmYWxzZSwKICAgICAgICBtZXNzYWdlOiAnQ3JvbiBqb2IgZmFpbGVkJywKICAgICAgICBlcnJvcjogZXJyb3IgaW5zdGFuY2VvZiBFcnJvciA/IGVycm9yLm1lc3NhZ2UgOiAnVW5rbm93biBlcnJvcicsCiAgICAgICAgdGltZXN0YW1wOiBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCksCiAgICAgIH0sCiAgICAgIHsgc3RhdHVzOiA1MDAgfQogICAgKTsKICB9Cn0KCmFzeW5jIGZ1bmN0aW9uIHJlZnJlc2hSZWNvcmRBbmRGYXZvcml0ZXMoKSB7CiAgaWYgKAogICAgKHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX1NUT1JBR0VfVFlQRSB8fCAnbG9jYWxzdG9yYWdlJykgPT09ICdsb2NhbHN0b3JhZ2UnCiAgKSB7CiAgICBjb25zb2xlLmxvZygn6Lez6L+H5Yi35paw77ya5b2T5YmN5L2/55SoIGxvY2Fsc3RvcmFnZSDlrZjlgqjmqKHlvI8nKTsKICAgIHJldHVybjsKICB9CgogIHRyeSB7CiAgICBjb25zdCB1c2VycyA9IGF3YWl0IGRiLmdldEFsbFVzZXJzKCk7CiAgICBpZiAocHJvY2Vzcy5lbnYuVVNFUk5BTUUgJiYgIXVzZXJzLmluY2x1ZGVzKHByb2Nlc3MuZW52LlVTRVJOQU1FKSkgewogICAgICB1c2Vycy5wdXNoKHByb2Nlc3MuZW52LlVTRVJOQU1FKTsKICAgIH0KICAgIC8vIOWHveaVsOe6p+e8k+WtmO+8mmtleSDkuLogYCR7c291cmNlfSske2lkfWDvvIzlgLzkuLogUHJvbWlzZTxWaWRlb0RldGFpbCB8IG51bGw+CiAgICBjb25zdCBkZXRhaWxDYWNoZSA9IG5ldyBNYXA8c3RyaW5nLCBQcm9taXNlPFNlYXJjaFJlc3VsdCB8IG51bGw+PigpOwoKICAgIC8vIOiOt+WPluivpuaDhSBQcm9taXNl77yI5bim57yT5a2Y5ZKM6ZSZ6K+v5aSE55CG77yJCiAgICBjb25zdCBnZXREZXRhaWwgPSBhc3luYyAoCiAgICAgIHNvdXJjZTogc3RyaW5nLAogICAgICBpZDogc3RyaW5nLAogICAgICBmYWxsYmFja1RpdGxlOiBzdHJpbmcKICAgICk6IFByb21pc2U8U2VhcmNoUmVzdWx0IHwgbnVsbD4gPT4gewogICAgICBjb25zdCBrZXkgPSBgJHtzb3VyY2V9KyR7aWR9YDsKICAgICAgbGV0IHByb21pc2UgPSBkZXRhaWxDYWNoZS5nZXQoa2V5KTsKICAgICAgaWYgKCFwcm9taXNlKSB7CiAgICAgICAgcHJvbWlzZSA9IGZldGNoVmlkZW9EZXRhaWwoewogICAgICAgICAgc291cmNlLAogICAgICAgICAgaWQsCiAgICAgICAgICBmYWxsYmFja1RpdGxlOiBmYWxsYmFja1RpdGxlLnRyaW0oKSwKICAgICAgICB9KQogICAgICAgICAgLnRoZW4oKGRldGFpbCkgPT4gewogICAgICAgICAgICAvLyDmiJDlip/ml7bmiY3nvJPlrZjnu5PmnpwKICAgICAgICAgICAgY29uc3Qgc3VjY2Vzc1Byb21pc2UgPSBQcm9taXNlLnJlc29sdmUoZGV0YWlsKTsKICAgICAgICAgICAgZGV0YWlsQ2FjaGUuc2V0KGtleSwgc3VjY2Vzc1Byb21pc2UpOwogICAgICAgICAgICByZXR1cm4gZGV0YWlsOwogICAgICAgICAgfSkKICAgICAgICAgIC5jYXRjaCgoZXJyKSA9PiB7CiAgICAgICAgICAgIGNvbnNvbGUuZXJyb3IoYOiOt+WPluinhumikeivpuaDheWksei0pSAoJHtzb3VyY2V9KyR7aWR9KTpgLCBlcnIpOwogICAgICAgICAgICByZXR1cm4gbnVsbDsKICAgICAgICAgIH0pOwogICAgICB9CiAgICAgIHJldHVybiBwcm9taXNlOwogICAgfTsKCiAgICBmb3IgKGNvbnN0IHVzZXIgb2YgdXNlcnMpIHsKICAgICAgY29uc29sZS5sb2coYOW8gOWni+WkhOeQhueUqOaItzogJHt1c2VyfWApOwoKICAgICAgLy8g5pKt5pS+6K6w5b2VCiAgICAgIHRyeSB7CiAgICAgICAgY29uc3QgcGxheVJlY29yZHMgPSBhd2FpdCBkYi5nZXRBbGxQbGF5UmVjb3Jkcyh1c2VyKTsKICAgICAgICBjb25zdCB0b3RhbFJlY29yZHMgPSBPYmplY3Qua2V5cyhwbGF5UmVjb3JkcykubGVuZ3RoOwogICAgICAgIGxldCBwcm9jZXNzZWRSZWNvcmRzID0gMDsKCiAgICAgICAgZm9yIChjb25zdCBba2V5LCByZWNvcmRdIG9mIE9iamVjdC5lbnRyaWVzKHBsYXlSZWNvcmRzKSkgewogICAgICAgICAgdHJ5IHsKICAgICAgICAgICAgY29uc3QgW3NvdXJjZSwgaWRdID0ga2V5LnNwbGl0KCcrJyk7CiAgICAgICAgICAgIGlmICghc291cmNlIHx8ICFpZCkgewogICAgICAgICAgICAgIGNvbnNvbGUud2Fybihg6Lez6L+H5peg5pWI55qE5pKt5pS+6K6w5b2V6ZSuOiAke2tleX1gKTsKICAgICAgICAgICAgICBjb250aW51ZTsKICAgICAgICAgICAgfQoKICAgICAgICAgICAgY29uc3QgZGV0YWlsID0gYXdhaXQgZ2V0RGV0YWlsKHNvdXJjZSwgaWQsIHJlY29yZC50aXRsZSk7CiAgICAgICAgICAgIGlmICghZGV0YWlsKSB7CiAgICAgICAgICAgICAgY29uc29sZS53YXJuKGDot7Pov4fml6Dms5Xojrflj5bor6bmg4XnmoTmkq3mlL7orrDlvZU6ICR7a2V5fWApOwogICAgICAgICAgICAgIGNvbnRpbnVlOwogICAgICAgICAgICB9CgogICAgICAgICAgICBjb25zdCBlcGlzb2RlQ291bnQgPSBkZXRhaWwuZXBpc29kZXM/Lmxlbmd0aCB8fCAwOwogICAgICAgICAgICBpZiAoZXBpc29kZUNvdW50ID4gMCAmJiBlcGlzb2RlQ291bnQgIT09IHJlY29yZC50b3RhbF9lcGlzb2RlcykgewogICAgICAgICAgICAgIGF3YWl0IGRiLnNhdmVQbGF5UmVjb3JkKHVzZXIsIHNvdXJjZSwgaWQsIHsKICAgICAgICAgICAgICAgIHRpdGxlOiBkZXRhaWwudGl0bGUgfHwgcmVjb3JkLnRpdGxlLAogICAgICAgICAgICAgICAgc291cmNlX25hbWU6IHJlY29yZC5zb3VyY2VfbmFtZSwKICAgICAgICAgICAgICAgIGNvdmVyOiBkZXRhaWwucG9zdGVyIHx8IHJlY29yZC5jb3ZlciwKICAgICAgICAgICAgICAgIGluZGV4OiByZWNvcmQuaW5kZXgsCiAgICAgICAgICAgICAgICB0b3RhbF9lcGlzb2RlczogZXBpc29kZUNvdW50LAogICAgICAgICAgICAgICAgcGxheV90aW1lOiByZWNvcmQucGxheV90aW1lLAogICAgICAgICAgICAgICAgeWVhcjogZGV0YWlsLnllYXIgfHwgcmVjb3JkLnllYXIsCiAgICAgICAgICAgICAgICB0b3RhbF90aW1lOiByZWNvcmQudG90YWxfdGltZSwKICAgICAgICAgICAgICAgIHNhdmVfdGltZTogcmVjb3JkLnNhdmVfdGltZSwKICAgICAgICAgICAgICAgIHNlYXJjaF90aXRsZTogcmVjb3JkLnNlYXJjaF90aXRsZSwKICAgICAgICAgICAgICB9KTsKICAgICAgICAgICAgICBjb25zb2xlLmxvZygKICAgICAgICAgICAgICAgIGDmm7TmlrDmkq3mlL7orrDlvZU6ICR7cmVjb3JkLnRpdGxlfSAoJHtyZWNvcmQudG90YWxfZXBpc29kZXN9IC0+ICR7ZXBpc29kZUNvdW50fSlgCiAgICAgICAgICAgICAgKTsKICAgICAgICAgICAgfQoKICAgICAgICAgICAgcHJvY2Vzc2VkUmVjb3JkcysrOwogICAgICAgICAgfSBjYXRjaCAoZXJyKSB7CiAgICAgICAgICAgIGNvbnNvbGUuZXJyb3IoYOWkhOeQhuaSreaUvuiusOW9leWksei0pSAoJHtrZXl9KTpgLCBlcnIpOwogICAgICAgICAgICAvLyDnu6fnu63lpITnkIbkuIvkuIDkuKrorrDlvZUKICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIGNvbnNvbGUubG9nKGDmkq3mlL7orrDlvZXlpITnkIblrozmiJA6ICR7cHJvY2Vzc2VkUmVjb3Jkc30vJHt0b3RhbFJlY29yZHN9YCk7CiAgICAgIH0gY2F0Y2ggKGVycikgewogICAgICAgIGNvbnNvbGUuZXJyb3IoYOiOt+WPlueUqOaIt+aSreaUvuiusOW9leWksei0pSAoJHt1c2VyfSk6YCwgZXJyKTsKICAgICAgfQoKICAgICAgLy8g5pS26JePCiAgICAgIHRyeSB7CiAgICAgICAgY29uc3QgZmF2b3JpdGVzID0gYXdhaXQgZGIuZ2V0QWxsRmF2b3JpdGVzKHVzZXIpOwogICAgICAgIGNvbnN0IHRvdGFsRmF2b3JpdGVzID0gT2JqZWN0LmtleXMoZmF2b3JpdGVzKS5sZW5ndGg7CiAgICAgICAgbGV0IHByb2Nlc3NlZEZhdm9yaXRlcyA9IDA7CgogICAgICAgIGZvciAoY29uc3QgW2tleSwgZmF2XSBvZiBPYmplY3QuZW50cmllcyhmYXZvcml0ZXMpKSB7CiAgICAgICAgICB0cnkgewogICAgICAgICAgICBjb25zdCBbc291cmNlLCBpZF0gPSBrZXkuc3BsaXQoJysnKTsKICAgICAgICAgICAgaWYgKCFzb3VyY2UgfHwgIWlkKSB7CiAgICAgICAgICAgICAgY29uc29sZS53YXJuKGDot7Pov4fml6DmlYjnmoTmlLbol4/plK46ICR7a2V5fWApOwogICAgICAgICAgICAgIGNvbnRpbnVlOwogICAgICAgICAgICB9CgogICAgICAgICAgICBjb25zdCBmYXZEZXRhaWwgPSBhd2FpdCBnZXREZXRhaWwoc291cmNlLCBpZCwgZmF2LnRpdGxlKTsKICAgICAgICAgICAgaWYgKCFmYXZEZXRhaWwpIHsKICAgICAgICAgICAgICBjb25zb2xlLndhcm4oYOi3s+i/h+aXoOazleiOt+WPluivpuaDheeahOaUtuiXjzogJHtrZXl9YCk7CiAgICAgICAgICAgICAgY29udGludWU7CiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGNvbnN0IGZhdkVwaXNvZGVDb3VudCA9IGZhdkRldGFpbC5lcGlzb2Rlcz8ubGVuZ3RoIHx8IDA7CiAgICAgICAgICAgIGlmIChmYXZFcGlzb2RlQ291bnQgPiAwICYmIGZhdkVwaXNvZGVDb3VudCAhPT0gZmF2LnRvdGFsX2VwaXNvZGVzKSB7CiAgICAgICAgICAgICAgYXdhaXQgZGIuc2F2ZUZhdm9yaXRlKHVzZXIsIHNvdXJjZSwgaWQsIHsKICAgICAgICAgICAgICAgIHRpdGxlOiBmYXZEZXRhaWwudGl0bGUgfHwgZmF2LnRpdGxlLAogICAgICAgICAgICAgICAgc291cmNlX25hbWU6IGZhdi5zb3VyY2VfbmFtZSwKICAgICAgICAgICAgICAgIGNvdmVyOiBmYXZEZXRhaWwucG9zdGVyIHx8IGZhdi5jb3ZlciwKICAgICAgICAgICAgICAgIHllYXI6IGZhdkRldGFpbC55ZWFyIHx8IGZhdi55ZWFyLAogICAgICAgICAgICAgICAgdG90YWxfZXBpc29kZXM6IGZhdkVwaXNvZGVDb3VudCwKICAgICAgICAgICAgICAgIHNhdmVfdGltZTogZmF2LnNhdmVfdGltZSwKICAgICAgICAgICAgICAgIHNlYXJjaF90aXRsZTogZmF2LnNlYXJjaF90aXRsZSwKICAgICAgICAgICAgICB9KTsKICAgICAgICAgICAgICBjb25zb2xlLmxvZygKICAgICAgICAgICAgICAgIGDmm7TmlrDmlLbol486ICR7ZmF2LnRpdGxlfSAoJHtmYXYudG90YWxfZXBpc29kZXN9IC0+ICR7ZmF2RXBpc29kZUNvdW50fSlgCiAgICAgICAgICAgICAgKTsKICAgICAgICAgICAgfQoKICAgICAgICAgICAgcHJvY2Vzc2VkRmF2b3JpdGVzKys7CiAgICAgICAgICB9IGNhdGNoIChlcnIpIHsKICAgICAgICAgICAgY29uc29sZS5lcnJvcihg5aSE55CG5pS26JeP5aSx6LSlICgke2tleX0pOmAsIGVycik7CiAgICAgICAgICAgIC8vIOe7p+e7reWkhOeQhuS4i+S4gOS4quaUtuiXjwogICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgY29uc29sZS5sb2coYOaUtuiXj+WkhOeQhuWujOaIkDogJHtwcm9jZXNzZWRGYXZvcml0ZXN9LyR7dG90YWxGYXZvcml0ZXN9YCk7CiAgICAgIH0gY2F0Y2ggKGVycikgewogICAgICAgIGNvbnNvbGUuZXJyb3IoYOiOt+WPlueUqOaIt+aUtuiXj+Wksei0pSAoJHt1c2VyfSk6YCwgZXJyKTsKICAgICAgfQogICAgfQoKICAgIGNvbnNvbGUubG9nKCfliLfmlrDmkq3mlL7orrDlvZUv5pS26JeP5Lu75Yqh5a6M5oiQJyk7CiAgfSBjYXRjaCAoZXJyKSB7CiAgICBjb25zb2xlLmVycm9yKCfliLfmlrDmkq3mlL7orrDlvZUv5pS26JeP5Lu75Yqh5ZCv5Yqo5aSx6LSlJywgZXJyKTsKICB9Cn0K
+/* eslint-disable no-console */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { db } from '@/lib/db';
+import { fetchVideoDetail } from '@/lib/fetchVideoDetail';
+import { SearchResult } from '@/lib/types';
+
+export const runtime = 'edge';
+
+export async function GET(request: NextRequest) {
+  console.log(request.url);
+  try {
+    console.log('Cron job triggered:', new Date().toISOString());
+
+    refreshRecordAndFavorites();
+
+    return NextResponse.json({
+      success: true,
+      message: 'Cron job executed successfully',
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Cron job failed:', error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Cron job failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 }
+    );
+  }
+}
+
+async function refreshRecordAndFavorites() {
+  if (
+    (process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage') === 'localstorage'
+  ) {
+    console.log('跳过刷新：当前使用 localstorage 存储模式');
+    return;
+  }
+
+  try {
+    const users = await db.getAllUsers();
+    if (process.env.USERNAME && !users.includes(process.env.USERNAME)) {
+      users.push(process.env.USERNAME);
+    }
+    // 函数级缓存：key 为 `${source}+${id}`，值为 Promise<VideoDetail | null>
+    const detailCache = new Map<string, Promise<SearchResult | null>>();
+
+    // 获取详情 Promise（带缓存和错误处理）
+    const getDetail = async (
+      source: string,
+      id: string,
+      fallbackTitle: string
+    ): Promise<SearchResult | null> => {
+      const key = `${source}+${id}`;
+      let promise = detailCache.get(key);
+      if (!promise) {
+        promise = fetchVideoDetail({
+          source,
+          id,
+          fallbackTitle: fallbackTitle.trim(),
+        })
+          .then((detail) => {
+            // 成功时才缓存结果
+            const successPromise = Promise.resolve(detail);
+            detailCache.set(key, successPromise);
+            return detail;
+          })
+          .catch((err) => {
+            console.error(`获取视频详情失败 (${source}+${id}):`, err);
+            return null;
+          });
+      }
+      return promise;
+    };
+
+    for (const user of users) {
+      console.log(`开始处理用户: ${user}`);
+
+      // 播放记录
+      try {
+        const playRecords = await db.getAllPlayRecords(user);
+        const totalRecords = Object.keys(playRecords).length;
+        let processedRecords = 0;
+
+        for (const [key, record] of Object.entries(playRecords)) {
+          try {
+            const [source, id] = key.split('+');
+            if (!source || !id) {
+              console.warn(`跳过无效的播放记录键: ${key}`);
+              continue;
+            }
+
+            const detail = await getDetail(source, id, record.title);
+            if (!detail) {
+              console.warn(`跳过无法获取详情的播放记录: ${key}`);
+              continue;
+            }
+
+            const episodeCount = detail.episodes?.length || 0;
+            if (episodeCount > 0 && episodeCount !== record.total_episodes) {
+              await db.savePlayRecord(user, source, id, {
+                title: detail.title || record.title,
+                source_name: record.source_name,
+                cover: detail.poster || record.cover,
+                index: record.index,
+                total_episodes: episodeCount,
+                play_time: record.play_time,
+                year: detail.year || record.year,
+                total_time: record.total_time,
+                save_time: record.save_time,
+                search_title: record.search_title,
+              });
+              console.log(
+                `更新播放记录: ${record.title} (${record.total_episodes} -> ${episodeCount})`
+              );
+            }
+
+            processedRecords++;
+          } catch (err) {
+            console.error(`处理播放记录失败 (${key}):`, err);
+            // 继续处理下一个记录
+          }
+        }
+
+        console.log(`播放记录处理完成: ${processedRecords}/${totalRecords}`);
+      } catch (err) {
+        console.error(`获取用户播放记录失败 (${user}):`, err);
+      }
+
+      // 收藏
+      try {
+        const favorites = await db.getAllFavorites(user);
+        const totalFavorites = Object.keys(favorites).length;
+        let processedFavorites = 0;
+
+        for (const [key, fav] of Object.entries(favorites)) {
+          try {
+            const [source, id] = key.split('+');
+            if (!source || !id) {
+              console.warn(`跳过无效的收藏键: ${key}`);
+              continue;
+            }
+
+            const favDetail = await getDetail(source, id, fav.title);
+            if (!favDetail) {
+              console.warn(`跳过无法获取详情的收藏: ${key}`);
+              continue;
+            }
+
+            const favEpisodeCount = favDetail.episodes?.length || 0;
+            if (favEpisodeCount > 0 && favEpisodeCount !== fav.total_episodes) {
+              await db.saveFavorite(user, source, id, {
+                title: favDetail.title || fav.title,
+                source_name: fav.source_name,
+                cover: favDetail.poster || fav.cover,
+                year: favDetail.year || fav.year,
+                total_episodes: favEpisodeCount,
+                save_time: fav.save_time,
+                search_title: fav.search_title,
+              });
+              console.log(
+                `更新收藏: ${fav.title} (${fav.total_episodes} -> ${favEpisodeCount})`
+              );
+            }
+
+            processedFavorites++;
+          } catch (err) {
+            console.error(`处理收藏失败 (${key}):`, err);
+            // 继续处理下一个收藏
+          }
+        }
+
+        console.log(`收藏处理完成: ${processedFavorites}/${totalFavorites}`);
+      } catch (err) {
+        console.error(`获取用户收藏失败 (${user}):`, err);
+      }
+    }
+
+    console.log('刷新播放记录/收藏任务完成');
+  } catch (err) {
+    console.error('刷新播放记录/收藏任务启动失败', err);
+  }
+}
