@@ -1,1 +1,3 @@
-IyDnpoHmraLmiYDmnInmkJzntKLlvJXmk47niKzlj5YKVXNlci1hZ2VudDogKgpEaXNhbGxvdzogLwo=
+# 禁止所有搜索引擎爬取
+User-agent: *
+Disallow: /
