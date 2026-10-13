@@ -1,1 +1,130 @@
-LyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSxAdHlwZXNjcmlwdC1lc2xpbnQvbm8tZXhwbGljaXQtYW55ICovCmltcG9ydCB7IE5leHRSZXF1ZXN0LCBOZXh0UmVzcG9uc2UgfSBmcm9tICduZXh0L3NlcnZlcic7CgppbXBvcnQgeyBnZXRDb25maWcgfSBmcm9tICdAL2xpYi9jb25maWcnOwppbXBvcnQgeyBkYiB9IGZyb20gJ0AvbGliL2RiJzsKCmV4cG9ydCBjb25zdCBydW50aW1lID0gJ2VkZ2UnOwoKLy8g6K+75Y+W5a2Y5YKo57G75Z6L546v5aKD5Y+Y6YeP77yM6buY6K6kIGxvY2Fsc3RvcmFnZQpjb25zdCBTVE9SQUdFX1RZUEUgPQogIChwcm9jZXNzLmVudi5ORVhUX1BVQkxJQ19TVE9SQUdFX1RZUEUgYXMKICAgIHwgJ2xvY2Fsc3RvcmFnZScKICAgIHwgJ3JlZGlzJwogICAgfCAnZDEnCiAgICB8ICd1cHN0YXNoJwogICAgfCB1bmRlZmluZWQpIHx8ICdsb2NhbHN0b3JhZ2UnOwoKLy8g55Sf5oiQ562+5ZCNCmFzeW5jIGZ1bmN0aW9uIGdlbmVyYXRlU2lnbmF0dXJlKAogIGRhdGE6IHN0cmluZywKICBzZWNyZXQ6IHN0cmluZwopOiBQcm9taXNlPHN0cmluZz4gewogIGNvbnN0IGVuY29kZXIgPSBuZXcgVGV4dEVuY29kZXIoKTsKICBjb25zdCBrZXlEYXRhID0gZW5jb2Rlci5lbmNvZGUoc2VjcmV0KTsKICBjb25zdCBtZXNzYWdlRGF0YSA9IGVuY29kZXIuZW5jb2RlKGRhdGEpOwoKICAvLyDlr7zlhaXlr4bpkqUKICBjb25zdCBrZXkgPSBhd2FpdCBjcnlwdG8uc3VidGxlLmltcG9ydEtleSgKICAgICdyYXcnLAogICAga2V5RGF0YSwKICAgIHsgbmFtZTogJ0hNQUMnLCBoYXNoOiAnU0hBLTI1NicgfSwKICAgIGZhbHNlLAogICAgWydzaWduJ10KICApOwoKICAvLyDnlJ/miJDnrb7lkI0KICBjb25zdCBzaWduYXR1cmUgPSBhd2FpdCBjcnlwdG8uc3VidGxlLnNpZ24oJ0hNQUMnLCBrZXksIG1lc3NhZ2VEYXRhKTsKCiAgLy8g6L2s5o2i5Li65Y2B5YWt6L+b5Yi25a2X56ym5LiyCiAgcmV0dXJuIEFycmF5LmZyb20obmV3IFVpbnQ4QXJyYXkoc2lnbmF0dXJlKSkKICAgIC5tYXAoKGIpID0+IGIudG9TdHJpbmcoMTYpLnBhZFN0YXJ0KDIsICcwJykpCiAgICAuam9pbignJyk7Cn0KCi8vIOeUn+aIkOiupOivgUNvb2tpZe+8iOW4puetvuWQje+8iQphc3luYyBmdW5jdGlvbiBnZW5lcmF0ZUF1dGhDb29raWUodXNlcm5hbWU6IHN0cmluZyk6IFByb21pc2U8c3RyaW5nPiB7CiAgY29uc3QgYXV0aERhdGE6IGFueSA9IHsKICAgIHJvbGU6ICd1c2VyJywKICAgIHVzZXJuYW1lLAogICAgdGltZXN0YW1wOiBEYXRlLm5vdygpLAogIH07CgogIC8vIOS9v+eUqHByb2Nlc3MuZW52LlBBU1NXT1JE5L2c5Li6562+5ZCN5a+G6ZKl77yM6ICM5LiN5piv55So5oi35a+G56CBCiAgY29uc3Qgc2lnbmluZ0tleSA9IHByb2Nlc3MuZW52LlBBU1NXT1JEIHx8ICcnOwogIGNvbnN0IHNpZ25hdHVyZSA9IGF3YWl0IGdlbmVyYXRlU2lnbmF0dXJlKHVzZXJuYW1lLCBzaWduaW5nS2V5KTsKICBhdXRoRGF0YS5zaWduYXR1cmUgPSBzaWduYXR1cmU7CgogIHJldHVybiBlbmNvZGVVUklDb21wb25lbnQoSlNPTi5zdHJpbmdpZnkoYXV0aERhdGEpKTsKfQoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIFBPU1QocmVxOiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICAvLyBsb2NhbHN0b3JhZ2Ug5qih5byP5LiL5LiN5pSv5oyB5rOo5YaMCiAgICBpZiAoU1RPUkFHRV9UWVBFID09PSAnbG9jYWxzdG9yYWdlJykgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogJ+W9k+WJjeaooeW8j+S4jeaUr+aMgeazqOWGjCcgfSwKICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgKTsKICAgIH0KCiAgICBjb25zdCBjb25maWcgPSBhd2FpdCBnZXRDb25maWcoKTsKICAgIC8vIOagoemqjOaYr+WQpuW8gOaUvuazqOWGjAogICAgaWYgKCFjb25maWcuVXNlckNvbmZpZy5BbGxvd1JlZ2lzdGVyKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn5b2T5YmN5pyq5byA5pS+5rOo5YaMJyB9LCB7IHN0YXR1czogNDAwIH0pOwogICAgfQoKICAgIGNvbnN0IHsgdXNlcm5hbWUsIHBhc3N3b3JkIH0gPSBhd2FpdCByZXEuanNvbigpOwoKICAgIGlmICghdXNlcm5hbWUgfHwgdHlwZW9mIHVzZXJuYW1lICE9PSAnc3RyaW5nJykgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+eUqOaIt+WQjeS4jeiDveS4uuepuicgfSwgeyBzdGF0dXM6IDQwMCB9KTsKICAgIH0KICAgIGlmICghcGFzc3dvcmQgfHwgdHlwZW9mIHBhc3N3b3JkICE9PSAnc3RyaW5nJykgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+WvhueggeS4jeiDveS4uuepuicgfSwgeyBzdGF0dXM6IDQwMCB9KTsKICAgIH0KCiAgICAvLyDmo4Dmn6XmmK/lkKblkoznrqHnkIblkZjph43lpI0KICAgIGlmICh1c2VybmFtZSA9PT0gcHJvY2Vzcy5lbnYuVVNFUk5BTUUpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfnlKjmiLflt7LlrZjlnKgnIH0sIHsgc3RhdHVzOiA0MDAgfSk7CiAgICB9CgogICAgdHJ5IHsKICAgICAgLy8g5qOA5p+l55So5oi35piv5ZCm5bey5a2Y5ZyoCiAgICAgIGNvbnN0IGV4aXN0ID0gYXdhaXQgZGIuY2hlY2tVc2VyRXhpc3QodXNlcm5hbWUpOwogICAgICBpZiAoZXhpc3QpIHsKICAgICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+eUqOaIt+W3suWtmOWcqCcgfSwgeyBzdGF0dXM6IDQwMCB9KTsKICAgICAgfQoKICAgICAgYXdhaXQgZGIucmVnaXN0ZXJVc2VyKHVzZXJuYW1lLCBwYXNzd29yZCk7CgogICAgICAvLyDmt7vliqDliLDphY3nva7kuK3lubbkv53lrZgKICAgICAgY29uZmlnLlVzZXJDb25maWcuVXNlcnMucHVzaCh7CiAgICAgICAgdXNlcm5hbWUsCiAgICAgICAgcm9sZTogJ3VzZXInLAogICAgICB9KTsKICAgICAgYXdhaXQgZGIuc2F2ZUFkbWluQ29uZmlnKGNvbmZpZyk7CgogICAgICAvLyDms6jlhozmiJDlip/vvIzorr7nva7orqTor4Fjb29raWUKICAgICAgY29uc3QgcmVzcG9uc2UgPSBOZXh0UmVzcG9uc2UuanNvbih7IG9rOiB0cnVlIH0pOwogICAgICBjb25zdCBjb29raWVWYWx1ZSA9IGF3YWl0IGdlbmVyYXRlQXV0aENvb2tpZSh1c2VybmFtZSk7CiAgICAgIGNvbnN0IGV4cGlyZXMgPSBuZXcgRGF0ZSgpOwogICAgICBleHBpcmVzLnNldERhdGUoZXhwaXJlcy5nZXREYXRlKCkgKyA3KTsgLy8gN+Wkqei/h+acnwoKICAgICAgcmVzcG9uc2UuY29va2llcy5zZXQoJ2F1dGgnLCBjb29raWVWYWx1ZSwgewogICAgICAgIHBhdGg6ICcvJywKICAgICAgICBleHBpcmVzLAogICAgICAgIHNhbWVTaXRlOiAnbGF4JywgLy8g5pS55Li6IGxheCDku6XmlK/mjIEgUFdBCiAgICAgICAgaHR0cE9ubHk6IGZhbHNlLCAvLyBQV0Eg6ZyA6KaB5a6i5oi356uv5Y+v6K6/6ZeuCiAgICAgICAgc2VjdXJlOiBmYWxzZSwgLy8g5qC55o2u5Y2P6K6u6Ieq5Yqo6K6+572uCiAgICAgIH0pOwoKICAgICAgcmV0dXJuIHJlc3BvbnNlOwogICAgfSBjYXRjaCAoZXJyKSB7CiAgICAgIGNvbnNvbGUuZXJyb3IoJ+aVsOaNruW6k+azqOWGjOWksei0pScsIGVycik7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn5pWw5o2u5bqT6ZSZ6K+vJyB9LCB7IHN0YXR1czogNTAwIH0pOwogICAgfQogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCfms6jlhozmjqXlj6PlvILluLgnLCBlcnJvcik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+acjeWKoeWZqOmUmeivrycgfSwgeyBzdGF0dXM6IDUwMCB9KTsKICB9Cn0K
+/* eslint-disable no-console,@typescript-eslint/no-explicit-any */
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getConfig } from '@/lib/config';
+import { db } from '@/lib/db';
+
+export const runtime = 'edge';
+
+// 读取存储类型环境变量，默认 localstorage
+const STORAGE_TYPE =
+  (process.env.NEXT_PUBLIC_STORAGE_TYPE as
+    | 'localstorage'
+    | 'redis'
+    | 'd1'
+    | 'upstash'
+    | undefined) || 'localstorage';
+
+// 生成签名
+async function generateSignature(
+  data: string,
+  secret: string
+): Promise<string> {
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(secret);
+  const messageData = encoder.encode(data);
+
+  // 导入密钥
+  const key = await crypto.subtle.importKey(
+    'raw',
+    keyData,
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+
+  // 生成签名
+  const signature = await crypto.subtle.sign('HMAC', key, messageData);
+
+  // 转换为十六进制字符串
+  return Array.from(new Uint8Array(signature))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+// 生成认证Cookie（带签名）
+async function generateAuthCookie(username: string): Promise<string> {
+  const authData: any = {
+    role: 'user',
+    username,
+    timestamp: Date.now(),
+  };
+
+  // 使用process.env.PASSWORD作为签名密钥，而不是用户密码
+  const signingKey = process.env.PASSWORD || '';
+  const signature = await generateSignature(username, signingKey);
+  authData.signature = signature;
+
+  return encodeURIComponent(JSON.stringify(authData));
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    // localstorage 模式下不支持注册
+    if (STORAGE_TYPE === 'localstorage') {
+      return NextResponse.json(
+        { error: '当前模式不支持注册' },
+        { status: 400 }
+      );
+    }
+
+    const config = await getConfig();
+    // 校验是否开放注册
+    if (!config.UserConfig.AllowRegister) {
+      return NextResponse.json({ error: '当前未开放注册' }, { status: 400 });
+    }
+
+    const { username, password } = await req.json();
+
+    if (!username || typeof username !== 'string') {
+      return NextResponse.json({ error: '用户名不能为空' }, { status: 400 });
+    }
+    if (!password || typeof password !== 'string') {
+      return NextResponse.json({ error: '密码不能为空' }, { status: 400 });
+    }
+
+    // 检查是否和管理员重复
+    if (username === process.env.USERNAME) {
+      return NextResponse.json({ error: '用户已存在' }, { status: 400 });
+    }
+
+    try {
+      // 检查用户是否已存在
+      const exist = await db.checkUserExist(username);
+      if (exist) {
+        return NextResponse.json({ error: '用户已存在' }, { status: 400 });
+      }
+
+      await db.registerUser(username, password);
+
+      // 添加到配置中并保存
+      config.UserConfig.Users.push({
+        username,
+        role: 'user',
+      });
+      await db.saveAdminConfig(config);
+
+      // 注册成功，设置认证cookie
+      const response = NextResponse.json({ ok: true });
+      const cookieValue = await generateAuthCookie(username);
+      const expires = new Date();
+      expires.setDate(expires.getDate() + 7); // 7天过期
+
+      response.cookies.set('auth', cookieValue, {
+        path: '/',
+        expires,
+        sameSite: 'lax', // 改为 lax 以支持 PWA
+        httpOnly: false, // PWA 需要客户端可访问
+        secure: false, // 根据协议自动设置
+      });
+
+      return response;
+    } catch (err) {
+      console.error('数据库注册失败', err);
+      return NextResponse.json({ error: '数据库错误' }, { status: 500 });
+    }
+  } catch (error) {
+    console.error('注册接口异常', error);
+    return NextResponse.json({ error: '服务器错误' }, { status: 500 });
+  }
+}
