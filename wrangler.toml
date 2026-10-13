@@ -2,7 +2,8 @@ name = "moontv"
 compatibility_date = "2024-01-01"
 
 [vars]
-NEXT_PUBLIC_STORAGE_TYPE = "d1"
+# 与 src/lib/db.ts 默认 'localstorage' 保持一致（原为 "d1" 口径不一致）
+NEXT_PUBLIC_STORAGE_TYPE = "localstorage"
 SITE_NAME = "MoonTV"
 
 [[d1_databases]]
