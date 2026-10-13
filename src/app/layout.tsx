@@ -1,1 +1,123 @@
-LyogZXNsaW50LWRpc2FibGUgQHR5cGVzY3JpcHQtZXNsaW50L25vLWV4cGxpY2l0LWFueSAqLwoKaW1wb3J0IHR5cGUgeyBNZXRhZGF0YSwgVmlld3BvcnQgfSBmcm9tICduZXh0JzsKaW1wb3J0IHsgSW50ZXIgfSBmcm9tICduZXh0L2ZvbnQvZ29vZ2xlJzsKCmltcG9ydCAnLi9nbG9iYWxzLmNzcyc7CmltcG9ydCAnc3dlZXRhbGVydDIvZGlzdC9zd2VldGFsZXJ0Mi5taW4uY3NzJzsKCmltcG9ydCB7IGdldENvbmZpZyB9IGZyb20gJ0AvbGliL2NvbmZpZyc7CmltcG9ydCBSdW50aW1lQ29uZmlnIGZyb20gJ0AvbGliL3J1bnRpbWUnOwoKaW1wb3J0IHsgR2xvYmFsRXJyb3JJbmRpY2F0b3IgfSBmcm9tICcuLi9jb21wb25lbnRzL0dsb2JhbEVycm9ySW5kaWNhdG9yJzsKaW1wb3J0IHsgU2l0ZVByb3ZpZGVyIH0gZnJvbSAnLi4vY29tcG9uZW50cy9TaXRlUHJvdmlkZXInOwppbXBvcnQgeyBUaGVtZVByb3ZpZGVyIH0gZnJvbSAnLi4vY29tcG9uZW50cy9UaGVtZVByb3ZpZGVyJzsKCmNvbnN0IGludGVyID0gSW50ZXIoeyBzdWJzZXRzOiBbJ2xhdGluJ10gfSk7CgovLyDliqjmgIHnlJ/miJAgbWV0YWRhdGHvvIzmlK/mjIHphY3nva7mm7TmlrDlkI7nmoTmoIfpopjlj5jljJYKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGdlbmVyYXRlTWV0YWRhdGEoKTogUHJvbWlzZTxNZXRhZGF0YT4gewogIGxldCBzaXRlTmFtZSA9IHByb2Nlc3MuZW52LlNJVEVfTkFNRSB8fCAnTW9vblRWJzsKICBpZiAoCiAgICBwcm9jZXNzLmVudi5ORVhUX1BVQkxJQ19TVE9SQUdFX1RZUEUgIT09ICdkMScgJiYKICAgIHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX1NUT1JBR0VfVFlQRSAhPT0gJ3Vwc3Rhc2gnCiAgKSB7CiAgICBjb25zdCBjb25maWcgPSBhd2FpdCBnZXRDb25maWcoKTsKICAgIHNpdGVOYW1lID0gY29uZmlnLlNpdGVDb25maWcuU2l0ZU5hbWU7CiAgfQoKICByZXR1cm4gewogICAgdGl0bGU6IHNpdGVOYW1lLAogICAgZGVzY3JpcHRpb246ICflvbHop4bogZrlkIgnLAogICAgbWFuaWZlc3Q6ICcvbWFuaWZlc3QuanNvbicsCiAgfTsKfQoKZXhwb3J0IGNvbnN0IHZpZXdwb3J0OiBWaWV3cG9ydCA9IHsKICB0aGVtZUNvbG9yOiAnIzAwMDAwMCcsCiAgdmlld3BvcnRGaXQ6ICdjb3ZlcicsCn07CgpleHBvcnQgZGVmYXVsdCBhc3luYyBmdW5jdGlvbiBSb290TGF5b3V0KHsKICBjaGlsZHJlbiwKfTogewogIGNoaWxkcmVuOiBSZWFjdC5SZWFjdE5vZGU7Cn0pIHsKICBsZXQgc2l0ZU5hbWUgPSBwcm9jZXNzLmVudi5TSVRFX05BTUUgfHwgJ01vb25UVic7CiAgbGV0IGFubm91bmNlbWVudCA9CiAgICBwcm9jZXNzLmVudi5BTk5PVU5DRU1FTlQgfHwKICAgICfmnKznvZHnq5nku4Xmj5DkvpvlvbHop4bkv6Hmga/mkJzntKLmnI3liqHvvIzmiYDmnInlhoXlrrnlnYfmnaXoh6rnrKzkuInmlrnnvZHnq5njgILmnKznq5nkuI3lrZjlgqjku7vkvZXop4bpopHotYTmupDvvIzkuI3lr7nku7vkvZXlhoXlrrnnmoTlh4bnoa7mgKfjgIHlkIjms5XmgKfjgIHlrozmlbTmgKfotJ/otKPjgIInOwogIGxldCBlbmFibGVSZWdpc3RlciA9IHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX0VOQUJMRV9SRUdJU1RFUiA9PT0gJ3RydWUnOwogIGxldCBpbWFnZVByb3h5ID0gcHJvY2Vzcy5lbnYuTkVYVF9QVUJMSUNfSU1BR0VfUFJPWFkgfHwgJyc7CiAgbGV0IGRvdWJhblByb3h5ID0gcHJvY2Vzcy5lbnYuTkVYVF9QVUJMSUNfRE9VQkFOX1BST1hZIHx8ICcnOwogIGxldCBkaXNhYmxlWWVsbG93RmlsdGVyID0KICAgIHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX0RJU0FCTEVfWUVMTE9XX0ZJTFRFUiA9PT0gJ3RydWUnOwogIGxldCBjdXN0b21DYXRlZ29yaWVzID0KICAgIChSdW50aW1lQ29uZmlnIGFzIGFueSkuY3VzdG9tX2NhdGVnb3J5Py5tYXAoKGNhdGVnb3J5OiBhbnkpID0+ICh7CiAgICAgIG5hbWU6ICduYW1lJyBpbiBjYXRlZ29yeSA/IGNhdGVnb3J5Lm5hbWUgOiAnJywKICAgICAgdHlwZTogY2F0ZWdvcnkudHlwZSwKICAgICAgcXVlcnk6IGNhdGVnb3J5LnF1ZXJ5LAogICAgfSkpIHx8IChbXSBhcyBBcnJheTx7IG5hbWU6IHN0cmluZzsgdHlwZTogJ21vdmllJyB8ICd0dic7IHF1ZXJ5OiBzdHJpbmcgfT4pOwogIGlmICgKICAgIHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX1NUT1JBR0VfVFlQRSAhPT0gJ2QxJyAmJgogICAgcHJvY2Vzcy5lbnYuTkVYVF9QVUJMSUNfU1RPUkFHRV9UWVBFICE9PSAndXBzdGFzaCcKICApIHsKICAgIGNvbnN0IGNvbmZpZyA9IGF3YWl0IGdldENvbmZpZygpOwogICAgc2l0ZU5hbWUgPSBjb25maWcuU2l0ZUNvbmZpZy5TaXRlTmFtZTsKICAgIGFubm91bmNlbWVudCA9IGNvbmZpZy5TaXRlQ29uZmlnLkFubm91bmNlbWVudDsKICAgIGVuYWJsZVJlZ2lzdGVyID0gY29uZmlnLlVzZXJDb25maWcuQWxsb3dSZWdpc3RlcjsKICAgIGltYWdlUHJveHkgPSBjb25maWcuU2l0ZUNvbmZpZy5JbWFnZVByb3h5OwogICAgZG91YmFuUHJveHkgPSBjb25maWcuU2l0ZUNvbmZpZy5Eb3ViYW5Qcm94eTsKICAgIGRpc2FibGVZZWxsb3dGaWx0ZXIgPSBjb25maWcuU2l0ZUNvbmZpZy5EaXNhYmxlWWVsbG93RmlsdGVyOwogICAgY3VzdG9tQ2F0ZWdvcmllcyA9IGNvbmZpZy5DdXN0b21DYXRlZ29yaWVzLmZpbHRlcigKICAgICAgKGNhdGVnb3J5KSA9PiAhY2F0ZWdvcnkuZGlzYWJsZWQKICAgICkubWFwKChjYXRlZ29yeSkgPT4gKHsKICAgICAgbmFtZTogY2F0ZWdvcnkubmFtZSB8fCAnJywKICAgICAgdHlwZTogY2F0ZWdvcnkudHlwZSwKICAgICAgcXVlcnk6IGNhdGVnb3J5LnF1ZXJ5LAogICAgfSkpOwogIH0KCiAgLy8g5bCG6L+Q6KGM5pe26YWN572u5rOo5YWl5Yiw5YWo5bGAIHdpbmRvdyDlr7nosaHvvIzkvpvlrqLmiLfnq6/lnKjov5DooYzml7bor7vlj5YKICBjb25zdCBydW50aW1lQ29uZmlnID0gewogICAgU1RPUkFHRV9UWVBFOiBwcm9jZXNzLmVudi5ORVhUX1BVQkxJQ19TVE9SQUdFX1RZUEUgfHwgJ2xvY2Fsc3RvcmFnZScsCiAgICBFTkFCTEVfUkVHSVNURVI6IGVuYWJsZVJlZ2lzdGVyLAogICAgSU1BR0VfUFJPWFk6IGltYWdlUHJveHksCiAgICBET1VCQU5fUFJPWFk6IGRvdWJhblByb3h5LAogICAgRElTQUJMRV9ZRUxMT1dfRklMVEVSOiBkaXNhYmxlWWVsbG93RmlsdGVyLAogICAgQ1VTVE9NX0NBVEVHT1JJRVM6IGN1c3RvbUNhdGVnb3JpZXMsCiAgfTsKCiAgcmV0dXJuICgKICAgIDxodG1sIGxhbmc9J3poLUNOJyBzdXBwcmVzc0h5ZHJhdGlvbldhcm5pbmc+CiAgICAgIDxoZWFkPgogICAgICAgIDxtZXRhCiAgICAgICAgICBuYW1lPSd2aWV3cG9ydCcKICAgICAgICAgIGNvbnRlbnQ9J3dpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAsIHZpZXdwb3J0LWZpdD1jb3ZlcicKICAgICAgICAvPgogICAgICAgIHsvKiDlsIbphY3nva7luo/liJfljJblkI7nm7TmjqXlhpnlhaXohJrmnKzvvIzmtY/op4jlmajnq6/lj6/pgJrov4cgd2luZG93LlJVTlRJTUVfQ09ORklHIOiOt+WPliAqL30KICAgICAgICB7LyogZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIEBuZXh0L25leHQvbm8tc3luYy1zY3JpcHRzICovfQogICAgICAgIDxzY3JpcHQKICAgICAgICAgIGRhbmdlcm91c2x5U2V0SW5uZXJIVE1MPXt7CiAgICAgICAgICAgIF9faHRtbDogYHdpbmRvdy5SVU5USU1FX0NPTkZJRyA9ICR7SlNPTi5zdHJpbmdpZnkocnVudGltZUNvbmZpZyl9O2AsCiAgICAgICAgICB9fQogICAgICAgIC8+CiAgICAgIDwvaGVhZD4KICAgICAgPGJvZHkKICAgICAgICBjbGFzc05hbWU9e2Ake2ludGVyLmNsYXNzTmFtZX0gbWluLWgtc2NyZWVuIGJnLXdoaXRlIHRleHQtZ3JheS05MDAgZGFyazpiZy1ibGFjayBkYXJrOnRleHQtZ3JheS0yMDBgfQogICAgICA+CiAgICAgICAgPFRoZW1lUHJvdmlkZXIKICAgICAgICAgIGF0dHJpYnV0ZT0nY2xhc3MnCiAgICAgICAgICBkZWZhdWx0VGhlbWU9J3N5c3RlbScKICAgICAgICAgIGVuYWJsZVN5c3RlbQogICAgICAgICAgZGlzYWJsZVRyYW5zaXRpb25PbkNoYW5nZQogICAgICAgID4KICAgICAgICAgIDxTaXRlUHJvdmlkZXIgc2l0ZU5hbWU9e3NpdGVOYW1lfSBhbm5vdW5jZW1lbnQ9e2Fubm91bmNlbWVudH0+CiAgICAgICAgICAgIHtjaGlsZHJlbn0KICAgICAgICAgICAgPEdsb2JhbEVycm9ySW5kaWNhdG9yIC8+CiAgICAgICAgICA8L1NpdGVQcm92aWRlcj4KICAgICAgICA8L1RoZW1lUHJvdmlkZXI+CiAgICAgIDwvYm9keT4KICAgIDwvaHRtbD4KICApOwp9Cg==
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
+
+import './globals.css';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+import { getConfig } from '@/lib/config';
+import RuntimeConfig from '@/lib/runtime';
+
+import { GlobalErrorIndicator } from '../components/GlobalErrorIndicator';
+import { SiteProvider } from '../components/SiteProvider';
+import { ThemeProvider } from '../components/ThemeProvider';
+
+const inter = Inter({ subsets: ['latin'] });
+
+// 动态生成 metadata，支持配置更新后的标题变化
+export async function generateMetadata(): Promise<Metadata> {
+  let siteName = process.env.SITE_NAME || 'MoonTV';
+  if (
+    process.env.NEXT_PUBLIC_STORAGE_TYPE !== 'd1' &&
+    process.env.NEXT_PUBLIC_STORAGE_TYPE !== 'upstash'
+  ) {
+    const config = await getConfig();
+    siteName = config.SiteConfig.SiteName;
+  }
+
+  return {
+    title: siteName,
+    description: '影视聚合',
+    manifest: '/manifest.json',
+  };
+}
+
+export const viewport: Viewport = {
+  themeColor: '#000000',
+  viewportFit: 'cover',
+};
+
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  let siteName = process.env.SITE_NAME || 'MoonTV';
+  let announcement =
+    process.env.ANNOUNCEMENT ||
+    '本网站仅提供影视信息搜索服务，所有内容均来自第三方网站。本站不存储任何视频资源，不对任何内容的准确性、合法性、完整性负责。';
+  let enableRegister = process.env.NEXT_PUBLIC_ENABLE_REGISTER === 'true';
+  let imageProxy = process.env.NEXT_PUBLIC_IMAGE_PROXY || '';
+  let doubanProxy = process.env.NEXT_PUBLIC_DOUBAN_PROXY || '';
+  let disableYellowFilter =
+    process.env.NEXT_PUBLIC_DISABLE_YELLOW_FILTER === 'true';
+  let customCategories =
+    (RuntimeConfig as any).custom_category?.map((category: any) => ({
+      name: 'name' in category ? category.name : '',
+      type: category.type,
+      query: category.query,
+    })) || ([] as Array<{ name: string; type: 'movie' | 'tv'; query: string }>);
+  if (
+    process.env.NEXT_PUBLIC_STORAGE_TYPE !== 'd1' &&
+    process.env.NEXT_PUBLIC_STORAGE_TYPE !== 'upstash'
+  ) {
+    const config = await getConfig();
+    siteName = config.SiteConfig.SiteName;
+    announcement = config.SiteConfig.Announcement;
+    enableRegister = config.UserConfig.AllowRegister;
+    imageProxy = config.SiteConfig.ImageProxy;
+    doubanProxy = config.SiteConfig.DoubanProxy;
+    disableYellowFilter = config.SiteConfig.DisableYellowFilter;
+    customCategories = config.CustomCategories.filter(
+      (category) => !category.disabled
+    ).map((category) => ({
+      name: category.name || '',
+      type: category.type,
+      query: category.query,
+    }));
+  }
+
+  // 将运行时配置注入到全局 window 对象，供客户端在运行时读取
+  const runtimeConfig = {
+    STORAGE_TYPE: process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage',
+    ENABLE_REGISTER: enableRegister,
+    IMAGE_PROXY: imageProxy,
+    DOUBAN_PROXY: doubanProxy,
+    DISABLE_YELLOW_FILTER: disableYellowFilter,
+    CUSTOM_CATEGORIES: customCategories,
+  };
+
+  return (
+    <html lang='zh-CN' suppressHydrationWarning>
+      <head>
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1.0, viewport-fit=cover'
+        />
+        {/* 将配置序列化后直接写入脚本，浏览器端可通过 window.RUNTIME_CONFIG 获取 */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.RUNTIME_CONFIG = ${JSON.stringify(runtimeConfig)};`,
+          }}
+        />
+      </head>
+      <body
+        className={`${inter.className} min-h-screen bg-white text-gray-900 dark:bg-black dark:text-gray-200`}
+      >
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SiteProvider siteName={siteName} announcement={announcement}>
+            {children}
+            <GlobalErrorIndicator />
+          </SiteProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
