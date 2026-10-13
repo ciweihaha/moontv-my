@@ -1,1 +1,292 @@
-Ly8g5pe26Ze05aSE55CG5bel5YW35Ye95pWwCgovKioKICog6Kej5p6Q6Ieq5a6a5LmJ5pe26Ze05qC85byPCiAqIOaUr+aMgeeahOagvOW8j++8mgogKiAtIFlZWVlNTURESEhNTVNTCiAqIC0gWVlZWS1NTS1ERCBISDpNTTpTUwogKiAtIFVuaXgg5pe26Ze05oizCiAqIC0gSVNPIOWtl+espuS4sgogKi8KZXhwb3J0IGZ1bmN0aW9uIHBhcnNlQ3VzdG9tVGltZUZvcm1hdCh0aW1lU3RyOiBzdHJpbmcpOiBEYXRlIHsKICBpZiAoIXRpbWVTdHIpIHsKICAgIHJldHVybiBuZXcgRGF0ZSgpOwogIH0KCiAgLy8g5bCd6K+V5L2c5Li65pWw5a2X6Kej5p6Q77yIVW5peCDml7bpl7TmiLPvvIkKICBjb25zdCB0aW1lc3RhbXAgPSBwYXJzZUludCh0aW1lU3RyKTsKICBpZiAoIWlzTmFOKHRpbWVzdGFtcCkpIHsKICAgIC8vIOWmguaenOaYr+enkue6p+aXtumXtOaIs++8jOi9rOaNouS4uuavq+enkgogICAgaWYgKHRpbWVzdGFtcCA8IDEwMDAwMDAwMDAwKSB7CiAgICAgIHJldHVybiBuZXcgRGF0ZSh0aW1lc3RhbXAgKiAxMDAwKTsKICAgIH0KICAgIHJldHVybiBuZXcgRGF0ZSh0aW1lc3RhbXApOwogIH0KCiAgLy8g5bCd6K+V5L2c5Li6IElTTyDlrZfnrKbkuLLop6PmnpAKICBjb25zdCBpc29EYXRlID0gbmV3IERhdGUodGltZVN0cik7CiAgaWYgKCFpc05hTihpc29EYXRlLmdldFRpbWUoKSkpIHsKICAgIHJldHVybiBpc29EYXRlOwogIH0KCiAgLy8g5bCd6K+V6Kej5p6QIFlZWVlNTURESEhNTVNTIOagvOW8jwogIGNvbnN0IHl5eXltbWRkaGhtbXNzTWF0Y2ggPSB0aW1lU3RyLm1hdGNoKAogICAgL14oXGR7NH0pKFxkezJ9KShcZHsyfSkoXGR7Mn0pKFxkezJ9KShcZHsyfSkkLwogICk7CiAgaWYgKHl5eXltbWRkaGhtbXNzTWF0Y2gpIHsKICAgIGNvbnN0IFssIHllYXIsIG1vbnRoLCBkYXksIGhvdXIsIG1pbnV0ZSwgc2Vjb25kXSA9IHl5eXltbWRkaGhtbXNzTWF0Y2g7CiAgICByZXR1cm4gbmV3IERhdGUoCiAgICAgIHBhcnNlSW50KHllYXIpLAogICAgICBwYXJzZUludChtb250aCkgLSAxLAogICAgICBwYXJzZUludChkYXkpLAogICAgICBwYXJzZUludChob3VyKSwKICAgICAgcGFyc2VJbnQobWludXRlKSwKICAgICAgcGFyc2VJbnQoc2Vjb25kKQogICAgKTsKICB9CgogIC8vIOWwneivleino+aekCBZWVlZLU1NLUREIEhIOk1NOlNTIOagvOW8jwogIGNvbnN0IGlzb01hdGNoID0gdGltZVN0ci5tYXRjaCgKICAgIC9eKFxkezR9KS0oXGR7Mn0pLShcZHsyfSlccysoXGR7Mn0pOihcZHsyfSk6KFxkezJ9KSQvCiAgKTsKICBpZiAoaXNvTWF0Y2gpIHsKICAgIGNvbnN0IFssIHllYXIsIG1vbnRoLCBkYXksIGhvdXIsIG1pbnV0ZSwgc2Vjb25kXSA9IGlzb01hdGNoOwogICAgcmV0dXJuIG5ldyBEYXRlKAogICAgICBwYXJzZUludCh5ZWFyKSwKICAgICAgcGFyc2VJbnQobW9udGgpIC0gMSwKICAgICAgcGFyc2VJbnQoZGF5KSwKICAgICAgcGFyc2VJbnQoaG91ciksCiAgICAgIHBhcnNlSW50KG1pbnV0ZSksCiAgICAgIHBhcnNlSW50KHNlY29uZCkKICAgICk7CiAgfQoKICAvLyDlsJ3or5Xop6PmnpAgWVlZWS1NTS1ERCDmoLzlvI8KICBjb25zdCBkYXRlTWF0Y2ggPSB0aW1lU3RyLm1hdGNoKC9eKFxkezR9KS0oXGR7Mn0pLShcZHsyfSkkLyk7CiAgaWYgKGRhdGVNYXRjaCkgewogICAgY29uc3QgWywgeWVhciwgbW9udGgsIGRheV0gPSBkYXRlTWF0Y2g7CiAgICByZXR1cm4gbmV3IERhdGUocGFyc2VJbnQoeWVhciksIHBhcnNlSW50KG1vbnRoKSAtIDEsIHBhcnNlSW50KGRheSkpOwogIH0KCiAgLy8g5aaC5p6c6YO96Kej5p6Q5aSx6LSl77yM6L+U5Zue5b2T5YmN5pe26Ze0CiAgY29uc29sZS53YXJuKGBVbmFibGUgdG8gcGFyc2UgdGltZSBmb3JtYXQ6ICR7dGltZVN0cn1gKTsKICByZXR1cm4gbmV3IERhdGUoKTsKfQoKLyoqCiAqIOagvOW8j+WMluaXtumXtOS4uuiHquWumuS5ieagvOW8jwogKi8KZXhwb3J0IGZ1bmN0aW9uIGZvcm1hdEN1c3RvbVRpbWUoCiAgZGF0ZTogRGF0ZSwKICBmb3JtYXQgPSAnWVlZWS1NTS1ERCBISDptbTpzcycKKTogc3RyaW5nIHsKICBjb25zdCB5ZWFyID0gZGF0ZS5nZXRGdWxsWWVhcigpOwogIGNvbnN0IG1vbnRoID0gU3RyaW5nKGRhdGUuZ2V0TW9udGgoKSArIDEpLnBhZFN0YXJ0KDIsICcwJyk7CiAgY29uc3QgZGF5ID0gU3RyaW5nKGRhdGUuZ2V0RGF0ZSgpKS5wYWRTdGFydCgyLCAnMCcpOwogIGNvbnN0IGhvdXJzID0gU3RyaW5nKGRhdGUuZ2V0SG91cnMoKSkucGFkU3RhcnQoMiwgJzAnKTsKICBjb25zdCBtaW51dGVzID0gU3RyaW5nKGRhdGUuZ2V0TWludXRlcygpKS5wYWRTdGFydCgyLCAnMCcpOwogIGNvbnN0IHNlY29uZHMgPSBTdHJpbmcoZGF0ZS5nZXRTZWNvbmRzKCkpLnBhZFN0YXJ0KDIsICcwJyk7CgogIHJldHVybiBmb3JtYXQKICAgIC5yZXBsYWNlKC9ZWVlZL2csIHllYXIudG9TdHJpbmcoKSkKICAgIC5yZXBsYWNlKC9NTS9nLCBtb250aCkKICAgIC5yZXBsYWNlKC9ERC9nLCBkYXkpCiAgICAucmVwbGFjZSgvSEgvZywgaG91cnMpCiAgICAucmVwbGFjZSgvbW0vZywgbWludXRlcykKICAgIC5yZXBsYWNlKC9zcy9nLCBzZWNvbmRzKTsKfQoKLyoqCiAqIOiOt+WPluebuOWvueaXtumXtOaPj+i/sAogKi8KZXhwb3J0IGZ1bmN0aW9uIGdldFJlbGF0aXZlVGltZShkYXRlOiBEYXRlKTogc3RyaW5nIHsKICBjb25zdCBub3cgPSBuZXcgRGF0ZSgpOwogIGNvbnN0IGRpZmZJblNlY29uZHMgPSBNYXRoLmZsb29yKChub3cuZ2V0VGltZSgpIC0gZGF0ZS5nZXRUaW1lKCkpIC8gMTAwMCk7CgogIGlmIChkaWZmSW5TZWNvbmRzIDwgNjApIHsKICAgIHJldHVybiAn5Yia5YiaJzsKICB9CgogIGNvbnN0IGRpZmZJbk1pbnV0ZXMgPSBNYXRoLmZsb29yKGRpZmZJblNlY29uZHMgLyA2MCk7CiAgaWYgKGRpZmZJbk1pbnV0ZXMgPCA2MCkgewogICAgcmV0dXJuIGAke2RpZmZJbk1pbnV0ZXN95YiG6ZKf5YmNYDsKICB9CgogIGNvbnN0IGRpZmZJbkhvdXJzID0gTWF0aC5mbG9vcihkaWZmSW5NaW51dGVzIC8gNjApOwogIGlmIChkaWZmSW5Ib3VycyA8IDI0KSB7CiAgICByZXR1cm4gYCR7ZGlmZkluSG91cnN95bCP5pe25YmNYDsKICB9CgogIGNvbnN0IGRpZmZJbkRheXMgPSBNYXRoLmZsb29yKGRpZmZJbkhvdXJzIC8gMjQpOwogIGlmIChkaWZmSW5EYXlzIDwgMzApIHsKICAgIHJldHVybiBgJHtkaWZmSW5EYXlzfeWkqeWJjWA7CiAgfQoKICBjb25zdCBkaWZmSW5Nb250aHMgPSBNYXRoLmZsb29yKGRpZmZJbkRheXMgLyAzMCk7CiAgaWYgKGRpZmZJbk1vbnRocyA8IDEyKSB7CiAgICByZXR1cm4gYCR7ZGlmZkluTW9udGhzfeS4quaciOWJjWA7CiAgfQoKICBjb25zdCBkaWZmSW5ZZWFycyA9IE1hdGguZmxvb3IoZGlmZkluTW9udGhzIC8gMTIpOwogIHJldHVybiBgJHtkaWZmSW5ZZWFyc33lubTliY1gOwp9CgovKioKICog6I635Y+W5pe26Ze05q615o+P6L+wCiAqLwpleHBvcnQgZnVuY3Rpb24gZ2V0VGltZVJhbmdlRGVzY3JpcHRpb24oc3RhcnQ6IERhdGUsIGVuZDogRGF0ZSk6IHN0cmluZyB7CiAgY29uc3Qgc3RhcnRTdHIgPSBmb3JtYXRDdXN0b21UaW1lKHN0YXJ0LCAnSEg6bW0nKTsKICBjb25zdCBlbmRTdHIgPSBmb3JtYXRDdXN0b21UaW1lKGVuZCwgJ0hIOm1tJyk7CgogIC8vIOWmguaenOaYr+WQjOS4gOWkqQogIGlmIChzdGFydC50b0RhdGVTdHJpbmcoKSA9PT0gZW5kLnRvRGF0ZVN0cmluZygpKSB7CiAgICByZXR1cm4gYCR7c3RhcnRTdHJ9LSR7ZW5kU3RyfWA7CiAgfQoKICAvLyDlpoLmnpzmmK/ot6jlpKkKICBjb25zdCBzdGFydERhdGVTdHIgPSBmb3JtYXRDdXN0b21UaW1lKHN0YXJ0LCAnTU0tREQgSEg6bW0nKTsKICBjb25zdCBlbmREYXRlU3RyID0gZm9ybWF0Q3VzdG9tVGltZShlbmQsICdNTS1ERCBISDptbScpOwogIHJldHVybiBgJHtzdGFydERhdGVTdHJ9IOiHsyAke2VuZERhdGVTdHJ9YDsKfQoKLyoqCiAqIOajgOafpeaYr+WQpuaYr+S7iuWkqQogKi8KZXhwb3J0IGZ1bmN0aW9uIGlzVG9kYXkoZGF0ZTogRGF0ZSk6IGJvb2xlYW4gewogIGNvbnN0IHRvZGF5ID0gbmV3IERhdGUoKTsKICByZXR1cm4gZGF0ZS50b0RhdGVTdHJpbmcoKSA9PT0gdG9kYXkudG9EYXRlU3RyaW5nKCk7Cn0KCi8qKgogKiDmo4Dmn6XmmK/lkKbmmK/mmKjlpKkKICovCmV4cG9ydCBmdW5jdGlvbiBpc1llc3RlcmRheShkYXRlOiBEYXRlKTogYm9vbGVhbiB7CiAgY29uc3QgeWVzdGVyZGF5ID0gbmV3IERhdGUoKTsKICB5ZXN0ZXJkYXkuc2V0RGF0ZSh5ZXN0ZXJkYXkuZ2V0RGF0ZSgpIC0gMSk7CiAgcmV0dXJuIGRhdGUudG9EYXRlU3RyaW5nKCkgPT09IHllc3RlcmRheS50b0RhdGVTdHJpbmcoKTsKfQoKLyoqCiAqIOajgOafpeaYr+WQpuaYr+acrOWRqAogKi8KZXhwb3J0IGZ1bmN0aW9uIGlzVGhpc1dlZWsoZGF0ZTogRGF0ZSk6IGJvb2xlYW4gewogIGNvbnN0IG5vdyA9IG5ldyBEYXRlKCk7CiAgY29uc3Qgc3RhcnRPZldlZWsgPSBuZXcgRGF0ZShub3cpOwogIHN0YXJ0T2ZXZWVrLnNldERhdGUobm93LmdldERhdGUoKSAtIG5vdy5nZXREYXkoKSk7CgogIGNvbnN0IGVuZE9mV2VlayA9IG5ldyBEYXRlKHN0YXJ0T2ZXZWVrKTsKICBlbmRPZldlZWsuc2V0RGF0ZShzdGFydE9mV2Vlay5nZXREYXRlKCkgKyA2KTsKCiAgcmV0dXJuIGRhdGUgPj0gc3RhcnRPZldlZWsgJiYgZGF0ZSA8PSBlbmRPZldlZWs7Cn0KCi8qKgogKiDojrflj5bmmJ/mnJ/nmoTkuK3mloflkI3np7AKICovCmV4cG9ydCBmdW5jdGlvbiBnZXRXZWVrZGF5TmFtZShkYXRlOiBEYXRlKTogc3RyaW5nIHsKICBjb25zdCB3ZWVrZGF5cyA9IFsKICAgICfmmJ/mnJ/ml6UnLAogICAgJ+aYn+acn+S4gCcsCiAgICAn5pif5pyf5LqMJywKICAgICfmmJ/mnJ/kuIknLAogICAgJ+aYn+acn+WbmycsCiAgICAn5pif5pyf5LqUJywKICAgICfmmJ/mnJ/lha0nLAogIF07CiAgcmV0dXJuIHdlZWtkYXlzW2RhdGUuZ2V0RGF5KCldOwp9CgovKioKICog6I635Y+W5pyI5Lu955qE5Lit5paH5ZCN56ewCiAqLwpleHBvcnQgZnVuY3Rpb24gZ2V0TW9udGhOYW1lKGRhdGU6IERhdGUpOiBzdHJpbmcgewogIGNvbnN0IG1vbnRocyA9IFsKICAgICfkuIDmnIgnLAogICAgJ+S6jOaciCcsCiAgICAn5LiJ5pyIJywKICAgICflm5vmnIgnLAogICAgJ+S6lOaciCcsCiAgICAn5YWt5pyIJywKICAgICfkuIPmnIgnLAogICAgJ+WFq+aciCcsCiAgICAn5Lmd5pyIJywKICAgICfljYHmnIgnLAogICAgJ+WNgeS4gOaciCcsCiAgICAn5Y2B5LqM5pyIJywKICBdOwogIHJldHVybiBtb250aHNbZGF0ZS5nZXRNb250aCgpXTsKfQoKLyoqCiAqIOiuoeeul+S4pOS4quaXpeacn+S5i+mXtOeahOWkqeaVsOW3rgogKi8KZXhwb3J0IGZ1bmN0aW9uIGdldERheXNEaWZmZXJlbmNlKGRhdGUxOiBEYXRlLCBkYXRlMjogRGF0ZSk6IG51bWJlciB7CiAgY29uc3Qgb25lRGF5ID0gMjQgKiA2MCAqIDYwICogMTAwMDsKICByZXR1cm4gTWF0aC5yb3VuZChNYXRoLmFicygoZGF0ZTEuZ2V0VGltZSgpIC0gZGF0ZTIuZ2V0VGltZSgpKSAvIG9uZURheSkpOwp9CgovKioKICog5re75Yqg5aSp5pWw5Yiw5pel5pyfCiAqLwpleHBvcnQgZnVuY3Rpb24gYWRkRGF5cyhkYXRlOiBEYXRlLCBkYXlzOiBudW1iZXIpOiBEYXRlIHsKICBjb25zdCByZXN1bHQgPSBuZXcgRGF0ZShkYXRlKTsKICByZXN1bHQuc2V0RGF0ZShyZXN1bHQuZ2V0RGF0ZSgpICsgZGF5cyk7CiAgcmV0dXJuIHJlc3VsdDsKfQoKLyoqCiAqIOa3u+WKoOWwj+aXtuWIsOaXpeacnwogKi8KZXhwb3J0IGZ1bmN0aW9uIGFkZEhvdXJzKGRhdGU6IERhdGUsIGhvdXJzOiBudW1iZXIpOiBEYXRlIHsKICBjb25zdCByZXN1bHQgPSBuZXcgRGF0ZShkYXRlKTsKICByZXN1bHQuc2V0SG91cnMocmVzdWx0LmdldEhvdXJzKCkgKyBob3Vycyk7CiAgcmV0dXJuIHJlc3VsdDsKfQoKLyoqCiAqIOiOt+WPluW9k+WJjeWto+W6pueahOW8gOWni+WSjOe7k+adn+aXpeacnwogKi8KZXhwb3J0IGZ1bmN0aW9uIGdldFF1YXJ0ZXJSYW5nZShkYXRlOiBEYXRlID0gbmV3IERhdGUoKSk6IHsKICBzdGFydDogRGF0ZTsKICBlbmQ6IERhdGU7Cn0gewogIGNvbnN0IHllYXIgPSBkYXRlLmdldEZ1bGxZZWFyKCk7CiAgY29uc3QgcXVhcnRlciA9IE1hdGguZmxvb3IoZGF0ZS5nZXRNb250aCgpIC8gMyk7CgogIGNvbnN0IHN0YXJ0ID0gbmV3IERhdGUoeWVhciwgcXVhcnRlciAqIDMsIDEpOwogIGNvbnN0IGVuZCA9IG5ldyBEYXRlKHllYXIsIChxdWFydGVyICsgMSkgKiAzLCAwLCAyMywgNTksIDU5LCA5OTkpOwoKICByZXR1cm4geyBzdGFydCwgZW5kIH07Cn0KCi8qKgogKiDmoLzlvI/ljJbmjIHnu63ml7bpl7TvvIjnp5LovazmjaLkuLogSEg6bW06c3PvvIkKICovCmV4cG9ydCBmdW5jdGlvbiBmb3JtYXREdXJhdGlvbihzZWNvbmRzOiBudW1iZXIpOiBzdHJpbmcgewogIGNvbnN0IGhvdXJzID0gTWF0aC5mbG9vcihzZWNvbmRzIC8gMzYwMCk7CiAgY29uc3QgbWludXRlcyA9IE1hdGguZmxvb3IoKHNlY29uZHMgJSAzNjAwKSAvIDYwKTsKICBjb25zdCByZW1haW5pbmdTZWNvbmRzID0gc2Vjb25kcyAlIDYwOwoKICBpZiAoaG91cnMgPiAwKSB7CiAgICByZXR1cm4gYCR7aG91cnMudG9TdHJpbmcoKS5wYWRTdGFydCgyLCAnMCcpfToke21pbnV0ZXMKICAgICAgLnRvU3RyaW5nKCkKICAgICAgLnBhZFN0YXJ0KDIsICcwJyl9OiR7cmVtYWluaW5nU2Vjb25kcy50b1N0cmluZygpLnBhZFN0YXJ0KDIsICcwJyl9YDsKICB9CgogIHJldHVybiBgJHttaW51dGVzLnRvU3RyaW5nKCkucGFkU3RhcnQoMiwgJzAnKX06JHtyZW1haW5pbmdTZWNvbmRzCiAgICAudG9TdHJpbmcoKQogICAgLnBhZFN0YXJ0KDIsICcwJyl9YDsKfQoKLyoqCiAqIOino+aekOaMgee7reaXtumXtOWtl+espuS4su+8iEhIOm1tOnNzIOi9rOaNouS4uuenku+8iQogKi8KZXhwb3J0IGZ1bmN0aW9uIHBhcnNlRHVyYXRpb24oZHVyYXRpb25TdHI6IHN0cmluZyk6IG51bWJlciB7CiAgY29uc3QgcGFydHMgPSBkdXJhdGlvblN0ci5zcGxpdCgnOicpLm1hcChOdW1iZXIpOwogIGlmIChwYXJ0cy5sZW5ndGggPT09IDMpIHsKICAgIHJldHVybiBwYXJ0c1swXSAqIDM2MDAgKyBwYXJ0c1sxXSAqIDYwICsgcGFydHNbMl07CiAgfSBlbHNlIGlmIChwYXJ0cy5sZW5ndGggPT09IDIpIHsKICAgIHJldHVybiBwYXJ0c1swXSAqIDYwICsgcGFydHNbMV07CiAgfQogIHJldHVybiAwOwp9Cg==
+// 时间处理工具函数
+
+/**
+ * 解析自定义时间格式
+ * 支持的格式：
+ * - YYYYMMDDHHMMSS
+ * - YYYY-MM-DD HH:MM:SS
+ * - Unix 时间戳
+ * - ISO 字符串
+ */
+export function parseCustomTimeFormat(timeStr: string): Date {
+  if (!timeStr) {
+    return new Date();
+  }
+
+  // 尝试作为数字解析（Unix 时间戳）
+  const timestamp = parseInt(timeStr);
+  if (!isNaN(timestamp)) {
+    // 如果是秒级时间戳，转换为毫秒
+    if (timestamp < 10000000000) {
+      return new Date(timestamp * 1000);
+    }
+    return new Date(timestamp);
+  }
+
+  // 尝试作为 ISO 字符串解析
+  const isoDate = new Date(timeStr);
+  if (!isNaN(isoDate.getTime())) {
+    return isoDate;
+  }
+
+  // 尝试解析 YYYYMMDDHHMMSS 格式
+  const yyyymmddhhmmssMatch = timeStr.match(
+    /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/
+  );
+  if (yyyymmddhhmmssMatch) {
+    const [, year, month, day, hour, minute, second] = yyyymmddhhmmssMatch;
+    return new Date(
+      parseInt(year),
+      parseInt(month) - 1,
+      parseInt(day),
+      parseInt(hour),
+      parseInt(minute),
+      parseInt(second)
+    );
+  }
+
+  // 尝试解析 YYYY-MM-DD HH:MM:SS 格式
+  const isoMatch = timeStr.match(
+    /^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2}):(\d{2})$/
+  );
+  if (isoMatch) {
+    const [, year, month, day, hour, minute, second] = isoMatch;
+    return new Date(
+      parseInt(year),
+      parseInt(month) - 1,
+      parseInt(day),
+      parseInt(hour),
+      parseInt(minute),
+      parseInt(second)
+    );
+  }
+
+  // 尝试解析 YYYY-MM-DD 格式
+  const dateMatch = timeStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (dateMatch) {
+    const [, year, month, day] = dateMatch;
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  }
+
+  // 如果都解析失败，返回当前时间
+  console.warn(`Unable to parse time format: ${timeStr}`);
+  return new Date();
+}
+
+/**
+ * 格式化时间为自定义格式
+ */
+export function formatCustomTime(
+  date: Date,
+  format = 'YYYY-MM-DD HH:mm:ss'
+): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return format
+    .replace(/YYYY/g, year.toString())
+    .replace(/MM/g, month)
+    .replace(/DD/g, day)
+    .replace(/HH/g, hours)
+    .replace(/mm/g, minutes)
+    .replace(/ss/g, seconds);
+}
+
+/**
+ * 获取相对时间描述
+ */
+export function getRelativeTime(date: Date): string {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds < 60) {
+    return '刚刚';
+  }
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes}分钟前`;
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) {
+    return `${diffInHours}小时前`;
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 30) {
+    return `${diffInDays}天前`;
+  }
+
+  const diffInMonths = Math.floor(diffInDays / 30);
+  if (diffInMonths < 12) {
+    return `${diffInMonths}个月前`;
+  }
+
+  const diffInYears = Math.floor(diffInMonths / 12);
+  return `${diffInYears}年前`;
+}
+
+/**
+ * 获取时间段描述
+ */
+export function getTimeRangeDescription(start: Date, end: Date): string {
+  const startStr = formatCustomTime(start, 'HH:mm');
+  const endStr = formatCustomTime(end, 'HH:mm');
+
+  // 如果是同一天
+  if (start.toDateString() === end.toDateString()) {
+    return `${startStr}-${endStr}`;
+  }
+
+  // 如果是跨天
+  const startDateStr = formatCustomTime(start, 'MM-DD HH:mm');
+  const endDateStr = formatCustomTime(end, 'MM-DD HH:mm');
+  return `${startDateStr} 至 ${endDateStr}`;
+}
+
+/**
+ * 检查是否是今天
+ */
+export function isToday(date: Date): boolean {
+  const today = new Date();
+  return date.toDateString() === today.toDateString();
+}
+
+/**
+ * 检查是否是昨天
+ */
+export function isYesterday(date: Date): boolean {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  return date.toDateString() === yesterday.toDateString();
+}
+
+/**
+ * 检查是否是本周
+ */
+export function isThisWeek(date: Date): boolean {
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+  return date >= startOfWeek && date <= endOfWeek;
+}
+
+/**
+ * 获取星期的中文名称
+ */
+export function getWeekdayName(date: Date): string {
+  const weekdays = [
+    '星期日',
+    '星期一',
+    '星期二',
+    '星期三',
+    '星期四',
+    '星期五',
+    '星期六',
+  ];
+  return weekdays[date.getDay()];
+}
+
+/**
+ * 获取月份的中文名称
+ */
+export function getMonthName(date: Date): string {
+  const months = [
+    '一月',
+    '二月',
+    '三月',
+    '四月',
+    '五月',
+    '六月',
+    '七月',
+    '八月',
+    '九月',
+    '十月',
+    '十一月',
+    '十二月',
+  ];
+  return months[date.getMonth()];
+}
+
+/**
+ * 计算两个日期之间的天数差
+ */
+export function getDaysDifference(date1: Date, date2: Date): number {
+  const oneDay = 24 * 60 * 60 * 1000;
+  return Math.round(Math.abs((date1.getTime() - date2.getTime()) / oneDay));
+}
+
+/**
+ * 添加天数到日期
+ */
+export function addDays(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+/**
+ * 添加小时到日期
+ */
+export function addHours(date: Date, hours: number): Date {
+  const result = new Date(date);
+  result.setHours(result.getHours() + hours);
+  return result;
+}
+
+/**
+ * 获取当前季度的开始和结束日期
+ */
+export function getQuarterRange(date: Date = new Date()): {
+  start: Date;
+  end: Date;
+} {
+  const year = date.getFullYear();
+  const quarter = Math.floor(date.getMonth() / 3);
+
+  const start = new Date(year, quarter * 3, 1);
+  const end = new Date(year, (quarter + 1) * 3, 0, 23, 59, 59, 999);
+
+  return { start, end };
+}
+
+/**
+ * 格式化持续时间（秒转换为 HH:mm:ss）
+ */
+export function formatDuration(seconds: number): string {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+
+  if (hours > 0) {
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  }
+
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds
+    .toString()
+    .padStart(2, '0')}`;
+}
+
+/**
+ * 解析持续时间字符串（HH:mm:ss 转换为秒）
+ */
+export function parseDuration(durationStr: string): number {
+  const parts = durationStr.split(':').map(Number);
+  if (parts.length === 3) {
+    return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  } else if (parts.length === 2) {
+    return parts[0] * 60 + parts[1];
+  }
+  return 0;
+}
