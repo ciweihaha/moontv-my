@@ -3,7 +3,7 @@
 
 import { ChevronUp, Search, X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   addSearchHistory,
@@ -13,7 +13,7 @@ import {
   subscribeToDataUpdates,
 } from '@/lib/db.client';
 import { SearchResult } from '@/lib/types';
-import { yellowWords } from '@/lib/yellow';
+import { yellowRegex } from '@/lib/yellow';
 
 import PageLayout from '@/components/PageLayout';
 import VideoCard from '@/components/VideoCard';
@@ -30,6 +30,10 @@ function SearchPageClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  // UX-R4: 搜索错误状态（区分"搜索失败"与"无结果"）
+  const [searchError, setSearchError] = useState<string | null>(null);
+  // UX-R4: 在途请求去重（表单提交会直接调一次 + router.push 触发 useEffect 再调一次）
+  const inFlightQueryRef = useRef<string | null>(null);
 
   // 获取默认聚合设置：只读取用户本地设置，默认为 true
   const getDefaultAggregate = () => {
@@ -160,11 +164,23 @@ function SearchPageClient() {
   }, [searchParams]);
 
   const fetchSearchResults = async (query: string) => {
+    const trimmedQuery = query.trim();
+    // UX-R4: 同一关键词的并发请求去重（handleSearch 直接调用 + 路由变化触发 useEffect）
+    if (inFlightQueryRef.current === trimmedQuery) return;
+    inFlightQueryRef.current = trimmedQuery;
+    // UX-R4: 客户端超时（30s），避免服务端 hung 住时无限转圈
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30_000);
     try {
       setIsLoading(true);
+      setSearchError(null);
       const response = await fetch(
-        `/api/search?q=${encodeURIComponent(query.trim())}`
+        `/api/search?q=${encodeURIComponent(trimmedQuery)}`,
+        { signal: controller.signal }
       );
+      if (!response.ok) {
+        throw new Error(`搜索请求失败: ${response.status}`);
+      }
       const data = await response.json();
       let results = data.results;
       if (
@@ -172,8 +188,12 @@ function SearchPageClient() {
         !(window as any).RUNTIME_CONFIG?.DISABLE_YELLOW_FILTER
       ) {
         results = results.filter((result: SearchResult) => {
-          const typeName = result.type_name || '';
-          return !yellowWords.some((word: string) => typeName.includes(word));
+          // 与服务端接口对齐：同时检查 title + type_name，转小写做大小写归一化
+          // PERF-R1: 预编译正则一次匹配，替代逐词 includes
+          const checkText = (
+            (result.title || '') + (result.type_name || '')
+          ).toLowerCase();
+          return !yellowRegex.test(checkText);
         });
       }
       setSearchResults(
@@ -205,8 +225,19 @@ function SearchPageClient() {
       );
       setShowResults(true);
     } catch (error) {
+      // UX-R4: 区分"搜索失败"与"无结果"，给用户明确反馈
       setSearchResults([]);
+      setSearchError(
+        error instanceof DOMException && error.name === 'AbortError'
+          ? '搜索超时，请重试'
+          : '搜索失败，请检查网络后重试'
+      );
+      setShowResults(true);
     } finally {
+      clearTimeout(timeoutId);
+      if (inFlightQueryRef.current === trimmedQuery) {
+        inFlightQueryRef.current = null;
+      }
       setIsLoading(false);
     }
   };
@@ -268,6 +299,17 @@ function SearchPageClient() {
           {isLoading ? (
             <div className='flex justify-center items-center h-40'>
               <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-green-500'></div>
+            </div>
+          ) : searchError ? (
+            /* UX-R4: 搜索失败提示（与"无结果"区分） */
+            <div className='flex flex-col justify-center items-center h-40 gap-3'>
+              <p className='text-red-500 dark:text-red-400'>{searchError}</p>
+              <button
+                onClick={() => fetchSearchResults(searchQuery)}
+                className='px-4 py-2 text-sm rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors'
+              >
+                重试
+              </button>
             </div>
           ) : showResults ? (
             <section className='mb-12'>
