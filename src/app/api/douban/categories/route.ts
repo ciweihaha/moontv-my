@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { getCacheTime } from '@/lib/config';
+import { jsonWithCache } from '@/lib/http';
 import { DoubanItem, DoubanResult } from '@/lib/types';
 
 interface DoubanCategoryApiResponse {
@@ -117,17 +118,10 @@ export async function GET(request: Request) {
     };
 
     const cacheTime = await getCacheTime();
-    return NextResponse.json(response, {
-      headers: {
-        'Cache-Control': `public, max-age=${cacheTime}, s-maxage=${cacheTime}`,
-        'CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
-        'Vercel-CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
-      },
-    });
+    // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
+    return jsonWithCache(response, cacheTime);
   } catch (error) {
-    return NextResponse.json(
-      { error: '获取豆瓣数据失败', details: (error as Error).message },
-      { status: 500 }
-    );
+    // QUALITY-R3: 不向客户端泄露内部错误原文
+    return NextResponse.json({ error: '获取豆瓣数据失败' }, { status: 500 });
   }
 }
