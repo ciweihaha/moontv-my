@@ -1,1 +1,110 @@
-LyogZXNsaW50LWRpc2FibGUgQHR5cGVzY3JpcHQtZXNsaW50L25vLWV4cGxpY2l0LWFueSxuby1jb25zb2xlICovCgppbXBvcnQgeyBOZXh0UmVxdWVzdCwgTmV4dFJlc3BvbnNlIH0gZnJvbSAnbmV4dC9zZXJ2ZXInOwoKaW1wb3J0IHsgZ2V0QXV0aEluZm9Gcm9tQ29va2llIH0gZnJvbSAnQC9saWIvYXV0aCc7CmltcG9ydCB7IGdldENvbmZpZyB9IGZyb20gJ0AvbGliL2NvbmZpZyc7CmltcG9ydCB7IGdldFN0b3JhZ2UgfSBmcm9tICdAL2xpYi9kYic7CgpleHBvcnQgY29uc3QgcnVudGltZSA9ICdlZGdlJzsKCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBQT1NUKHJlcXVlc3Q6IE5leHRSZXF1ZXN0KSB7CiAgY29uc3Qgc3RvcmFnZVR5cGUgPSBwcm9jZXNzLmVudi5ORVhUX1BVQkxJQ19TVE9SQUdFX1RZUEUgfHwgJ2xvY2Fsc3RvcmFnZSc7CiAgaWYgKHN0b3JhZ2VUeXBlID09PSAnbG9jYWxzdG9yYWdlJykgewogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7CiAgICAgICAgZXJyb3I6ICfkuI3mlK/mjIHmnKzlnLDlrZjlgqjov5vooYznrqHnkIblkZjphY3nva4nLAogICAgICB9LAogICAgICB7IHN0YXR1czogNDAwIH0KICAgICk7CiAgfQoKICB0cnkgewogICAgY29uc3QgYm9keSA9IGF3YWl0IHJlcXVlc3QuanNvbigpOwoKICAgIGNvbnN0IGF1dGhJbmZvID0gZ2V0QXV0aEluZm9Gcm9tQ29va2llKHJlcXVlc3QpOwogICAgaWYgKCFhdXRoSW5mbyB8fCAhYXV0aEluZm8udXNlcm5hbWUpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICdVbmF1dGhvcml6ZWQnIH0sIHsgc3RhdHVzOiA0MDEgfSk7CiAgICB9CiAgICBjb25zdCB1c2VybmFtZSA9IGF1dGhJbmZvLnVzZXJuYW1lOwoKICAgIGNvbnN0IHsKICAgICAgU2l0ZU5hbWUsCiAgICAgIEFubm91bmNlbWVudCwKICAgICAgU2VhcmNoRG93bnN0cmVhbU1heFBhZ2UsCiAgICAgIFNpdGVJbnRlcmZhY2VDYWNoZVRpbWUsCiAgICAgIEltYWdlUHJveHksCiAgICAgIERvdWJhblByb3h5LAogICAgICBEaXNhYmxlWWVsbG93RmlsdGVyLAogICAgfSA9IGJvZHkgYXMgewogICAgICBTaXRlTmFtZTogc3RyaW5nOwogICAgICBBbm5vdW5jZW1lbnQ6IHN0cmluZzsKICAgICAgU2VhcmNoRG93bnN0cmVhbU1heFBhZ2U6IG51bWJlcjsKICAgICAgU2l0ZUludGVyZmFjZUNhY2hlVGltZTogbnVtYmVyOwogICAgICBJbWFnZVByb3h5OiBzdHJpbmc7CiAgICAgIERvdWJhblByb3h5OiBzdHJpbmc7CiAgICAgIERpc2FibGVZZWxsb3dGaWx0ZXI6IGJvb2xlYW47CiAgICB9OwoKICAgIC8vIOWPguaVsOagoemqjAogICAgaWYgKAogICAgICB0eXBlb2YgU2l0ZU5hbWUgIT09ICdzdHJpbmcnIHx8CiAgICAgIHR5cGVvZiBBbm5vdW5jZW1lbnQgIT09ICdzdHJpbmcnIHx8CiAgICAgIHR5cGVvZiBTZWFyY2hEb3duc3RyZWFtTWF4UGFnZSAhPT0gJ251bWJlcicgfHwKICAgICAgdHlwZW9mIFNpdGVJbnRlcmZhY2VDYWNoZVRpbWUgIT09ICdudW1iZXInIHx8CiAgICAgIHR5cGVvZiBJbWFnZVByb3h5ICE9PSAnc3RyaW5nJyB8fAogICAgICB0eXBlb2YgRG91YmFuUHJveHkgIT09ICdzdHJpbmcnIHx8CiAgICAgIHR5cGVvZiBEaXNhYmxlWWVsbG93RmlsdGVyICE9PSAnYm9vbGVhbicKICAgICkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+WPguaVsOagvOW8j+mUmeivrycgfSwgeyBzdGF0dXM6IDQwMCB9KTsKICAgIH0KCiAgICBjb25zdCBhZG1pbkNvbmZpZyA9IGF3YWl0IGdldENvbmZpZygpOwogICAgY29uc3Qgc3RvcmFnZSA9IGdldFN0b3JhZ2UoKTsKCiAgICAvLyDmnYPpmZDmoKHpqowKICAgIGlmICh1c2VybmFtZSAhPT0gcHJvY2Vzcy5lbnYuVVNFUk5BTUUpIHsKICAgICAgLy8g566h55CG5ZGYCiAgICAgIGNvbnN0IHVzZXIgPSBhZG1pbkNvbmZpZy5Vc2VyQ29uZmlnLlVzZXJzLmZpbmQoCiAgICAgICAgKHUpID0+IHUudXNlcm5hbWUgPT09IHVzZXJuYW1lCiAgICAgICk7CiAgICAgIGlmICghdXNlciB8fCB1c2VyLnJvbGUgIT09ICdhZG1pbicpIHsKICAgICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+adg+mZkOS4jei2sycgfSwgeyBzdGF0dXM6IDQwMSB9KTsKICAgICAgfQogICAgfQoKICAgIC8vIOabtOaWsOe8k+WtmOS4reeahOermeeCueiuvue9rgogICAgYWRtaW5Db25maWcuU2l0ZUNvbmZpZyA9IHsKICAgICAgU2l0ZU5hbWUsCiAgICAgIEFubm91bmNlbWVudCwKICAgICAgU2VhcmNoRG93bnN0cmVhbU1heFBhZ2UsCiAgICAgIFNpdGVJbnRlcmZhY2VDYWNoZVRpbWUsCiAgICAgIEltYWdlUHJveHksCiAgICAgIERvdWJhblByb3h5LAogICAgICBEaXNhYmxlWWVsbG93RmlsdGVyLAogICAgfTsKCiAgICAvLyDlhpnlhaXmlbDmja7lupMKICAgIGlmIChzdG9yYWdlICYmIHR5cGVvZiAoc3RvcmFnZSBhcyBhbnkpLnNldEFkbWluQ29uZmlnID09PSAnZnVuY3Rpb24nKSB7CiAgICAgIGF3YWl0IChzdG9yYWdlIGFzIGFueSkuc2V0QWRtaW5Db25maWcoYWRtaW5Db25maWcpOwogICAgfQoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBvazogdHJ1ZSB9LAogICAgICB7CiAgICAgICAgaGVhZGVyczogewogICAgICAgICAgJ0NhY2hlLUNvbnRyb2wnOiAnbm8tc3RvcmUnLCAvLyDkuI3nvJPlrZjnu5PmnpwKICAgICAgICB9LAogICAgICB9CiAgICApOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCfmm7TmlrDnq5nngrnphY3nva7lpLHotKU6JywgZXJyb3IpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7CiAgICAgICAgZXJyb3I6ICfmm7TmlrDnq5nngrnphY3nva7lpLHotKUnLAogICAgICAgIGRldGFpbHM6IChlcnJvciBhcyBFcnJvcikubWVzc2FnZSwKICAgICAgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQo=
+/* eslint-disable @typescript-eslint/no-explicit-any,no-console */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getAuthInfoFromCookie } from '@/lib/auth';
+import { getConfig } from '@/lib/config';
+import { getStorage } from '@/lib/db';
+
+export const runtime = 'edge';
+
+export async function POST(request: NextRequest) {
+  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
+  if (storageType === 'localstorage') {
+    return NextResponse.json(
+      {
+        error: '不支持本地存储进行管理员配置',
+      },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const body = await request.json();
+
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const username = authInfo.username;
+
+    const {
+      SiteName,
+      Announcement,
+      SearchDownstreamMaxPage,
+      SiteInterfaceCacheTime,
+      ImageProxy,
+      DoubanProxy,
+      DisableYellowFilter,
+    } = body as {
+      SiteName: string;
+      Announcement: string;
+      SearchDownstreamMaxPage: number;
+      SiteInterfaceCacheTime: number;
+      ImageProxy: string;
+      DoubanProxy: string;
+      DisableYellowFilter: boolean;
+    };
+
+    // 参数校验
+    if (
+      typeof SiteName !== 'string' ||
+      typeof Announcement !== 'string' ||
+      typeof SearchDownstreamMaxPage !== 'number' ||
+      typeof SiteInterfaceCacheTime !== 'number' ||
+      typeof ImageProxy !== 'string' ||
+      typeof DoubanProxy !== 'string' ||
+      typeof DisableYellowFilter !== 'boolean'
+    ) {
+      return NextResponse.json({ error: '参数格式错误' }, { status: 400 });
+    }
+
+    const adminConfig = await getConfig();
+    const storage = getStorage();
+
+    // 权限校验
+    if (username !== process.env.USERNAME) {
+      // 管理员
+      const user = adminConfig.UserConfig.Users.find(
+        (u) => u.username === username
+      );
+      if (!user || user.role !== 'admin') {
+        return NextResponse.json({ error: '权限不足' }, { status: 401 });
+      }
+    }
+
+    // 更新缓存中的站点设置
+    adminConfig.SiteConfig = {
+      SiteName,
+      Announcement,
+      SearchDownstreamMaxPage,
+      SiteInterfaceCacheTime,
+      ImageProxy,
+      DoubanProxy,
+      DisableYellowFilter,
+    };
+
+    // 写入数据库
+    if (storage && typeof (storage as any).setAdminConfig === 'function') {
+      await (storage as any).setAdminConfig(adminConfig);
+    }
+
+    return NextResponse.json(
+      { ok: true },
+      {
+        headers: {
+          'Cache-Control': 'no-store', // 不缓存结果
+        },
+      }
+    );
+  } catch (error) {
+    console.error('更新站点配置失败:', error);
+    return NextResponse.json(
+      {
+        error: '更新站点配置失败',
+        details: (error as Error).message,
+      },
+      { status: 500 }
+    );
+  }
+}
