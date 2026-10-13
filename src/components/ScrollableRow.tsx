@@ -1,1 +1,169 @@
-aW1wb3J0IHsgQ2hldnJvbkxlZnQsIENoZXZyb25SaWdodCB9IGZyb20gJ2x1Y2lkZS1yZWFjdCc7CmltcG9ydCB7IHVzZUVmZmVjdCwgdXNlUmVmLCB1c2VTdGF0ZSB9IGZyb20gJ3JlYWN0JzsKCmludGVyZmFjZSBTY3JvbGxhYmxlUm93UHJvcHMgewogIGNoaWxkcmVuOiBSZWFjdC5SZWFjdE5vZGU7CiAgc2Nyb2xsRGlzdGFuY2U/OiBudW1iZXI7Cn0KCmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIFNjcm9sbGFibGVSb3coewogIGNoaWxkcmVuLAogIHNjcm9sbERpc3RhbmNlID0gMTAwMCwKfTogU2Nyb2xsYWJsZVJvd1Byb3BzKSB7CiAgY29uc3QgY29udGFpbmVyUmVmID0gdXNlUmVmPEhUTUxEaXZFbGVtZW50PihudWxsKTsKICBjb25zdCBbc2hvd0xlZnRTY3JvbGwsIHNldFNob3dMZWZ0U2Nyb2xsXSA9IHVzZVN0YXRlKGZhbHNlKTsKICBjb25zdCBbc2hvd1JpZ2h0U2Nyb2xsLCBzZXRTaG93UmlnaHRTY3JvbGxdID0gdXNlU3RhdGUoZmFsc2UpOwogIGNvbnN0IFtpc0hvdmVyZWQsIHNldElzSG92ZXJlZF0gPSB1c2VTdGF0ZShmYWxzZSk7CgogIGNvbnN0IGNoZWNrU2Nyb2xsID0gKCkgPT4gewogICAgaWYgKGNvbnRhaW5lclJlZi5jdXJyZW50KSB7CiAgICAgIGNvbnN0IHsgc2Nyb2xsV2lkdGgsIGNsaWVudFdpZHRoLCBzY3JvbGxMZWZ0IH0gPSBjb250YWluZXJSZWYuY3VycmVudDsKCiAgICAgIC8vIOiuoeeul+aYr+WQpumcgOimgeW3puWPs+a7muWKqOaMiemSrgogICAgICBjb25zdCB0aHJlc2hvbGQgPSAxOyAvLyDlrrnlt67lgLzvvIzpgb/lhY3mta7ngrnor6/lt64KICAgICAgY29uc3QgY2FuU2Nyb2xsUmlnaHQgPQogICAgICAgIHNjcm9sbFdpZHRoIC0gKHNjcm9sbExlZnQgKyBjbGllbnRXaWR0aCkgPiB0aHJlc2hvbGQ7CiAgICAgIGNvbnN0IGNhblNjcm9sbExlZnQgPSBzY3JvbGxMZWZ0ID4gdGhyZXNob2xkOwoKICAgICAgc2V0U2hvd1JpZ2h0U2Nyb2xsKGNhblNjcm9sbFJpZ2h0KTsKICAgICAgc2V0U2hvd0xlZnRTY3JvbGwoY2FuU2Nyb2xsTGVmdCk7CiAgICB9CiAgfTsKCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIC8vIOWkmuasoeW7tui/n+ajgOafpe+8jOehruS/neWGheWuueW3suWujOWFqOa4suafkwogICAgY2hlY2tTY3JvbGwoKTsKCiAgICAvLyDnm5HlkKznqpflj6PlpKflsI/lj5jljJYKICAgIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdyZXNpemUnLCBjaGVja1Njcm9sbCk7CgogICAgLy8g5Yib5bu65LiA5LiqIFJlc2l6ZU9ic2VydmVyIOadpeebkeWQrOWuueWZqOWkp+Wwj+WPmOWMlgogICAgY29uc3QgcmVzaXplT2JzZXJ2ZXIgPSBuZXcgUmVzaXplT2JzZXJ2ZXIoKCkgPT4gewogICAgICAvLyDlu7bov5/miafooYzmo4Dmn6UKICAgICAgY2hlY2tTY3JvbGwoKTsKICAgIH0pOwoKICAgIGlmIChjb250YWluZXJSZWYuY3VycmVudCkgewogICAgICByZXNpemVPYnNlcnZlci5vYnNlcnZlKGNvbnRhaW5lclJlZi5jdXJyZW50KTsKICAgIH0KCiAgICByZXR1cm4gKCkgPT4gewogICAgICB3aW5kb3cucmVtb3ZlRXZlbnRMaXN0ZW5lcigncmVzaXplJywgY2hlY2tTY3JvbGwpOwogICAgICByZXNpemVPYnNlcnZlci5kaXNjb25uZWN0KCk7CiAgICB9OwogIH0sIFtjaGlsZHJlbl0pOyAvLyDkvp3otZYgY2hpbGRyZW7vvIzlvZPlrZDnu4Tku7blj5jljJbml7bph43mlrDmo4Dmn6UKCiAgLy8g5re75Yqg5LiA5Liq6aKd5aSW55qE5pWI5p6c5p2l55uR5ZCs5a2Q57uE5Lu255qE5Y+Y5YyWCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIGlmIChjb250YWluZXJSZWYuY3VycmVudCkgewogICAgICAvLyDnm5HlkKwgRE9NIOWPmOWMlgogICAgICBjb25zdCBvYnNlcnZlciA9IG5ldyBNdXRhdGlvbk9ic2VydmVyKCgpID0+IHsKICAgICAgICBzZXRUaW1lb3V0KGNoZWNrU2Nyb2xsLCAxMDApOwogICAgICB9KTsKCiAgICAgIG9ic2VydmVyLm9ic2VydmUoY29udGFpbmVyUmVmLmN1cnJlbnQsIHsKICAgICAgICBjaGlsZExpc3Q6IHRydWUsCiAgICAgICAgc3VidHJlZTogdHJ1ZSwKICAgICAgICBhdHRyaWJ1dGVzOiB0cnVlLAogICAgICAgIGF0dHJpYnV0ZUZpbHRlcjogWydzdHlsZScsICdjbGFzcyddLAogICAgICB9KTsKCiAgICAgIHJldHVybiAoKSA9PiBvYnNlcnZlci5kaXNjb25uZWN0KCk7CiAgICB9CiAgfSwgW10pOwoKICBjb25zdCBoYW5kbGVTY3JvbGxSaWdodENsaWNrID0gKCkgPT4gewogICAgaWYgKGNvbnRhaW5lclJlZi5jdXJyZW50KSB7CiAgICAgIGNvbnRhaW5lclJlZi5jdXJyZW50LnNjcm9sbEJ5KHsKICAgICAgICBsZWZ0OiBzY3JvbGxEaXN0YW5jZSwKICAgICAgICBiZWhhdmlvcjogJ3Ntb290aCcsCiAgICAgIH0pOwogICAgfQogIH07CgogIGNvbnN0IGhhbmRsZVNjcm9sbExlZnRDbGljayA9ICgpID0+IHsKICAgIGlmIChjb250YWluZXJSZWYuY3VycmVudCkgewogICAgICBjb250YWluZXJSZWYuY3VycmVudC5zY3JvbGxCeSh7CiAgICAgICAgbGVmdDogLXNjcm9sbERpc3RhbmNlLAogICAgICAgIGJlaGF2aW9yOiAnc21vb3RoJywKICAgICAgfSk7CiAgICB9CiAgfTsKCiAgcmV0dXJuICgKICAgIDxkaXYKICAgICAgY2xhc3NOYW1lPSdyZWxhdGl2ZScKICAgICAgb25Nb3VzZUVudGVyPXsoKSA9PiB7CiAgICAgICAgc2V0SXNIb3ZlcmVkKHRydWUpOwogICAgICAgIC8vIOW9k+m8oOagh+i/m+WFpeaXtumHjeaWsOajgOafpeS4gOasoQogICAgICAgIGNoZWNrU2Nyb2xsKCk7CiAgICAgIH19CiAgICAgIG9uTW91c2VMZWF2ZT17KCkgPT4gc2V0SXNIb3ZlcmVkKGZhbHNlKX0KICAgID4KICAgICAgPGRpdgogICAgICAgIHJlZj17Y29udGFpbmVyUmVmfQogICAgICAgIGNsYXNzTmFtZT0nZmxleCBzcGFjZS14LTYgb3ZlcmZsb3cteC1hdXRvIHNjcm9sbGJhci1oaWRlIHB5LTEgc206cHktMiBwYi0xMiBzbTpwYi0xNCBweC00IHNtOnB4LTYnCiAgICAgICAgb25TY3JvbGw9e2NoZWNrU2Nyb2xsfQogICAgICA+CiAgICAgICAge2NoaWxkcmVufQogICAgICA8L2Rpdj4KICAgICAge3Nob3dMZWZ0U2Nyb2xsICYmICgKICAgICAgICA8ZGl2CiAgICAgICAgICBjbGFzc05hbWU9e2BoaWRkZW4gc206ZmxleCBhYnNvbHV0ZSBsZWZ0LTAgdG9wLTAgYm90dG9tLTAgdy0xNiBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgei1bNjAwXSB0cmFuc2l0aW9uLW9wYWNpdHkgZHVyYXRpb24tMjAwICR7CiAgICAgICAgICAgIGlzSG92ZXJlZCA/ICdvcGFjaXR5LTEwMCcgOiAnb3BhY2l0eS0wJwogICAgICAgICAgfWB9CiAgICAgICAgICBzdHlsZT17ewogICAgICAgICAgICBiYWNrZ3JvdW5kOiAndHJhbnNwYXJlbnQnLAogICAgICAgICAgICBwb2ludGVyRXZlbnRzOiAnbm9uZScsIC8vIOWFgeiuuOeCueWHu+epv+mAjwogICAgICAgICAgfX0KICAgICAgICA+CiAgICAgICAgICA8ZGl2CiAgICAgICAgICAgIGNsYXNzTmFtZT0nYWJzb2x1dGUgaW5zZXQtMCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlcicKICAgICAgICAgICAgc3R5bGU9e3sKICAgICAgICAgICAgICB0b3A6ICc0MCUnLAogICAgICAgICAgICAgIGJvdHRvbTogJzYwJScsCiAgICAgICAgICAgICAgbGVmdDogJy00LjVyZW0nLAogICAgICAgICAgICAgIHBvaW50ZXJFdmVudHM6ICdhdXRvJywKICAgICAgICAgICAgfX0KICAgICAgICAgID4KICAgICAgICAgICAgPGJ1dHRvbgogICAgICAgICAgICAgIG9uQ2xpY2s9e2hhbmRsZVNjcm9sbExlZnRDbGlja30KICAgICAgICAgICAgICBjbGFzc05hbWU9J3ctMTIgaC0xMiBiZy13aGl0ZS85NSByb3VuZGVkLWZ1bGwgc2hhZG93LWxnIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIGhvdmVyOmJnLXdoaXRlIGJvcmRlciBib3JkZXItZ3JheS0yMDAgdHJhbnNpdGlvbi10cmFuc2Zvcm0gaG92ZXI6c2NhbGUtMTA1IGRhcms6YmctZ3JheS04MDAvOTAgZGFyazpob3ZlcjpiZy1ncmF5LTcwMCBkYXJrOmJvcmRlci1ncmF5LTYwMCcKICAgICAgICAgICAgPgogICAgICAgICAgICAgIDxDaGV2cm9uTGVmdCBjbGFzc05hbWU9J3ctNiBoLTYgdGV4dC1ncmF5LTYwMCBkYXJrOnRleHQtZ3JheS0zMDAnIC8+CiAgICAgICAgICAgIDwvYnV0dG9uPgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CiAgICAgICl9CgogICAgICB7c2hvd1JpZ2h0U2Nyb2xsICYmICgKICAgICAgICA8ZGl2CiAgICAgICAgICBjbGFzc05hbWU9e2BoaWRkZW4gc206ZmxleCBhYnNvbHV0ZSByaWdodC0wIHRvcC0wIGJvdHRvbS0wIHctMTYgaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIHotWzYwMF0gdHJhbnNpdGlvbi1vcGFjaXR5IGR1cmF0aW9uLTIwMCAkewogICAgICAgICAgICBpc0hvdmVyZWQgPyAnb3BhY2l0eS0xMDAnIDogJ29wYWNpdHktMCcKICAgICAgICAgIH1gfQogICAgICAgICAgc3R5bGU9e3sKICAgICAgICAgICAgYmFja2dyb3VuZDogJ3RyYW5zcGFyZW50JywKICAgICAgICAgICAgcG9pbnRlckV2ZW50czogJ25vbmUnLCAvLyDlhYHorrjngrnlh7vnqb/pgI8KICAgICAgICAgIH19CiAgICAgICAgPgogICAgICAgICAgPGRpdgogICAgICAgICAgICBjbGFzc05hbWU9J2Fic29sdXRlIGluc2V0LTAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXInCiAgICAgICAgICAgIHN0eWxlPXt7CiAgICAgICAgICAgICAgdG9wOiAnNDAlJywKICAgICAgICAgICAgICBib3R0b206ICc2MCUnLAogICAgICAgICAgICAgIHJpZ2h0OiAnLTQuNXJlbScsCiAgICAgICAgICAgICAgcG9pbnRlckV2ZW50czogJ2F1dG8nLAogICAgICAgICAgICB9fQogICAgICAgICAgPgogICAgICAgICAgICA8YnV0dG9uCiAgICAgICAgICAgICAgb25DbGljaz17aGFuZGxlU2Nyb2xsUmlnaHRDbGlja30KICAgICAgICAgICAgICBjbGFzc05hbWU9J3ctMTIgaC0xMiBiZy13aGl0ZS85NSByb3VuZGVkLWZ1bGwgc2hhZG93LWxnIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktY2VudGVyIGhvdmVyOmJnLXdoaXRlIGJvcmRlciBib3JkZXItZ3JheS0yMDAgdHJhbnNpdGlvbi10cmFuc2Zvcm0gaG92ZXI6c2NhbGUtMTA1IGRhcms6YmctZ3JheS04MDAvOTAgZGFyazpob3ZlcjpiZy1ncmF5LTcwMCBkYXJrOmJvcmRlci1ncmF5LTYwMCcKICAgICAgICAgICAgPgogICAgICAgICAgICAgIDxDaGV2cm9uUmlnaHQgY2xhc3NOYW1lPSd3LTYgaC02IHRleHQtZ3JheS02MDAgZGFyazp0ZXh0LWdyYXktMzAwJyAvPgogICAgICAgICAgICA8L2J1dHRvbj4KICAgICAgICAgIDwvZGl2PgogICAgICAgIDwvZGl2PgogICAgICApfQogICAgPC9kaXY+CiAgKTsKfQo=
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+
+interface ScrollableRowProps {
+  children: React.ReactNode;
+  scrollDistance?: number;
+}
+
+export default function ScrollableRow({
+  children,
+  scrollDistance = 1000,
+}: ScrollableRowProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [showLeftScroll, setShowLeftScroll] = useState(false);
+  const [showRightScroll, setShowRightScroll] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const checkScroll = () => {
+    if (containerRef.current) {
+      const { scrollWidth, clientWidth, scrollLeft } = containerRef.current;
+
+      // 计算是否需要左右滚动按钮
+      const threshold = 1; // 容差值，避免浮点误差
+      const canScrollRight =
+        scrollWidth - (scrollLeft + clientWidth) > threshold;
+      const canScrollLeft = scrollLeft > threshold;
+
+      setShowRightScroll(canScrollRight);
+      setShowLeftScroll(canScrollLeft);
+    }
+  };
+
+  useEffect(() => {
+    // 多次延迟检查，确保内容已完全渲染
+    checkScroll();
+
+    // 监听窗口大小变化
+    window.addEventListener('resize', checkScroll);
+
+    // 创建一个 ResizeObserver 来监听容器大小变化
+    const resizeObserver = new ResizeObserver(() => {
+      // 延迟执行检查
+      checkScroll();
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => {
+      window.removeEventListener('resize', checkScroll);
+      resizeObserver.disconnect();
+    };
+  }, [children]); // 依赖 children，当子组件变化时重新检查
+
+  // 添加一个额外的效果来监听子组件的变化
+  useEffect(() => {
+    if (containerRef.current) {
+      // 监听 DOM 变化
+      const observer = new MutationObserver(() => {
+        setTimeout(checkScroll, 100);
+      });
+
+      observer.observe(containerRef.current, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'class'],
+      });
+
+      return () => observer.disconnect();
+    }
+  }, []);
+
+  const handleScrollRightClick = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({
+        left: scrollDistance,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const handleScrollLeftClick = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollBy({
+        left: -scrollDistance,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  return (
+    <div
+      className='relative'
+      onMouseEnter={() => {
+        setIsHovered(true);
+        // 当鼠标进入时重新检查一次
+        checkScroll();
+      }}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div
+        ref={containerRef}
+        className='flex space-x-6 overflow-x-auto scrollbar-hide py-1 sm:py-2 pb-12 sm:pb-14 px-4 sm:px-6'
+        onScroll={checkScroll}
+      >
+        {children}
+      </div>
+      {showLeftScroll && (
+        <div
+          className={`hidden sm:flex absolute left-0 top-0 bottom-0 w-16 items-center justify-center z-[600] transition-opacity duration-200 ${
+            isHovered ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{
+            background: 'transparent',
+            pointerEvents: 'none', // 允许点击穿透
+          }}
+        >
+          <div
+            className='absolute inset-0 flex items-center justify-center'
+            style={{
+              top: '40%',
+              bottom: '60%',
+              left: '-4.5rem',
+              pointerEvents: 'auto',
+            }}
+          >
+            <button
+              onClick={handleScrollLeftClick}
+              className='w-12 h-12 bg-white/95 rounded-full shadow-lg flex items-center justify-center hover:bg-white border border-gray-200 transition-transform hover:scale-105 dark:bg-gray-800/90 dark:hover:bg-gray-700 dark:border-gray-600'
+            >
+              <ChevronLeft className='w-6 h-6 text-gray-600 dark:text-gray-300' />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showRightScroll && (
+        <div
+          className={`hidden sm:flex absolute right-0 top-0 bottom-0 w-16 items-center justify-center z-[600] transition-opacity duration-200 ${
+            isHovered ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{
+            background: 'transparent',
+            pointerEvents: 'none', // 允许点击穿透
+          }}
+        >
+          <div
+            className='absolute inset-0 flex items-center justify-center'
+            style={{
+              top: '40%',
+              bottom: '60%',
+              right: '-4.5rem',
+              pointerEvents: 'auto',
+            }}
+          >
+            <button
+              onClick={handleScrollRightClick}
+              className='w-12 h-12 bg-white/95 rounded-full shadow-lg flex items-center justify-center hover:bg-white border border-gray-200 transition-transform hover:scale-105 dark:bg-gray-800/90 dark:hover:bg-gray-700 dark:border-gray-600'
+            >
+              <ChevronRight className='w-6 h-6 text-gray-600 dark:text-gray-300' />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
