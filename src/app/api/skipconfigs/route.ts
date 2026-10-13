@@ -1,1 +1,109 @@
-LyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSAqLwoKaW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gJ25leHQvc2VydmVyJzsKCmltcG9ydCB7IGdldEF1dGhJbmZvRnJvbUNvb2tpZSB9IGZyb20gJ0AvbGliL2F1dGgnOwppbXBvcnQgeyBkYiB9IGZyb20gJ0AvbGliL2RiJzsKaW1wb3J0IHsgU2tpcENvbmZpZyB9IGZyb20gJ0AvbGliL3R5cGVzJzsKCmV4cG9ydCBjb25zdCBydW50aW1lID0gJ2VkZ2UnOwoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICBjb25zdCBhdXRoSW5mbyA9IGdldEF1dGhJbmZvRnJvbUNvb2tpZShyZXF1ZXN0KTsKICAgIGlmICghYXV0aEluZm8gfHwgIWF1dGhJbmZvLnVzZXJuYW1lKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn5pyq55m75b2VJyB9LCB7IHN0YXR1czogNDAxIH0pOwogICAgfQoKICAgIGNvbnN0IHsgc2VhcmNoUGFyYW1zIH0gPSBuZXcgVVJMKHJlcXVlc3QudXJsKTsKICAgIGNvbnN0IHNvdXJjZSA9IHNlYXJjaFBhcmFtcy5nZXQoJ3NvdXJjZScpOwogICAgY29uc3QgaWQgPSBzZWFyY2hQYXJhbXMuZ2V0KCdpZCcpOwoKICAgIGlmIChzb3VyY2UgJiYgaWQpIHsKICAgICAgLy8g6I635Y+W5Y2V5Liq6YWN572uCiAgICAgIGNvbnN0IGNvbmZpZyA9IGF3YWl0IGRiLmdldFNraXBDb25maWcoYXV0aEluZm8udXNlcm5hbWUsIHNvdXJjZSwgaWQpOwogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oY29uZmlnKTsKICAgIH0gZWxzZSB7CiAgICAgIC8vIOiOt+WPluaJgOaciemFjee9rgogICAgICBjb25zdCBjb25maWdzID0gYXdhaXQgZGIuZ2V0QWxsU2tpcENvbmZpZ3MoYXV0aEluZm8udXNlcm5hbWUpOwogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oY29uZmlncyk7CiAgICB9CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGNvbnNvbGUuZXJyb3IoJ+iOt+WPlui3s+i/h+eJh+WktOeJh+WwvumFjee9ruWksei0pTonLCBlcnJvcik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICfojrflj5bot7Pov4fniYflpLTniYflsL7phY3nva7lpLHotKUnIH0sCiAgICAgIHsgc3RhdHVzOiA1MDAgfQogICAgKTsKICB9Cn0KCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBQT1NUKHJlcXVlc3Q6IE5leHRSZXF1ZXN0KSB7CiAgdHJ5IHsKICAgIGNvbnN0IGF1dGhJbmZvID0gZ2V0QXV0aEluZm9Gcm9tQ29va2llKHJlcXVlc3QpOwogICAgaWYgKCFhdXRoSW5mbyB8fCAhYXV0aEluZm8udXNlcm5hbWUpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfmnKrnmbvlvZUnIH0sIHsgc3RhdHVzOiA0MDEgfSk7CiAgICB9CgogICAgY29uc3QgYm9keSA9IGF3YWl0IHJlcXVlc3QuanNvbigpOwogICAgY29uc3QgeyBrZXksIGNvbmZpZyB9ID0gYm9keTsKCiAgICBpZiAoIWtleSB8fCAhY29uZmlnKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn57y65bCR5b+F6KaB5Y+C5pWwJyB9LCB7IHN0YXR1czogNDAwIH0pOwogICAgfQoKICAgIC8vIOino+aekGtleeS4unNvdXJjZeWSjGlkCiAgICBjb25zdCBbc291cmNlLCBpZF0gPSBrZXkuc3BsaXQoJysnKTsKICAgIGlmICghc291cmNlIHx8ICFpZCkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+aXoOaViOeahGtleeagvOW8jycgfSwgeyBzdGF0dXM6IDQwMCB9KTsKICAgIH0KCiAgICAvLyDpqozor4HphY3nva7moLzlvI8KICAgIGNvbnN0IHNraXBDb25maWc6IFNraXBDb25maWcgPSB7CiAgICAgIGVuYWJsZTogQm9vbGVhbihjb25maWcuZW5hYmxlKSwKICAgICAgaW50cm9fdGltZTogTnVtYmVyKGNvbmZpZy5pbnRyb190aW1lKSB8fCAwLAogICAgICBvdXRyb190aW1lOiBOdW1iZXIoY29uZmlnLm91dHJvX3RpbWUpIHx8IDAsCiAgICB9OwoKICAgIGF3YWl0IGRiLnNldFNraXBDb25maWcoYXV0aEluZm8udXNlcm5hbWUsIHNvdXJjZSwgaWQsIHNraXBDb25maWcpOwoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IHN1Y2Nlc3M6IHRydWUgfSk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGNvbnNvbGUuZXJyb3IoJ+S/neWtmOi3s+i/h+eJh+WktOeJh+WwvumFjee9ruWksei0pTonLCBlcnJvcik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICfkv53lrZjot7Pov4fniYflpLTniYflsL7phY3nva7lpLHotKUnIH0sCiAgICAgIHsgc3RhdHVzOiA1MDAgfQogICAgKTsKICB9Cn0KCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBERUxFVEUocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICB0cnkgewogICAgY29uc3QgYXV0aEluZm8gPSBnZXRBdXRoSW5mb0Zyb21Db29raWUocmVxdWVzdCk7CiAgICBpZiAoIWF1dGhJbmZvIHx8ICFhdXRoSW5mby51c2VybmFtZSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+acqueZu+W9lScgfSwgeyBzdGF0dXM6IDQwMSB9KTsKICAgIH0KCiAgICBjb25zdCB7IHNlYXJjaFBhcmFtcyB9ID0gbmV3IFVSTChyZXF1ZXN0LnVybCk7CiAgICBjb25zdCBrZXkgPSBzZWFyY2hQYXJhbXMuZ2V0KCdrZXknKTsKCiAgICBpZiAoIWtleSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+e8uuWwkeW/heimgeWPguaVsCcgfSwgeyBzdGF0dXM6IDQwMCB9KTsKICAgIH0KCiAgICAvLyDop6PmnpBrZXnkuLpzb3VyY2XlkoxpZAogICAgY29uc3QgW3NvdXJjZSwgaWRdID0ga2V5LnNwbGl0KCcrJyk7CiAgICBpZiAoIXNvdXJjZSB8fCAhaWQpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfml6DmlYjnmoRrZXnmoLzlvI8nIH0sIHsgc3RhdHVzOiA0MDAgfSk7CiAgICB9CgogICAgYXdhaXQgZGIuZGVsZXRlU2tpcENvbmZpZyhhdXRoSW5mby51c2VybmFtZSwgc291cmNlLCBpZCk7CgogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgc3VjY2VzczogdHJ1ZSB9KTsKICB9IGNhdGNoIChlcnJvcikgewogICAgY29uc29sZS5lcnJvcign5Yig6Zmk6Lez6L+H54mH5aS054mH5bC+6YWN572u5aSx6LSlOicsIGVycm9yKTsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBlcnJvcjogJ+WIoOmZpOi3s+i/h+eJh+WktOeJh+WwvumFjee9ruWksei0pScgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQo=
+/* eslint-disable no-console */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getAuthInfoFromCookie } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { SkipConfig } from '@/lib/types';
+
+export const runtime = 'edge';
+
+export async function GET(request: NextRequest) {
+  try {
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: '未登录' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const source = searchParams.get('source');
+    const id = searchParams.get('id');
+
+    if (source && id) {
+      // 获取单个配置
+      const config = await db.getSkipConfig(authInfo.username, source, id);
+      return NextResponse.json(config);
+    } else {
+      // 获取所有配置
+      const configs = await db.getAllSkipConfigs(authInfo.username);
+      return NextResponse.json(configs);
+    }
+  } catch (error) {
+    console.error('获取跳过片头片尾配置失败:', error);
+    return NextResponse.json(
+      { error: '获取跳过片头片尾配置失败' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: '未登录' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { key, config } = body;
+
+    if (!key || !config) {
+      return NextResponse.json({ error: '缺少必要参数' }, { status: 400 });
+    }
+
+    // 解析key为source和id
+    const [source, id] = key.split('+');
+    if (!source || !id) {
+      return NextResponse.json({ error: '无效的key格式' }, { status: 400 });
+    }
+
+    // 验证配置格式
+    const skipConfig: SkipConfig = {
+      enable: Boolean(config.enable),
+      intro_time: Number(config.intro_time) || 0,
+      outro_time: Number(config.outro_time) || 0,
+    };
+
+    await db.setSkipConfig(authInfo.username, source, id, skipConfig);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('保存跳过片头片尾配置失败:', error);
+    return NextResponse.json(
+      { error: '保存跳过片头片尾配置失败' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: '未登录' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const key = searchParams.get('key');
+
+    if (!key) {
+      return NextResponse.json({ error: '缺少必要参数' }, { status: 400 });
+    }
+
+    // 解析key为source和id
+    const [source, id] = key.split('+');
+    if (!source || !id) {
+      return NextResponse.json({ error: '无效的key格式' }, { status: 400 });
+    }
+
+    await db.deleteSkipConfig(authInfo.username, source, id);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('删除跳过片头片尾配置失败:', error);
+    return NextResponse.json(
+      { error: '删除跳过片头片尾配置失败' },
+      { status: 500 }
+    );
+  }
+}
