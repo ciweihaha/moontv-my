@@ -1,1 +1,206 @@
-aW1wb3J0IHsgTmV4dFJlc3BvbnNlIH0gZnJvbSAnbmV4dC9zZXJ2ZXInOwoKaW1wb3J0IHsgZ2V0Q2FjaGVUaW1lIH0gZnJvbSAnQC9saWIvY29uZmlnJzsKaW1wb3J0IHsgRG91YmFuSXRlbSwgRG91YmFuUmVzdWx0IH0gZnJvbSAnQC9saWIvdHlwZXMnOwoKaW50ZXJmYWNlIERvdWJhbkFwaVJlc3BvbnNlIHsKICBzdWJqZWN0czogQXJyYXk8ewogICAgaWQ6IHN0cmluZzsKICAgIHRpdGxlOiBzdHJpbmc7CiAgICBjb3Zlcjogc3RyaW5nOwogICAgcmF0ZTogc3RyaW5nOwogIH0+Owp9Cgphc3luYyBmdW5jdGlvbiBmZXRjaERvdWJhbkRhdGEodXJsOiBzdHJpbmcpOiBQcm9taXNlPERvdWJhbkFwaVJlc3BvbnNlPiB7CiAgLy8g5re75Yqg6LaF5pe25o6n5Yi2CiAgY29uc3QgY29udHJvbGxlciA9IG5ldyBBYm9ydENvbnRyb2xsZXIoKTsKICBjb25zdCB0aW1lb3V0SWQgPSBzZXRUaW1lb3V0KCgpID0+IGNvbnRyb2xsZXIuYWJvcnQoKSwgMTAwMDApOyAvLyAxMOenkui2heaXtgoKICAvLyDorr7nva7or7fmsYLpgInpobnvvIzljIXmi6zkv6Hlj7flkozlpLTpg6gKICBjb25zdCBmZXRjaE9wdGlvbnMgPSB7CiAgICBzaWduYWw6IGNvbnRyb2xsZXIuc2lnbmFsLAogICAgaGVhZGVyczogewogICAgICAnVXNlci1BZ2VudCc6CiAgICAgICAgJ01vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMjEuMC4wLjAgU2FmYXJpLzUzNy4zNicsCiAgICAgIFJlZmVyZXI6ICdodHRwczovL21vdmllLmRvdWJhbi5jb20vJywKICAgICAgQWNjZXB0OiAnYXBwbGljYXRpb24vanNvbiwgdGV4dC9wbGFpbiwgKi8qJywKICAgIH0sCiAgfTsKCiAgdHJ5IHsKICAgIC8vIOWwneivleebtOaOpeiuv+mXruixhueTo0FQSQogICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaCh1cmwsIGZldGNoT3B0aW9ucyk7CiAgICBjbGVhclRpbWVvdXQodGltZW91dElkKTsKCiAgICBpZiAoIXJlc3BvbnNlLm9rKSB7CiAgICAgIHRocm93IG5ldyBFcnJvcihgSFRUUCBlcnJvciEgU3RhdHVzOiAke3Jlc3BvbnNlLnN0YXR1c31gKTsKICAgIH0KCiAgICByZXR1cm4gYXdhaXQgcmVzcG9uc2UuanNvbigpOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjbGVhclRpbWVvdXQodGltZW91dElkKTsKICAgIHRocm93IGVycm9yOwogIH0KfQoKZXhwb3J0IGNvbnN0IHJ1bnRpbWUgPSAnZWRnZSc7CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gR0VUKHJlcXVlc3Q6IFJlcXVlc3QpIHsKICBjb25zdCB7IHNlYXJjaFBhcmFtcyB9ID0gbmV3IFVSTChyZXF1ZXN0LnVybCk7CgogIC8vIOiOt+WPluWPguaVsAogIGNvbnN0IHR5cGUgPSBzZWFyY2hQYXJhbXMuZ2V0KCd0eXBlJyk7CiAgY29uc3QgdGFnID0gc2VhcmNoUGFyYW1zLmdldCgndGFnJyk7CiAgY29uc3QgcGFnZVNpemUgPSBwYXJzZUludChzZWFyY2hQYXJhbXMuZ2V0KCdwYWdlU2l6ZScpIHx8ICcxNicpOwogIGNvbnN0IHBhZ2VTdGFydCA9IHBhcnNlSW50KHNlYXJjaFBhcmFtcy5nZXQoJ3BhZ2VTdGFydCcpIHx8ICcwJyk7CgogIC8vIOmqjOivgeWPguaVsAogIGlmICghdHlwZSB8fCAhdGFnKSB7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICfnvLrlsJHlv4XopoHlj4LmlbA6IHR5cGUg5oiWIHRhZycgfSwKICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICApOwogIH0KCiAgaWYgKCFbJ3R2JywgJ21vdmllJ10uaW5jbHVkZXModHlwZSkpIHsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBlcnJvcjogJ3R5cGUg5Y+C5pWw5b+F6aG75pivIHR2IOaIliBtb3ZpZScgfSwKICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICApOwogIH0KCiAgaWYgKHBhZ2VTaXplIDwgMSB8fCBwYWdlU2l6ZSA+IDEwMCkgewogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAncGFnZVNpemUg5b+F6aG75ZyoIDEtMTAwIOS5i+mXtCcgfSwKICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICApOwogIH0KCiAgaWYgKHBhZ2VTdGFydCA8IDApIHsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBlcnJvcjogJ3BhZ2VTdGFydCDkuI3og73lsI/kuo4gMCcgfSwKICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICApOwogIH0KCiAgaWYgKHRhZyA9PT0gJ3RvcDI1MCcpIHsKICAgIHJldHVybiBoYW5kbGVUb3AyNTAocGFnZVN0YXJ0KTsKICB9CgogIGNvbnN0IHRhcmdldCA9IGBodHRwczovL21vdmllLmRvdWJhbi5jb20vai9zZWFyY2hfc3ViamVjdHM/dHlwZT0ke3R5cGV9JnRhZz0ke3RhZ30mc29ydD1yZWNvbW1lbmQmcGFnZV9saW1pdD0ke3BhZ2VTaXplfSZwYWdlX3N0YXJ0PSR7cGFnZVN0YXJ0fWA7CgogIHRyeSB7CiAgICAvLyDosIPnlKjosYbnk6MgQVBJCiAgICBjb25zdCBkb3ViYW5EYXRhID0gYXdhaXQgZmV0Y2hEb3ViYW5EYXRhKHRhcmdldCk7CgogICAgLy8g6L2s5o2i5pWw5o2u5qC85byPCiAgICBjb25zdCBsaXN0OiBEb3ViYW5JdGVtW10gPSBkb3ViYW5EYXRhLnN1YmplY3RzLm1hcCgoaXRlbSkgPT4gKHsKICAgICAgaWQ6IGl0ZW0uaWQsCiAgICAgIHRpdGxlOiBpdGVtLnRpdGxlLAogICAgICBwb3N0ZXI6IGl0ZW0uY292ZXIsCiAgICAgIHJhdGU6IGl0ZW0ucmF0ZSwKICAgICAgeWVhcjogJycsCiAgICB9KSk7CgogICAgY29uc3QgcmVzcG9uc2U6IERvdWJhblJlc3VsdCA9IHsKICAgICAgY29kZTogMjAwLAogICAgICBtZXNzYWdlOiAn6I635Y+W5oiQ5YqfJywKICAgICAgbGlzdDogbGlzdCwKICAgIH07CgogICAgY29uc3QgY2FjaGVUaW1lID0gYXdhaXQgZ2V0Q2FjaGVUaW1lKCk7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24ocmVzcG9uc2UsIHsKICAgICAgaGVhZGVyczogewogICAgICAgICdDYWNoZS1Db250cm9sJzogYHB1YmxpYywgbWF4LWFnZT0ke2NhY2hlVGltZX0sIHMtbWF4YWdlPSR7Y2FjaGVUaW1lfWAsCiAgICAgICAgJ0NETi1DYWNoZS1Db250cm9sJzogYHB1YmxpYywgcy1tYXhhZ2U9JHtjYWNoZVRpbWV9YCwKICAgICAgICAnVmVyY2VsLUNETi1DYWNoZS1Db250cm9sJzogYHB1YmxpYywgcy1tYXhhZ2U9JHtjYWNoZVRpbWV9YCwKICAgICAgfSwKICAgIH0pOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICfojrflj5bosYbnk6PmlbDmja7lpLHotKUnLCBkZXRhaWxzOiAoZXJyb3IgYXMgRXJyb3IpLm1lc3NhZ2UgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKZnVuY3Rpb24gaGFuZGxlVG9wMjUwKHBhZ2VTdGFydDogbnVtYmVyKSB7CiAgY29uc3QgdGFyZ2V0ID0gYGh0dHBzOi8vbW92aWUuZG91YmFuLmNvbS90b3AyNTA/c3RhcnQ9JHtwYWdlU3RhcnR9JmZpbHRlcj1gOwoKICAvLyDnm7TmjqXkvb/nlKggZmV0Y2gg6I635Y+WIEhUTUwg6aG16Z2iCiAgY29uc3QgY29udHJvbGxlciA9IG5ldyBBYm9ydENvbnRyb2xsZXIoKTsKICBjb25zdCB0aW1lb3V0SWQgPSBzZXRUaW1lb3V0KCgpID0+IGNvbnRyb2xsZXIuYWJvcnQoKSwgMTAwMDApOwoKICBjb25zdCBmZXRjaE9wdGlvbnMgPSB7CiAgICBzaWduYWw6IGNvbnRyb2xsZXIuc2lnbmFsLAogICAgaGVhZGVyczogewogICAgICAnVXNlci1BZ2VudCc6CiAgICAgICAgJ01vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMjEuMC4wLjAgU2FmYXJpLzUzNy4zNicsCiAgICAgIFJlZmVyZXI6ICdodHRwczovL21vdmllLmRvdWJhbi5jb20vJywKICAgICAgQWNjZXB0OgogICAgICAgICd0ZXh0L2h0bWwsYXBwbGljYXRpb24veGh0bWwreG1sLGFwcGxpY2F0aW9uL3htbDtxPTAuOSxpbWFnZS93ZWJwLCovKjtxPTAuOCcsCiAgICB9LAogIH07CgogIHJldHVybiBmZXRjaCh0YXJnZXQsIGZldGNoT3B0aW9ucykKICAgIC50aGVuKGFzeW5jIChmZXRjaFJlc3BvbnNlKSA9PiB7CiAgICAgIGNsZWFyVGltZW91dCh0aW1lb3V0SWQpOwoKICAgICAgaWYgKCFmZXRjaFJlc3BvbnNlLm9rKSB7CiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBIVFRQIGVycm9yISBTdGF0dXM6ICR7ZmV0Y2hSZXNwb25zZS5zdGF0dXN9YCk7CiAgICAgIH0KCiAgICAgIC8vIOiOt+WPliBIVE1MIOWGheWuuQogICAgICBjb25zdCBodG1sID0gYXdhaXQgZmV0Y2hSZXNwb25zZS50ZXh0KCk7CgogICAgICAvLyDpgJrov4fmraPliJnlkIzml7bmjZXojrflvbHniYcgaWTjgIHmoIfpopjjgIHlsIHpnaLku6Xlj4ror4TliIYKICAgICAgY29uc3QgbW92aWVQYXR0ZXJuID0KICAgICAgICAvPGRpdiBjbGFzcz0iaXRlbSI+W1xzXFNdKj88YVtePl0raHJlZj0iaHR0cHM/OlwvXC9tb3ZpZVwuZG91YmFuXC5jb21cL3N1YmplY3RcLyhcZCspXC8iW1xzXFNdKj88aW1nW14+XSthbHQ9IihbXiJdKykiW14+XSpzcmM9IihbXiJdKykiW1xzXFNdKj88c3BhbiBjbGFzcz0icmF0aW5nX251bSJbXj5dKj4oW148XSopPFwvc3Bhbj5bXHNcU10qPzxcL2Rpdj4vZzsKICAgICAgY29uc3QgbW92aWVzOiBEb3ViYW5JdGVtW10gPSBbXTsKICAgICAgbGV0IG1hdGNoOwoKICAgICAgd2hpbGUgKChtYXRjaCA9IG1vdmllUGF0dGVybi5leGVjKGh0bWwpKSAhPT0gbnVsbCkgewogICAgICAgIGNvbnN0IGlkID0gbWF0Y2hbMV07CiAgICAgICAgY29uc3QgdGl0bGUgPSBtYXRjaFsyXTsKICAgICAgICBjb25zdCBjb3ZlciA9IG1hdGNoWzNdOwogICAgICAgIGNvbnN0IHJhdGUgPSBtYXRjaFs0XSB8fCAnJzsKCiAgICAgICAgLy8g5aSE55CG5Zu+54mHIFVSTO+8jOehruS/neS9v+eUqCBIVFRQUwogICAgICAgIGNvbnN0IHByb2Nlc3NlZENvdmVyID0gY292ZXIucmVwbGFjZSgvXmh0dHA6LywgJ2h0dHBzOicpOwoKICAgICAgICBtb3ZpZXMucHVzaCh7CiAgICAgICAgICBpZDogaWQsCiAgICAgICAgICB0aXRsZTogdGl0bGUsCiAgICAgICAgICBwb3N0ZXI6IHByb2Nlc3NlZENvdmVyLAogICAgICAgICAgcmF0ZTogcmF0ZSwKICAgICAgICAgIHllYXI6ICcnLAogICAgICAgIH0pOwogICAgICB9CgogICAgICBjb25zdCBhcGlSZXNwb25zZTogRG91YmFuUmVzdWx0ID0gewogICAgICAgIGNvZGU6IDIwMCwKICAgICAgICBtZXNzYWdlOiAn6I635Y+W5oiQ5YqfJywKICAgICAgICBsaXN0OiBtb3ZpZXMsCiAgICAgIH07CgogICAgICBjb25zdCBjYWNoZVRpbWUgPSBhd2FpdCBnZXRDYWNoZVRpbWUoKTsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKGFwaVJlc3BvbnNlLCB7CiAgICAgICAgaGVhZGVyczogewogICAgICAgICAgJ0NhY2hlLUNvbnRyb2wnOiBgcHVibGljLCBtYXgtYWdlPSR7Y2FjaGVUaW1lfSwgcy1tYXhhZ2U9JHtjYWNoZVRpbWV9YCwKICAgICAgICAgICdDRE4tQ2FjaGUtQ29udHJvbCc6IGBwdWJsaWMsIHMtbWF4YWdlPSR7Y2FjaGVUaW1lfWAsCiAgICAgICAgICAnVmVyY2VsLUNETi1DYWNoZS1Db250cm9sJzogYHB1YmxpYywgcy1tYXhhZ2U9JHtjYWNoZVRpbWV9YCwKICAgICAgICB9LAogICAgICB9KTsKICAgIH0pCiAgICAuY2F0Y2goKGVycm9yKSA9PiB7CiAgICAgIGNsZWFyVGltZW91dCh0aW1lb3V0SWQpOwogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgewogICAgICAgICAgZXJyb3I6ICfojrflj5bosYbnk6MgVG9wMjUwIOaVsOaNruWksei0pScsCiAgICAgICAgICBkZXRhaWxzOiAoZXJyb3IgYXMgRXJyb3IpLm1lc3NhZ2UsCiAgICAgICAgfSwKICAgICAgICB7IHN0YXR1czogNTAwIH0KICAgICAgKTsKICAgIH0pOwp9Cg==
+import { NextResponse } from 'next/server';
+
+import { getCacheTime } from '@/lib/config';
+import { DoubanItem, DoubanResult } from '@/lib/types';
+
+interface DoubanApiResponse {
+  subjects: Array<{
+    id: string;
+    title: string;
+    cover: string;
+    rate: string;
+  }>;
+}
+
+async function fetchDoubanData(url: string): Promise<DoubanApiResponse> {
+  // 添加超时控制
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+
+  // 设置请求选项，包括信号和头部
+  const fetchOptions = {
+    signal: controller.signal,
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+      Referer: 'https://movie.douban.com/',
+      Accept: 'application/json, text/plain, */*',
+    },
+  };
+
+  try {
+    // 尝试直接访问豆瓣API
+    const response = await fetch(url, fetchOptions);
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    clearTimeout(timeoutId);
+    throw error;
+  }
+}
+
+export const runtime = 'edge';
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+
+  // 获取参数
+  const type = searchParams.get('type');
+  const tag = searchParams.get('tag');
+  const pageSize = parseInt(searchParams.get('pageSize') || '16');
+  const pageStart = parseInt(searchParams.get('pageStart') || '0');
+
+  // 验证参数
+  if (!type || !tag) {
+    return NextResponse.json(
+      { error: '缺少必要参数: type 或 tag' },
+      { status: 400 }
+    );
+  }
+
+  if (!['tv', 'movie'].includes(type)) {
+    return NextResponse.json(
+      { error: 'type 参数必须是 tv 或 movie' },
+      { status: 400 }
+    );
+  }
+
+  if (pageSize < 1 || pageSize > 100) {
+    return NextResponse.json(
+      { error: 'pageSize 必须在 1-100 之间' },
+      { status: 400 }
+    );
+  }
+
+  if (pageStart < 0) {
+    return NextResponse.json(
+      { error: 'pageStart 不能小于 0' },
+      { status: 400 }
+    );
+  }
+
+  if (tag === 'top250') {
+    return handleTop250(pageStart);
+  }
+
+  const target = `https://movie.douban.com/j/search_subjects?type=${type}&tag=${tag}&sort=recommend&page_limit=${pageSize}&page_start=${pageStart}`;
+
+  try {
+    // 调用豆瓣 API
+    const doubanData = await fetchDoubanData(target);
+
+    // 转换数据格式
+    const list: DoubanItem[] = doubanData.subjects.map((item) => ({
+      id: item.id,
+      title: item.title,
+      poster: item.cover,
+      rate: item.rate,
+      year: '',
+    }));
+
+    const response: DoubanResult = {
+      code: 200,
+      message: '获取成功',
+      list: list,
+    };
+
+    const cacheTime = await getCacheTime();
+    return NextResponse.json(response, {
+      headers: {
+        'Cache-Control': `public, max-age=${cacheTime}, s-maxage=${cacheTime}`,
+        'CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+        'Vercel-CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+      },
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: '获取豆瓣数据失败', details: (error as Error).message },
+      { status: 500 }
+    );
+  }
+}
+
+function handleTop250(pageStart: number) {
+  const target = `https://movie.douban.com/top250?start=${pageStart}&filter=`;
+
+  // 直接使用 fetch 获取 HTML 页面
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+  const fetchOptions = {
+    signal: controller.signal,
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+      Referer: 'https://movie.douban.com/',
+      Accept:
+        'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    },
+  };
+
+  return fetch(target, fetchOptions)
+    .then(async (fetchResponse) => {
+      clearTimeout(timeoutId);
+
+      if (!fetchResponse.ok) {
+        throw new Error(`HTTP error! Status: ${fetchResponse.status}`);
+      }
+
+      // 获取 HTML 内容
+      const html = await fetchResponse.text();
+
+      // 通过正则同时捕获影片 id、标题、封面以及评分
+      const moviePattern =
+        /<div class="item">[\s\S]*?<a[^>]+href="https?:\/\/movie\.douban\.com\/subject\/(\d+)\/"[\s\S]*?<img[^>]+alt="([^"]+)"[^>]*src="([^"]+)"[\s\S]*?<span class="rating_num"[^>]*>([^<]*)<\/span>[\s\S]*?<\/div>/g;
+      const movies: DoubanItem[] = [];
+      let match;
+
+      while ((match = moviePattern.exec(html)) !== null) {
+        const id = match[1];
+        const title = match[2];
+        const cover = match[3];
+        const rate = match[4] || '';
+
+        // 处理图片 URL，确保使用 HTTPS
+        const processedCover = cover.replace(/^http:/, 'https:');
+
+        movies.push({
+          id: id,
+          title: title,
+          poster: processedCover,
+          rate: rate,
+          year: '',
+        });
+      }
+
+      const apiResponse: DoubanResult = {
+        code: 200,
+        message: '获取成功',
+        list: movies,
+      };
+
+      const cacheTime = await getCacheTime();
+      return NextResponse.json(apiResponse, {
+        headers: {
+          'Cache-Control': `public, max-age=${cacheTime}, s-maxage=${cacheTime}`,
+          'CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+          'Vercel-CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+        },
+      });
+    })
+    .catch((error) => {
+      clearTimeout(timeoutId);
+      return NextResponse.json(
+        {
+          error: '获取豆瓣 Top250 数据失败',
+          details: (error as Error).message,
+        },
+        { status: 500 }
+      );
+    });
+}
