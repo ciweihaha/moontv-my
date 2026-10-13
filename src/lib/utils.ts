@@ -4,28 +4,42 @@ import Hls from 'hls.js';
 
 /**
  * 获取图片代理 URL 设置
+ *
+ * PERF-R1: localStorage 读取 memo 化。processImageUrl 在每张海报渲染时都会调用，
+ * 直接读 localStorage 开销累积明显。用原始字符串做变更检测：设置变化时自动失效，
+ * 行为与直接读取完全一致。
  */
+let _imgProxyCacheKey = '\0';
+let _imgProxyCacheVal: string | null = null;
 export function getImageProxyUrl(): string | null {
   if (typeof window === 'undefined') return null;
 
+  const rawEnable = localStorage.getItem('enableImageProxy');
+  const rawUrl = localStorage.getItem('imageProxyUrl');
+  const cacheKey = `${rawEnable}|${rawUrl}`;
+  if (cacheKey === _imgProxyCacheKey) return _imgProxyCacheVal;
+
+  let result: string | null = null;
   // 本地未开启图片代理，则不使用代理
-  const enableImageProxy = localStorage.getItem('enableImageProxy');
-  if (enableImageProxy !== null) {
-    if (!JSON.parse(enableImageProxy) as boolean) {
+  if (rawEnable !== null) {
+    if (!(JSON.parse(rawEnable) as boolean)) {
+      _imgProxyCacheKey = cacheKey;
+      _imgProxyCacheVal = null;
       return null;
     }
   }
 
-  const localImageProxy = localStorage.getItem('imageProxyUrl');
-  if (localImageProxy != null) {
-    return localImageProxy.trim() ? localImageProxy.trim() : null;
+  if (rawUrl != null) {
+    result = rawUrl.trim() ? rawUrl.trim() : null;
+  } else {
+    // 如果未设置，则使用全局对象
+    const serverImageProxy = (window as any).RUNTIME_CONFIG?.IMAGE_PROXY;
+    result =
+      serverImageProxy && serverImageProxy.trim() ? serverImageProxy.trim() : null;
   }
-
-  // 如果未设置，则使用全局对象
-  const serverImageProxy = (window as any).RUNTIME_CONFIG?.IMAGE_PROXY;
-  return serverImageProxy && serverImageProxy.trim()
-    ? serverImageProxy.trim()
-    : null;
+  _imgProxyCacheKey = cacheKey;
+  _imgProxyCacheVal = result;
+  return result;
 }
 
 /**
@@ -42,28 +56,42 @@ export function processImageUrl(originalUrl: string): string {
 
 /**
  * 获取豆瓣代理 URL 设置
+ *
+ * PERF-R1: 同 getImageProxyUrl，localStorage 读取 memo 化 + 原始字符串变更检测。
  */
+let _doubanProxyCacheKey = '\0';
+let _doubanProxyCacheVal: string | null = null;
 export function getDoubanProxyUrl(): string | null {
   if (typeof window === 'undefined') return null;
 
+  const rawEnable = localStorage.getItem('enableDoubanProxy');
+  const rawUrl = localStorage.getItem('doubanProxyUrl');
+  const cacheKey = `${rawEnable}|${rawUrl}`;
+  if (cacheKey === _doubanProxyCacheKey) return _doubanProxyCacheVal;
+
+  let result: string | null = null;
   // 本地未开启豆瓣代理，则不使用代理
-  const enableDoubanProxy = localStorage.getItem('enableDoubanProxy');
-  if (enableDoubanProxy !== null) {
-    if (!JSON.parse(enableDoubanProxy) as boolean) {
+  if (rawEnable !== null) {
+    if (!(JSON.parse(rawEnable) as boolean)) {
+      _doubanProxyCacheKey = cacheKey;
+      _doubanProxyCacheVal = null;
       return null;
     }
   }
 
-  const localDoubanProxy = localStorage.getItem('doubanProxyUrl');
-  if (localDoubanProxy != null) {
-    return localDoubanProxy.trim() ? localDoubanProxy.trim() : null;
+  if (rawUrl != null) {
+    result = rawUrl.trim() ? rawUrl.trim() : null;
+  } else {
+    // 如果未设置，则使用全局对象
+    const serverDoubanProxy = (window as any).RUNTIME_CONFIG?.DOUBAN_PROXY;
+    result =
+      serverDoubanProxy && serverDoubanProxy.trim()
+        ? serverDoubanProxy.trim()
+        : null;
   }
-
-  // 如果未设置，则使用全局对象
-  const serverDoubanProxy = (window as any).RUNTIME_CONFIG?.DOUBAN_PROXY;
-  return serverDoubanProxy && serverDoubanProxy.trim()
-    ? serverDoubanProxy.trim()
-    : null;
+  _doubanProxyCacheKey = cacheKey;
+  _doubanProxyCacheVal = result;
+  return result;
 }
 
 /**
