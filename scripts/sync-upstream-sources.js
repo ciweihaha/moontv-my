@@ -1,1 +1,146 @@
-LyoKICDmr4/lkajoh6rliqjlkIzmraXkuIrmuLjniYfmupAKICAxLiDku47kuIrmuLjku5PlupPmi4nlj5bmnIDmlrAgY29uZmlnLmpzb24KICAyLiDmib7lh7rmnKzlnLDmsqHmnInnmoTmlrDmupDvvIzpgJDkuKrlgaXlurfmo4DmtYsKICAzLiDmiorog73nlKjnmoTmlrDmupDliqDov5vmnaXvvIzmjILmjonnmoTml6fmupDliKDmjokKICA0LiDlj6rkv53nlZkgMTUwMG1zIOWGheWTjeW6lOeahOmrmOmAn+a6kAogIOeUqOazlTogbm9kZSBzY3JpcHRzL3N5bmMtdXBzdHJlYW0tc291cmNlcy5qcwoqLwovKiBlc2xpbnQtZGlzYWJsZSBuby1jb25zb2xlICovCmNvbnN0IGZzID0gcmVxdWlyZSgnZnMnKTsKY29uc3QgcGF0aCA9IHJlcXVpcmUoJ3BhdGgnKTsKCi8vIOaIkOS6uuWGheWuuei/h+a7pO+8iDIwMjYtMTAtMDUg5paw5aKe77ybMjAyNi0xMC0xMiDooaUi6bq76LGGIu+8iQpjb25zdCBBRFVMVF9LVyA9IFsnQVYnLCAn6buEJywgJ+e+juWwkeWlsycsICfmiJDkuronLCAn5rerJywgJ+iJsuaDhScsICfmg4XoibInLCAn6bq76LGGJ107CmZ1bmN0aW9uIGlzQWR1bHQobmFtZSkgewogIGlmICghbmFtZSkgcmV0dXJuIGZhbHNlOwogIHJldHVybiBBRFVMVF9LVy5zb21lKGt3ID0+IG5hbWUuaW5jbHVkZXMoa3cpKTsKfQoKY29uc3QgQ09ORklHX1BBVEggPSBwYXRoLmpvaW4ocHJvY2Vzcy5jd2QoKSwgJ2NvbmZpZy5qc29uJyk7Ci8vIOS4iua4uOa6kO+8iOaMieS8mOWFiOe6p+aOkuW6j++8iQpjb25zdCBVUFNUUkVBTVMgPSBbCiAgJ2h0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9ieWxzcHJvL21vb250di9tYWluL2NvbmZpZy5qc29uJywKXTsKY29uc3QgVElNRU9VVF9NUyA9IDEwMDAwOwpjb25zdCBNQVhfTVMgPSAxNTAwOyAvLyDlj6rkv53nlZkgMS41IOenkuWGheWTjeW6lOeahAoKZnVuY3Rpb24gYnVpbGRUZXN0VXJsKGJhc2UpIHsKICBsZXQgdXJsID0gU3RyaW5nKGJhc2UpLnRyaW0oKTsKICBjb25zdCBzZXAgPSB1cmwuaW5jbHVkZXMoJz8nKSA/ICcmJyA6ICc/JzsKICByZXR1cm4gYCR7dXJsfSR7c2VwfWFjPXZpZGVvbGlzdCZ3ZD10ZXN0JnBnPTFgOwp9Cgphc3luYyBmdW5jdGlvbiBmZXRjaFdpdGhUaW1lb3V0KHVybCwgbXMpIHsKICBjb25zdCBhYyA9IG5ldyBBYm9ydENvbnRyb2xsZXIoKTsKICBjb25zdCBpZCA9IHNldFRpbWVvdXQoKCkgPT4gYWMuYWJvcnQoKSwgbXMpOwogIHRyeSB7CiAgICBjb25zdCByZXMgPSBhd2FpdCBmZXRjaCh1cmwsIHsKICAgICAgaGVhZGVyczogeyAnVXNlci1BZ2VudCc6ICdNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBDaHJvbWUvMTIyIFNhZmFyaS81MzcuMzYnIH0sCiAgICAgIHJlZGlyZWN0OiAnZm9sbG93Jywgc2lnbmFsOiBhYy5zaWduYWwsCiAgICB9KTsKICAgIGNvbnN0IHRleHQgPSBhd2FpdCByZXMudGV4dCgpOwogICAgcmV0dXJuIHsgb2s6IHJlcy5vaywgdGV4dCB9OwogIH0gY2F0Y2ggKGUpIHsKICAgIHJldHVybiB7IG9rOiBmYWxzZSwgZXJyb3I6IFN0cmluZyhlLm1lc3NhZ2UgfHwgZSkgfTsKICB9IGZpbmFsbHkgewogICAgY2xlYXJUaW1lb3V0KGlkKTsKICB9Cn0KCmZ1bmN0aW9uIGlzV29ya2luZ0pzb24odGV4dCkgewogIHRyeSB7CiAgICBjb25zdCBqID0gSlNPTi5wYXJzZSh0ZXh0KTsKICAgIC8vIEFwcGxlQ01TIHYxMDogeyBjb2RlOjEsIGxpc3Q6Wy4uLl0gfSDmiJYgeyBsaXN0OlsuLi5dIH0KICAgIGlmIChBcnJheS5pc0FycmF5KGoubGlzdCkgJiYgai5saXN0Lmxlbmd0aCA+PSAwKSByZXR1cm4gdHJ1ZTsKICAgIGlmIChqLmNvZGUgPT09IDEgJiYgai50b3RhbCAhPT0gdW5kZWZpbmVkKSByZXR1cm4gdHJ1ZTsKICAgIHJldHVybiBmYWxzZTsKICB9IGNhdGNoIHsgcmV0dXJuIGZhbHNlOyB9Cn0KCmFzeW5jIGZ1bmN0aW9uIHRlc3RTb3VyY2UoYXBpKSB7CiAgY29uc3Qgc3RhcnQgPSBEYXRlLm5vdygpOwogIGNvbnN0IHIgPSBhd2FpdCBmZXRjaFdpdGhUaW1lb3V0KGJ1aWxkVGVzdFVybChhcGkpLCBUSU1FT1VUX01TKTsKICBjb25zdCBtcyA9IERhdGUubm93KCkgLSBzdGFydDsKICBpZiAoIXIub2spIHJldHVybiB7IHdvcmtpbmc6IGZhbHNlLCBtcywgcmVhc29uOiAnZmV0Y2ggZmFpbGVkJyB9OwogIGlmICghaXNXb3JraW5nSnNvbihyLnRleHQpKSByZXR1cm4geyB3b3JraW5nOiBmYWxzZSwgbXMsIHJlYXNvbjogJ2JhZCBmb3JtYXQnIH07CiAgaWYgKG1zID4gTUFYX01TKSByZXR1cm4geyB3b3JraW5nOiBmYWxzZSwgbXMsIHJlYXNvbjogJ3RvbyBzbG93JyB9OwogIHJldHVybiB7IHdvcmtpbmc6IHRydWUsIG1zIH07Cn0KCmFzeW5jIGZ1bmN0aW9uIG1haW4oKSB7CiAgY29uc3QgbG9jYWwgPSBKU09OLnBhcnNlKGZzLnJlYWRGaWxlU3luYyhDT05GSUdfUEFUSCwgJ3V0ZjgnKSk7CiAgY29uc3QgbG9jYWxTaXRlcyA9IGxvY2FsLmFwaV9zaXRlIHx8IHt9OwogIGNvbnN0IGxvY2FsQXBpcyA9IG5ldyBTZXQoT2JqZWN0LnZhbHVlcyhsb2NhbFNpdGVzKS5tYXAocyA9PiBzLmFwaSkpOwoKICAvLyAxLiDmi4nlj5bkuIrmuLgKICBsZXQgdXBzdHJlYW1TaXRlcyA9IHt9OwogIGZvciAoY29uc3QgdSBvZiBVUFNUUkVBTVMpIHsKICAgIHRyeSB7CiAgICAgIGNvbnN0IHIgPSBhd2FpdCBmZXRjaFdpdGhUaW1lb3V0KHUsIDE1MDAwKTsKICAgICAgaWYgKHIub2spIHsKICAgICAgICBjb25zdCBqID0gSlNPTi5wYXJzZShyLnRleHQpOwogICAgICAgIE9iamVjdC5hc3NpZ24odXBzdHJlYW1TaXRlcywgai5hcGlfc2l0ZSB8fCB7fSk7CiAgICAgICAgY29uc29sZS5sb2coYOS4iua4uCAke3V9IOaLieWPluaIkOWKn++8jOWFsSAke09iamVjdC5rZXlzKGouYXBpX3NpdGUgfHwge30pLmxlbmd0aH0g5Liq5rqQYCk7CiAgICAgIH0KICAgIH0gY2F0Y2ggKGUpIHsKICAgICAgY29uc29sZS5sb2coYOS4iua4uCAke3V9IOaLieWPluWksei0pTogJHtlLm1lc3NhZ2V9YCk7CiAgICB9CiAgfQoKICAvLyAyLiDmib7lh7rmlrDmupAKICBjb25zdCBuZXdDYW5kaWRhdGVzID0gW107CiAgZm9yIChjb25zdCBbaywgdl0gb2YgT2JqZWN0LmVudHJpZXModXBzdHJlYW1TaXRlcykpIHsKICAgIGlmICh2LmFwaSAmJiAhbG9jYWxBcGlzLmhhcyh2LmFwaSkpIHsKICAgICAgbmV3Q2FuZGlkYXRlcy5wdXNoKHsga2V5OiBrLCAuLi52IH0pOwogICAgfQogIH0KICBjb25zb2xlLmxvZyhg5Y+R546wICR7bmV3Q2FuZGlkYXRlcy5sZW5ndGh9IOS4quacrOWcsOayoeacieeahOaWsOa6kGApOwoKICAvLyAzLiDmtYvor5XmlrDmupAKICBsZXQgYWRkZWQgPSAwOwogIGZvciAoY29uc3QgYyBvZiBuZXdDYW5kaWRhdGVzKSB7CiAgICAvLyDlkIzkuIDova7lhoXlt7LliqDov4fnmoQgYXBpIOi3s+i/h++8iOS4iua4uOWPr+iDveWQjOS4gCBVUkwg5oyC5aSa5Liq5ZCN5a2X77yJCiAgICBpZiAobG9jYWxBcGlzLmhhcyhjLmFwaSkpIHsKICAgICAgY29uc29sZS5sb2coYOKdjCDot7Pov4c6ICR7Yy5uYW1lfSAoZHVwbGljYXRlIGFwaSlgKTsKICAgICAgY29udGludWU7CiAgICB9CiAgICBjb25zdCB0ID0gYXdhaXQgdGVzdFNvdXJjZShjLmFwaSk7CiAgICBpZiAodC53b3JraW5nKSB7CiAgICAgIGNvbnN0IG5ld0tleSA9IGBzeW5jXyR7RGF0ZS5ub3coKX1fJHthZGRlZH1gOwogICAgICBsb2NhbFNpdGVzW25ld0tleV0gPSB7IG5hbWU6IGMubmFtZSB8fCBjLmtleSwgYXBpOiBjLmFwaSwgZGV0YWlsOiBjLmRldGFpbCB8fCAnJyB9OwogICAgICBsb2NhbEFwaXMuYWRkKGMuYXBpKTsKICAgICAgYWRkZWQrKzsKICAgICAgY29uc29sZS5sb2coYOKchSDmlrDlop46ICR7Yy5uYW1lfSAoJHt0Lm1zfW1zKWApOwogICAgfSBlbHNlIHsKICAgICAgY29uc29sZS5sb2coYOKdjCDot7Pov4c6ICR7Yy5uYW1lfSAoJHt0LnJlYXNvbn0pYCk7CiAgICB9CiAgfQoKICAvLyA0LiDlpI3mn6XnjrDmnInmupDvvIzliKDpmaTlpLHmlYjnmoQKICBsZXQgcmVtb3ZlZCA9IDA7CiAgZm9yIChjb25zdCBbaywgdl0gb2YgT2JqZWN0LmVudHJpZXMoeyAuLi5sb2NhbFNpdGVzIH0pKSB7CiAgICAvLyDot7Pov4fliJrliqDnmoQKICAgIGlmIChrLnN0YXJ0c1dpdGgoJ3N5bmNfJykpIGNvbnRpbnVlOwogICAgY29uc3QgdCA9IGF3YWl0IHRlc3RTb3VyY2Uodi5hcGkpOwogICAgaWYgKCF0LndvcmtpbmcpIHsKICAgICAgZGVsZXRlIGxvY2FsU2l0ZXNba107CiAgICAgIHJlbW92ZWQrKzsKICAgICAgY29uc29sZS5sb2coYPCfl5Eg5Yig6Zmk5aSx5pWIOiAke3YubmFtZX0gKCR7dC5yZWFzb259KWApOwogICAgfQogIH0KCiAgLy8gNS4g5L+d5a2YCiAgLy8g6L+H5ruk5oiQ5Lq65rqQ77yIMjAyNi0xMC0wNe+8iQogIGZvciAoY29uc3QgayBvZiBPYmplY3Qua2V5cyhsb2NhbFNpdGVzKSkgewogICAgaWYgKGlzQWR1bHQobG9jYWxTaXRlc1trXS5uYW1lKSkgewogICAgICBjb25zb2xlLmxvZyhg6L+H5ruk5oiQ5Lq65rqQOiAke2xvY2FsU2l0ZXNba10ubmFtZX1gKTsKICAgICAgZGVsZXRlIGxvY2FsU2l0ZXNba107CiAgICB9CiAgfQogIGxvY2FsLmFwaV9zaXRlID0gbG9jYWxTaXRlczsKICBmcy53cml0ZUZpbGVTeW5jKENPTkZJR19QQVRILCBKU09OLnN0cmluZ2lmeShsb2NhbCwgbnVsbCwgMiksICd1dGY4Jyk7CiAgY29uc29sZS5sb2coYFxu5a6M5oiQOiDmlrDlop4gJHthZGRlZH3vvIzliKDpmaQgJHtyZW1vdmVkfe+8jOWJqeS9mSAke09iamVjdC5rZXlzKGxvY2FsU2l0ZXMpLmxlbmd0aH0g5Liq5rqQYCk7Cn0KCm1haW4oKS5jYXRjaChlID0+IHsgY29uc29sZS5lcnJvcihlKTsgcHJvY2Vzcy5leGl0KDEpOyB9KTsK
+/*
+  每周自动同步上游片源
+  1. 从上游仓库拉取最新 config.json
+  2. 找出本地没有的新源，逐个健康检测
+  3. 把能用的新源加进来，挂掉的旧源删掉
+  4. 只保留 1500ms 内响应的高速源
+  用法: node scripts/sync-upstream-sources.js
+*/
+/* eslint-disable no-console */
+const fs = require('fs');
+const path = require('path');
+
+// 成人内容过滤（2026-10-05 新增；2026-10-12 补"麻豆"）
+const ADULT_KW = ['AV', '黄', '美少女', '成人', '淫', '色情', '情色', '麻豆'];
+function isAdult(name) {
+  if (!name) return false;
+  return ADULT_KW.some(kw => name.includes(kw));
+}
+
+const CONFIG_PATH = path.join(process.cwd(), 'config.json');
+// 上游源（按优先级排序）
+const UPSTREAMS = [
+  'https://raw.githubusercontent.com/bylspro/moontv/main/config.json',
+];
+const TIMEOUT_MS = 10000;
+const MAX_MS = 1500; // 只保留 1.5 秒内响应的
+
+function buildTestUrl(base) {
+  let url = String(base).trim();
+  const sep = url.includes('?') ? '&' : '?';
+  return `${url}${sep}ac=videolist&wd=test&pg=1`;
+}
+
+async function fetchWithTimeout(url, ms) {
+  const ac = new AbortController();
+  const id = setTimeout(() => ac.abort(), ms);
+  try {
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/122 Safari/537.36' },
+      redirect: 'follow', signal: ac.signal,
+    });
+    const text = await res.text();
+    return { ok: res.ok, text };
+  } catch (e) {
+    return { ok: false, error: String(e.message || e) };
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+function isWorkingJson(text) {
+  try {
+    const j = JSON.parse(text);
+    // AppleCMS v10: { code:1, list:[...] } 或 { list:[...] }
+    if (Array.isArray(j.list) && j.list.length >= 0) return true;
+    if (j.code === 1 && j.total !== undefined) return true;
+    return false;
+  } catch { return false; }
+}
+
+async function testSource(api) {
+  const start = Date.now();
+  const r = await fetchWithTimeout(buildTestUrl(api), TIMEOUT_MS);
+  const ms = Date.now() - start;
+  if (!r.ok) return { working: false, ms, reason: 'fetch failed' };
+  if (!isWorkingJson(r.text)) return { working: false, ms, reason: 'bad format' };
+  if (ms > MAX_MS) return { working: false, ms, reason: 'too slow' };
+  return { working: true, ms };
+}
+
+async function main() {
+  const local = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
+  const localSites = local.api_site || {};
+  const localApis = new Set(Object.values(localSites).map(s => s.api));
+
+  // 1. 拉取上游
+  let upstreamSites = {};
+  for (const u of UPSTREAMS) {
+    try {
+      const r = await fetchWithTimeout(u, 15000);
+      if (r.ok) {
+        const j = JSON.parse(r.text);
+        Object.assign(upstreamSites, j.api_site || {});
+        console.log(`上游 ${u} 拉取成功，共 ${Object.keys(j.api_site || {}).length} 个源`);
+      }
+    } catch (e) {
+      console.log(`上游 ${u} 拉取失败: ${e.message}`);
+    }
+  }
+
+  // 2. 找出新源
+  const newCandidates = [];
+  for (const [k, v] of Object.entries(upstreamSites)) {
+    if (v.api && !localApis.has(v.api)) {
+      newCandidates.push({ key: k, ...v });
+    }
+  }
+  console.log(`发现 ${newCandidates.length} 个本地没有的新源`);
+
+  // 3. 测试新源
+  let added = 0;
+  for (const c of newCandidates) {
+    // 同一轮内已加过的 api 跳过（上游可能同一 URL 挂多个名字）
+    if (localApis.has(c.api)) {
+      console.log(`❌ 跳过: ${c.name} (duplicate api)`);
+      continue;
+    }
+    const t = await testSource(c.api);
+    if (t.working) {
+      const newKey = `sync_${Date.now()}_${added}`;
+      localSites[newKey] = { name: c.name || c.key, api: c.api, detail: c.detail || '' };
+      localApis.add(c.api);
+      added++;
+      console.log(`✅ 新增: ${c.name} (${t.ms}ms)`);
+    } else {
+      console.log(`❌ 跳过: ${c.name} (${t.reason})`);
+    }
+  }
+
+  // 4. 复查现有源，删除失效的
+  let removed = 0;
+  for (const [k, v] of Object.entries({ ...localSites })) {
+    // 跳过刚加的
+    if (k.startsWith('sync_')) continue;
+    const t = await testSource(v.api);
+    if (!t.working) {
+      delete localSites[k];
+      removed++;
+      console.log(`🗑 删除失效: ${v.name} (${t.reason})`);
+    }
+  }
+
+  // 5. 保存
+  // 过滤成人源（2026-10-05）
+  for (const k of Object.keys(localSites)) {
+    if (isAdult(localSites[k].name)) {
+      console.log(`过滤成人源: ${localSites[k].name}`);
+      delete localSites[k];
+    }
+  }
+  local.api_site = localSites;
+  fs.writeFileSync(CONFIG_PATH, JSON.stringify(local, null, 2), 'utf8');
+  console.log(`\n完成: 新增 ${added}，删除 ${removed}，剩余 ${Object.keys(localSites).length} 个源`);
+}
+
+main().catch(e => { console.error(e); process.exit(1); });
