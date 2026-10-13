@@ -1,1 +1,84 @@
-bW9kdWxlLmV4cG9ydHMgPSB7CiAgZW52OiB7CiAgICBicm93c2VyOiB0cnVlLAogICAgZXMyMDIxOiB0cnVlLAogICAgbm9kZTogdHJ1ZSwKICB9LAogIHBsdWdpbnM6IFsnQHR5cGVzY3JpcHQtZXNsaW50JywgJ3NpbXBsZS1pbXBvcnQtc29ydCcsICd1bnVzZWQtaW1wb3J0cyddLAogIGV4dGVuZHM6IFsKICAgICdlc2xpbnQ6cmVjb21tZW5kZWQnLAogICAgJ25leHQnLAogICAgJ25leHQvY29yZS13ZWItdml0YWxzJywKICAgICdwbHVnaW46QHR5cGVzY3JpcHQtZXNsaW50L3JlY29tbWVuZGVkJywKICAgICdwcmV0dGllcicsCiAgXSwKICBydWxlczogewogICAgJ25vLXVudXNlZC12YXJzJzogJ29mZicsCiAgICAnbm8tY29uc29sZSc6ICd3YXJuJywKICAgICdAdHlwZXNjcmlwdC1lc2xpbnQvZXhwbGljaXQtbW9kdWxlLWJvdW5kYXJ5LXR5cGVzJzogJ29mZicsCiAgICAncmVhY3Qvbm8tdW5lc2NhcGVkLWVudGl0aWVzJzogJ29mZicsCgogICAgJ3JlYWN0L2Rpc3BsYXktbmFtZSc6ICdvZmYnLAogICAgJ3JlYWN0L2pzeC1jdXJseS1icmFjZS1wcmVzZW5jZSc6IFsKICAgICAgJ3dhcm4nLAogICAgICB7IHByb3BzOiAnbmV2ZXInLCBjaGlsZHJlbjogJ25ldmVyJyB9LAogICAgXSwKCiAgICAvLyNyZWdpb24gIC8vKj09PT09PT09PT09IFVudXNlZCBJbXBvcnQgPT09PT09PT09PT0KICAgICdAdHlwZXNjcmlwdC1lc2xpbnQvbm8tdW51c2VkLXZhcnMnOiAnb2ZmJywKICAgICd1bnVzZWQtaW1wb3J0cy9uby11bnVzZWQtaW1wb3J0cyc6ICd3YXJuJywKICAgICd1bnVzZWQtaW1wb3J0cy9uby11bnVzZWQtdmFycyc6IFsKICAgICAgJ3dhcm4nLAogICAgICB7CiAgICAgICAgdmFyczogJ2FsbCcsCiAgICAgICAgdmFyc0lnbm9yZVBhdHRlcm46ICdeXycsCiAgICAgICAgYXJnczogJ2FmdGVyLXVzZWQnLAogICAgICAgIGFyZ3NJZ25vcmVQYXR0ZXJuOiAnXl8nLAogICAgICB9LAogICAgXSwKICAgIC8vI2VuZHJlZ2lvbiAgLy8qPT09PT09PT0gVW51c2VkIEltcG9ydCA9PT09PT09PT09PQoKICAgIC8vI3JlZ2lvbiAgLy8qPT09PT09PT09PT0gSW1wb3J0IFNvcnQgPT09PT09PT09PT0KICAgICdzaW1wbGUtaW1wb3J0LXNvcnQvZXhwb3J0cyc6ICd3YXJuJywKICAgICdzaW1wbGUtaW1wb3J0LXNvcnQvaW1wb3J0cyc6IFsKICAgICAgJ3dhcm4nLAogICAgICB7CiAgICAgICAgZ3JvdXBzOiBbCiAgICAgICAgICAvLyBleHQgbGlicmFyeSAmIHNpZGUgZWZmZWN0IGltcG9ydHMKICAgICAgICAgIFsnXkA/XFx3JywgJ15cXHUwMDAwJ10sCiAgICAgICAgICAvLyB7c31jc3MgZmlsZXMKICAgICAgICAgIFsnXi4rXFwucz9jc3MkJ10sCiAgICAgICAgICAvLyBMaWIgYW5kIGhvb2tzCiAgICAgICAgICBbJ15AL2xpYicsICdeQC9ob29rcyddLAogICAgICAgICAgLy8gc3RhdGljIGRhdGEKICAgICAgICAgIFsnXkAvZGF0YSddLAogICAgICAgICAgLy8gY29tcG9uZW50cwogICAgICAgICAgWydeQC9jb21wb25lbnRzJywgJ15AL2NvbnRhaW5lciddLAogICAgICAgICAgLy8genVzdGFuZCBzdG9yZQogICAgICAgICAgWydeQC9zdG9yZSddLAogICAgICAgICAgLy8gT3RoZXIgaW1wb3J0cwogICAgICAgICAgWydeQC8nXSwKICAgICAgICAgIC8vIHJlbGF0aXZlIHBhdGhzIHVwIHVudGlsIDMgbGV2ZWwKICAgICAgICAgIFsKICAgICAgICAgICAgJ15cXC4vPyQnLAogICAgICAgICAgICAnXlxcLig/IS8/JCknLAogICAgICAgICAgICAnXlxcLlxcLi8/JCcsCiAgICAgICAgICAgICdeXFwuXFwuKD8hLz8kKScsCiAgICAgICAgICAgICdeXFwuXFwuL1xcLlxcLi8/JCcsCiAgICAgICAgICAgICdeXFwuXFwuL1xcLlxcLig/IS8/JCknLAogICAgICAgICAgICAnXlxcLlxcLi9cXC5cXC4vXFwuXFwuLz8kJywKICAgICAgICAgICAgJ15cXC5cXC4vXFwuXFwuL1xcLlxcLig/IS8/JCknLAogICAgICAgICAgXSwKICAgICAgICAgIFsnXkAvdHlwZXMnXSwKICAgICAgICAgIC8vIG90aGVyIHRoYXQgZGlkbnQgZml0IGluCiAgICAgICAgICBbJ14nXSwKICAgICAgICBdLAogICAgICB9LAogICAgXSwKICAgIC8vI2VuZHJlZ2lvbiAgLy8qPT09PT09PT0gSW1wb3J0IFNvcnQgPT09PT09PT09PT0KICB9LAogIGdsb2JhbHM6IHsKICAgIFJlYWN0OiB0cnVlLAogICAgSlNYOiB0cnVlLAogIH0sCn07Cg==
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+  },
+  plugins: ['@typescript-eslint', 'simple-import-sort', 'unused-imports'],
+  extends: [
+    'eslint:recommended',
+    'next',
+    'next/core-web-vitals',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+  ],
+  rules: {
+    'no-unused-vars': 'off',
+    'no-console': 'warn',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'react/no-unescaped-entities': 'off',
+
+    'react/display-name': 'off',
+    'react/jsx-curly-brace-presence': [
+      'warn',
+      { props: 'never', children: 'never' },
+    ],
+
+    //#region  //*=========== Unused Import ===========
+    '@typescript-eslint/no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
+    //#endregion  //*======== Unused Import ===========
+
+    //#region  //*=========== Import Sort ===========
+    'simple-import-sort/exports': 'warn',
+    'simple-import-sort/imports': [
+      'warn',
+      {
+        groups: [
+          // ext library & side effect imports
+          ['^@?\\w', '^\\u0000'],
+          // {s}css files
+          ['^.+\\.s?css$'],
+          // Lib and hooks
+          ['^@/lib', '^@/hooks'],
+          // static data
+          ['^@/data'],
+          // components
+          ['^@/components', '^@/container'],
+          // zustand store
+          ['^@/store'],
+          // Other imports
+          ['^@/'],
+          // relative paths up until 3 level
+          [
+            '^\\./?$',
+            '^\\.(?!/?$)',
+            '^\\.\\./?$',
+            '^\\.\\.(?!/?$)',
+            '^\\.\\./\\.\\./?$',
+            '^\\.\\./\\.\\.(?!/?$)',
+            '^\\.\\./\\.\\./\\.\\./?$',
+            '^\\.\\./\\.\\./\\.\\.(?!/?$)',
+          ],
+          ['^@/types'],
+          // other that didnt fit in
+          ['^'],
+        ],
+      },
+    ],
+    //#endregion  //*======== Import Sort ===========
+  },
+  globals: {
+    React: true,
+    JSX: true,
+  },
+};
