@@ -1,1 +1,259 @@
-aW1wb3J0IHsgRG91YmFuSXRlbSwgRG91YmFuUmVzdWx0IH0gZnJvbSAnLi90eXBlcyc7CmltcG9ydCB7IGdldERvdWJhblByb3h5VXJsIH0gZnJvbSAnLi91dGlscyc7CgppbnRlcmZhY2UgRG91YmFuQ2F0ZWdvcmllc1BhcmFtcyB7CiAga2luZDogJ3R2JyB8ICdtb3ZpZSc7CiAgY2F0ZWdvcnk6IHN0cmluZzsKICB0eXBlOiBzdHJpbmc7CiAgcGFnZUxpbWl0PzogbnVtYmVyOwogIHBhZ2VTdGFydD86IG51bWJlcjsKfQoKaW50ZXJmYWNlIERvdWJhbkNhdGVnb3J5QXBpUmVzcG9uc2UgewogIHRvdGFsOiBudW1iZXI7CiAgaXRlbXM6IEFycmF5PHsKICAgIGlkOiBzdHJpbmc7CiAgICB0aXRsZTogc3RyaW5nOwogICAgY2FyZF9zdWJ0aXRsZTogc3RyaW5nOwogICAgcGljOiB7CiAgICAgIGxhcmdlOiBzdHJpbmc7CiAgICAgIG5vcm1hbDogc3RyaW5nOwogICAgfTsKICAgIHJhdGluZzogewogICAgICB2YWx1ZTogbnVtYmVyOwogICAgfTsKICB9PjsKfQoKLyoqCiAqIOW4pui2heaXtueahCBmZXRjaCDor7fmsYIKICovCmFzeW5jIGZ1bmN0aW9uIGZldGNoV2l0aFRpbWVvdXQoCiAgdXJsOiBzdHJpbmcsCiAgb3B0aW9uczogUmVxdWVzdEluaXQgPSB7fQopOiBQcm9taXNlPFJlc3BvbnNlPiB7CiAgY29uc3QgY29udHJvbGxlciA9IG5ldyBBYm9ydENvbnRyb2xsZXIoKTsKICBjb25zdCB0aW1lb3V0SWQgPSBzZXRUaW1lb3V0KCgpID0+IGNvbnRyb2xsZXIuYWJvcnQoKSwgMTAwMDApOyAvLyAxMOenkui2heaXtgoKICAvLyDmo4Dmn6XmmK/lkKbkvb/nlKjku6PnkIYKICBjb25zdCBwcm94eVVybCA9IGdldERvdWJhblByb3h5VXJsKCk7CiAgY29uc3QgZmluYWxVcmwgPSBwcm94eVVybCA/IGAke3Byb3h5VXJsfSR7ZW5jb2RlVVJJQ29tcG9uZW50KHVybCl9YCA6IHVybDsKCiAgY29uc3QgZmV0Y2hPcHRpb25zOiBSZXF1ZXN0SW5pdCA9IHsKICAgIC4uLm9wdGlvbnMsCiAgICBzaWduYWw6IGNvbnRyb2xsZXIuc2lnbmFsLAogICAgaGVhZGVyczogewogICAgICAnVXNlci1BZ2VudCc6CiAgICAgICAgJ01vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMjEuMC4wLjAgU2FmYXJpLzUzNy4zNicsCiAgICAgIFJlZmVyZXI6ICdodHRwczovL21vdmllLmRvdWJhbi5jb20vJywKICAgICAgQWNjZXB0OiAnYXBwbGljYXRpb24vanNvbiwgdGV4dC9wbGFpbiwgKi8qJywKICAgICAgLi4ub3B0aW9ucy5oZWFkZXJzLAogICAgfSwKICB9OwoKICB0cnkgewogICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaW5hbFVybCwgZmV0Y2hPcHRpb25zKTsKICAgIGNsZWFyVGltZW91dCh0aW1lb3V0SWQpOwogICAgcmV0dXJuIHJlc3BvbnNlOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjbGVhclRpbWVvdXQodGltZW91dElkKTsKICAgIHRocm93IGVycm9yOwogIH0KfQoKLyoqCiAqIOajgOafpeaYr+WQpuW6lOivpeS9v+eUqOWuouaIt+err+iOt+WPluixhueTo+aVsOaNrgogKi8KZXhwb3J0IGZ1bmN0aW9uIHNob3VsZFVzZURvdWJhbkNsaWVudCgpOiBib29sZWFuIHsKICByZXR1cm4gZ2V0RG91YmFuUHJveHlVcmwoKSAhPT0gbnVsbDsKfQoKLyoqCiAqIOa1j+iniOWZqOerr+ixhueTo+WIhuexu+aVsOaNruiOt+WPluWHveaVsAogKi8KZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGZldGNoRG91YmFuQ2F0ZWdvcmllcygKICBwYXJhbXM6IERvdWJhbkNhdGVnb3JpZXNQYXJhbXMKKTogUHJvbWlzZTxEb3ViYW5SZXN1bHQ+IHsKICBjb25zdCB7IGtpbmQsIGNhdGVnb3J5LCB0eXBlLCBwYWdlTGltaXQgPSAyMCwgcGFnZVN0YXJ0ID0gMCB9ID0gcGFyYW1zOwoKICAvLyDpqozor4Hlj4LmlbAKICBpZiAoIVsndHYnLCAnbW92aWUnXS5pbmNsdWRlcyhraW5kKSkgewogICAgdGhyb3cgbmV3IEVycm9yKCdraW5kIOWPguaVsOW/hemhu+aYryB0diDmiJYgbW92aWUnKTsKICB9CgogIGlmICghY2F0ZWdvcnkgfHwgIXR5cGUpIHsKICAgIHRocm93IG5ldyBFcnJvcignY2F0ZWdvcnkg5ZKMIHR5cGUg5Y+C5pWw5LiN6IO95Li656m6Jyk7CiAgfQoKICBpZiAocGFnZUxpbWl0IDwgMSB8fCBwYWdlTGltaXQgPiAxMDApIHsKICAgIHRocm93IG5ldyBFcnJvcigncGFnZUxpbWl0IOW/hemhu+WcqCAxLTEwMCDkuYvpl7QnKTsKICB9CgogIGlmIChwYWdlU3RhcnQgPCAwKSB7CiAgICB0aHJvdyBuZXcgRXJyb3IoJ3BhZ2VTdGFydCDkuI3og73lsI/kuo4gMCcpOwogIH0KCiAgY29uc3QgdGFyZ2V0ID0gYGh0dHBzOi8vbS5kb3ViYW4uY29tL3JleHhhci9hcGkvdjIvc3ViamVjdC9yZWNlbnRfaG90LyR7a2luZH0/c3RhcnQ9JHtwYWdlU3RhcnR9JmxpbWl0PSR7cGFnZUxpbWl0fSZjYXRlZ29yeT0ke2NhdGVnb3J5fSZ0eXBlPSR7dHlwZX1gOwoKICB0cnkgewogICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaFdpdGhUaW1lb3V0KHRhcmdldCk7CgogICAgaWYgKCFyZXNwb25zZS5vaykgewogICAgICB0aHJvdyBuZXcgRXJyb3IoYEhUVFAgZXJyb3IhIFN0YXR1czogJHtyZXNwb25zZS5zdGF0dXN9YCk7CiAgICB9CgogICAgY29uc3QgZG91YmFuRGF0YTogRG91YmFuQ2F0ZWdvcnlBcGlSZXNwb25zZSA9IGF3YWl0IHJlc3BvbnNlLmpzb24oKTsKCiAgICAvLyDovazmjaLmlbDmja7moLzlvI8KICAgIGNvbnN0IGxpc3Q6IERvdWJhbkl0ZW1bXSA9IGRvdWJhbkRhdGEuaXRlbXMubWFwKChpdGVtKSA9PiAoewogICAgICBpZDogaXRlbS5pZCwKICAgICAgdGl0bGU6IGl0ZW0udGl0bGUsCiAgICAgIHBvc3RlcjogaXRlbS5waWM/Lm5vcm1hbCB8fCBpdGVtLnBpYz8ubGFyZ2UgfHwgJycsCiAgICAgIHJhdGU6IGl0ZW0ucmF0aW5nPy52YWx1ZSA/IGl0ZW0ucmF0aW5nLnZhbHVlLnRvRml4ZWQoMSkgOiAnJywKICAgICAgeWVhcjogaXRlbS5jYXJkX3N1YnRpdGxlPy5tYXRjaCgvKFxkezR9KS8pPy5bMV0gfHwgJycsCiAgICB9KSk7CgogICAgcmV0dXJuIHsKICAgICAgY29kZTogMjAwLAogICAgICBtZXNzYWdlOiAn6I635Y+W5oiQ5YqfJywKICAgICAgbGlzdDogbGlzdCwKICAgIH07CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIC8vIOinpuWPkeWFqOWxgOmUmeivr+aPkOekugogICAgaWYgKHR5cGVvZiB3aW5kb3cgIT09ICd1bmRlZmluZWQnKSB7CiAgICAgIHdpbmRvdy5kaXNwYXRjaEV2ZW50KAogICAgICAgIG5ldyBDdXN0b21FdmVudCgnZ2xvYmFsRXJyb3InLCB7CiAgICAgICAgICBkZXRhaWw6IHsgbWVzc2FnZTogJ+iOt+WPluixhueTo+WIhuexu+aVsOaNruWksei0pScgfSwKICAgICAgICB9KQogICAgICApOwogICAgfQogICAgdGhyb3cgbmV3IEVycm9yKGDojrflj5bosYbnk6PliIbnsbvmlbDmja7lpLHotKU6ICR7KGVycm9yIGFzIEVycm9yKS5tZXNzYWdlfWApOwogIH0KfQoKLyoqCiAqIOe7n+S4gOeahOixhueTo+WIhuexu+aVsOaNruiOt+WPluWHveaVsO+8jOagueaNruS7o+eQhuiuvue9rumAieaLqeS9v+eUqOacjeWKoeerryBBUEkg5oiW5a6i5oi356uv5Luj55CG6I635Y+WCiAqLwpleHBvcnQgYXN5bmMgZnVuY3Rpb24gZ2V0RG91YmFuQ2F0ZWdvcmllcygKICBwYXJhbXM6IERvdWJhbkNhdGVnb3JpZXNQYXJhbXMKKTogUHJvbWlzZTxEb3ViYW5SZXN1bHQ+IHsKICBpZiAoc2hvdWxkVXNlRG91YmFuQ2xpZW50KCkpIHsKICAgIC8vIOS9v+eUqOWuouaIt+err+S7o+eQhuiOt+WPlu+8iOW9k+iuvue9ruS6huS7o+eQhiBVUkwg5pe277yJCiAgICByZXR1cm4gZmV0Y2hEb3ViYW5DYXRlZ29yaWVzKHBhcmFtcyk7CiAgfSBlbHNlIHsKICAgIC8vIOS9v+eUqOacjeWKoeerryBBUEnvvIjlvZPmsqHmnInorr7nva7ku6PnkIYgVVJMIOaXtu+8iQogICAgY29uc3QgeyBraW5kLCBjYXRlZ29yeSwgdHlwZSwgcGFnZUxpbWl0ID0gMjAsIHBhZ2VTdGFydCA9IDAgfSA9IHBhcmFtczsKICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgZmV0Y2goCiAgICAgIGAvYXBpL2RvdWJhbi9jYXRlZ29yaWVzP2tpbmQ9JHtraW5kfSZjYXRlZ29yeT0ke2NhdGVnb3J5fSZ0eXBlPSR7dHlwZX0mbGltaXQ9JHtwYWdlTGltaXR9JnN0YXJ0PSR7cGFnZVN0YXJ0fWAKICAgICk7CgogICAgaWYgKCFyZXNwb25zZS5vaykgewogICAgICAvLyDop6blj5HlhajlsYDplJnor6/mj5DnpLoKICAgICAgaWYgKHR5cGVvZiB3aW5kb3cgIT09ICd1bmRlZmluZWQnKSB7CiAgICAgICAgd2luZG93LmRpc3BhdGNoRXZlbnQoCiAgICAgICAgICBuZXcgQ3VzdG9tRXZlbnQoJ2dsb2JhbEVycm9yJywgewogICAgICAgICAgICBkZXRhaWw6IHsgbWVzc2FnZTogJ+iOt+WPluixhueTo+WIhuexu+aVsOaNruWksei0pScgfSwKICAgICAgICAgIH0pCiAgICAgICAgKTsKICAgICAgfQogICAgICB0aHJvdyBuZXcgRXJyb3IoJ+iOt+WPluixhueTo+WIhuexu+aVsOaNruWksei0pScpOwogICAgfQoKICAgIHJldHVybiByZXNwb25zZS5qc29uKCk7CiAgfQp9CgppbnRlcmZhY2UgRG91YmFuTGlzdFBhcmFtcyB7CiAgdGFnOiBzdHJpbmc7CiAgdHlwZTogc3RyaW5nOwogIHBhZ2VMaW1pdD86IG51bWJlcjsKICBwYWdlU3RhcnQ/OiBudW1iZXI7Cn0KCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBnZXREb3ViYW5MaXN0KAogIHBhcmFtczogRG91YmFuTGlzdFBhcmFtcwopOiBQcm9taXNlPERvdWJhblJlc3VsdD4gewogIGNvbnN0IHsgdGFnLCB0eXBlLCBwYWdlTGltaXQgPSAyMCwgcGFnZVN0YXJ0ID0gMCB9ID0gcGFyYW1zOwogIGlmIChzaG91bGRVc2VEb3ViYW5DbGllbnQoKSkgewogICAgLy8g5L2/55So5a6i5oi356uv5Luj55CG6I635Y+W77yI5b2T6K6+572u5LqG5Luj55CGIFVSTCDml7bvvIkKICAgIHJldHVybiBmZXRjaERvdWJhbkxpc3QocGFyYW1zKTsKICB9IGVsc2UgewogICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaCgKICAgICAgYC9hcGkvZG91YmFuP3RhZz0ke3RhZ30mdHlwZT0ke3R5cGV9JnBhZ2VTaXplPSR7cGFnZUxpbWl0fSZwYWdlU3RhcnQ9JHtwYWdlU3RhcnR9YAogICAgKTsKCiAgICBpZiAoIXJlc3BvbnNlLm9rKSB7CiAgICAgIC8vIOinpuWPkeWFqOWxgOmUmeivr+aPkOekugogICAgICBpZiAodHlwZW9mIHdpbmRvdyAhPT0gJ3VuZGVmaW5lZCcpIHsKICAgICAgICB3aW5kb3cuZGlzcGF0Y2hFdmVudCgKICAgICAgICAgIG5ldyBDdXN0b21FdmVudCgnZ2xvYmFsRXJyb3InLCB7CiAgICAgICAgICAgIGRldGFpbDogeyBtZXNzYWdlOiAn6I635Y+W6LGG55Oj5YiX6KGo5pWw5o2u5aSx6LSlJyB9LAogICAgICAgICAgfSkKICAgICAgICApOwogICAgICB9CiAgICAgIHRocm93IG5ldyBFcnJvcign6I635Y+W6LGG55Oj5YiX6KGo5pWw5o2u5aSx6LSlJyk7CiAgICB9CgogICAgcmV0dXJuIHJlc3BvbnNlLmpzb24oKTsKICB9Cn0KCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBmZXRjaERvdWJhbkxpc3QoCiAgcGFyYW1zOiBEb3ViYW5MaXN0UGFyYW1zCik6IFByb21pc2U8RG91YmFuUmVzdWx0PiB7CiAgY29uc3QgeyB0YWcsIHR5cGUsIHBhZ2VMaW1pdCA9IDIwLCBwYWdlU3RhcnQgPSAwIH0gPSBwYXJhbXM7CgogIC8vIOmqjOivgeWPguaVsAogIGlmICghdGFnIHx8ICF0eXBlKSB7CiAgICB0aHJvdyBuZXcgRXJyb3IoJ3RhZyDlkowgdHlwZSDlj4LmlbDkuI3og73kuLrnqbonKTsKICB9CgogIGlmICghWyd0dicsICdtb3ZpZSddLmluY2x1ZGVzKHR5cGUpKSB7CiAgICB0aHJvdyBuZXcgRXJyb3IoJ3R5cGUg5Y+C5pWw5b+F6aG75pivIHR2IOaIliBtb3ZpZScpOwogIH0KCiAgaWYgKHBhZ2VMaW1pdCA8IDEgfHwgcGFnZUxpbWl0ID4gMTAwKSB7CiAgICB0aHJvdyBuZXcgRXJyb3IoJ3BhZ2VMaW1pdCDlv4XpobvlnKggMS0xMDAg5LmL6Ze0Jyk7CiAgfQoKICBpZiAocGFnZVN0YXJ0IDwgMCkgewogICAgdGhyb3cgbmV3IEVycm9yKCdwYWdlU3RhcnQg5LiN6IO95bCP5LqOIDAnKTsKICB9CgogIGNvbnN0IHRhcmdldCA9IGBodHRwczovL21vdmllLmRvdWJhbi5jb20vai9zZWFyY2hfc3ViamVjdHM/dHlwZT0ke3R5cGV9JnRhZz0ke3RhZ30mc29ydD1yZWNvbW1lbmQmcGFnZV9saW1pdD0ke3BhZ2VMaW1pdH0mcGFnZV9zdGFydD0ke3BhZ2VTdGFydH1gOwoKICB0cnkgewogICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaFdpdGhUaW1lb3V0KHRhcmdldCk7CgogICAgaWYgKCFyZXNwb25zZS5vaykgewogICAgICB0aHJvdyBuZXcgRXJyb3IoYEhUVFAgZXJyb3IhIFN0YXR1czogJHtyZXNwb25zZS5zdGF0dXN9YCk7CiAgICB9CgogICAgY29uc3QgZG91YmFuRGF0YTogRG91YmFuQ2F0ZWdvcnlBcGlSZXNwb25zZSA9IGF3YWl0IHJlc3BvbnNlLmpzb24oKTsKCiAgICAvLyDovazmjaLmlbDmja7moLzlvI8KICAgIGNvbnN0IGxpc3Q6IERvdWJhbkl0ZW1bXSA9IGRvdWJhbkRhdGEuaXRlbXMubWFwKChpdGVtKSA9PiAoewogICAgICBpZDogaXRlbS5pZCwKICAgICAgdGl0bGU6IGl0ZW0udGl0bGUsCiAgICAgIHBvc3RlcjogaXRlbS5waWM/Lm5vcm1hbCB8fCBpdGVtLnBpYz8ubGFyZ2UgfHwgJycsCiAgICAgIHJhdGU6IGl0ZW0ucmF0aW5nPy52YWx1ZSA/IGl0ZW0ucmF0aW5nLnZhbHVlLnRvRml4ZWQoMSkgOiAnJywKICAgICAgeWVhcjogaXRlbS5jYXJkX3N1YnRpdGxlPy5tYXRjaCgvKFxkezR9KS8pPy5bMV0gfHwgJycsCiAgICB9KSk7CgogICAgcmV0dXJuIHsKICAgICAgY29kZTogMjAwLAogICAgICBtZXNzYWdlOiAn6I635Y+W5oiQ5YqfJywKICAgICAgbGlzdDogbGlzdCwKICAgIH07CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIC8vIOinpuWPkeWFqOWxgOmUmeivr+aPkOekugogICAgaWYgKHR5cGVvZiB3aW5kb3cgIT09ICd1bmRlZmluZWQnKSB7CiAgICAgIHdpbmRvdy5kaXNwYXRjaEV2ZW50KAogICAgICAgIG5ldyBDdXN0b21FdmVudCgnZ2xvYmFsRXJyb3InLCB7CiAgICAgICAgICBkZXRhaWw6IHsgbWVzc2FnZTogJ+iOt+WPluixhueTo+WIl+ihqOaVsOaNruWksei0pScgfSwKICAgICAgICB9KQogICAgICApOwogICAgfQogICAgdGhyb3cgbmV3IEVycm9yKGDojrflj5bosYbnk6PliIbnsbvmlbDmja7lpLHotKU6ICR7KGVycm9yIGFzIEVycm9yKS5tZXNzYWdlfWApOwogIH0KfQo=
+import { DoubanItem, DoubanResult } from './types';
+import { getDoubanProxyUrl } from './utils';
+
+interface DoubanCategoriesParams {
+  kind: 'tv' | 'movie';
+  category: string;
+  type: string;
+  pageLimit?: number;
+  pageStart?: number;
+}
+
+interface DoubanCategoryApiResponse {
+  total: number;
+  items: Array<{
+    id: string;
+    title: string;
+    card_subtitle: string;
+    pic: {
+      large: string;
+      normal: string;
+    };
+    rating: {
+      value: number;
+    };
+  }>;
+}
+
+/**
+ * 带超时的 fetch 请求
+ */
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit = {}
+): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+
+  // 检查是否使用代理
+  const proxyUrl = getDoubanProxyUrl();
+  const finalUrl = proxyUrl ? `${proxyUrl}${encodeURIComponent(url)}` : url;
+
+  const fetchOptions: RequestInit = {
+    ...options,
+    signal: controller.signal,
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+      Referer: 'https://movie.douban.com/',
+      Accept: 'application/json, text/plain, */*',
+      ...options.headers,
+    },
+  };
+
+  try {
+    const response = await fetch(finalUrl, fetchOptions);
+    clearTimeout(timeoutId);
+    return response;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    throw error;
+  }
+}
+
+/**
+ * 检查是否应该使用客户端获取豆瓣数据
+ */
+export function shouldUseDoubanClient(): boolean {
+  return getDoubanProxyUrl() !== null;
+}
+
+/**
+ * 浏览器端豆瓣分类数据获取函数
+ */
+export async function fetchDoubanCategories(
+  params: DoubanCategoriesParams
+): Promise<DoubanResult> {
+  const { kind, category, type, pageLimit = 20, pageStart = 0 } = params;
+
+  // 验证参数
+  if (!['tv', 'movie'].includes(kind)) {
+    throw new Error('kind 参数必须是 tv 或 movie');
+  }
+
+  if (!category || !type) {
+    throw new Error('category 和 type 参数不能为空');
+  }
+
+  if (pageLimit < 1 || pageLimit > 100) {
+    throw new Error('pageLimit 必须在 1-100 之间');
+  }
+
+  if (pageStart < 0) {
+    throw new Error('pageStart 不能小于 0');
+  }
+
+  const target = `https://m.douban.com/rexxar/api/v2/subject/recent_hot/${kind}?start=${pageStart}&limit=${pageLimit}&category=${category}&type=${type}`;
+
+  try {
+    const response = await fetchWithTimeout(target);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const doubanData: DoubanCategoryApiResponse = await response.json();
+
+    // 转换数据格式
+    const list: DoubanItem[] = doubanData.items.map((item) => ({
+      id: item.id,
+      title: item.title,
+      poster: item.pic?.normal || item.pic?.large || '',
+      rate: item.rating?.value ? item.rating.value.toFixed(1) : '',
+      year: item.card_subtitle?.match(/(\d{4})/)?.[1] || '',
+    }));
+
+    return {
+      code: 200,
+      message: '获取成功',
+      list: list,
+    };
+  } catch (error) {
+    // 触发全局错误提示
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('globalError', {
+          detail: { message: '获取豆瓣分类数据失败' },
+        })
+      );
+    }
+    throw new Error(`获取豆瓣分类数据失败: ${(error as Error).message}`);
+  }
+}
+
+/**
+ * 统一的豆瓣分类数据获取函数，根据代理设置选择使用服务端 API 或客户端代理获取
+ */
+export async function getDoubanCategories(
+  params: DoubanCategoriesParams
+): Promise<DoubanResult> {
+  if (shouldUseDoubanClient()) {
+    // 使用客户端代理获取（当设置了代理 URL 时）
+    return fetchDoubanCategories(params);
+  } else {
+    // 使用服务端 API（当没有设置代理 URL 时）
+    const { kind, category, type, pageLimit = 20, pageStart = 0 } = params;
+    const response = await fetch(
+      `/api/douban/categories?kind=${kind}&category=${category}&type=${type}&limit=${pageLimit}&start=${pageStart}`
+    );
+
+    if (!response.ok) {
+      // 触发全局错误提示
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('globalError', {
+            detail: { message: '获取豆瓣分类数据失败' },
+          })
+        );
+      }
+      throw new Error('获取豆瓣分类数据失败');
+    }
+
+    return response.json();
+  }
+}
+
+interface DoubanListParams {
+  tag: string;
+  type: string;
+  pageLimit?: number;
+  pageStart?: number;
+}
+
+export async function getDoubanList(
+  params: DoubanListParams
+): Promise<DoubanResult> {
+  const { tag, type, pageLimit = 20, pageStart = 0 } = params;
+  if (shouldUseDoubanClient()) {
+    // 使用客户端代理获取（当设置了代理 URL 时）
+    return fetchDoubanList(params);
+  } else {
+    const response = await fetch(
+      `/api/douban?tag=${tag}&type=${type}&pageSize=${pageLimit}&pageStart=${pageStart}`
+    );
+
+    if (!response.ok) {
+      // 触发全局错误提示
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('globalError', {
+            detail: { message: '获取豆瓣列表数据失败' },
+          })
+        );
+      }
+      throw new Error('获取豆瓣列表数据失败');
+    }
+
+    return response.json();
+  }
+}
+
+export async function fetchDoubanList(
+  params: DoubanListParams
+): Promise<DoubanResult> {
+  const { tag, type, pageLimit = 20, pageStart = 0 } = params;
+
+  // 验证参数
+  if (!tag || !type) {
+    throw new Error('tag 和 type 参数不能为空');
+  }
+
+  if (!['tv', 'movie'].includes(type)) {
+    throw new Error('type 参数必须是 tv 或 movie');
+  }
+
+  if (pageLimit < 1 || pageLimit > 100) {
+    throw new Error('pageLimit 必须在 1-100 之间');
+  }
+
+  if (pageStart < 0) {
+    throw new Error('pageStart 不能小于 0');
+  }
+
+  const target = `https://movie.douban.com/j/search_subjects?type=${type}&tag=${tag}&sort=recommend&page_limit=${pageLimit}&page_start=${pageStart}`;
+
+  try {
+    const response = await fetchWithTimeout(target);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const doubanData: DoubanCategoryApiResponse = await response.json();
+
+    // 转换数据格式
+    const list: DoubanItem[] = doubanData.items.map((item) => ({
+      id: item.id,
+      title: item.title,
+      poster: item.pic?.normal || item.pic?.large || '',
+      rate: item.rating?.value ? item.rating.value.toFixed(1) : '',
+      year: item.card_subtitle?.match(/(\d{4})/)?.[1] || '',
+    }));
+
+    return {
+      code: 200,
+      message: '获取成功',
+      list: list,
+    };
+  } catch (error) {
+    // 触发全局错误提示
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('globalError', {
+          detail: { message: '获取豆瓣列表数据失败' },
+        })
+      );
+    }
+    throw new Error(`获取豆瓣分类数据失败: ${(error as Error).message}`);
+  }
+}
