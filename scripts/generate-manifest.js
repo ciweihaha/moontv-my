@@ -1,1 +1,63 @@
-IyEvdXNyL2Jpbi9lbnYgbm9kZQovKiBlc2xpbnQtZGlzYWJsZSAqLwovLyDmoLnmja4gU0lURV9OQU1FIOWKqOaAgeeUn+aIkCBtYW5pZmVzdC5qc29uCgpjb25zdCBmcyA9IHJlcXVpcmUoJ2ZzJyk7CmNvbnN0IHBhdGggPSByZXF1aXJlKCdwYXRoJyk7CgovLyDojrflj5bpobnnm67moLnnm67lvZUKY29uc3QgcHJvamVjdFJvb3QgPSBwYXRoLnJlc29sdmUoX19kaXJuYW1lLCAnLi4nKTsKY29uc3QgcHVibGljRGlyID0gcGF0aC5qb2luKHByb2plY3RSb290LCAncHVibGljJyk7CmNvbnN0IG1hbmlmZXN0UGF0aCA9IHBhdGguam9pbihwdWJsaWNEaXIsICdtYW5pZmVzdC5qc29uJyk7CgovLyDku47njq/looPlj5jph4/ojrflj5bnq5nngrnlkI3np7AKY29uc3Qgc2l0ZU5hbWUgPSBwcm9jZXNzLmVudi5TSVRFX05BTUUgfHwgJ01vb25UVic7CgovLyBtYW5pZmVzdC5qc29uIOaooeadvwpjb25zdCBtYW5pZmVzdFRlbXBsYXRlID0gewogICJuYW1lIjogc2l0ZU5hbWUsCiAgInNob3J0X25hbWUiOiBzaXRlTmFtZSwKICAiZGVzY3JpcHRpb24iOiAi5b2x6KeG6IGa5ZCIIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJzY29wZSI6ICIvIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDAwMDAwIiwKICAiYXBwbGUtbW9iaWxlLXdlYi1hcHAtY2FwYWJsZSI6ICJ5ZXMiLAogICJhcHBsZS1tb2JpbGUtd2ViLWFwcC1zdGF0dXMtYmFyLXN0eWxlIjogImJsYWNrIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiL2ljb25zL2ljb24tMTkyeDE5Mi5wbmciLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiL2ljb25zL2ljb24tMjU2eDI1Ni5wbmciLAogICAgICAic2l6ZXMiOiAiMjU2eDI1NiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiL2ljb25zL2ljb24tMzg0eDM4NC5wbmciLAogICAgICAic2l6ZXMiOiAiMzg0eDM4NCIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiL2ljb25zL2ljb24tNTEyeDUxMi5wbmciLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn07Cgp0cnkgewogIC8vIOehruS/nSBwdWJsaWMg55uu5b2V5a2Y5ZyoCiAgaWYgKCFmcy5leGlzdHNTeW5jKHB1YmxpY0RpcikpIHsKICAgIGZzLm1rZGlyU3luYyhwdWJsaWNEaXIsIHsgcmVjdXJzaXZlOiB0cnVlIH0pOwogIH0KCiAgLy8g5YaZ5YWlIG1hbmlmZXN0Lmpzb24KICBmcy53cml0ZUZpbGVTeW5jKG1hbmlmZXN0UGF0aCwgSlNPTi5zdHJpbmdpZnkobWFuaWZlc3RUZW1wbGF0ZSwgbnVsbCwgMikpOwogIGNvbnNvbGUubG9nKGDinIUgR2VuZXJhdGVkIG1hbmlmZXN0Lmpzb24gd2l0aCBzaXRlIG5hbWU6ICR7c2l0ZU5hbWV9YCk7Cn0gY2F0Y2ggKGVycm9yKSB7CiAgY29uc29sZS5lcnJvcign4p2MIEVycm9yIGdlbmVyYXRpbmcgbWFuaWZlc3QuanNvbjonLCBlcnJvcik7CiAgcHJvY2Vzcy5leGl0KDEpOwp9Cg==
+#!/usr/bin/env node
+/* eslint-disable */
+// 根据 SITE_NAME 动态生成 manifest.json
+
+const fs = require('fs');
+const path = require('path');
+
+// 获取项目根目录
+const projectRoot = path.resolve(__dirname, '..');
+const publicDir = path.join(projectRoot, 'public');
+const manifestPath = path.join(publicDir, 'manifest.json');
+
+// 从环境变量获取站点名称
+const siteName = process.env.SITE_NAME || 'MoonTV';
+
+// manifest.json 模板
+const manifestTemplate = {
+  "name": siteName,
+  "short_name": siteName,
+  "description": "影视聚合",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "apple-mobile-web-app-capable": "yes",
+  "apple-mobile-web-app-status-bar-style": "black",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+};
+
+try {
+  // 确保 public 目录存在
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir, { recursive: true });
+  }
+
+  // 写入 manifest.json
+  fs.writeFileSync(manifestPath, JSON.stringify(manifestTemplate, null, 2));
+  console.log(`✅ Generated manifest.json with site name: ${siteName}`);
+} catch (error) {
+  console.error('❌ Error generating manifest.json:', error);
+  process.exit(1);
+}
