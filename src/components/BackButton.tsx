@@ -1,1 +1,13 @@
-aW1wb3J0IHsgQXJyb3dMZWZ0IH0gZnJvbSAnbHVjaWRlLXJlYWN0JzsKCmV4cG9ydCBmdW5jdGlvbiBCYWNrQnV0dG9uKCkgewogIHJldHVybiAoCiAgICA8YnV0dG9uCiAgICAgIG9uQ2xpY2s9eygpID0+IHdpbmRvdy5oaXN0b3J5LmJhY2soKX0KICAgICAgY2xhc3NOYW1lPSd3LTEwIGgtMTAgcC0yIHJvdW5kZWQtZnVsbCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciB0ZXh0LWdyYXktNjAwIGhvdmVyOmJnLWdyYXktMjAwLzUwIGRhcms6dGV4dC1ncmF5LTMwMCBkYXJrOmhvdmVyOmJnLWdyYXktNzAwLzUwIHRyYW5zaXRpb24tY29sb3JzJwogICAgICBhcmlhLWxhYmVsPSdCYWNrJwogICAgPgogICAgICA8QXJyb3dMZWZ0IGNsYXNzTmFtZT0ndy1mdWxsIGgtZnVsbCcgLz4KICAgIDwvYnV0dG9uPgogICk7Cn0K
+import { ArrowLeft } from 'lucide-react';
+
+export function BackButton() {
+  return (
+    <button
+      onClick={() => window.history.back()}
+      className='w-10 h-10 p-2 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200/50 dark:text-gray-300 dark:hover:bg-gray-700/50 transition-colors'
+      aria-label='Back'
+    >
+      <ArrowLeft className='w-full h-full' />
+    </button>
+  );
+}
