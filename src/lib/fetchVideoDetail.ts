@@ -1,1 +1,51 @@
-aW1wb3J0IHsgZ2V0QXZhaWxhYmxlQXBpU2l0ZXMgfSBmcm9tICdAL2xpYi9jb25maWcnOwppbXBvcnQgeyBTZWFyY2hSZXN1bHQgfSBmcm9tICdAL2xpYi90eXBlcyc7CgppbXBvcnQgeyBnZXREZXRhaWxGcm9tQXBpLCBzZWFyY2hGcm9tQXBpIH0gZnJvbSAnLi9kb3duc3RyZWFtJzsKCmludGVyZmFjZSBGZXRjaFZpZGVvRGV0YWlsT3B0aW9ucyB7CiAgc291cmNlOiBzdHJpbmc7CiAgaWQ6IHN0cmluZzsKICBmYWxsYmFja1RpdGxlPzogc3RyaW5nOwp9CgovKioKICog5qC55o2uIHNvdXJjZSDkuI4gaWQg6I635Y+W6KeG6aKR6K+m5oOF44CCCiAqIDEuIOiLpeS8oOWFpSBmYWxsYmFja1RpdGxl77yM5YiZ5YWI6LCD55SoIC9hcGkvc2VhcmNoIOaQnOe0oueyvuehruWMuemFjeOAggogKiAyLiDoi6XmkJzntKLmnKrlkb3kuK3miJbmnKrmj5DkvpsgZmFsbGJhY2tUaXRsZe+8jOWImeebtOaOpeiwg+eUqCAvYXBpL2RldGFpbOOAggogKi8KZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGZldGNoVmlkZW9EZXRhaWwoewogIHNvdXJjZSwKICBpZCwKICBmYWxsYmFja1RpdGxlID0gJycsCn06IEZldGNoVmlkZW9EZXRhaWxPcHRpb25zKTogUHJvbWlzZTxTZWFyY2hSZXN1bHQ+IHsKICAvLyDkvJjlhYjpgJrov4fmkJzntKLmjqXlj6Pmn6Xmib7nsr7noa7ljLnphY0KICBjb25zdCBhcGlTaXRlcyA9IGF3YWl0IGdldEF2YWlsYWJsZUFwaVNpdGVzKCk7CiAgY29uc3QgYXBpU2l0ZSA9IGFwaVNpdGVzLmZpbmQoKHNpdGUpID0+IHNpdGUua2V5ID09PSBzb3VyY2UpOwogIGlmICghYXBpU2l0ZSkgewogICAgdGhyb3cgbmV3IEVycm9yKCfml6DmlYjnmoRBUEnmnaXmupAnKTsKICB9CiAgaWYgKGZhbGxiYWNrVGl0bGUpIHsKICAgIHRyeSB7CiAgICAgIGNvbnN0IHNlYXJjaERhdGEgPSBhd2FpdCBzZWFyY2hGcm9tQXBpKGFwaVNpdGUsIGZhbGxiYWNrVGl0bGUudHJpbSgpKTsKICAgICAgY29uc3QgZXhhY3RNYXRjaCA9IHNlYXJjaERhdGEuZmluZCgKICAgICAgICAoaXRlbTogU2VhcmNoUmVzdWx0KSA9PgogICAgICAgICAgaXRlbS5zb3VyY2UudG9TdHJpbmcoKSA9PT0gc291cmNlLnRvU3RyaW5nKCkgJiYKICAgICAgICAgIGl0ZW0uaWQudG9TdHJpbmcoKSA9PT0gaWQudG9TdHJpbmcoKQogICAgICApOwogICAgICBpZiAoZXhhY3RNYXRjaCkgewogICAgICAgIHJldHVybiBleGFjdE1hdGNoOwogICAgICB9CiAgICB9IGNhdGNoIChlcnJvcikgewogICAgICAvLyBkbyBub3RoaW5nCiAgICB9CiAgfQoKICAvLyDosIPnlKggL2FwaS9kZXRhaWwg5o6l5Y+jCiAgY29uc3QgZGV0YWlsID0gYXdhaXQgZ2V0RGV0YWlsRnJvbUFwaShhcGlTaXRlLCBpZCk7CiAgaWYgKCFkZXRhaWwpIHsKICAgIHRocm93IG5ldyBFcnJvcign6I635Y+W6KeG6aKR6K+m5oOF5aSx6LSlJyk7CiAgfQoKICByZXR1cm4gZGV0YWlsOwp9Cg==
+import { getAvailableApiSites } from '@/lib/config';
+import { SearchResult } from '@/lib/types';
+
+import { getDetailFromApi, searchFromApi } from './downstream';
+
+interface FetchVideoDetailOptions {
+  source: string;
+  id: string;
+  fallbackTitle?: string;
+}
+
+/**
+ * 根据 source 与 id 获取视频详情。
+ * 1. 若传入 fallbackTitle，则先调用 /api/search 搜索精确匹配。
+ * 2. 若搜索未命中或未提供 fallbackTitle，则直接调用 /api/detail。
+ */
+export async function fetchVideoDetail({
+  source,
+  id,
+  fallbackTitle = '',
+}: FetchVideoDetailOptions): Promise<SearchResult> {
+  // 优先通过搜索接口查找精确匹配
+  const apiSites = await getAvailableApiSites();
+  const apiSite = apiSites.find((site) => site.key === source);
+  if (!apiSite) {
+    throw new Error('无效的API来源');
+  }
+  if (fallbackTitle) {
+    try {
+      const searchData = await searchFromApi(apiSite, fallbackTitle.trim());
+      const exactMatch = searchData.find(
+        (item: SearchResult) =>
+          item.source.toString() === source.toString() &&
+          item.id.toString() === id.toString()
+      );
+      if (exactMatch) {
+        return exactMatch;
+      }
+    } catch (error) {
+      // do nothing
+    }
+  }
+
+  // 调用 /api/detail 接口
+  const detail = await getDetailFromApi(apiSite, id);
+  if (!detail) {
+    throw new Error('获取视频详情失败');
+  }
+
+  return detail;
+}
