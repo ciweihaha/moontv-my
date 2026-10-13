@@ -1,1 +1,169 @@
-LyogZXNsaW50LWRpc2FibGUgQHR5cGVzY3JpcHQtZXNsaW50L25vLWV4cGxpY2l0LWFueSxuby1jb25zb2xlICovCgppbXBvcnQgeyBOZXh0UmVxdWVzdCwgTmV4dFJlc3BvbnNlIH0gZnJvbSAnbmV4dC9zZXJ2ZXInOwoKaW1wb3J0IHsgZ2V0QXV0aEluZm9Gcm9tQ29va2llIH0gZnJvbSAnQC9saWIvYXV0aCc7CmltcG9ydCB7IGdldENvbmZpZyB9IGZyb20gJ0AvbGliL2NvbmZpZyc7CmltcG9ydCB7IGdldFN0b3JhZ2UgfSBmcm9tICdAL2xpYi9kYic7CmltcG9ydCB7IElTdG9yYWdlIH0gZnJvbSAnQC9saWIvdHlwZXMnOwoKZXhwb3J0IGNvbnN0IHJ1bnRpbWUgPSAnZWRnZSc7CgovLyDmlK/mjIHnmoTmk43kvZznsbvlnosKdHlwZSBBY3Rpb24gPSAnYWRkJyB8ICdkaXNhYmxlJyB8ICdlbmFibGUnIHwgJ2RlbGV0ZScgfCAnc29ydCc7CgppbnRlcmZhY2UgQmFzZUJvZHkgewogIGFjdGlvbj86IEFjdGlvbjsKfQoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIFBPU1QocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICBjb25zdCBzdG9yYWdlVHlwZSA9IHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX1NUT1JBR0VfVFlQRSB8fCAnbG9jYWxzdG9yYWdlJzsKICBpZiAoc3RvcmFnZVR5cGUgPT09ICdsb2NhbHN0b3JhZ2UnKSB7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsKICAgICAgICBlcnJvcjogJ+S4jeaUr+aMgeacrOWcsOWtmOWCqOi/m+ihjOeuoeeQhuWRmOmFjee9ricsCiAgICAgIH0sCiAgICAgIHsgc3RhdHVzOiA0MDAgfQogICAgKTsKICB9CgogIHRyeSB7CiAgICBjb25zdCBib2R5ID0gKGF3YWl0IHJlcXVlc3QuanNvbigpKSBhcyBCYXNlQm9keSAmIFJlY29yZDxzdHJpbmcsIGFueT47CiAgICBjb25zdCB7IGFjdGlvbiB9ID0gYm9keTsKCiAgICBjb25zdCBhdXRoSW5mbyA9IGdldEF1dGhJbmZvRnJvbUNvb2tpZShyZXF1ZXN0KTsKICAgIGlmICghYXV0aEluZm8gfHwgIWF1dGhJbmZvLnVzZXJuYW1lKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAnVW5hdXRob3JpemVkJyB9LCB7IHN0YXR1czogNDAxIH0pOwogICAgfQogICAgY29uc3QgdXNlcm5hbWUgPSBhdXRoSW5mby51c2VybmFtZTsKCiAgICAvLyDln7rnoYDmoKHpqowKICAgIGNvbnN0IEFDVElPTlM6IEFjdGlvbltdID0gWydhZGQnLCAnZGlzYWJsZScsICdlbmFibGUnLCAnZGVsZXRlJywgJ3NvcnQnXTsKICAgIGlmICghdXNlcm5hbWUgfHwgIWFjdGlvbiB8fCAhQUNUSU9OUy5pbmNsdWRlcyhhY3Rpb24pKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn5Y+C5pWw5qC85byP6ZSZ6K+vJyB9LCB7IHN0YXR1czogNDAwIH0pOwogICAgfQoKICAgIC8vIOiOt+WPlumFjee9ruS4juWtmOWCqAogICAgY29uc3QgYWRtaW5Db25maWcgPSBhd2FpdCBnZXRDb25maWcoKTsKICAgIGNvbnN0IHN0b3JhZ2U6IElTdG9yYWdlIHwgbnVsbCA9IGdldFN0b3JhZ2UoKTsKCiAgICAvLyDmnYPpmZDkuI7ouqvku73moKHpqowKICAgIGlmICh1c2VybmFtZSAhPT0gcHJvY2Vzcy5lbnYuVVNFUk5BTUUpIHsKICAgICAgY29uc3QgdXNlckVudHJ5ID0gYWRtaW5Db25maWcuVXNlckNvbmZpZy5Vc2Vycy5maW5kKAogICAgICAgICh1KSA9PiB1LnVzZXJuYW1lID09PSB1c2VybmFtZQogICAgICApOwogICAgICBpZiAoIXVzZXJFbnRyeSB8fCB1c2VyRW50cnkucm9sZSAhPT0gJ2FkbWluJykgewogICAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn5p2D6ZmQ5LiN6LazJyB9LCB7IHN0YXR1czogNDAxIH0pOwogICAgICB9CiAgICB9CgogICAgc3dpdGNoIChhY3Rpb24pIHsKICAgICAgY2FzZSAnYWRkJzogewogICAgICAgIGNvbnN0IHsga2V5LCBuYW1lLCBhcGksIGRldGFpbCB9ID0gYm9keSBhcyB7CiAgICAgICAgICBrZXk/OiBzdHJpbmc7CiAgICAgICAgICBuYW1lPzogc3RyaW5nOwogICAgICAgICAgYXBpPzogc3RyaW5nOwogICAgICAgICAgZGV0YWlsPzogc3RyaW5nOwogICAgICAgIH07CiAgICAgICAgaWYgKCFrZXkgfHwgIW5hbWUgfHwgIWFwaSkgewogICAgICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfnvLrlsJHlv4XopoHlj4LmlbAnIH0sIHsgc3RhdHVzOiA0MDAgfSk7CiAgICAgICAgfQogICAgICAgIGlmIChhZG1pbkNvbmZpZy5Tb3VyY2VDb25maWcuc29tZSgocykgPT4gcy5rZXkgPT09IGtleSkpIHsKICAgICAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn6K+l5rqQ5bey5a2Y5ZyoJyB9LCB7IHN0YXR1czogNDAwIH0pOwogICAgICAgIH0KICAgICAgICBhZG1pbkNvbmZpZy5Tb3VyY2VDb25maWcucHVzaCh7CiAgICAgICAgICBrZXksCiAgICAgICAgICBuYW1lLAogICAgICAgICAgYXBpLAogICAgICAgICAgZGV0YWlsLAogICAgICAgICAgZnJvbTogJ2N1c3RvbScsCiAgICAgICAgICBkaXNhYmxlZDogZmFsc2UsCiAgICAgICAgfSk7CiAgICAgICAgYnJlYWs7CiAgICAgIH0KICAgICAgY2FzZSAnZGlzYWJsZSc6IHsKICAgICAgICBjb25zdCB7IGtleSB9ID0gYm9keSBhcyB7IGtleT86IHN0cmluZyB9OwogICAgICAgIGlmICgha2V5KQogICAgICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfnvLrlsJEga2V5IOWPguaVsCcgfSwgeyBzdGF0dXM6IDQwMCB9KTsKICAgICAgICBjb25zdCBlbnRyeSA9IGFkbWluQ29uZmlnLlNvdXJjZUNvbmZpZy5maW5kKChzKSA9PiBzLmtleSA9PT0ga2V5KTsKICAgICAgICBpZiAoIWVudHJ5KQogICAgICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfmupDkuI3lrZjlnKgnIH0sIHsgc3RhdHVzOiA0MDQgfSk7CiAgICAgICAgZW50cnkuZGlzYWJsZWQgPSB0cnVlOwogICAgICAgIGJyZWFrOwogICAgICB9CiAgICAgIGNhc2UgJ2VuYWJsZSc6IHsKICAgICAgICBjb25zdCB7IGtleSB9ID0gYm9keSBhcyB7IGtleT86IHN0cmluZyB9OwogICAgICAgIGlmICgha2V5KQogICAgICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfnvLrlsJEga2V5IOWPguaVsCcgfSwgeyBzdGF0dXM6IDQwMCB9KTsKICAgICAgICBjb25zdCBlbnRyeSA9IGFkbWluQ29uZmlnLlNvdXJjZUNvbmZpZy5maW5kKChzKSA9PiBzLmtleSA9PT0ga2V5KTsKICAgICAgICBpZiAoIWVudHJ5KQogICAgICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfmupDkuI3lrZjlnKgnIH0sIHsgc3RhdHVzOiA0MDQgfSk7CiAgICAgICAgZW50cnkuZGlzYWJsZWQgPSBmYWxzZTsKICAgICAgICBicmVhazsKICAgICAgfQogICAgICBjYXNlICdkZWxldGUnOiB7CiAgICAgICAgY29uc3QgeyBrZXkgfSA9IGJvZHkgYXMgeyBrZXk/OiBzdHJpbmcgfTsKICAgICAgICBpZiAoIWtleSkKICAgICAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn57y65bCRIGtleSDlj4LmlbAnIH0sIHsgc3RhdHVzOiA0MDAgfSk7CiAgICAgICAgY29uc3QgaWR4ID0gYWRtaW5Db25maWcuU291cmNlQ29uZmlnLmZpbmRJbmRleCgocykgPT4gcy5rZXkgPT09IGtleSk7CiAgICAgICAgaWYgKGlkeCA9PT0gLTEpCiAgICAgICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+a6kOS4jeWtmOWcqCcgfSwgeyBzdGF0dXM6IDQwNCB9KTsKICAgICAgICBjb25zdCBlbnRyeSA9IGFkbWluQ29uZmlnLlNvdXJjZUNvbmZpZ1tpZHhdOwogICAgICAgIGlmIChlbnRyeS5mcm9tID09PSAnY29uZmlnJykgewogICAgICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfor6XmupDkuI3lj6/liKDpmaQnIH0sIHsgc3RhdHVzOiA0MDAgfSk7CiAgICAgICAgfQogICAgICAgIGFkbWluQ29uZmlnLlNvdXJjZUNvbmZpZy5zcGxpY2UoaWR4LCAxKTsKICAgICAgICBicmVhazsKICAgICAgfQogICAgICBjYXNlICdzb3J0JzogewogICAgICAgIGNvbnN0IHsgb3JkZXIgfSA9IGJvZHkgYXMgeyBvcmRlcj86IHN0cmluZ1tdIH07CiAgICAgICAgaWYgKCFBcnJheS5pc0FycmF5KG9yZGVyKSkgewogICAgICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgICAgICB7IGVycm9yOiAn5o6S5bqP5YiX6KGo5qC85byP6ZSZ6K+vJyB9LAogICAgICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgICAgICk7CiAgICAgICAgfQogICAgICAgIGNvbnN0IG1hcCA9IG5ldyBNYXAoYWRtaW5Db25maWcuU291cmNlQ29uZmlnLm1hcCgocykgPT4gW3Mua2V5LCBzXSkpOwogICAgICAgIGNvbnN0IG5ld0xpc3Q6IHR5cGVvZiBhZG1pbkNvbmZpZy5Tb3VyY2VDb25maWcgPSBbXTsKICAgICAgICBvcmRlci5mb3JFYWNoKChrKSA9PiB7CiAgICAgICAgICBjb25zdCBpdGVtID0gbWFwLmdldChrKTsKICAgICAgICAgIGlmIChpdGVtKSB7CiAgICAgICAgICAgIG5ld0xpc3QucHVzaChpdGVtKTsKICAgICAgICAgICAgbWFwLmRlbGV0ZShrKTsKICAgICAgICAgIH0KICAgICAgICB9KTsKICAgICAgICAvLyDmnKrlnKggb3JkZXIg5Lit55qE5L+d5oyB5Y6f6aG65bqPCiAgICAgICAgYWRtaW5Db25maWcuU291cmNlQ29uZmlnLmZvckVhY2goKGl0ZW0pID0+IHsKICAgICAgICAgIGlmIChtYXAuaGFzKGl0ZW0ua2V5KSkgbmV3TGlzdC5wdXNoKGl0ZW0pOwogICAgICAgIH0pOwogICAgICAgIGFkbWluQ29uZmlnLlNvdXJjZUNvbmZpZyA9IG5ld0xpc3Q7CiAgICAgICAgYnJlYWs7CiAgICAgIH0KICAgICAgZGVmYXVsdDoKICAgICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ+acquefpeaTjeS9nCcgfSwgeyBzdGF0dXM6IDQwMCB9KTsKICAgIH0KCiAgICAvLyDmjIHkuYXljJbliLDlrZjlgqgKICAgIGlmIChzdG9yYWdlICYmIHR5cGVvZiAoc3RvcmFnZSBhcyBhbnkpLnNldEFkbWluQ29uZmlnID09PSAnZnVuY3Rpb24nKSB7CiAgICAgIGF3YWl0IChzdG9yYWdlIGFzIGFueSkuc2V0QWRtaW5Db25maWcoYWRtaW5Db25maWcpOwogICAgfQoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBvazogdHJ1ZSB9LAogICAgICB7CiAgICAgICAgaGVhZGVyczogewogICAgICAgICAgJ0NhY2hlLUNvbnRyb2wnOiAnbm8tc3RvcmUnLAogICAgICAgIH0sCiAgICAgIH0KICAgICk7CiAgfSBjYXRjaCAoZXJyb3IpIHsKICAgIGNvbnNvbGUuZXJyb3IoJ+inhumikea6kOeuoeeQhuaTjeS9nOWksei0pTonLCBlcnJvcik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsKICAgICAgICBlcnJvcjogJ+inhumikea6kOeuoeeQhuaTjeS9nOWksei0pScsCiAgICAgICAgZGV0YWlsczogKGVycm9yIGFzIEVycm9yKS5tZXNzYWdlLAogICAgICB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9Cg==
+/* eslint-disable @typescript-eslint/no-explicit-any,no-console */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getAuthInfoFromCookie } from '@/lib/auth';
+import { getConfig } from '@/lib/config';
+import { getStorage } from '@/lib/db';
+import { IStorage } from '@/lib/types';
+
+export const runtime = 'edge';
+
+// 支持的操作类型
+type Action = 'add' | 'disable' | 'enable' | 'delete' | 'sort';
+
+interface BaseBody {
+  action?: Action;
+}
+
+export async function POST(request: NextRequest) {
+  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
+  if (storageType === 'localstorage') {
+    return NextResponse.json(
+      {
+        error: '不支持本地存储进行管理员配置',
+      },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const body = (await request.json()) as BaseBody & Record<string, any>;
+    const { action } = body;
+
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const username = authInfo.username;
+
+    // 基础校验
+    const ACTIONS: Action[] = ['add', 'disable', 'enable', 'delete', 'sort'];
+    if (!username || !action || !ACTIONS.includes(action)) {
+      return NextResponse.json({ error: '参数格式错误' }, { status: 400 });
+    }
+
+    // 获取配置与存储
+    const adminConfig = await getConfig();
+    const storage: IStorage | null = getStorage();
+
+    // 权限与身份校验
+    if (username !== process.env.USERNAME) {
+      const userEntry = adminConfig.UserConfig.Users.find(
+        (u) => u.username === username
+      );
+      if (!userEntry || userEntry.role !== 'admin') {
+        return NextResponse.json({ error: '权限不足' }, { status: 401 });
+      }
+    }
+
+    switch (action) {
+      case 'add': {
+        const { key, name, api, detail } = body as {
+          key?: string;
+          name?: string;
+          api?: string;
+          detail?: string;
+        };
+        if (!key || !name || !api) {
+          return NextResponse.json({ error: '缺少必要参数' }, { status: 400 });
+        }
+        if (adminConfig.SourceConfig.some((s) => s.key === key)) {
+          return NextResponse.json({ error: '该源已存在' }, { status: 400 });
+        }
+        adminConfig.SourceConfig.push({
+          key,
+          name,
+          api,
+          detail,
+          from: 'custom',
+          disabled: false,
+        });
+        break;
+      }
+      case 'disable': {
+        const { key } = body as { key?: string };
+        if (!key)
+          return NextResponse.json({ error: '缺少 key 参数' }, { status: 400 });
+        const entry = adminConfig.SourceConfig.find((s) => s.key === key);
+        if (!entry)
+          return NextResponse.json({ error: '源不存在' }, { status: 404 });
+        entry.disabled = true;
+        break;
+      }
+      case 'enable': {
+        const { key } = body as { key?: string };
+        if (!key)
+          return NextResponse.json({ error: '缺少 key 参数' }, { status: 400 });
+        const entry = adminConfig.SourceConfig.find((s) => s.key === key);
+        if (!entry)
+          return NextResponse.json({ error: '源不存在' }, { status: 404 });
+        entry.disabled = false;
+        break;
+      }
+      case 'delete': {
+        const { key } = body as { key?: string };
+        if (!key)
+          return NextResponse.json({ error: '缺少 key 参数' }, { status: 400 });
+        const idx = adminConfig.SourceConfig.findIndex((s) => s.key === key);
+        if (idx === -1)
+          return NextResponse.json({ error: '源不存在' }, { status: 404 });
+        const entry = adminConfig.SourceConfig[idx];
+        if (entry.from === 'config') {
+          return NextResponse.json({ error: '该源不可删除' }, { status: 400 });
+        }
+        adminConfig.SourceConfig.splice(idx, 1);
+        break;
+      }
+      case 'sort': {
+        const { order } = body as { order?: string[] };
+        if (!Array.isArray(order)) {
+          return NextResponse.json(
+            { error: '排序列表格式错误' },
+            { status: 400 }
+          );
+        }
+        const map = new Map(adminConfig.SourceConfig.map((s) => [s.key, s]));
+        const newList: typeof adminConfig.SourceConfig = [];
+        order.forEach((k) => {
+          const item = map.get(k);
+          if (item) {
+            newList.push(item);
+            map.delete(k);
+          }
+        });
+        // 未在 order 中的保持原顺序
+        adminConfig.SourceConfig.forEach((item) => {
+          if (map.has(item.key)) newList.push(item);
+        });
+        adminConfig.SourceConfig = newList;
+        break;
+      }
+      default:
+        return NextResponse.json({ error: '未知操作' }, { status: 400 });
+    }
+
+    // 持久化到存储
+    if (storage && typeof (storage as any).setAdminConfig === 'function') {
+      await (storage as any).setAdminConfig(adminConfig);
+    }
+
+    return NextResponse.json(
+      { ok: true },
+      {
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
+  } catch (error) {
+    console.error('视频源管理操作失败:', error);
+    return NextResponse.json(
+      {
+        error: '视频源管理操作失败',
+        details: (error as Error).message,
+      },
+      { status: 500 }
+    );
+  }
+}
