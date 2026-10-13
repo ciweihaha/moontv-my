@@ -1,1 +1,22 @@
-ewogICJidWlsZENvbW1hbmQiOiAicG5wbSBidWlsZCIsCiAgImluc3RhbGxDb21tYW5kIjogIm5wbSBpbnN0YWxsIC1nIHBucG1AOCAmJiBwbnBtIGluc3RhbGwiLAogICJmcmFtZXdvcmsiOiAibmV4dGpzIiwKICAiaGVhZGVycyI6IFsKICAgIHsKICAgICAgInNvdXJjZSI6ICIvZm9udHMvaW50ZXItdmFyLWxhdGluLndvZmYyIiwKICAgICAgImhlYWRlcnMiOiBbCiAgICAgICAgewogICAgICAgICAgImtleSI6ICJDYWNoZS1Db250cm9sIiwKICAgICAgICAgICJ2YWx1ZSI6ICJwdWJsaWMsIG1heC1hZ2U9MzE1MzYwMDAsIGltbXV0YWJsZSIKICAgICAgICB9CiAgICAgIF0KICAgIH0KICBdLAogICJjcm9ucyI6IFsKICAgIHsKICAgICAgInBhdGgiOiAiL2FwaS9jcm9uIiwKICAgICAgInNjaGVkdWxlIjogIjAgMSAqICogKiIKICAgIH0KICBdCn0K
+{
+  "buildCommand": "pnpm build",
+  "installCommand": "npm install -g pnpm@8 && pnpm install",
+  "framework": "nextjs",
+  "headers": [
+    {
+      "source": "/fonts/inter-var-latin.woff2",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "0 1 * * *"
+    }
+  ]
+}
