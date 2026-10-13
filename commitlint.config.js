@@ -1,1 +1,24 @@
-bW9kdWxlLmV4cG9ydHMgPSB7CiAgZXh0ZW5kczogWydAY29tbWl0bGludC9jb25maWctY29udmVudGlvbmFsJ10sCiAgcnVsZXM6IHsKICAgIC8vICAgVE9ETyBBZGQgU2NvcGUgRW51bSBIZXJlCiAgICAvLyAnc2NvcGUtZW51bSc6IFsyLCAnYWx3YXlzJywgWyd5b3Vyc2NvcGUnLCAneW91cnNjb3BlJ11dLAogICAgJ3R5cGUtZW51bSc6IFsKICAgICAgMiwKICAgICAgJ2Fsd2F5cycsCiAgICAgIFsKICAgICAgICAnZmVhdCcsCiAgICAgICAgJ2ZpeCcsCiAgICAgICAgJ2RvY3MnLAogICAgICAgICdjaG9yZScsCiAgICAgICAgJ3N0eWxlJywKICAgICAgICAncmVmYWN0b3InLAogICAgICAgICdjaScsCiAgICAgICAgJ3Rlc3QnLAogICAgICAgICdwZXJmJywKICAgICAgICAncmV2ZXJ0JywKICAgICAgICAndmVyY2VsJywKICAgICAgXSwKICAgIF0sCiAgfSwKfTsK
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    //   TODO Add Scope Enum Here
+    // 'scope-enum': [2, 'always', ['yourscope', 'yourscope']],
+    'type-enum': [
+      2,
+      'always',
+      [
+        'feat',
+        'fix',
+        'docs',
+        'chore',
+        'style',
+        'refactor',
+        'ci',
+        'test',
+        'perf',
+        'revert',
+        'vercel',
+      ],
+    ],
+  },
+};
