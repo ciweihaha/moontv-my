@@ -1,1 +1,125 @@
-LyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSAqLwoKaW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gJ25leHQvc2VydmVyJzsKCmltcG9ydCB7IGdldEF1dGhJbmZvRnJvbUNvb2tpZSB9IGZyb20gJ0AvbGliL2F1dGgnOwppbXBvcnQgeyBkYiB9IGZyb20gJ0AvbGliL2RiJzsKaW1wb3J0IHsgUGxheVJlY29yZCB9IGZyb20gJ0AvbGliL3R5cGVzJzsKCmV4cG9ydCBjb25zdCBydW50aW1lID0gJ2VkZ2UnOwoKZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICAvLyDku44gY29va2llIOiOt+WPlueUqOaIt+S/oeaBrwogICAgY29uc3QgYXV0aEluZm8gPSBnZXRBdXRoSW5mb0Zyb21Db29raWUocmVxdWVzdCk7CiAgICBpZiAoIWF1dGhJbmZvIHx8ICFhdXRoSW5mby51c2VybmFtZSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ1VuYXV0aG9yaXplZCcgfSwgeyBzdGF0dXM6IDQwMSB9KTsKICAgIH0KCiAgICBjb25zdCByZWNvcmRzID0gYXdhaXQgZGIuZ2V0QWxsUGxheVJlY29yZHMoYXV0aEluZm8udXNlcm5hbWUpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHJlY29yZHMsIHsgc3RhdHVzOiAyMDAgfSk7CiAgfSBjYXRjaCAoZXJyKSB7CiAgICBjb25zb2xlLmVycm9yKCfojrflj5bmkq3mlL7orrDlvZXlpLHotKUnLCBlcnIpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAnSW50ZXJuYWwgU2VydmVyIEVycm9yJyB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gUE9TVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICAvLyDku44gY29va2llIOiOt+WPlueUqOaIt+S/oeaBrwogICAgY29uc3QgYXV0aEluZm8gPSBnZXRBdXRoSW5mb0Zyb21Db29raWUocmVxdWVzdCk7CiAgICBpZiAoIWF1dGhJbmZvIHx8ICFhdXRoSW5mby51c2VybmFtZSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ1VuYXV0aG9yaXplZCcgfSwgeyBzdGF0dXM6IDQwMSB9KTsKICAgIH0KCiAgICBjb25zdCBib2R5ID0gYXdhaXQgcmVxdWVzdC5qc29uKCk7CiAgICBjb25zdCB7IGtleSwgcmVjb3JkIH06IHsga2V5OiBzdHJpbmc7IHJlY29yZDogUGxheVJlY29yZCB9ID0gYm9keTsKCiAgICBpZiAoIWtleSB8fCAhcmVjb3JkKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAnTWlzc2luZyBrZXkgb3IgcmVjb3JkJyB9LAogICAgICAgIHsgc3RhdHVzOiA0MDAgfQogICAgICApOwogICAgfQoKICAgIC8vIOmqjOivgeaSreaUvuiusOW9leaVsOaNrgogICAgaWYgKCFyZWNvcmQudGl0bGUgfHwgIXJlY29yZC5zb3VyY2VfbmFtZSB8fCByZWNvcmQuaW5kZXggPCAxKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAnSW52YWxpZCByZWNvcmQgZGF0YScgfSwKICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgKTsKICAgIH0KCiAgICAvLyDku45rZXnkuK3op6PmnpBzb3VyY2XlkoxpZAogICAgY29uc3QgW3NvdXJjZSwgaWRdID0ga2V5LnNwbGl0KCcrJyk7CiAgICBpZiAoIXNvdXJjZSB8fCAhaWQpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICdJbnZhbGlkIGtleSBmb3JtYXQnIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICAgICk7CiAgICB9CgogICAgY29uc3QgZmluYWxSZWNvcmQgPSB7CiAgICAgIC4uLnJlY29yZCwKICAgICAgc2F2ZV90aW1lOiByZWNvcmQuc2F2ZV90aW1lID8/IERhdGUubm93KCksCiAgICB9IGFzIFBsYXlSZWNvcmQ7CgogICAgYXdhaXQgZGIuc2F2ZVBsYXlSZWNvcmQoYXV0aEluZm8udXNlcm5hbWUsIHNvdXJjZSwgaWQsIGZpbmFsUmVjb3JkKTsKCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBzdWNjZXNzOiB0cnVlIH0sIHsgc3RhdHVzOiAyMDAgfSk7CiAgfSBjYXRjaCAoZXJyKSB7CiAgICBjb25zb2xlLmVycm9yKCfkv53lrZjmkq3mlL7orrDlvZXlpLHotKUnLCBlcnIpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAnSW50ZXJuYWwgU2VydmVyIEVycm9yJyB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gREVMRVRFKHJlcXVlc3Q6IE5leHRSZXF1ZXN0KSB7CiAgdHJ5IHsKICAgIC8vIOS7jiBjb29raWUg6I635Y+W55So5oi35L+h5oGvCiAgICBjb25zdCBhdXRoSW5mbyA9IGdldEF1dGhJbmZvRnJvbUNvb2tpZShyZXF1ZXN0KTsKICAgIGlmICghYXV0aEluZm8gfHwgIWF1dGhJbmZvLnVzZXJuYW1lKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAnVW5hdXRob3JpemVkJyB9LCB7IHN0YXR1czogNDAxIH0pOwogICAgfQoKICAgIGNvbnN0IHVzZXJuYW1lID0gYXV0aEluZm8udXNlcm5hbWU7CiAgICBjb25zdCB7IHNlYXJjaFBhcmFtcyB9ID0gbmV3IFVSTChyZXF1ZXN0LnVybCk7CiAgICBjb25zdCBrZXkgPSBzZWFyY2hQYXJhbXMuZ2V0KCdrZXknKTsKCiAgICBpZiAoa2V5KSB7CiAgICAgIC8vIOWmguaenOaPkOS+m+S6hiBrZXnvvIzliKDpmaTljZXmnaHmkq3mlL7orrDlvZUKICAgICAgY29uc3QgW3NvdXJjZSwgaWRdID0ga2V5LnNwbGl0KCcrJyk7CiAgICAgIGlmICghc291cmNlIHx8ICFpZCkgewogICAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICAgIHsgZXJyb3I6ICdJbnZhbGlkIGtleSBmb3JtYXQnIH0sCiAgICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgICApOwogICAgICB9CgogICAgICBhd2FpdCBkYi5kZWxldGVQbGF5UmVjb3JkKHVzZXJuYW1lLCBzb3VyY2UsIGlkKTsKICAgIH0gZWxzZSB7CiAgICAgIC8vIOacquaPkOS+myBrZXnvvIzliJnmuIXnqbrlhajpg6jmkq3mlL7orrDlvZUKICAgICAgLy8g55uu5YmNIERiTWFuYWdlciDmsqHmnInlr7nlupTmlrnms5XvvIzov5nph4znm7TmjqXpgY3ljobliKDpmaQKICAgICAgY29uc3QgYWxsID0gYXdhaXQgZGIuZ2V0QWxsUGxheVJlY29yZHModXNlcm5hbWUpOwogICAgICBhd2FpdCBQcm9taXNlLmFsbCgKICAgICAgICBPYmplY3Qua2V5cyhhbGwpLm1hcChhc3luYyAoaykgPT4gewogICAgICAgICAgY29uc3QgW3MsIGldID0gay5zcGxpdCgnKycpOwogICAgICAgICAgaWYgKHMgJiYgaSkgYXdhaXQgZGIuZGVsZXRlUGxheVJlY29yZCh1c2VybmFtZSwgcywgaSk7CiAgICAgICAgfSkKICAgICAgKTsKICAgIH0KCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBzdWNjZXNzOiB0cnVlIH0sIHsgc3RhdHVzOiAyMDAgfSk7CiAgfSBjYXRjaCAoZXJyKSB7CiAgICBjb25zb2xlLmVycm9yKCfliKDpmaTmkq3mlL7orrDlvZXlpLHotKUnLCBlcnIpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAnSW50ZXJuYWwgU2VydmVyIEVycm9yJyB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9Cg==
+/* eslint-disable no-console */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getAuthInfoFromCookie } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { PlayRecord } from '@/lib/types';
+
+export const runtime = 'edge';
+
+export async function GET(request: NextRequest) {
+  try {
+    // 从 cookie 获取用户信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const records = await db.getAllPlayRecords(authInfo.username);
+    return NextResponse.json(records, { status: 200 });
+  } catch (err) {
+    console.error('获取播放记录失败', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    // 从 cookie 获取用户信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { key, record }: { key: string; record: PlayRecord } = body;
+
+    if (!key || !record) {
+      return NextResponse.json(
+        { error: 'Missing key or record' },
+        { status: 400 }
+      );
+    }
+
+    // 验证播放记录数据
+    if (!record.title || !record.source_name || record.index < 1) {
+      return NextResponse.json(
+        { error: 'Invalid record data' },
+        { status: 400 }
+      );
+    }
+
+    // 从key中解析source和id
+    const [source, id] = key.split('+');
+    if (!source || !id) {
+      return NextResponse.json(
+        { error: 'Invalid key format' },
+        { status: 400 }
+      );
+    }
+
+    const finalRecord = {
+      ...record,
+      save_time: record.save_time ?? Date.now(),
+    } as PlayRecord;
+
+    await db.savePlayRecord(authInfo.username, source, id, finalRecord);
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (err) {
+    console.error('保存播放记录失败', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    // 从 cookie 获取用户信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const username = authInfo.username;
+    const { searchParams } = new URL(request.url);
+    const key = searchParams.get('key');
+
+    if (key) {
+      // 如果提供了 key，删除单条播放记录
+      const [source, id] = key.split('+');
+      if (!source || !id) {
+        return NextResponse.json(
+          { error: 'Invalid key format' },
+          { status: 400 }
+        );
+      }
+
+      await db.deletePlayRecord(username, source, id);
+    } else {
+      // 未提供 key，则清空全部播放记录
+      // 目前 DbManager 没有对应方法，这里直接遍历删除
+      const all = await db.getAllPlayRecords(username);
+      await Promise.all(
+        Object.keys(all).map(async (k) => {
+          const [s, i] = k.split('+');
+          if (s && i) await db.deletePlayRecord(username, s, i);
+        })
+      );
+    }
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (err) {
+    console.error('删除播放记录失败', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
