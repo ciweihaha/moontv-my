@@ -1,1 +1,5 @@
-aW1wb3J0ICdAdGVzdGluZy1saWJyYXJ5L2plc3QtZG9tL2V4dGVuZC1leHBlY3QnOwoKLy8gQWxsb3cgcm91dGVyIG1vY2tzLgovLyBlc2xpbnQtZGlzYWJsZS1uZXh0LWxpbmUgbm8tdW5kZWYKamVzdC5tb2NrKCduZXh0L3JvdXRlcicsICgpID0+IHJlcXVpcmUoJ25leHQtcm91dGVyLW1vY2snKSk7Cg==
+import '@testing-library/jest-dom/extend-expect';
+
+// Allow router mocks.
+// eslint-disable-next-line no-undef
+jest.mock('next/router', () => require('next-router-mock'));
