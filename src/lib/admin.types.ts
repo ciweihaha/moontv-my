@@ -1,1 +1,51 @@
-ZXhwb3J0IGludGVyZmFjZSBMaXZlU291cmNlIHsKICBpZDogc3RyaW5nOwogIG5hbWU6IHN0cmluZzsKICB0eXBlOiAnbTN1JyB8ICd4bWwnOwogIHVybDogc3RyaW5nOwogIGVuYWJsZWQ6IGJvb2xlYW47CiAgbGFzdFVwZGF0ZT86IG51bWJlcjsKfQoKZXhwb3J0IGludGVyZmFjZSBBZG1pbkNvbmZpZyB7CiAgU2l0ZUNvbmZpZzogewogICAgU2l0ZU5hbWU6IHN0cmluZzsKICAgIEFubm91bmNlbWVudDogc3RyaW5nOwogICAgU2VhcmNoRG93bnN0cmVhbU1heFBhZ2U6IG51bWJlcjsKICAgIFNpdGVJbnRlcmZhY2VDYWNoZVRpbWU6IG51bWJlcjsKICAgIEltYWdlUHJveHk6IHN0cmluZzsKICAgIERvdWJhblByb3h5OiBzdHJpbmc7CiAgICBEaXNhYmxlWWVsbG93RmlsdGVyOiBib29sZWFuOwogIH07CiAgVXNlckNvbmZpZzogewogICAgQWxsb3dSZWdpc3RlcjogYm9vbGVhbjsKICAgIFVzZXJzOiB7CiAgICAgIHVzZXJuYW1lOiBzdHJpbmc7CiAgICAgIHJvbGU6ICd1c2VyJyB8ICdhZG1pbicgfCAnb3duZXInOwogICAgICBiYW5uZWQ/OiBib29sZWFuOwogICAgfVtdOwogIH07CiAgU291cmNlQ29uZmlnOiB7CiAgICBrZXk6IHN0cmluZzsKICAgIG5hbWU6IHN0cmluZzsKICAgIGFwaTogc3RyaW5nOwogICAgZGV0YWlsPzogc3RyaW5nOwogICAgZnJvbTogJ2NvbmZpZycgfCAnY3VzdG9tJzsKICAgIGRpc2FibGVkPzogYm9vbGVhbjsKICB9W107CiAgQ3VzdG9tQ2F0ZWdvcmllczogewogICAgbmFtZT86IHN0cmluZzsKICAgIHR5cGU6ICdtb3ZpZScgfCAndHYnOwogICAgcXVlcnk6IHN0cmluZzsKICAgIGZyb206ICdjb25maWcnIHwgJ2N1c3RvbSc7CiAgICBkaXNhYmxlZD86IGJvb2xlYW47CiAgfVtdOwogIExpdmVDb25maWc/OiB7CiAgICBzb3VyY2VzOiBMaXZlU291cmNlW107CiAgfTsKfQoKZXhwb3J0IGludGVyZmFjZSBBZG1pbkNvbmZpZ1Jlc3VsdCB7CiAgUm9sZTogJ293bmVyJyB8ICdhZG1pbic7CiAgQ29uZmlnOiBBZG1pbkNvbmZpZzsKfQo=
+export interface LiveSource {
+  id: string;
+  name: string;
+  type: 'm3u' | 'xml';
+  url: string;
+  enabled: boolean;
+  lastUpdate?: number;
+}
+
+export interface AdminConfig {
+  SiteConfig: {
+    SiteName: string;
+    Announcement: string;
+    SearchDownstreamMaxPage: number;
+    SiteInterfaceCacheTime: number;
+    ImageProxy: string;
+    DoubanProxy: string;
+    DisableYellowFilter: boolean;
+  };
+  UserConfig: {
+    AllowRegister: boolean;
+    Users: {
+      username: string;
+      role: 'user' | 'admin' | 'owner';
+      banned?: boolean;
+    }[];
+  };
+  SourceConfig: {
+    key: string;
+    name: string;
+    api: string;
+    detail?: string;
+    from: 'config' | 'custom';
+    disabled?: boolean;
+  }[];
+  CustomCategories: {
+    name?: string;
+    type: 'movie' | 'tv';
+    query: string;
+    from: 'config' | 'custom';
+    disabled?: boolean;
+  }[];
+  LiveConfig?: {
+    sources: LiveSource[];
+  };
+}
+
+export interface AdminConfigResult {
+  Role: 'owner' | 'admin';
+  Config: AdminConfig;
+}
