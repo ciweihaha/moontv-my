@@ -1,1 +1,105 @@
-J3VzZSBjbGllbnQnOwoKaW1wb3J0IHsgdXNlRWZmZWN0LCB1c2VTdGF0ZSB9IGZyb20gJ3JlYWN0JzsKCmludGVyZmFjZSBFcnJvckluZm8gewogIGlkOiBzdHJpbmc7CiAgbWVzc2FnZTogc3RyaW5nOwogIHRpbWVzdGFtcDogbnVtYmVyOwp9CgpleHBvcnQgZnVuY3Rpb24gR2xvYmFsRXJyb3JJbmRpY2F0b3IoKSB7CiAgY29uc3QgW2N1cnJlbnRFcnJvciwgc2V0Q3VycmVudEVycm9yXSA9IHVzZVN0YXRlPEVycm9ySW5mbyB8IG51bGw+KG51bGwpOwogIGNvbnN0IFtpc1Zpc2libGUsIHNldElzVmlzaWJsZV0gPSB1c2VTdGF0ZShmYWxzZSk7CiAgY29uc3QgW2lzUmVwbGFjaW5nLCBzZXRJc1JlcGxhY2luZ10gPSB1c2VTdGF0ZShmYWxzZSk7CgogIHVzZUVmZmVjdCgoKSA9PiB7CiAgICAvLyDnm5HlkKzoh6rlrprkuYnplJnor6/kuovku7YKICAgIGNvbnN0IGhhbmRsZUVycm9yID0gKGV2ZW50OiBDdXN0b21FdmVudCkgPT4gewogICAgICBjb25zdCB7IG1lc3NhZ2UgfSA9IGV2ZW50LmRldGFpbDsKICAgICAgY29uc3QgbmV3RXJyb3I6IEVycm9ySW5mbyA9IHsKICAgICAgICBpZDogRGF0ZS5ub3coKS50b1N0cmluZygpLAogICAgICAgIG1lc3NhZ2UsCiAgICAgICAgdGltZXN0YW1wOiBEYXRlLm5vdygpLAogICAgICB9OwoKICAgICAgLy8g5aaC5p6c5bey5pyJ6ZSZ6K+v77yM5byA5aeL5pu/5o2i5Yqo55S7CiAgICAgIGlmIChjdXJyZW50RXJyb3IpIHsKICAgICAgICBzZXRDdXJyZW50RXJyb3IobmV3RXJyb3IpOwogICAgICAgIHNldElzUmVwbGFjaW5nKHRydWUpOwoKICAgICAgICAvLyDliqjnlLvlrozmiJDlkI7mgaLlpI3mraPluLgKICAgICAgICBzZXRUaW1lb3V0KCgpID0+IHsKICAgICAgICAgIHNldElzUmVwbGFjaW5nKGZhbHNlKTsKICAgICAgICB9LCAyMDApOwogICAgICB9IGVsc2UgewogICAgICAgIC8vIOesrOS4gOasoeaYvuekuumUmeivrwogICAgICAgIHNldEN1cnJlbnRFcnJvcihuZXdFcnJvcik7CiAgICAgIH0KCiAgICAgIHNldElzVmlzaWJsZSh0cnVlKTsKICAgIH07CgogICAgLy8g55uR5ZCs6ZSZ6K+v5LqL5Lu2CiAgICB3aW5kb3cuYWRkRXZlbnRMaXN0ZW5lcignZ2xvYmFsRXJyb3InLCBoYW5kbGVFcnJvciBhcyBFdmVudExpc3RlbmVyKTsKCiAgICByZXR1cm4gKCkgPT4gewogICAgICB3aW5kb3cucmVtb3ZlRXZlbnRMaXN0ZW5lcignZ2xvYmFsRXJyb3InLCBoYW5kbGVFcnJvciBhcyBFdmVudExpc3RlbmVyKTsKICAgIH07CiAgfSwgW2N1cnJlbnRFcnJvcl0pOwoKICBjb25zdCBoYW5kbGVDbG9zZSA9ICgpID0+IHsKICAgIHNldElzVmlzaWJsZShmYWxzZSk7CiAgICBzZXRDdXJyZW50RXJyb3IobnVsbCk7CiAgICBzZXRJc1JlcGxhY2luZyhmYWxzZSk7CiAgfTsKCiAgaWYgKCFpc1Zpc2libGUgfHwgIWN1cnJlbnRFcnJvcikgewogICAgcmV0dXJuIG51bGw7CiAgfQoKICByZXR1cm4gKAogICAgPGRpdiBjbGFzc05hbWU9J2ZpeGVkIHRvcC00IHJpZ2h0LTQgei1bMjAwMF0nPgogICAgICB7Lyog6ZSZ6K+v5Y2h54mHICovfQogICAgICA8ZGl2CiAgICAgICAgY2xhc3NOYW1lPXtgYmctcmVkLTUwMCB0ZXh0LXdoaXRlIHB4LTQgcHktMyByb3VuZGVkLWxnIHNoYWRvdy1sZyBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWJldHdlZW4gbWluLXctWzMwMHB4XSBtYXgtdy1bNDAwcHhdIHRyYW5zaXRpb24tYWxsIGR1cmF0aW9uLTMwMCAkewogICAgICAgICAgaXNSZXBsYWNpbmcgPyAnc2NhbGUtMTA1IGJnLXJlZC00MDAnIDogJ3NjYWxlLTEwMCBiZy1yZWQtNTAwJwogICAgICAgIH0gYW5pbWF0ZS1mYWRlLWluYH0KICAgICAgPgogICAgICAgIDxzcGFuIGNsYXNzTmFtZT0ndGV4dC1zbSBmb250LW1lZGl1bSBmbGV4LTEgbXItMyc+CiAgICAgICAgICB7Y3VycmVudEVycm9yLm1lc3NhZ2V9CiAgICAgICAgPC9zcGFuPgogICAgICAgIDxidXR0b24KICAgICAgICAgIG9uQ2xpY2s9e2hhbmRsZUNsb3NlfQogICAgICAgICAgY2xhc3NOYW1lPSd0ZXh0LXdoaXRlIGhvdmVyOnRleHQtcmVkLTEwMCB0cmFuc2l0aW9uLWNvbG9ycyBmbGV4LXNocmluay0wJwogICAgICAgICAgYXJpYS1sYWJlbD0n5YWz6Zet6ZSZ6K+v5o+Q56S6JwogICAgICAgID4KICAgICAgICAgIDxzdmcKICAgICAgICAgICAgY2xhc3NOYW1lPSd3LTUgaC01JwogICAgICAgICAgICBmaWxsPSdub25lJwogICAgICAgICAgICBzdHJva2U9J2N1cnJlbnRDb2xvcicKICAgICAgICAgICAgdmlld0JveD0nMCAwIDI0IDI0JwogICAgICAgICAgPgogICAgICAgICAgICA8cGF0aAogICAgICAgICAgICAgIHN0cm9rZUxpbmVjYXA9J3JvdW5kJwogICAgICAgICAgICAgIHN0cm9rZUxpbmVqb2luPSdyb3VuZCcKICAgICAgICAgICAgICBzdHJva2VXaWR0aD17Mn0KICAgICAgICAgICAgICBkPSdNNiAxOEwxOCA2TTYgNmwxMiAxMicKICAgICAgICAgICAgLz4KICAgICAgICAgIDwvc3ZnPgogICAgICAgIDwvYnV0dG9uPgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogICk7Cn0KCi8vIOWFqOWxgOmUmeivr+inpuWPkeWHveaVsApleHBvcnQgZnVuY3Rpb24gdHJpZ2dlckdsb2JhbEVycm9yKG1lc3NhZ2U6IHN0cmluZykgewogIGlmICh0eXBlb2Ygd2luZG93ICE9PSAndW5kZWZpbmVkJykgewogICAgd2luZG93LmRpc3BhdGNoRXZlbnQoCiAgICAgIG5ldyBDdXN0b21FdmVudCgnZ2xvYmFsRXJyb3InLCB7CiAgICAgICAgZGV0YWlsOiB7IG1lc3NhZ2UgfSwKICAgICAgfSkKICAgICk7CiAgfQp9Cg==
+'use client';
+
+import { useEffect, useState } from 'react';
+
+interface ErrorInfo {
+  id: string;
+  message: string;
+  timestamp: number;
+}
+
+export function GlobalErrorIndicator() {
+  const [currentError, setCurrentError] = useState<ErrorInfo | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isReplacing, setIsReplacing] = useState(false);
+
+  useEffect(() => {
+    // 监听自定义错误事件
+    const handleError = (event: CustomEvent) => {
+      const { message } = event.detail;
+      const newError: ErrorInfo = {
+        id: Date.now().toString(),
+        message,
+        timestamp: Date.now(),
+      };
+
+      // 如果已有错误，开始替换动画
+      if (currentError) {
+        setCurrentError(newError);
+        setIsReplacing(true);
+
+        // 动画完成后恢复正常
+        setTimeout(() => {
+          setIsReplacing(false);
+        }, 200);
+      } else {
+        // 第一次显示错误
+        setCurrentError(newError);
+      }
+
+      setIsVisible(true);
+    };
+
+    // 监听错误事件
+    window.addEventListener('globalError', handleError as EventListener);
+
+    return () => {
+      window.removeEventListener('globalError', handleError as EventListener);
+    };
+  }, [currentError]);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setCurrentError(null);
+    setIsReplacing(false);
+  };
+
+  if (!isVisible || !currentError) {
+    return null;
+  }
+
+  return (
+    <div className='fixed top-4 right-4 z-[2000]'>
+      {/* 错误卡片 */}
+      <div
+        className={`bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center justify-between min-w-[300px] max-w-[400px] transition-all duration-300 ${
+          isReplacing ? 'scale-105 bg-red-400' : 'scale-100 bg-red-500'
+        } animate-fade-in`}
+      >
+        <span className='text-sm font-medium flex-1 mr-3'>
+          {currentError.message}
+        </span>
+        <button
+          onClick={handleClose}
+          className='text-white hover:text-red-100 transition-colors flex-shrink-0'
+          aria-label='关闭错误提示'
+        >
+          <svg
+            className='w-5 h-5'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M6 18L18 6M6 6l12 12'
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// 全局错误触发函数
+export function triggerGlobalError(message: string) {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent('globalError', {
+        detail: { message },
+      })
+    );
+  }
+}
