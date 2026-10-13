@@ -1,1 +1,190 @@
-Ly8g55Wq5Ymn5pCc57Si5a6i5oi356uvCgpleHBvcnQgaW50ZXJmYWNlIEJhbmd1bWlJdGVtIHsKICBpZDogbnVtYmVyOwogIHVybDogc3RyaW5nOwogIHR5cGU6IHN0cmluZzsKICBuYW1lOiBzdHJpbmc7CiAgbmFtZV9jbjogc3RyaW5nOwogIHN1bW1hcnk6IHN0cmluZzsKICBhaXJfZGF0ZTogc3RyaW5nOwogIGFpcl93ZWVrZGF5OiBudW1iZXI7CiAgcmF0aW5nOiB7CiAgICB0b3RhbDogbnVtYmVyOwogICAgY291bnQ6IHsKICAgICAgJzEnOiBudW1iZXI7CiAgICAgICcyJzogbnVtYmVyOwogICAgICAnMyc6IG51bWJlcjsKICAgICAgJzQnOiBudW1iZXI7CiAgICAgICc1JzogbnVtYmVyOwogICAgICAnNic6IG51bWJlcjsKICAgICAgJzcnOiBudW1iZXI7CiAgICAgICc4JzogbnVtYmVyOwogICAgICAnOSc6IG51bWJlcjsKICAgICAgJzEwJzogbnVtYmVyOwogICAgfTsKICAgIHNjb3JlOiBudW1iZXI7CiAgfTsKICByYW5rOiBudW1iZXI7CiAgaW1hZ2VzOiB7CiAgICBsYXJnZTogc3RyaW5nOwogICAgY29tbW9uOiBzdHJpbmc7CiAgICBtZWRpdW06IHN0cmluZzsKICAgIHNtYWxsOiBzdHJpbmc7CiAgICBncmlkOiBzdHJpbmc7CiAgfTsKICBjb2xsZWN0aW9uOiB7CiAgICB3aXNoOiBudW1iZXI7CiAgICBjb2xsZWN0OiBudW1iZXI7CiAgICBkb2luZzogbnVtYmVyOwogICAgb25faG9sZDogbnVtYmVyOwogICAgZHJvcHBlZDogbnVtYmVyOwogIH07Cn0KCmV4cG9ydCBpbnRlcmZhY2UgQmFuZ3VtaVNlYXJjaFJlc3VsdCB7CiAgcmVzdWx0czogbnVtYmVyOwogIGxpc3Q6IEJhbmd1bWlJdGVtW107Cn0KCmV4cG9ydCBjbGFzcyBCYW5ndW1pQ2xpZW50IHsKICBwcml2YXRlIHN0YXRpYyByZWFkb25seSBCQVNFX1VSTCA9ICdodHRwczovL2FwaS5iZ20udHYnOwogIHByaXZhdGUgc3RhdGljIHJlYWRvbmx5IFNFQVJDSF9VUkwgPSAnaHR0cHM6Ly9hcGkuYmdtLnR2L3NlYXJjaC9zdWJqZWN0JzsKCiAgLyoqCiAgICog5pCc57Si55Wq5YmnCiAgICovCiAgc3RhdGljIGFzeW5jIHNlYXJjaChxdWVyeTogc3RyaW5nLCB0eXBlPzogbnVtYmVyLCByZXNwb25zZUdyb3VwPzogc3RyaW5nKTogUHJvbWlzZTxCYW5ndW1pU2VhcmNoUmVzdWx0PiB7CiAgICB0cnkgewogICAgICBjb25zdCBwYXJhbXMgPSBuZXcgVVJMU2VhcmNoUGFyYW1zKHsKICAgICAgICBxOiBxdWVyeSwKICAgICAgICB0eXBlOiAodHlwZSB8fCAyKS50b1N0cmluZygpLCAvLyDpu5jorqTliqjnlLsKICAgICAgICByZXNwb25zZUdyb3VwOiByZXNwb25zZUdyb3VwIHx8ICdzbWFsbCcsCiAgICAgIH0pOwoKICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChgJHt0aGlzLlNFQVJDSF9VUkx9PyR7cGFyYW1zfWAsIHsKICAgICAgICBoZWFkZXJzOiB7CiAgICAgICAgICAnVXNlci1BZ2VudCc6ICdNb29uVFYvMS4wLjAnLAogICAgICAgIH0sCiAgICAgIH0pOwoKICAgICAgaWYgKCFyZXNwb25zZS5vaykgewogICAgICAgIHRocm93IG5ldyBFcnJvcihgQmFuZ3VtaSBBUEkgZXJyb3I6ICR7cmVzcG9uc2Uuc3RhdHVzfWApOwogICAgICB9CgogICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuanNvbigpOwogICAgICByZXR1cm4gewogICAgICAgIHJlc3VsdHM6IGRhdGEucmVzdWx0cyB8fCAwLAogICAgICAgIGxpc3Q6IGRhdGEubGlzdCB8fCBbXSwKICAgICAgfTsKICAgIH0gY2F0Y2ggKGVycm9yKSB7CiAgICAgIGNvbnNvbGUuZXJyb3IoJ0Jhbmd1bWkgc2VhcmNoIGVycm9yOicsIGVycm9yKTsKICAgICAgcmV0dXJuIHsKICAgICAgICByZXN1bHRzOiAwLAogICAgICAgIGxpc3Q6IFtdLAogICAgICB9OwogICAgfQogIH0KCiAgLyoqCiAgICog6I635Y+W55Wq5Ymn6K+m5oOFCiAgICovCiAgc3RhdGljIGFzeW5jIGdldFN1YmplY3QoaWQ6IG51bWJlcik6IFByb21pc2U8QmFuZ3VtaUl0ZW0gfCBudWxsPiB7CiAgICB0cnkgewogICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGAke3RoaXMuQkFTRV9VUkx9L3YwL3N1YmplY3RzLyR7aWR9YCwgewogICAgICAgIGhlYWRlcnM6IHsKICAgICAgICAgICdVc2VyLUFnZW50JzogJ01vb25UVi8xLjAuMCcsCiAgICAgICAgfSwKICAgICAgfSk7CgogICAgICBpZiAoIXJlc3BvbnNlLm9rKSB7CiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBCYW5ndW1pIEFQSSBlcnJvcjogJHtyZXNwb25zZS5zdGF0dXN9YCk7CiAgICAgIH0KCiAgICAgIHJldHVybiBhd2FpdCByZXNwb25zZS5qc29uKCk7CiAgICB9IGNhdGNoIChlcnJvcikgewogICAgICBjb25zb2xlLmVycm9yKCdCYW5ndW1pIGdldCBzdWJqZWN0IGVycm9yOicsIGVycm9yKTsKICAgICAgcmV0dXJuIG51bGw7CiAgICB9CiAgfQoKICAvKioKICAgKiDojrflj5bng63pl6jnlarliacKICAgKi8KICBzdGF0aWMgYXN5bmMgZ2V0VHJlbmRpbmcoKTogUHJvbWlzZTxCYW5ndW1pSXRlbVtdPiB7CiAgICB0cnkgewogICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGAke3RoaXMuQkFTRV9VUkx9L3YwL3N1YmplY3RzL3RyZW5kaW5nYCwgewogICAgICAgIGhlYWRlcnM6IHsKICAgICAgICAgICdVc2VyLUFnZW50JzogJ01vb25UVi8xLjAuMCcsCiAgICAgICAgfSwKICAgICAgfSk7CgogICAgICBpZiAoIXJlc3BvbnNlLm9rKSB7CiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBCYW5ndW1pIEFQSSBlcnJvcjogJHtyZXNwb25zZS5zdGF0dXN9YCk7CiAgICAgIH0KCiAgICAgIGNvbnN0IGRhdGEgPSBhd2FpdCByZXNwb25zZS5qc29uKCk7CiAgICAgIHJldHVybiBkYXRhLmRhdGEgfHwgW107CiAgICB9IGNhdGNoIChlcnJvcikgewogICAgICBjb25zb2xlLmVycm9yKCdCYW5ndW1pIHRyZW5kaW5nIGVycm9yOicsIGVycm9yKTsKICAgICAgcmV0dXJuIFtdOwogICAgfQogIH0KCiAgLyoqCiAgICog5qC55o2u5bm05Lu95ZKM5a2j5bqm6I635Y+W55Wq5Ymn5YiX6KGoCiAgICovCiAgc3RhdGljIGFzeW5jIGdldENhbGVuZGFyKHllYXI/OiBudW1iZXIsIHNlYXNvbj86IHN0cmluZyk6IFByb21pc2U8YW55W10+IHsKICAgIHRyeSB7CiAgICAgIGNvbnN0IGN1cnJlbnRZZWFyID0geWVhciB8fCBuZXcgRGF0ZSgpLmdldEZ1bGxZZWFyKCk7CiAgICAgIGNvbnN0IGN1cnJlbnRTZWFzb24gPSBzZWFzb24gfHwgdGhpcy5nZXRDdXJyZW50U2Vhc29uKCk7CgogICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGAke3RoaXMuQkFTRV9VUkx9L2NhbGVuZGFyYCwgewogICAgICAgIGhlYWRlcnM6IHsKICAgICAgICAgICdVc2VyLUFnZW50JzogJ01vb25UVi8xLjAuMCcsCiAgICAgICAgfSwKICAgICAgfSk7CgogICAgICBpZiAoIXJlc3BvbnNlLm9rKSB7CiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBCYW5ndW1pIEFQSSBlcnJvcjogJHtyZXNwb25zZS5zdGF0dXN9YCk7CiAgICAgIH0KCiAgICAgIGNvbnN0IGRhdGEgPSBhd2FpdCByZXNwb25zZS5qc29uKCk7CgogICAgICAvLyDov4fmu6TmjIflrprlubTku73lkozlraPoioLnmoTmlbDmja4KICAgICAgcmV0dXJuIGRhdGEuZmlsdGVyKChpdGVtOiBhbnkpID0+IHsKICAgICAgICBpZiAoIWl0ZW0uaXRlbXMpIHJldHVybiBmYWxzZTsKICAgICAgICByZXR1cm4gaXRlbS5pdGVtcy5zb21lKChzdWJqZWN0OiBhbnkpID0+IHsKICAgICAgICAgIGNvbnN0IGFpckRhdGUgPSBuZXcgRGF0ZShzdWJqZWN0LmFpcl9kYXRlKTsKICAgICAgICAgIHJldHVybiBhaXJEYXRlLmdldEZ1bGxZZWFyKCkgPT09IGN1cnJlbnRZZWFyICYmCiAgICAgICAgICAgICAgICAgdGhpcy5nZXRTZWFzb25Gcm9tRGF0ZShhaXJEYXRlKSA9PT0gY3VycmVudFNlYXNvbjsKICAgICAgICB9KTsKICAgICAgfSk7CiAgICB9IGNhdGNoIChlcnJvcikgewogICAgICBjb25zb2xlLmVycm9yKCdCYW5ndW1pIGNhbGVuZGFyIGVycm9yOicsIGVycm9yKTsKICAgICAgcmV0dXJuIFtdOwogICAgfQogIH0KCiAgLyoqCiAgICog6I635Y+W5b2T5YmN5a2j6IqCCiAgICovCiAgcHJpdmF0ZSBzdGF0aWMgZ2V0Q3VycmVudFNlYXNvbigpOiBzdHJpbmcgewogICAgY29uc3QgbW9udGggPSBuZXcgRGF0ZSgpLmdldE1vbnRoKCkgKyAxOwogICAgaWYgKG1vbnRoID49IDEgJiYgbW9udGggPD0gMykgcmV0dXJuICd3aW50ZXInOwogICAgaWYgKG1vbnRoID49IDQgJiYgbW9udGggPD0gNikgcmV0dXJuICdzcHJpbmcnOwogICAgaWYgKG1vbnRoID49IDcgJiYgbW9udGggPD0gOSkgcmV0dXJuICdzdW1tZXInOwogICAgcmV0dXJuICdmYWxsJzsKICB9CgogIC8qKgogICAqIOS7juaXpeacn+iOt+WPluWto+iKggogICAqLwogIHByaXZhdGUgc3RhdGljIGdldFNlYXNvbkZyb21EYXRlKGRhdGU6IERhdGUpOiBzdHJpbmcgewogICAgY29uc3QgbW9udGggPSBkYXRlLmdldE1vbnRoKCkgKyAxOwogICAgaWYgKG1vbnRoID49IDEgJiYgbW9udGggPD0gMykgcmV0dXJuICd3aW50ZXInOwogICAgaWYgKG1vbnRoID49IDQgJiYgbW9udGggPD0gNikgcmV0dXJuICdzcHJpbmcnOwogICAgaWYgKG1vbnRoID49IDcgJiYgbW9udGggPD0gOSkgcmV0dXJuICdzdW1tZXInOwogICAgcmV0dXJuICdmYWxsJzsKICB9Cn0K
+// 番剧搜索客户端
+
+export interface BangumiItem {
+  id: number;
+  url: string;
+  type: string;
+  name: string;
+  name_cn: string;
+  summary: string;
+  air_date: string;
+  air_weekday: number;
+  rating: {
+    total: number;
+    count: {
+      '1': number;
+      '2': number;
+      '3': number;
+      '4': number;
+      '5': number;
+      '6': number;
+      '7': number;
+      '8': number;
+      '9': number;
+      '10': number;
+    };
+    score: number;
+  };
+  rank: number;
+  images: {
+    large: string;
+    common: string;
+    medium: string;
+    small: string;
+    grid: string;
+  };
+  collection: {
+    wish: number;
+    collect: number;
+    doing: number;
+    on_hold: number;
+    dropped: number;
+  };
+}
+
+export interface BangumiSearchResult {
+  results: number;
+  list: BangumiItem[];
+}
+
+export class BangumiClient {
+  private static readonly BASE_URL = 'https://api.bgm.tv';
+  private static readonly SEARCH_URL = 'https://api.bgm.tv/search/subject';
+
+  /**
+   * 搜索番剧
+   */
+  static async search(query: string, type?: number, responseGroup?: string): Promise<BangumiSearchResult> {
+    try {
+      const params = new URLSearchParams({
+        q: query,
+        type: (type || 2).toString(), // 默认动画
+        responseGroup: responseGroup || 'small',
+      });
+
+      const response = await fetch(`${this.SEARCH_URL}?${params}`, {
+        headers: {
+          'User-Agent': 'MoonTV/1.0.0',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Bangumi API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return {
+        results: data.results || 0,
+        list: data.list || [],
+      };
+    } catch (error) {
+      console.error('Bangumi search error:', error);
+      return {
+        results: 0,
+        list: [],
+      };
+    }
+  }
+
+  /**
+   * 获取番剧详情
+   */
+  static async getSubject(id: number): Promise<BangumiItem | null> {
+    try {
+      const response = await fetch(`${this.BASE_URL}/v0/subjects/${id}`, {
+        headers: {
+          'User-Agent': 'MoonTV/1.0.0',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Bangumi API error: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Bangumi get subject error:', error);
+      return null;
+    }
+  }
+
+  /**
+   * 获取热门番剧
+   */
+  static async getTrending(): Promise<BangumiItem[]> {
+    try {
+      const response = await fetch(`${this.BASE_URL}/v0/subjects/trending`, {
+        headers: {
+          'User-Agent': 'MoonTV/1.0.0',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Bangumi API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.data || [];
+    } catch (error) {
+      console.error('Bangumi trending error:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 根据年份和季度获取番剧列表
+   */
+  static async getCalendar(year?: number, season?: string): Promise<any[]> {
+    try {
+      const currentYear = year || new Date().getFullYear();
+      const currentSeason = season || this.getCurrentSeason();
+
+      const response = await fetch(`${this.BASE_URL}/calendar`, {
+        headers: {
+          'User-Agent': 'MoonTV/1.0.0',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Bangumi API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // 过滤指定年份和季节的数据
+      return data.filter((item: any) => {
+        if (!item.items) return false;
+        return item.items.some((subject: any) => {
+          const airDate = new Date(subject.air_date);
+          return airDate.getFullYear() === currentYear &&
+                 this.getSeasonFromDate(airDate) === currentSeason;
+        });
+      });
+    } catch (error) {
+      console.error('Bangumi calendar error:', error);
+      return [];
+    }
+  }
+
+  /**
+   * 获取当前季节
+   */
+  private static getCurrentSeason(): string {
+    const month = new Date().getMonth() + 1;
+    if (month >= 1 && month <= 3) return 'winter';
+    if (month >= 4 && month <= 6) return 'spring';
+    if (month >= 7 && month <= 9) return 'summer';
+    return 'fall';
+  }
+
+  /**
+   * 从日期获取季节
+   */
+  private static getSeasonFromDate(date: Date): string {
+    const month = date.getMonth() + 1;
+    if (month >= 1 && month <= 3) return 'winter';
+    if (month >= 4 && month <= 6) return 'spring';
+    if (month >= 7 && month <= 9) return 'summer';
+    return 'fall';
+  }
+}
