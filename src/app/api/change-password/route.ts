@@ -1,1 +1,72 @@
-LyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSovCgppbXBvcnQgeyBOZXh0UmVxdWVzdCwgTmV4dFJlc3BvbnNlIH0gZnJvbSAnbmV4dC9zZXJ2ZXInOwoKaW1wb3J0IHsgZ2V0QXV0aEluZm9Gcm9tQ29va2llIH0gZnJvbSAnQC9saWIvYXV0aCc7CmltcG9ydCB7IGdldFN0b3JhZ2UgfSBmcm9tICdAL2xpYi9kYic7CmltcG9ydCB7IElTdG9yYWdlIH0gZnJvbSAnQC9saWIvdHlwZXMnOwoKZXhwb3J0IGNvbnN0IHJ1bnRpbWUgPSAnZWRnZSc7CgpleHBvcnQgYXN5bmMgZnVuY3Rpb24gUE9TVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIGNvbnN0IHN0b3JhZ2VUeXBlID0gcHJvY2Vzcy5lbnYuTkVYVF9QVUJMSUNfU1RPUkFHRV9UWVBFIHx8ICdsb2NhbHN0b3JhZ2UnOwoKICAvLyDkuI3mlK/mjIEgbG9jYWxzdG9yYWdlIOaooeW8jwogIGlmIChzdG9yYWdlVHlwZSA9PT0gJ2xvY2Fsc3RvcmFnZScpIHsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgewogICAgICAgIGVycm9yOiAn5LiN5pSv5oyB5pys5Zyw5a2Y5YKo5qih5byP5L+u5pS55a+G56CBJywKICAgICAgfSwKICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICApOwogIH0KCiAgdHJ5IHsKICAgIGNvbnN0IGJvZHkgPSBhd2FpdCByZXF1ZXN0Lmpzb24oKTsKICAgIGNvbnN0IHsgbmV3UGFzc3dvcmQgfSA9IGJvZHk7CgogICAgLy8g6I635Y+W6K6k6K+B5L+h5oGvCiAgICBjb25zdCBhdXRoSW5mbyA9IGdldEF1dGhJbmZvRnJvbUNvb2tpZShyZXF1ZXN0KTsKICAgIGlmICghYXV0aEluZm8gfHwgIWF1dGhJbmZvLnVzZXJuYW1lKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAnVW5hdXRob3JpemVkJyB9LCB7IHN0YXR1czogNDAxIH0pOwogICAgfQoKICAgIC8vIOmqjOivgeaWsOWvhueggQogICAgaWYgKCFuZXdQYXNzd29yZCB8fCB0eXBlb2YgbmV3UGFzc3dvcmQgIT09ICdzdHJpbmcnKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAn5paw5a+G56CB5LiN5b6X5Li656m6JyB9LCB7IHN0YXR1czogNDAwIH0pOwogICAgfQoKICAgIGNvbnN0IHVzZXJuYW1lID0gYXV0aEluZm8udXNlcm5hbWU7CgogICAgLy8g5LiN5YWB6K6456uZ6ZW/5L+u5pS55a+G56CB77yI56uZ6ZW/55So5oi35ZCN562J5LqOIHByb2Nlc3MuZW52LlVTRVJOQU1F77yJCiAgICBpZiAodXNlcm5hbWUgPT09IHByb2Nlc3MuZW52LlVTRVJOQU1FKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAn56uZ6ZW/5LiN6IO96YCa6L+H5q2k5o6l5Y+j5L+u5pS55a+G56CBJyB9LAogICAgICAgIHsgc3RhdHVzOiA0MDMgfQogICAgICApOwogICAgfQoKICAgIC8vIOiOt+WPluWtmOWCqOWunuS+iwogICAgY29uc3Qgc3RvcmFnZTogSVN0b3JhZ2UgfCBudWxsID0gZ2V0U3RvcmFnZSgpOwogICAgaWYgKCFzdG9yYWdlIHx8IHR5cGVvZiBzdG9yYWdlLmNoYW5nZVBhc3N3b3JkICE9PSAnZnVuY3Rpb24nKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAn5a2Y5YKo5pyN5Yqh5LiN5pSv5oyB5L+u5pS55a+G56CBJyB9LAogICAgICAgIHsgc3RhdHVzOiA1MDAgfQogICAgICApOwogICAgfQoKICAgIC8vIOS/ruaUueWvhueggQogICAgYXdhaXQgc3RvcmFnZS5jaGFuZ2VQYXNzd29yZCh1c2VybmFtZSwgbmV3UGFzc3dvcmQpOwoKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IG9rOiB0cnVlIH0pOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCfkv67mlLnlr4bnoIHlpLHotKU6JywgZXJyb3IpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7CiAgICAgICAgZXJyb3I6ICfkv67mlLnlr4bnoIHlpLHotKUnLAogICAgICAgIGRldGFpbHM6IChlcnJvciBhcyBFcnJvcikubWVzc2FnZSwKICAgICAgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQo=
+/* eslint-disable no-console*/
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getAuthInfoFromCookie } from '@/lib/auth';
+import { getStorage } from '@/lib/db';
+import { IStorage } from '@/lib/types';
+
+export const runtime = 'edge';
+
+export async function POST(request: NextRequest) {
+  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
+
+  // 不支持 localstorage 模式
+  if (storageType === 'localstorage') {
+    return NextResponse.json(
+      {
+        error: '不支持本地存储模式修改密码',
+      },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const body = await request.json();
+    const { newPassword } = body;
+
+    // 获取认证信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // 验证新密码
+    if (!newPassword || typeof newPassword !== 'string') {
+      return NextResponse.json({ error: '新密码不得为空' }, { status: 400 });
+    }
+
+    const username = authInfo.username;
+
+    // 不允许站长修改密码（站长用户名等于 process.env.USERNAME）
+    if (username === process.env.USERNAME) {
+      return NextResponse.json(
+        { error: '站长不能通过此接口修改密码' },
+        { status: 403 }
+      );
+    }
+
+    // 获取存储实例
+    const storage: IStorage | null = getStorage();
+    if (!storage || typeof storage.changePassword !== 'function') {
+      return NextResponse.json(
+        { error: '存储服务不支持修改密码' },
+        { status: 500 }
+      );
+    }
+
+    // 修改密码
+    await storage.changePassword(username, newPassword);
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error('修改密码失败:', error);
+    return NextResponse.json(
+      {
+        error: '修改密码失败',
+        details: (error as Error).message,
+      },
+      { status: 500 }
+    );
+  }
+}
