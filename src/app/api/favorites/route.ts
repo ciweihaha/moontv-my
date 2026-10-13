@@ -1,1 +1,156 @@
-LyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSAqLwoKaW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gJ25leHQvc2VydmVyJzsKCmltcG9ydCB7IGdldEF1dGhJbmZvRnJvbUNvb2tpZSB9IGZyb20gJ0AvbGliL2F1dGgnOwppbXBvcnQgeyBkYiB9IGZyb20gJ0AvbGliL2RiJzsKaW1wb3J0IHsgRmF2b3JpdGUgfSBmcm9tICdAL2xpYi90eXBlcyc7CgpleHBvcnQgY29uc3QgcnVudGltZSA9ICdlZGdlJzsKCi8qKgogKiBHRVQgL2FwaS9mYXZvcml0ZXMKICoKICog5pSv5oyB5Lik56eN6LCD55So5pa55byP77yaCiAqIDEuIOS4jeW4piBxdWVyee+8jOi/lOWbnuWFqOmDqOaUtuiXj+WIl+ihqO+8iFJlY29yZDxzdHJpbmcsIEZhdm9yaXRlPu+8ieOAggogKiAyLiDluKYga2V5PXNvdXJjZStpZO+8jOi/lOWbnuWNleadoeaUtuiXj++8iEZhdm9yaXRlIHwgbnVsbO+8ieOAggogKi8KZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICAvLyDku44gY29va2llIOiOt+WPlueUqOaIt+S/oeaBrwogICAgY29uc3QgYXV0aEluZm8gPSBnZXRBdXRoSW5mb0Zyb21Db29raWUocmVxdWVzdCk7CiAgICBpZiAoIWF1dGhJbmZvIHx8ICFhdXRoSW5mby51c2VybmFtZSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ1VuYXV0aG9yaXplZCcgfSwgeyBzdGF0dXM6IDQwMSB9KTsKICAgIH0KCiAgICBjb25zdCB7IHNlYXJjaFBhcmFtcyB9ID0gbmV3IFVSTChyZXF1ZXN0LnVybCk7CiAgICBjb25zdCBrZXkgPSBzZWFyY2hQYXJhbXMuZ2V0KCdrZXknKTsKCiAgICAvLyDmn6Xor6LljZXmnaHmlLbol48KICAgIGlmIChrZXkpIHsKICAgICAgY29uc3QgW3NvdXJjZSwgaWRdID0ga2V5LnNwbGl0KCcrJyk7CiAgICAgIGlmICghc291cmNlIHx8ICFpZCkgewogICAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICAgIHsgZXJyb3I6ICdJbnZhbGlkIGtleSBmb3JtYXQnIH0sCiAgICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgICApOwogICAgICB9CiAgICAgIGNvbnN0IGZhdiA9IGF3YWl0IGRiLmdldEZhdm9yaXRlKGF1dGhJbmZvLnVzZXJuYW1lLCBzb3VyY2UsIGlkKTsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKGZhdiwgeyBzdGF0dXM6IDIwMCB9KTsKICAgIH0KCiAgICAvLyDmn6Xor6Llhajpg6jmlLbol48KICAgIGNvbnN0IGZhdm9yaXRlcyA9IGF3YWl0IGRiLmdldEFsbEZhdm9yaXRlcyhhdXRoSW5mby51c2VybmFtZSk7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oZmF2b3JpdGVzLCB7IHN0YXR1czogMjAwIH0pOwogIH0gY2F0Y2ggKGVycikgewogICAgY29uc29sZS5lcnJvcign6I635Y+W5pS26JeP5aSx6LSlJywgZXJyKTsKICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgeyBlcnJvcjogJ0ludGVybmFsIFNlcnZlciBFcnJvcicgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQoKLyoqCiAqIFBPU1QgL2FwaS9mYXZvcml0ZXMKICogYm9keTogeyBrZXk6IHN0cmluZzsgZmF2b3JpdGU6IEZhdm9yaXRlIH0KICovCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBQT1NUKHJlcXVlc3Q6IE5leHRSZXF1ZXN0KSB7CiAgdHJ5IHsKICAgIC8vIOS7jiBjb29raWUg6I635Y+W55So5oi35L+h5oGvCiAgICBjb25zdCBhdXRoSW5mbyA9IGdldEF1dGhJbmZvRnJvbUNvb2tpZShyZXF1ZXN0KTsKICAgIGlmICghYXV0aEluZm8gfHwgIWF1dGhJbmZvLnVzZXJuYW1lKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAnVW5hdXRob3JpemVkJyB9LCB7IHN0YXR1czogNDAxIH0pOwogICAgfQoKICAgIGNvbnN0IGJvZHkgPSBhd2FpdCByZXF1ZXN0Lmpzb24oKTsKICAgIGNvbnN0IHsga2V5LCBmYXZvcml0ZSB9OiB7IGtleTogc3RyaW5nOyBmYXZvcml0ZTogRmF2b3JpdGUgfSA9IGJvZHk7CgogICAgaWYgKCFrZXkgfHwgIWZhdm9yaXRlKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbigKICAgICAgICB7IGVycm9yOiAnTWlzc2luZyBrZXkgb3IgZmF2b3JpdGUnIH0sCiAgICAgICAgeyBzdGF0dXM6IDQwMCB9CiAgICAgICk7CiAgICB9CgogICAgLy8g6aqM6K+B5b+F6KaB5a2X5q61CiAgICBpZiAoIWZhdm9yaXRlLnRpdGxlIHx8ICFmYXZvcml0ZS5zb3VyY2VfbmFtZSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogJ0ludmFsaWQgZmF2b3JpdGUgZGF0YScgfSwKICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgKTsKICAgIH0KCiAgICBjb25zdCBbc291cmNlLCBpZF0gPSBrZXkuc3BsaXQoJysnKTsKICAgIGlmICghc291cmNlIHx8ICFpZCkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgICAgeyBlcnJvcjogJ0ludmFsaWQga2V5IGZvcm1hdCcgfSwKICAgICAgICB7IHN0YXR1czogNDAwIH0KICAgICAgKTsKICAgIH0KCiAgICBjb25zdCBmaW5hbEZhdm9yaXRlID0gewogICAgICAuLi5mYXZvcml0ZSwKICAgICAgc2F2ZV90aW1lOiBmYXZvcml0ZS5zYXZlX3RpbWUgPz8gRGF0ZS5ub3coKSwKICAgIH0gYXMgRmF2b3JpdGU7CgogICAgYXdhaXQgZGIuc2F2ZUZhdm9yaXRlKGF1dGhJbmZvLnVzZXJuYW1lLCBzb3VyY2UsIGlkLCBmaW5hbEZhdm9yaXRlKTsKCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBzdWNjZXNzOiB0cnVlIH0sIHsgc3RhdHVzOiAyMDAgfSk7CiAgfSBjYXRjaCAoZXJyKSB7CiAgICBjb25zb2xlLmVycm9yKCfkv53lrZjmlLbol4/lpLHotKUnLCBlcnIpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAnSW50ZXJuYWwgU2VydmVyIEVycm9yJyB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9CgovKioKICogREVMRVRFIC9hcGkvZmF2b3JpdGVzCiAqCiAqIDEuIOS4jeW4piBxdWVyeSAtPiDmuIXnqbrlhajpg6jmlLbol48KICogMi4g5bimIGtleT1zb3VyY2UraWQgLT4g5Yig6Zmk5Y2V5p2h5pS26JePCiAqLwpleHBvcnQgYXN5bmMgZnVuY3Rpb24gREVMRVRFKHJlcXVlc3Q6IE5leHRSZXF1ZXN0KSB7CiAgdHJ5IHsKICAgIC8vIOS7jiBjb29raWUg6I635Y+W55So5oi35L+h5oGvCiAgICBjb25zdCBhdXRoSW5mbyA9IGdldEF1dGhJbmZvRnJvbUNvb2tpZShyZXF1ZXN0KTsKICAgIGlmICghYXV0aEluZm8gfHwgIWF1dGhJbmZvLnVzZXJuYW1lKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAnVW5hdXRob3JpemVkJyB9LCB7IHN0YXR1czogNDAxIH0pOwogICAgfQoKICAgIGNvbnN0IHVzZXJuYW1lID0gYXV0aEluZm8udXNlcm5hbWU7CiAgICBjb25zdCB7IHNlYXJjaFBhcmFtcyB9ID0gbmV3IFVSTChyZXF1ZXN0LnVybCk7CiAgICBjb25zdCBrZXkgPSBzZWFyY2hQYXJhbXMuZ2V0KCdrZXknKTsKCiAgICBpZiAoa2V5KSB7CiAgICAgIC8vIOWIoOmZpOWNleadoQogICAgICBjb25zdCBbc291cmNlLCBpZF0gPSBrZXkuc3BsaXQoJysnKTsKICAgICAgaWYgKCFzb3VyY2UgfHwgIWlkKSB7CiAgICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgICAgeyBlcnJvcjogJ0ludmFsaWQga2V5IGZvcm1hdCcgfSwKICAgICAgICAgIHsgc3RhdHVzOiA0MDAgfQogICAgICAgICk7CiAgICAgIH0KICAgICAgYXdhaXQgZGIuZGVsZXRlRmF2b3JpdGUodXNlcm5hbWUsIHNvdXJjZSwgaWQpOwogICAgfSBlbHNlIHsKICAgICAgLy8g5riF56m65YWo6YOoCiAgICAgIGNvbnN0IGFsbCA9IGF3YWl0IGRiLmdldEFsbEZhdm9yaXRlcyh1c2VybmFtZSk7CiAgICAgIGF3YWl0IFByb21pc2UuYWxsKAogICAgICAgIE9iamVjdC5rZXlzKGFsbCkubWFwKGFzeW5jIChrKSA9PiB7CiAgICAgICAgICBjb25zdCBbcywgaV0gPSBrLnNwbGl0KCcrJyk7CiAgICAgICAgICBpZiAocyAmJiBpKSBhd2FpdCBkYi5kZWxldGVGYXZvcml0ZSh1c2VybmFtZSwgcywgaSk7CiAgICAgICAgfSkKICAgICAgKTsKICAgIH0KCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBzdWNjZXNzOiB0cnVlIH0sIHsgc3RhdHVzOiAyMDAgfSk7CiAgfSBjYXRjaCAoZXJyKSB7CiAgICBjb25zb2xlLmVycm9yKCfliKDpmaTmlLbol4/lpLHotKUnLCBlcnIpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAnSW50ZXJuYWwgU2VydmVyIEVycm9yJyB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9Cg==
+/* eslint-disable no-console */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getAuthInfoFromCookie } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { Favorite } from '@/lib/types';
+
+export const runtime = 'edge';
+
+/**
+ * GET /api/favorites
+ *
+ * 支持两种调用方式：
+ * 1. 不带 query，返回全部收藏列表（Record<string, Favorite>）。
+ * 2. 带 key=source+id，返回单条收藏（Favorite | null）。
+ */
+export async function GET(request: NextRequest) {
+  try {
+    // 从 cookie 获取用户信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const key = searchParams.get('key');
+
+    // 查询单条收藏
+    if (key) {
+      const [source, id] = key.split('+');
+      if (!source || !id) {
+        return NextResponse.json(
+          { error: 'Invalid key format' },
+          { status: 400 }
+        );
+      }
+      const fav = await db.getFavorite(authInfo.username, source, id);
+      return NextResponse.json(fav, { status: 200 });
+    }
+
+    // 查询全部收藏
+    const favorites = await db.getAllFavorites(authInfo.username);
+    return NextResponse.json(favorites, { status: 200 });
+  } catch (err) {
+    console.error('获取收藏失败', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/favorites
+ * body: { key: string; favorite: Favorite }
+ */
+export async function POST(request: NextRequest) {
+  try {
+    // 从 cookie 获取用户信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { key, favorite }: { key: string; favorite: Favorite } = body;
+
+    if (!key || !favorite) {
+      return NextResponse.json(
+        { error: 'Missing key or favorite' },
+        { status: 400 }
+      );
+    }
+
+    // 验证必要字段
+    if (!favorite.title || !favorite.source_name) {
+      return NextResponse.json(
+        { error: 'Invalid favorite data' },
+        { status: 400 }
+      );
+    }
+
+    const [source, id] = key.split('+');
+    if (!source || !id) {
+      return NextResponse.json(
+        { error: 'Invalid key format' },
+        { status: 400 }
+      );
+    }
+
+    const finalFavorite = {
+      ...favorite,
+      save_time: favorite.save_time ?? Date.now(),
+    } as Favorite;
+
+    await db.saveFavorite(authInfo.username, source, id, finalFavorite);
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (err) {
+    console.error('保存收藏失败', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * DELETE /api/favorites
+ *
+ * 1. 不带 query -> 清空全部收藏
+ * 2. 带 key=source+id -> 删除单条收藏
+ */
+export async function DELETE(request: NextRequest) {
+  try {
+    // 从 cookie 获取用户信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const username = authInfo.username;
+    const { searchParams } = new URL(request.url);
+    const key = searchParams.get('key');
+
+    if (key) {
+      // 删除单条
+      const [source, id] = key.split('+');
+      if (!source || !id) {
+        return NextResponse.json(
+          { error: 'Invalid key format' },
+          { status: 400 }
+        );
+      }
+      await db.deleteFavorite(username, source, id);
+    } else {
+      // 清空全部
+      const all = await db.getAllFavorites(username);
+      await Promise.all(
+        Object.keys(all).map(async (k) => {
+          const [s, i] = k.split('+');
+          if (s && i) await db.deleteFavorite(username, s, i);
+        })
+      );
+    }
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (err) {
+    console.error('删除收藏失败', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
