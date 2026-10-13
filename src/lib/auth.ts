@@ -1,1 +1,72 @@
-aW1wb3J0IHsgTmV4dFJlcXVlc3QgfSBmcm9tICduZXh0L3NlcnZlcic7CgovLyDku45jb29raWXojrflj5borqTor4Hkv6Hmga8gKOacjeWKoeerr+S9v+eUqCkKZXhwb3J0IGZ1bmN0aW9uIGdldEF1dGhJbmZvRnJvbUNvb2tpZShyZXF1ZXN0OiBOZXh0UmVxdWVzdCk6IHsKICBwYXNzd29yZD86IHN0cmluZzsKICB1c2VybmFtZT86IHN0cmluZzsKICBzaWduYXR1cmU/OiBzdHJpbmc7CiAgdGltZXN0YW1wPzogbnVtYmVyOwp9IHwgbnVsbCB7CiAgY29uc3QgYXV0aENvb2tpZSA9IHJlcXVlc3QuY29va2llcy5nZXQoJ2F1dGgnKTsKCiAgaWYgKCFhdXRoQ29va2llKSB7CiAgICByZXR1cm4gbnVsbDsKICB9CgogIHRyeSB7CiAgICBjb25zdCBkZWNvZGVkID0gZGVjb2RlVVJJQ29tcG9uZW50KGF1dGhDb29raWUudmFsdWUpOwogICAgY29uc3QgYXV0aERhdGEgPSBKU09OLnBhcnNlKGRlY29kZWQpOwogICAgcmV0dXJuIGF1dGhEYXRhOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICByZXR1cm4gbnVsbDsKICB9Cn0KCi8vIOS7jmNvb2tpZeiOt+WPluiupOivgeS/oeaBryAo5a6i5oi356uv5L2/55SoKQpleHBvcnQgZnVuY3Rpb24gZ2V0QXV0aEluZm9Gcm9tQnJvd3NlckNvb2tpZSgpOiB7CiAgcGFzc3dvcmQ/OiBzdHJpbmc7CiAgdXNlcm5hbWU/OiBzdHJpbmc7CiAgc2lnbmF0dXJlPzogc3RyaW5nOwogIHRpbWVzdGFtcD86IG51bWJlcjsKICByb2xlPzogJ293bmVyJyB8ICdhZG1pbicgfCAndXNlcic7Cn0gfCBudWxsIHsKICBpZiAodHlwZW9mIHdpbmRvdyA9PT0gJ3VuZGVmaW5lZCcpIHsKICAgIHJldHVybiBudWxsOwogIH0KCiAgdHJ5IHsKICAgIC8vIOino+aekCBkb2N1bWVudC5jb29raWUKICAgIGNvbnN0IGNvb2tpZXMgPSBkb2N1bWVudC5jb29raWUuc3BsaXQoJzsnKS5yZWR1Y2UoKGFjYywgY29va2llKSA9PiB7CiAgICAgIGNvbnN0IHRyaW1tZWQgPSBjb29raWUudHJpbSgpOwogICAgICBjb25zdCBmaXJzdEVxdWFsSW5kZXggPSB0cmltbWVkLmluZGV4T2YoJz0nKTsKCiAgICAgIGlmIChmaXJzdEVxdWFsSW5kZXggPiAwKSB7CiAgICAgICAgY29uc3Qga2V5ID0gdHJpbW1lZC5zdWJzdHJpbmcoMCwgZmlyc3RFcXVhbEluZGV4KTsKICAgICAgICBjb25zdCB2YWx1ZSA9IHRyaW1tZWQuc3Vic3RyaW5nKGZpcnN0RXF1YWxJbmRleCArIDEpOwogICAgICAgIGlmIChrZXkgJiYgdmFsdWUpIHsKICAgICAgICAgIGFjY1trZXldID0gdmFsdWU7CiAgICAgICAgfQogICAgICB9CgogICAgICByZXR1cm4gYWNjOwogICAgfSwge30gYXMgUmVjb3JkPHN0cmluZywgc3RyaW5nPik7CgogICAgY29uc3QgYXV0aENvb2tpZSA9IGNvb2tpZXNbJ2F1dGgnXTsKICAgIGlmICghYXV0aENvb2tpZSkgewogICAgICByZXR1cm4gbnVsbDsKICAgIH0KCiAgICAvLyDlpITnkIblj6/og73nmoTlj4zph43nvJbnoIEKICAgIGxldCBkZWNvZGVkID0gZGVjb2RlVVJJQ29tcG9uZW50KGF1dGhDb29raWUpOwoKICAgIC8vIOWmguaenOino+eggeWQjuS7jeeEtuWMheWQqyAl77yM6K+05piO5piv5Y+M6YeN57yW56CB77yM6ZyA6KaB5YaN5qyh6Kej56CBCiAgICBpZiAoZGVjb2RlZC5pbmNsdWRlcygnJScpKSB7CiAgICAgIGRlY29kZWQgPSBkZWNvZGVVUklDb21wb25lbnQoZGVjb2RlZCk7CiAgICB9CgogICAgY29uc3QgYXV0aERhdGEgPSBKU09OLnBhcnNlKGRlY29kZWQpOwogICAgcmV0dXJuIGF1dGhEYXRhOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICByZXR1cm4gbnVsbDsKICB9Cn0K
+import { NextRequest } from 'next/server';
+
+// 从cookie获取认证信息 (服务端使用)
+export function getAuthInfoFromCookie(request: NextRequest): {
+  password?: string;
+  username?: string;
+  signature?: string;
+  timestamp?: number;
+} | null {
+  const authCookie = request.cookies.get('auth');
+
+  if (!authCookie) {
+    return null;
+  }
+
+  try {
+    const decoded = decodeURIComponent(authCookie.value);
+    const authData = JSON.parse(decoded);
+    return authData;
+  } catch (error) {
+    return null;
+  }
+}
+
+// 从cookie获取认证信息 (客户端使用)
+export function getAuthInfoFromBrowserCookie(): {
+  password?: string;
+  username?: string;
+  signature?: string;
+  timestamp?: number;
+  role?: 'owner' | 'admin' | 'user';
+} | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  try {
+    // 解析 document.cookie
+    const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+      const trimmed = cookie.trim();
+      const firstEqualIndex = trimmed.indexOf('=');
+
+      if (firstEqualIndex > 0) {
+        const key = trimmed.substring(0, firstEqualIndex);
+        const value = trimmed.substring(firstEqualIndex + 1);
+        if (key && value) {
+          acc[key] = value;
+        }
+      }
+
+      return acc;
+    }, {} as Record<string, string>);
+
+    const authCookie = cookies['auth'];
+    if (!authCookie) {
+      return null;
+    }
+
+    // 处理可能的双重编码
+    let decoded = decodeURIComponent(authCookie);
+
+    // 如果解码后仍然包含 %，说明是双重编码，需要再次解码
+    if (decoded.includes('%')) {
+      decoded = decodeURIComponent(decoded);
+    }
+
+    const authData = JSON.parse(decoded);
+    return authData;
+  } catch (error) {
+    return null;
+  }
+}
