@@ -1,1 +1,18 @@
-LyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSAqLwoKaW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gJ25leHQvc2VydmVyJzsKCmltcG9ydCB7IGdldENvbmZpZyB9IGZyb20gJ0AvbGliL2NvbmZpZyc7CgpleHBvcnQgY29uc3QgcnVudGltZSA9ICdlZGdlJzsKCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBHRVQocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICBjb25zb2xlLmxvZygnc2VydmVyLWNvbmZpZyBjYWxsZWQ6ICcsIHJlcXVlc3QudXJsKTsKCiAgY29uc3QgY29uZmlnID0gYXdhaXQgZ2V0Q29uZmlnKCk7CiAgY29uc3QgcmVzdWx0ID0gewogICAgU2l0ZU5hbWU6IGNvbmZpZy5TaXRlQ29uZmlnLlNpdGVOYW1lLAogICAgU3RvcmFnZVR5cGU6IHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX1NUT1JBR0VfVFlQRSB8fCAnbG9jYWxzdG9yYWdlJywKICB9OwogIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbihyZXN1bHQpOwp9Cg==
+/* eslint-disable no-console */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getConfig } from '@/lib/config';
+
+export const runtime = 'edge';
+
+export async function GET(request: NextRequest) {
+  console.log('server-config called: ', request.url);
+
+  const config = await getConfig();
+  const result = {
+    SiteName: config.SiteConfig.SiteName,
+    StorageType: process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage',
+  };
+  return NextResponse.json(result);
+}
