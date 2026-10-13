@@ -1,1 +1,9 @@
-ewogICJyZWNvbW1lbmRhdGlvbnMiOiBbCiAgICAvLyBUYWlsd2luZCBDU1MgSW50ZWxsaXNlbnNlCiAgICAiYnJhZGxjLnZzY29kZS10YWlsd2luZGNzcyIsCiAgICAiZXNiZW5wLnByZXR0aWVyLXZzY29kZSIsCiAgICAiZGJhZXVtZXIudnNjb2RlLWVzbGludCIsCiAgICAiYWFyb24tYm9uZC5iZXR0ZXItY29tbWVudHMiCiAgXQp9Cg==
+{
+  "recommendations": [
+    // Tailwind CSS Intellisense
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "aaron-bond.better-comments"
+  ]
+}
