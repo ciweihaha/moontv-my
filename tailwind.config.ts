@@ -1,1 +1,91 @@
-aW1wb3J0IHR5cGUgeyBDb25maWcgfSBmcm9tICd0YWlsd2luZGNzcyc7CmltcG9ydCBkZWZhdWx0VGhlbWUgZnJvbSAndGFpbHdpbmRjc3MvZGVmYXVsdFRoZW1lJzsKCmNvbnN0IGNvbmZpZzogQ29uZmlnID0gewogIGRhcmtNb2RlOiAnY2xhc3MnLAogIGNvbnRlbnQ6IFsKICAgICcuL3NyYy9wYWdlcy8qKi8qLntqcyx0cyxqc3gsdHN4LG1keH0nLAogICAgJy4vc3JjL2NvbXBvbmVudHMvKiovKi57anMsdHMsanN4LHRzeCxtZHh9JywKICAgICcuL3NyYy9hcHAvKiovKi57anMsdHMsanN4LHRzeCxtZHh9JywKICBdLAogIHRoZW1lOiB7CiAgICBleHRlbmQ6IHsKICAgICAgc2NyZWVuczogewogICAgICAgICdtb2JpbGUtbGFuZHNjYXBlJzogewogICAgICAgICAgcmF3OiAnKG9yaWVudGF0aW9uOiBsYW5kc2NhcGUpIGFuZCAobWF4LWhlaWdodDogNzAwcHgpJywKICAgICAgICB9LAogICAgICB9LAogICAgICBmb250RmFtaWx5OiB7CiAgICAgICAgcHJpbWFyeTogWydJbnRlcicsIC4uLmRlZmF1bHRUaGVtZS5mb250RmFtaWx5LnNhbnNdLAogICAgICB9LAogICAgICBjb2xvcnM6IHsKICAgICAgICBwcmltYXJ5OiB7CiAgICAgICAgICA1MDogJyNmMGY5ZmYnLAogICAgICAgICAgMTAwOiAnI2UwZjJmZScsCiAgICAgICAgICAyMDA6ICcjYmFlNmZkJywKICAgICAgICAgIDMwMDogJyM3ZGQzZmMnLAogICAgICAgICAgNDAwOiAnIzM4YmRmOCcsCiAgICAgICAgICA1MDA6ICcjMGVhNWU5JywKICAgICAgICAgIDYwMDogJyMwMjg0YzcnLAogICAgICAgICAgNzAwOiAnIzAzNjlhMScsCiAgICAgICAgICA4MDA6ICcjMDc1OTg1JywKICAgICAgICAgIDkwMDogJyMwYzRhNmUnLAogICAgICAgIH0sCiAgICAgICAgZGFyazogJyMyMjIyMjInLAogICAgICB9LAogICAgICBrZXlmcmFtZXM6IHsKICAgICAgICBmbGlja2VyOiB7CiAgICAgICAgICAnMCUsIDE5Ljk5OSUsIDIyJSwgNjIuOTk5JSwgNjQlLCA2NC45OTklLCA3MCUsIDEwMCUnOiB7CiAgICAgICAgICAgIG9wYWNpdHk6ICcwLjk5JywKICAgICAgICAgICAgZmlsdGVyOgogICAgICAgICAgICAgICdkcm9wLXNoYWRvdygwIDAgMXB4IHJnYmEoMjUyLCAyMTEsIDc3KSkgZHJvcC1zaGFkb3coMCAwIDE1cHggcmdiYSgyNDUsIDE1OCwgMTEpKSBkcm9wLXNoYWRvdygwIDAgMXB4IHJnYmEoMjUyLCAyMTEsIDc3KSknLAogICAgICAgICAgfSwKICAgICAgICAgICcyMCUsIDIxLjk5OSUsIDYzJSwgNjMuOTk5JSwgNjUlLCA2OS45OTklJzogewogICAgICAgICAgICBvcGFjaXR5OiAnMC40JywKICAgICAgICAgICAgZmlsdGVyOiAnbm9uZScsCiAgICAgICAgICB9LAogICAgICAgIH0sCiAgICAgICAgc2hpbW1lcjogewogICAgICAgICAgJzAlJzogewogICAgICAgICAgICBiYWNrZ3JvdW5kUG9zaXRpb246ICctNzAwcHggMCcsCiAgICAgICAgICB9LAogICAgICAgICAgJzEwMCUnOiB7CiAgICAgICAgICAgIGJhY2tncm91bmRQb3NpdGlvbjogJzcwMHB4IDAnLAogICAgICAgICAgfSwKICAgICAgICB9LAogICAgICAgIGZhZGVJbjogewogICAgICAgICAgJzAlJzogeyBvcGFjaXR5OiAnMCcgfSwKICAgICAgICAgICcxMDAlJzogeyBvcGFjaXR5OiAnMScgfSwKICAgICAgICB9LAogICAgICAgIHNsaWRlVXA6IHsKICAgICAgICAgICcwJSc6IHsgdHJhbnNmb3JtOiAndHJhbnNsYXRlWSgxMHB4KScsIG9wYWNpdHk6ICcwJyB9LAogICAgICAgICAgJzEwMCUnOiB7IHRyYW5zZm9ybTogJ3RyYW5zbGF0ZVkoMCknLCBvcGFjaXR5OiAnMScgfSwKICAgICAgICB9LAogICAgICAgIHNsaWRlRG93bjogewogICAgICAgICAgJzAlJzogeyB0cmFuc2Zvcm06ICd0cmFuc2xhdGVZKC0xMHB4KScsIG9wYWNpdHk6ICcwJyB9LAogICAgICAgICAgJzEwMCUnOiB7IHRyYW5zZm9ybTogJ3RyYW5zbGF0ZVkoMCknLCBvcGFjaXR5OiAnMScgfSwKICAgICAgICB9LAogICAgICAgIHNsaWRlSW5Gcm9tUmlnaHQ6IHsKICAgICAgICAgICcwJSc6IHsgdHJhbnNmb3JtOiAndHJhbnNsYXRlWCgxMDAlKScsIG9wYWNpdHk6ICcwJyB9LAogICAgICAgICAgJzEwMCUnOiB7IHRyYW5zZm9ybTogJ3RyYW5zbGF0ZVgoMCknLCBvcGFjaXR5OiAnMScgfSwKICAgICAgICB9LAogICAgICB9LAogICAgICBhbmltYXRpb246IHsKICAgICAgICBmbGlja2VyOiAnZmxpY2tlciAzcyBsaW5lYXIgaW5maW5pdGUnLAogICAgICAgIHNoaW1tZXI6ICdzaGltbWVyIDEuM3MgbGluZWFyIGluZmluaXRlJywKICAgICAgICAnZmFkZS1pbic6ICdmYWRlSW4gMC4zcyBlYXNlLWluLW91dCcsCiAgICAgICAgJ3NsaWRlLXVwJzogJ3NsaWRlVXAgMC4zcyBlYXNlLWluLW91dCcsCiAgICAgICAgJ3NsaWRlLWRvd24nOiAnc2xpZGVEb3duIDAuM3MgZWFzZS1pbi1vdXQnLAogICAgICAgICdzbGlkZS1pbi1mcm9tLXJpZ2h0JzogJ3NsaWRlSW5Gcm9tUmlnaHQgMC4zcyBlYXNlLW91dCcsCiAgICAgIH0sCiAgICAgIGJhY2tncm91bmRJbWFnZTogewogICAgICAgICdncmFkaWVudC1yYWRpYWwnOiAncmFkaWFsLWdyYWRpZW50KHZhcigtLXR3LWdyYWRpZW50LXN0b3BzKSknLAogICAgICAgICdncmFkaWVudC1jb25pYyc6CiAgICAgICAgICAnY29uaWMtZ3JhZGllbnQoZnJvbSAxODBkZWcgYXQgNTAlIDUwJSwgdmFyKC0tdHctZ3JhZGllbnQtc3RvcHMpKScsCiAgICAgIH0sCiAgICB9LAogIH0sCiAgcGx1Z2luczogW3JlcXVpcmUoJ0B0YWlsd2luZGNzcy9mb3JtcycpXSwKfSBzYXRpc2ZpZXMgQ29uZmlnOwoKZXhwb3J0IGRlZmF1bHQgY29uZmlnOwo=
+import type { Config } from 'tailwindcss';
+import defaultTheme from 'tailwindcss/defaultTheme';
+
+const config: Config = {
+  darkMode: 'class',
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      screens: {
+        'mobile-landscape': {
+          raw: '(orientation: landscape) and (max-height: 700px)',
+        },
+      },
+      fontFamily: {
+        primary: ['Inter', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        primary: {
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
+        },
+        dark: '#222222',
+      },
+      keyframes: {
+        flicker: {
+          '0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%': {
+            opacity: '0.99',
+            filter:
+              'drop-shadow(0 0 1px rgba(252, 211, 77)) drop-shadow(0 0 15px rgba(245, 158, 11)) drop-shadow(0 0 1px rgba(252, 211, 77))',
+          },
+          '20%, 21.999%, 63%, 63.999%, 65%, 69.999%': {
+            opacity: '0.4',
+            filter: 'none',
+          },
+        },
+        shimmer: {
+          '0%': {
+            backgroundPosition: '-700px 0',
+          },
+          '100%': {
+            backgroundPosition: '700px 0',
+          },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        slideDown: {
+          '0%': { transform: 'translateY(-10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        slideInFromRight: {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+      },
+      animation: {
+        flicker: 'flicker 3s linear infinite',
+        shimmer: 'shimmer 1.3s linear infinite',
+        'fade-in': 'fadeIn 0.3s ease-in-out',
+        'slide-up': 'slideUp 0.3s ease-in-out',
+        'slide-down': 'slideDown 0.3s ease-in-out',
+        'slide-in-from-right': 'slideInFromRight 0.3s ease-out',
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+    },
+  },
+  plugins: [require('@tailwindcss/forms')],
+} satisfies Config;
+
+export default config;
