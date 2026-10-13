@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getAuthInfoFromCookie } from '@/lib/auth';
+import { constantTimeEqual } from '@/lib/rateLimit';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -29,7 +30,11 @@ export async function middleware(request: NextRequest) {
 
   // localstorage模式：在middleware中完成验证
   if (storageType === 'localstorage') {
-    if (!authInfo.password || authInfo.password !== process.env.PASSWORD) {
+    // SEC-R5: 常量时间比较，防时序攻击
+    if (
+      !authInfo.password ||
+      !constantTimeEqual(authInfo.password, process.env.PASSWORD)
+    ) {
       return handleAuthFailure(request, pathname);
     }
     return NextResponse.next();
