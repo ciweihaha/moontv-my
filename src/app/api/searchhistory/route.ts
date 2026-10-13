@@ -1,1 +1,99 @@
-LyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSAqLwoKaW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gJ25leHQvc2VydmVyJzsKCmltcG9ydCB7IGdldEF1dGhJbmZvRnJvbUNvb2tpZSB9IGZyb20gJ0AvbGliL2F1dGgnOwppbXBvcnQgeyBkYiB9IGZyb20gJ0AvbGliL2RiJzsKCmV4cG9ydCBjb25zdCBydW50aW1lID0gJ2VkZ2UnOwoKLy8g5pyA5aSn5L+d5a2Y5p2h5pWw77yI5LiO5a6i5oi356uv5L+d5oyB5LiA6Ie077yJCmNvbnN0IEhJU1RPUllfTElNSVQgPSAyMDsKCi8qKgogKiBHRVQgL2FwaS9zZWFyY2hoaXN0b3J5CiAqIOi/lOWbniBzdHJpbmdbXQogKi8KZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIEdFVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICAvLyDku44gY29va2llIOiOt+WPlueUqOaIt+S/oeaBrwogICAgY29uc3QgYXV0aEluZm8gPSBnZXRBdXRoSW5mb0Zyb21Db29raWUocmVxdWVzdCk7CiAgICBpZiAoIWF1dGhJbmZvIHx8ICFhdXRoSW5mby51c2VybmFtZSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ1VuYXV0aG9yaXplZCcgfSwgeyBzdGF0dXM6IDQwMSB9KTsKICAgIH0KCiAgICBjb25zdCBoaXN0b3J5ID0gYXdhaXQgZGIuZ2V0U2VhcmNoSGlzdG9yeShhdXRoSW5mby51c2VybmFtZSk7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oaGlzdG9yeSwgeyBzdGF0dXM6IDIwMCB9KTsKICB9IGNhdGNoIChlcnIpIHsKICAgIGNvbnNvbGUuZXJyb3IoJ+iOt+WPluaQnOe0ouWOhuWPsuWksei0pScsIGVycik7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgZXJyb3I6ICdJbnRlcm5hbCBTZXJ2ZXIgRXJyb3InIH0sCiAgICAgIHsgc3RhdHVzOiA1MDAgfQogICAgKTsKICB9Cn0KCi8qKgogKiBQT1NUIC9hcGkvc2VhcmNoaGlzdG9yeQogKiBib2R5OiB7IGtleXdvcmQ6IHN0cmluZyB9CiAqLwpleHBvcnQgYXN5bmMgZnVuY3Rpb24gUE9TVChyZXF1ZXN0OiBOZXh0UmVxdWVzdCkgewogIHRyeSB7CiAgICAvLyDku44gY29va2llIOiOt+WPlueUqOaIt+S/oeaBrwogICAgY29uc3QgYXV0aEluZm8gPSBnZXRBdXRoSW5mb0Zyb21Db29raWUocmVxdWVzdCk7CiAgICBpZiAoIWF1dGhJbmZvIHx8ICFhdXRoSW5mby51c2VybmFtZSkgewogICAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ1VuYXV0aG9yaXplZCcgfSwgeyBzdGF0dXM6IDQwMSB9KTsKICAgIH0KCiAgICBjb25zdCBib2R5ID0gYXdhaXQgcmVxdWVzdC5qc29uKCk7CiAgICBjb25zdCBrZXl3b3JkOiBzdHJpbmcgPSBib2R5LmtleXdvcmQ/LnRyaW0oKTsKCiAgICBpZiAoIWtleXdvcmQpIHsKICAgICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICAgIHsgZXJyb3I6ICdLZXl3b3JkIGlzIHJlcXVpcmVkJyB9LAogICAgICAgIHsgc3RhdHVzOiA0MDAgfQogICAgICApOwogICAgfQoKICAgIGF3YWl0IGRiLmFkZFNlYXJjaEhpc3RvcnkoYXV0aEluZm8udXNlcm5hbWUsIGtleXdvcmQpOwoKICAgIC8vIOWGjeasoeiOt+WPluacgOaWsOWIl+ihqO+8jOehruS/neWuouaIt+err+S4juacjeWKoeerr+WQjOatpQogICAgY29uc3QgaGlzdG9yeSA9IGF3YWl0IGRiLmdldFNlYXJjaEhpc3RvcnkoYXV0aEluZm8udXNlcm5hbWUpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKGhpc3Rvcnkuc2xpY2UoMCwgSElTVE9SWV9MSU1JVCksIHsgc3RhdHVzOiAyMDAgfSk7CiAgfSBjYXRjaCAoZXJyKSB7CiAgICBjb25zb2xlLmVycm9yKCfmt7vliqDmkJzntKLljoblj7LlpLHotKUnLCBlcnIpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAnSW50ZXJuYWwgU2VydmVyIEVycm9yJyB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9CgovKioKICogREVMRVRFIC9hcGkvc2VhcmNoaGlzdG9yeT9rZXl3b3JkPTxrdz4KICoKICogMS4g5LiN5bimIGtleXdvcmQgLT4g5riF56m65YWo6YOo5pCc57Si5Y6G5Y+yCiAqIDIuIOW4piBrZXl3b3JkPTxrdz4gLT4g5Yig6Zmk5Y2V5p2h5YWz6ZSu5a2XCiAqLwpleHBvcnQgYXN5bmMgZnVuY3Rpb24gREVMRVRFKHJlcXVlc3Q6IE5leHRSZXF1ZXN0KSB7CiAgdHJ5IHsKICAgIC8vIOS7jiBjb29raWUg6I635Y+W55So5oi35L+h5oGvCiAgICBjb25zdCBhdXRoSW5mbyA9IGdldEF1dGhJbmZvRnJvbUNvb2tpZShyZXF1ZXN0KTsKICAgIGlmICghYXV0aEluZm8gfHwgIWF1dGhJbmZvLnVzZXJuYW1lKSB7CiAgICAgIHJldHVybiBOZXh0UmVzcG9uc2UuanNvbih7IGVycm9yOiAnVW5hdXRob3JpemVkJyB9LCB7IHN0YXR1czogNDAxIH0pOwogICAgfQoKICAgIGNvbnN0IHsgc2VhcmNoUGFyYW1zIH0gPSBuZXcgVVJMKHJlcXVlc3QudXJsKTsKICAgIGNvbnN0IGt3ID0gc2VhcmNoUGFyYW1zLmdldCgna2V5d29yZCcpPy50cmltKCk7CgogICAgYXdhaXQgZGIuZGVsZXRlU2VhcmNoSGlzdG9yeShhdXRoSW5mby51c2VybmFtZSwga3cgfHwgdW5kZWZpbmVkKTsKCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBzdWNjZXNzOiB0cnVlIH0sIHsgc3RhdHVzOiAyMDAgfSk7CiAgfSBjYXRjaCAoZXJyKSB7CiAgICBjb25zb2xlLmVycm9yKCfliKDpmaTmkJzntKLljoblj7LlpLHotKUnLCBlcnIpOwogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7IGVycm9yOiAnSW50ZXJuYWwgU2VydmVyIEVycm9yJyB9LAogICAgICB7IHN0YXR1czogNTAwIH0KICAgICk7CiAgfQp9Cg==
+/* eslint-disable no-console */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getAuthInfoFromCookie } from '@/lib/auth';
+import { db } from '@/lib/db';
+
+export const runtime = 'edge';
+
+// 最大保存条数（与客户端保持一致）
+const HISTORY_LIMIT = 20;
+
+/**
+ * GET /api/searchhistory
+ * 返回 string[]
+ */
+export async function GET(request: NextRequest) {
+  try {
+    // 从 cookie 获取用户信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const history = await db.getSearchHistory(authInfo.username);
+    return NextResponse.json(history, { status: 200 });
+  } catch (err) {
+    console.error('获取搜索历史失败', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/searchhistory
+ * body: { keyword: string }
+ */
+export async function POST(request: NextRequest) {
+  try {
+    // 从 cookie 获取用户信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const keyword: string = body.keyword?.trim();
+
+    if (!keyword) {
+      return NextResponse.json(
+        { error: 'Keyword is required' },
+        { status: 400 }
+      );
+    }
+
+    await db.addSearchHistory(authInfo.username, keyword);
+
+    // 再次获取最新列表，确保客户端与服务端同步
+    const history = await db.getSearchHistory(authInfo.username);
+    return NextResponse.json(history.slice(0, HISTORY_LIMIT), { status: 200 });
+  } catch (err) {
+    console.error('添加搜索历史失败', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * DELETE /api/searchhistory?keyword=<kw>
+ *
+ * 1. 不带 keyword -> 清空全部搜索历史
+ * 2. 带 keyword=<kw> -> 删除单条关键字
+ */
+export async function DELETE(request: NextRequest) {
+  try {
+    // 从 cookie 获取用户信息
+    const authInfo = getAuthInfoFromCookie(request);
+    if (!authInfo || !authInfo.username) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const kw = searchParams.get('keyword')?.trim();
+
+    await db.deleteSearchHistory(authInfo.username, kw || undefined);
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (err) {
+    console.error('删除搜索历史失败', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+}
