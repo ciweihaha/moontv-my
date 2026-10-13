@@ -1,1 +1,90 @@
-IyEvdXNyL2Jpbi9lbnYgbm9kZQoKLyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSxAdHlwZXNjcmlwdC1lc2xpbnQvbm8tdmFyLXJlcXVpcmVzICovCmNvbnN0IGh0dHAgPSByZXF1aXJlKCdodHRwJyk7CmNvbnN0IHBhdGggPSByZXF1aXJlKCdwYXRoJyk7CgovLyDosIPnlKggZ2VuZXJhdGUtbWFuaWZlc3QuanMg55Sf5oiQIG1hbmlmZXN0Lmpzb24KZnVuY3Rpb24gZ2VuZXJhdGVNYW5pZmVzdCgpIHsKICBjb25zb2xlLmxvZygnR2VuZXJhdGluZyBtYW5pZmVzdC5qc29uIGZvciBEb2NrZXIgZGVwbG95bWVudC4uLicpOwoKICB0cnkgewogICAgY29uc3QgZ2VuZXJhdGVNYW5pZmVzdFNjcmlwdCA9IHBhdGguam9pbigKICAgICAgX19kaXJuYW1lLAogICAgICAnc2NyaXB0cycsCiAgICAgICdnZW5lcmF0ZS1tYW5pZmVzdC5qcycKICAgICk7CiAgICByZXF1aXJlKGdlbmVyYXRlTWFuaWZlc3RTY3JpcHQpOwogIH0gY2F0Y2ggKGVycm9yKSB7CiAgICBjb25zb2xlLmVycm9yKCfinYwgRXJyb3IgY2FsbGluZyBnZW5lcmF0ZS1tYW5pZmVzdC5qczonLCBlcnJvcik7CiAgICB0aHJvdyBlcnJvcjsKICB9Cn0KCmdlbmVyYXRlTWFuaWZlc3QoKTsKCi8vIOebtOaOpeWcqOW9k+WJjei/m+eoi+S4reWQr+WKqCBzdGFuZGFsb25lIFNlcnZlcu+8iGBzZXJ2ZXIuanNg77yJCnJlcXVpcmUoJy4vc2VydmVyLmpzJyk7CgovLyDmr48gMSDnp5Lova7or6LkuIDmrKHvvIznm7TliLDor7fmsYLmiJDlip8KY29uc3QgVEFSR0VUX1VSTCA9IGBodHRwOi8vJHtwcm9jZXNzLmVudi5IT1NUTkFNRSB8fCAnbG9jYWxob3N0J306JHsKICBwcm9jZXNzLmVudi5QT1JUIHx8IDMwMDAKfS9sb2dpbmA7Cgpjb25zdCBpbnRlcnZhbElkID0gc2V0SW50ZXJ2YWwoKCkgPT4gewogIGNvbnNvbGUubG9nKGBGZXRjaGluZyAke1RBUkdFVF9VUkx9IC4uLmApOwoKICBjb25zdCByZXEgPSBodHRwLmdldChUQVJHRVRfVVJMLCAocmVzKSA9PiB7CiAgICAvLyDlvZPov5Tlm54gMnh4IOeKtuaAgeeggeaXtuiupOS4uuaIkOWKn++8jOeEtuWQjuWBnOatoui9ruivogogICAgaWYgKHJlcy5zdGF0dXNDb2RlICYmIHJlcy5zdGF0dXNDb2RlID49IDIwMCAmJiByZXMuc3RhdHVzQ29kZSA8IDMwMCkgewogICAgICBjb25zb2xlLmxvZygnU2VydmVyIGlzIHVwLCBzdG9wIHBvbGxpbmcuJyk7CiAgICAgIGNsZWFySW50ZXJ2YWwoaW50ZXJ2YWxJZCk7CgogICAgICAvLyDmnI3liqHlmajlkK/liqjlkI7vvIznq4vljbPmiafooYzkuIDmrKEgY3JvbiDku7vliqEKICAgICAgZXhlY3V0ZUNyb25Kb2IoKTsKCiAgICAgIC8vIOeEtuWQjuiuvue9ruavj+Wwj+aXtuaJp+ihjOS4gOasoSBjcm9uIOS7u+WKoQogICAgICBzZXRJbnRlcnZhbCgoKSA9PiB7CiAgICAgICAgZXhlY3V0ZUNyb25Kb2IoKTsKICAgICAgfSwgNjAgKiA2MCAqIDEwMDApOyAvLyDmr4/lsI/ml7bmiafooYzkuIDmrKEKICAgIH0KICB9KTsKCiAgcmVxLnNldFRpbWVvdXQoMjAwMCwgKCkgPT4gewogICAgcmVxLmRlc3Ryb3koKTsKICB9KTsKfSwgMTAwMCk7CgovLyDmiafooYwgY3JvbiDku7vliqHnmoTlh73mlbAKZnVuY3Rpb24gZXhlY3V0ZUNyb25Kb2IoKSB7CiAgY29uc3QgY3JvblVybCA9IGBodHRwOi8vJHtwcm9jZXNzLmVudi5IT1NUTkFNRSB8fCAnbG9jYWxob3N0J306JHsKICAgIHByb2Nlc3MuZW52LlBPUlQgfHwgMzAwMAogIH0vYXBpL2Nyb25gOwoKICBjb25zb2xlLmxvZyhgRXhlY3V0aW5nIGNyb24gam9iOiAke2Nyb25Vcmx9YCk7CgogIGNvbnN0IHJlcSA9IGh0dHAuZ2V0KGNyb25VcmwsIChyZXMpID0+IHsKICAgIGxldCBkYXRhID0gJyc7CgogICAgcmVzLm9uKCdkYXRhJywgKGNodW5rKSA9PiB7CiAgICAgIGRhdGEgKz0gY2h1bms7CiAgICB9KTsKCiAgICByZXMub24oJ2VuZCcsICgpID0+IHsKICAgICAgaWYgKHJlcy5zdGF0dXNDb2RlICYmIHJlcy5zdGF0dXNDb2RlID49IDIwMCAmJiByZXMuc3RhdHVzQ29kZSA8IDMwMCkgewogICAgICAgIGNvbnNvbGUubG9nKCdDcm9uIGpvYiBleGVjdXRlZCBzdWNjZXNzZnVsbHk6JywgZGF0YSk7CiAgICAgIH0gZWxzZSB7CiAgICAgICAgY29uc29sZS5lcnJvcignQ3JvbiBqb2IgZmFpbGVkOicsIHJlcy5zdGF0dXNDb2RlLCBkYXRhKTsKICAgICAgfQogICAgfSk7CiAgfSk7CgogIHJlcS5vbignZXJyb3InLCAoZXJyKSA9PiB7CiAgICBjb25zb2xlLmVycm9yKCdFcnJvciBleGVjdXRpbmcgY3JvbiBqb2I6JywgZXJyKTsKICB9KTsKCiAgcmVxLnNldFRpbWVvdXQoMzAwMDAsICgpID0+IHsKICAgIGNvbnNvbGUuZXJyb3IoJ0Nyb24gam9iIHRpbWVvdXQnKTsKICAgIHJlcS5kZXN0cm95KCk7CiAgfSk7Cn0K
+#!/usr/bin/env node
+
+/* eslint-disable no-console,@typescript-eslint/no-var-requires */
+const http = require('http');
+const path = require('path');
+
+// 调用 generate-manifest.js 生成 manifest.json
+function generateManifest() {
+  console.log('Generating manifest.json for Docker deployment...');
+
+  try {
+    const generateManifestScript = path.join(
+      __dirname,
+      'scripts',
+      'generate-manifest.js'
+    );
+    require(generateManifestScript);
+  } catch (error) {
+    console.error('❌ Error calling generate-manifest.js:', error);
+    throw error;
+  }
+}
+
+generateManifest();
+
+// 直接在当前进程中启动 standalone Server（`server.js`）
+require('./server.js');
+
+// 每 1 秒轮询一次，直到请求成功
+const TARGET_URL = `http://${process.env.HOSTNAME || 'localhost'}:${
+  process.env.PORT || 3000
+}/login`;
+
+const intervalId = setInterval(() => {
+  console.log(`Fetching ${TARGET_URL} ...`);
+
+  const req = http.get(TARGET_URL, (res) => {
+    // 当返回 2xx 状态码时认为成功，然后停止轮询
+    if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+      console.log('Server is up, stop polling.');
+      clearInterval(intervalId);
+
+      // 服务器启动后，立即执行一次 cron 任务
+      executeCronJob();
+
+      // 然后设置每小时执行一次 cron 任务
+      setInterval(() => {
+        executeCronJob();
+      }, 60 * 60 * 1000); // 每小时执行一次
+    }
+  });
+
+  req.setTimeout(2000, () => {
+    req.destroy();
+  });
+}, 1000);
+
+// 执行 cron 任务的函数
+function executeCronJob() {
+  const cronUrl = `http://${process.env.HOSTNAME || 'localhost'}:${
+    process.env.PORT || 3000
+  }/api/cron`;
+
+  console.log(`Executing cron job: ${cronUrl}`);
+
+  const req = http.get(cronUrl, (res) => {
+    let data = '';
+
+    res.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    res.on('end', () => {
+      if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+        console.log('Cron job executed successfully:', data);
+      } else {
+        console.error('Cron job failed:', res.statusCode, data);
+      }
+    });
+  });
+
+  req.on('error', (err) => {
+    console.error('Error executing cron job:', err);
+  });
+
+  req.setTimeout(30000, () => {
+    console.error('Cron job timeout');
+    req.destroy();
+  });
+}
