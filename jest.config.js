@@ -1,1 +1,30 @@
-Ly8gZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIEB0eXBlc2NyaXB0LWVzbGludC9uby12YXItcmVxdWlyZXMKY29uc3QgbmV4dEplc3QgPSByZXF1aXJlKCduZXh0L2plc3QnKTsKCmNvbnN0IGNyZWF0ZUplc3RDb25maWcgPSBuZXh0SmVzdCh7CiAgLy8gUHJvdmlkZSB0aGUgcGF0aCB0byB5b3VyIE5leHQuanMgYXBwIHRvIGxvYWQgbmV4dC5jb25maWcuanMgYW5kIC5lbnYgZmlsZXMgaW4geW91ciB0ZXN0IGVudmlyb25tZW50CiAgZGlyOiAnLi8nLAp9KTsKCi8vIEFkZCBhbnkgY3VzdG9tIGNvbmZpZyB0byBiZSBwYXNzZWQgdG8gSmVzdApjb25zdCBjdXN0b21KZXN0Q29uZmlnID0gewogIC8vIEFkZCBtb3JlIHNldHVwIG9wdGlvbnMgYmVmb3JlIGVhY2ggdGVzdCBpcyBydW4KICBzZXR1cEZpbGVzQWZ0ZXJFbnY6IFsnPHJvb3REaXI+L2plc3Quc2V0dXAuanMnXSwKCiAgLy8gaWYgdXNpbmcgVHlwZVNjcmlwdCB3aXRoIGEgYmFzZVVybCBzZXQgdG8gdGhlIHJvb3QgZGlyZWN0b3J5IHRoZW4geW91IG5lZWQgdGhlIGJlbG93IGZvciBhbGlhcycgdG8gd29yawogIG1vZHVsZURpcmVjdG9yaWVzOiBbJ25vZGVfbW9kdWxlcycsICc8cm9vdERpcj4vJ10sCgogIHRlc3RFbnZpcm9ubWVudDogJ2plc3QtZW52aXJvbm1lbnQtanNkb20nLAoKICAvKioKICAgKiBBYnNvbHV0ZSBpbXBvcnRzIGFuZCBNb2R1bGUgUGF0aCBBbGlhc2VzCiAgICovCiAgbW9kdWxlTmFtZU1hcHBlcjogewogICAgJ15ALyguKikkJzogJzxyb290RGlyPi9zcmMvJDEnLAogICAgJ15+LyguKikkJzogJzxyb290RGlyPi9wdWJsaWMvJDEnLAogICAgJ14uK1xcLihzdmcpJCc6ICc8cm9vdERpcj4vc3JjL19fbW9ja3NfXy9zdmcudHN4JywKICB9LAp9OwoKLy8gY3JlYXRlSmVzdENvbmZpZyBpcyBleHBvcnRlZCB0aGlzIHdheSB0byBlbnN1cmUgdGhhdCBuZXh0L2plc3QgY2FuIGxvYWQgdGhlIE5leHQuanMgY29uZmlnIHdoaWNoIGlzIGFzeW5jCm1vZHVsZS5leHBvcnRzID0gY3JlYXRlSmVzdENvbmZpZyhjdXN0b21KZXN0Q29uZmlnKTsK
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const nextJest = require('next/jest');
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+});
+
+// Add any custom config to be passed to Jest
+const customJestConfig = {
+  // Add more setup options before each test is run
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+
+  // if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
+  moduleDirectories: ['node_modules', '<rootDir>/'],
+
+  testEnvironment: 'jest-environment-jsdom',
+
+  /**
+   * Absolute imports and Module Path Aliases
+   */
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^~/(.*)$': '<rootDir>/public/$1',
+    '^.+\\.(svg)$': '<rootDir>/src/__mocks__/svg.tsx',
+  },
+};
+
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+module.exports = createJestConfig(customJestConfig);
