@@ -3,8 +3,18 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
+import { generateSignature } from '@/lib/auth';
+import {
+  checkRateLimit,
+  constantTimeEqual,
+  getClientIp,
+} from '@/lib/rateLimit';
 
 export const runtime = 'edge';
+
+// SEC-R2: 登录限频配置（防暴力破解）
+const LOGIN_RATE_LIMIT = 10; // 每窗口最大尝试次数
+const LOGIN_RATE_WINDOW_MS = 60_000; // 1 分钟窗口
 
 // 读取存储类型环境变量，默认 localstorage
 const STORAGE_TYPE =
@@ -15,32 +25,7 @@ const STORAGE_TYPE =
     | 'upstash'
     | undefined) || 'localstorage';
 
-// 生成签名
-async function generateSignature(
-  data: string,
-  secret: string
-): Promise<string> {
-  const encoder = new TextEncoder();
-  const keyData = encoder.encode(secret);
-  const messageData = encoder.encode(data);
-
-  // 导入密钥
-  const key = await crypto.subtle.importKey(
-    'raw',
-    keyData,
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign']
-  );
-
-  // 生成签名
-  const signature = await crypto.subtle.sign('HMAC', key, messageData);
-
-  // 转换为十六进制字符串
-  return Array.from(new Uint8Array(signature))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-}
+// QUALITY-R3: generateSignature 已移至 @/lib/auth，避免与 register 路由重复定义
 
 // 生成认证Cookie（带签名）
 async function generateAuthCookie(
@@ -69,6 +54,15 @@ async function generateAuthCookie(
 
 export async function POST(req: NextRequest) {
   try {
+    // SEC-R2: 登录限频，防暴力破解（429）
+    const clientIp = getClientIp(req);
+    if (!checkRateLimit(`login:${clientIp}`, LOGIN_RATE_LIMIT, LOGIN_RATE_WINDOW_MS)) {
+      return NextResponse.json(
+        { error: '尝试过于频繁，请稍后再试' },
+        { status: 429 }
+      );
+    }
+
     // 本地 / localStorage 模式——仅校验固定密码
     if (STORAGE_TYPE === 'localstorage') {
       const envPassword = process.env.PASSWORD;
@@ -86,7 +80,8 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: '密码不能为空' }, { status: 400 });
       }
 
-      if (password !== envPassword) {
+      // SEC-R2: 常量时间比较，防时序攻击
+      if (!constantTimeEqual(password, envPassword)) {
         return NextResponse.json(
           { ok: false, error: '密码错误' },
           { status: 401 }
