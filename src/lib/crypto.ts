@@ -1,1 +1,189 @@
-Ly8g5Yqg5a+G6Kej5a+G5bel5YW3CgppbXBvcnQgQ3J5cHRvSlMgZnJvbSAnY3J5cHRvLWpzJzsKCmxldCBiczU4OiBhbnkgPSBudWxsOwoKYXN5bmMgZnVuY3Rpb24gZ2V0QnM1OCgpIHsKICBpZiAoIWJzNTgpIHsKICAgIGNvbnN0IGJzNThNb2R1bGUgPSBhd2FpdCBpbXBvcnQoJ2JzNTgnKTsKICAgIGJzNTggPSBiczU4TW9kdWxlLmRlZmF1bHQgfHwgYnM1OE1vZHVsZTsKICB9CiAgcmV0dXJuIGJzNTg7Cn0KCmV4cG9ydCBjbGFzcyBDcnlwdG9VdGlscyB7CiAgcHJpdmF0ZSBzdGF0aWMgcmVhZG9ubHkgREVGQVVMVF9LRVkgPSAnbW9vbnR2LWRlZmF1bHQta2V5LTIwMjQnOwoKICAvKioKICAgKiBBRVMg5Yqg5a+GCiAgICovCiAgc3RhdGljIGVuY3J5cHQodGV4dDogc3RyaW5nLCBrZXk/OiBzdHJpbmcpOiBzdHJpbmcgewogICAgY29uc3QgZW5jcnlwdGlvbktleSA9IGtleSB8fCB0aGlzLkRFRkFVTFRfS0VZOwogICAgcmV0dXJuIENyeXB0b0pTLkFFUy5lbmNyeXB0KHRleHQsIGVuY3J5cHRpb25LZXkpLnRvU3RyaW5nKCk7CiAgfQoKICAvKioKICAgKiBBRVMg6Kej5a+GCiAgICovCiAgc3RhdGljIGRlY3J5cHQoY2lwaGVydGV4dDogc3RyaW5nLCBrZXk/OiBzdHJpbmcpOiBzdHJpbmcgewogICAgdHJ5IHsKICAgICAgY29uc3QgZW5jcnlwdGlvbktleSA9IGtleSB8fCB0aGlzLkRFRkFVTFRfS0VZOwogICAgICBjb25zdCBieXRlcyA9IENyeXB0b0pTLkFFUy5kZWNyeXB0KGNpcGhlcnRleHQsIGVuY3J5cHRpb25LZXkpOwogICAgICByZXR1cm4gYnl0ZXMudG9TdHJpbmcoQ3J5cHRvSlMuZW5jLlV0ZjgpOwogICAgfSBjYXRjaCAoZXJyb3IpIHsKICAgICAgY29uc29sZS5lcnJvcignRGVjcnlwdGlvbiBmYWlsZWQ6JywgZXJyb3IpOwogICAgICByZXR1cm4gJyc7CiAgICB9CiAgfQoKICAvKioKICAgKiDnlJ/miJDpmo/mnLrlr4bpkqUKICAgKi8KICBzdGF0aWMgZ2VuZXJhdGVLZXkobGVuZ3RoID0gMzIpOiBzdHJpbmcgewogICAgcmV0dXJuIENyeXB0b0pTLmxpYi5Xb3JkQXJyYXkucmFuZG9tKGxlbmd0aCkudG9TdHJpbmcoKTsKICB9CgogIC8qKgogICAqIFNIQTI1NiDlk4jluIwKICAgKi8KICBzdGF0aWMgc2hhMjU2KHRleHQ6IHN0cmluZyk6IHN0cmluZyB7CiAgICByZXR1cm4gQ3J5cHRvSlMuU0hBMjU2KHRleHQpLnRvU3RyaW5nKCk7CiAgfQoKICAvKioKICAgKiBNRDUg5ZOI5biMCiAgICovCiAgc3RhdGljIG1kNSh0ZXh0OiBzdHJpbmcpOiBzdHJpbmcgewogICAgcmV0dXJuIENyeXB0b0pTLk1ENSh0ZXh0KS50b1N0cmluZygpOwogIH0KCiAgLyoqCiAgICogQmFzZTY0IOe8lueggQogICAqLwogIHN0YXRpYyBiYXNlNjRFbmNvZGUodGV4dDogc3RyaW5nKTogc3RyaW5nIHsKICAgIHJldHVybiBDcnlwdG9KUy5lbmMuQmFzZTY0LnN0cmluZ2lmeShDcnlwdG9KUy5lbmMuVXRmOC5wYXJzZSh0ZXh0KSk7CiAgfQoKICAvKioKICAgKiBCYXNlNjQg6Kej56CBCiAgICovCiAgc3RhdGljIGJhc2U2NERlY29kZShlbmNvZGVkVGV4dDogc3RyaW5nKTogc3RyaW5nIHsKICAgIHRyeSB7CiAgICAgIHJldHVybiBDcnlwdG9KUy5lbmMuQmFzZTY0LnBhcnNlKGVuY29kZWRUZXh0KS50b1N0cmluZyhDcnlwdG9KUy5lbmMuVXRmOCk7CiAgICB9IGNhdGNoIChlcnJvcikgewogICAgICBjb25zb2xlLmVycm9yKCdCYXNlNjQgZGVjb2RlIGZhaWxlZDonLCBlcnJvcik7CiAgICAgIHJldHVybiAnJzsKICAgIH0KICB9CgogIC8qKgogICAqIEJhc2U1OCDnvJbnoIEKICAgKi8KICBzdGF0aWMgYXN5bmMgYmFzZTU4RW5jb2RlKHRleHQ6IHN0cmluZyk6IFByb21pc2U8c3RyaW5nPiB7CiAgICBjb25zdCBieXRlcyA9IENyeXB0b0pTLmVuYy5VdGY4LnBhcnNlKHRleHQpOwogICAgY29uc3QgdWludDhBcnJheSA9IG5ldyBVaW50OEFycmF5KGJ5dGVzLnNpZ0J5dGVzKTsKICAgIGZvciAobGV0IGkgPSAwOyBpIDwgYnl0ZXMuc2lnQnl0ZXM7IGkrKykgewogICAgICB1aW50OEFycmF5W2ldID0gKGJ5dGVzLndvcmRzW2kgPj4+IDJdID4+PiAoMjQgLSAoaSAlIDQpICogOCkpICYgMHhmZjsKICAgIH0KICAgIGNvbnN0IGJzNThNb2R1bGUgPSBhd2FpdCBnZXRCczU4KCk7CiAgICByZXR1cm4gYnM1OE1vZHVsZS5lbmNvZGUodWludDhBcnJheSk7CiAgfQoKICAvKioKICAgKiBCYXNlNTgg6Kej56CBCiAgICovCiAgc3RhdGljIGFzeW5jIGJhc2U1OERlY29kZShlbmNvZGVkVGV4dDogc3RyaW5nKTogUHJvbWlzZTxzdHJpbmc+IHsKICAgIHRyeSB7CiAgICAgIGNvbnN0IGJzNThNb2R1bGUgPSBhd2FpdCBnZXRCczU4KCk7CiAgICAgIGNvbnN0IGRlY29kZWQgPSBiczU4TW9kdWxlLmRlY29kZShlbmNvZGVkVGV4dCk7CiAgICAgIHJldHVybiBDcnlwdG9KUy5lbmMuVXRmOC5zdHJpbmdpZnkoCiAgICAgICAgQ3J5cHRvSlMubGliLldvcmRBcnJheS5jcmVhdGUoZGVjb2RlZCkKICAgICAgKTsKICAgIH0gY2F0Y2ggKGVycm9yKSB7CiAgICAgIGNvbnNvbGUuZXJyb3IoJ0Jhc2U1OCBkZWNvZGUgZmFpbGVkOicsIGVycm9yKTsKICAgICAgcmV0dXJuICcnOwogICAgfQogIH0KCiAgLyoqCiAgICog55Sf5oiQ6ZqP5py655uQCiAgICovCiAgc3RhdGljIGdlbmVyYXRlU2FsdChsZW5ndGggPSAxNik6IHN0cmluZyB7CiAgICByZXR1cm4gQ3J5cHRvSlMubGliLldvcmRBcnJheS5yYW5kb20obGVuZ3RoKS50b1N0cmluZygpOwogIH0KCiAgLyoqCiAgICogUEJLREYyIOWvhumSpea0vueUnwogICAqLwogIHN0YXRpYyBwYmtkZjIocGFzc3dvcmQ6IHN0cmluZywgc2FsdDogc3RyaW5nLCBpdGVyYXRpb25zID0gMTAwMDApOiBzdHJpbmcgewogICAgcmV0dXJuIENyeXB0b0pTLlBCS0RGMihwYXNzd29yZCwgc2FsdCwgewogICAgICBrZXlTaXplOiAyNTYgLyAzMiwKICAgICAgaXRlcmF0aW9uczogaXRlcmF0aW9ucywKICAgIH0pLnRvU3RyaW5nKCk7CiAgfQoKICAvKioKICAgKiBITUFDLVNIQTI1NgogICAqLwogIHN0YXRpYyBobWFjU2hhMjU2KG1lc3NhZ2U6IHN0cmluZywga2V5OiBzdHJpbmcpOiBzdHJpbmcgewogICAgcmV0dXJuIENyeXB0b0pTLkhtYWNTSEEyNTYobWVzc2FnZSwga2V5KS50b1N0cmluZygpOwogIH0KCiAgLyoqCiAgICog6aqM6K+BIEhNQUMKICAgKi8KICBzdGF0aWMgdmVyaWZ5SG1hYygKICAgIG1lc3NhZ2U6IHN0cmluZywKICAgIGtleTogc3RyaW5nLAogICAgZXhwZWN0ZWRIbWFjOiBzdHJpbmcKICApOiBib29sZWFuIHsKICAgIGNvbnN0IGNvbXB1dGVkSG1hYyA9IHRoaXMuaG1hY1NoYTI1NihtZXNzYWdlLCBrZXkpOwogICAgcmV0dXJuICgKICAgICAgQ3J5cHRvSlMuZW5jLkhleC5zdHJpbmdpZnkoQ3J5cHRvSlMuZW5jLkhleC5wYXJzZShjb21wdXRlZEhtYWMpKSA9PT0KICAgICAgQ3J5cHRvSlMuZW5jLkhleC5zdHJpbmdpZnkoQ3J5cHRvSlMuZW5jLkhleC5wYXJzZShleHBlY3RlZEhtYWMpKQogICAgKTsKICB9CgogIC8qKgogICAqIOeUn+aIkCBVVUlECiAgICovCiAgc3RhdGljIGdlbmVyYXRlVVVJRCgpOiBzdHJpbmcgewogICAgcmV0dXJuIENyeXB0b0pTLmxpYi5Xb3JkQXJyYXkucmFuZG9tKDE2KS50b1N0cmluZyhDcnlwdG9KUy5lbmMuSGV4KTsKICB9CgogIC8qKgogICAqIOeugOWNleeahOWtl+espuS4sua3t+a3hu+8iOeUqOS6juWuouaIt+err+WtmOWCqO+8iQogICAqLwogIHN0YXRpYyBvYmZ1c2NhdGUodGV4dDogc3RyaW5nKTogc3RyaW5nIHsKICAgIC8vIOeugOWNleeahCBYT1Ig5re35reG77yM5LiN55So5LqO5a6J5YWo55uu55qECiAgICBjb25zdCBrZXkgPSB0aGlzLkRFRkFVTFRfS0VZOwogICAgbGV0IHJlc3VsdCA9ICcnOwogICAgZm9yIChsZXQgaSA9IDA7IGkgPCB0ZXh0Lmxlbmd0aDsgaSsrKSB7CiAgICAgIHJlc3VsdCArPSBTdHJpbmcuZnJvbUNoYXJDb2RlKAogICAgICAgIHRleHQuY2hhckNvZGVBdChpKSBeIGtleS5jaGFyQ29kZUF0KGkgJSBrZXkubGVuZ3RoKQogICAgICApOwogICAgfQogICAgcmV0dXJuIHRoaXMuYmFzZTY0RW5jb2RlKHJlc3VsdCk7CiAgfQoKICAvKioKICAgKiDop6Pmt7fmt4blrZfnrKbkuLIKICAgKi8KICBzdGF0aWMgZGVvYmZ1c2NhdGUob2JmdXNjYXRlZFRleHQ6IHN0cmluZyk6IHN0cmluZyB7CiAgICB0cnkgewogICAgICBjb25zdCBkZWNvZGVkID0gdGhpcy5iYXNlNjREZWNvZGUob2JmdXNjYXRlZFRleHQpOwogICAgICBjb25zdCBrZXkgPSB0aGlzLkRFRkFVTFRfS0VZOwogICAgICBsZXQgcmVzdWx0ID0gJyc7CiAgICAgIGZvciAobGV0IGkgPSAwOyBpIDwgZGVjb2RlZC5sZW5ndGg7IGkrKykgewogICAgICAgIHJlc3VsdCArPSBTdHJpbmcuZnJvbUNoYXJDb2RlKAogICAgICAgICAgZGVjb2RlZC5jaGFyQ29kZUF0KGkpIF4ga2V5LmNoYXJDb2RlQXQoaSAlIGtleS5sZW5ndGgpCiAgICAgICAgKTsKICAgICAgfQogICAgICByZXR1cm4gcmVzdWx0OwogICAgfSBjYXRjaCAoZXJyb3IpIHsKICAgICAgY29uc29sZS5lcnJvcignRGVvYmZ1c2NhdGlvbiBmYWlsZWQ6JywgZXJyb3IpOwogICAgICByZXR1cm4gJyc7CiAgICB9CiAgfQp9Cg==
+// 加密解密工具
+
+import CryptoJS from 'crypto-js';
+
+let bs58: any = null;
+
+async function getBs58() {
+  if (!bs58) {
+    const bs58Module = await import('bs58');
+    bs58 = bs58Module.default || bs58Module;
+  }
+  return bs58;
+}
+
+export class CryptoUtils {
+  private static readonly DEFAULT_KEY = 'moontv-default-key-2024';
+
+  /**
+   * AES 加密
+   */
+  static encrypt(text: string, key?: string): string {
+    const encryptionKey = key || this.DEFAULT_KEY;
+    return CryptoJS.AES.encrypt(text, encryptionKey).toString();
+  }
+
+  /**
+   * AES 解密
+   */
+  static decrypt(ciphertext: string, key?: string): string {
+    try {
+      const encryptionKey = key || this.DEFAULT_KEY;
+      const bytes = CryptoJS.AES.decrypt(ciphertext, encryptionKey);
+      return bytes.toString(CryptoJS.enc.Utf8);
+    } catch (error) {
+      console.error('Decryption failed:', error);
+      return '';
+    }
+  }
+
+  /**
+   * 生成随机密钥
+   */
+  static generateKey(length = 32): string {
+    return CryptoJS.lib.WordArray.random(length).toString();
+  }
+
+  /**
+   * SHA256 哈希
+   */
+  static sha256(text: string): string {
+    return CryptoJS.SHA256(text).toString();
+  }
+
+  /**
+   * MD5 哈希
+   */
+  static md5(text: string): string {
+    return CryptoJS.MD5(text).toString();
+  }
+
+  /**
+   * Base64 编码
+   */
+  static base64Encode(text: string): string {
+    return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(text));
+  }
+
+  /**
+   * Base64 解码
+   */
+  static base64Decode(encodedText: string): string {
+    try {
+      return CryptoJS.enc.Base64.parse(encodedText).toString(CryptoJS.enc.Utf8);
+    } catch (error) {
+      console.error('Base64 decode failed:', error);
+      return '';
+    }
+  }
+
+  /**
+   * Base58 编码
+   */
+  static async base58Encode(text: string): Promise<string> {
+    const bytes = CryptoJS.enc.Utf8.parse(text);
+    const uint8Array = new Uint8Array(bytes.sigBytes);
+    for (let i = 0; i < bytes.sigBytes; i++) {
+      uint8Array[i] = (bytes.words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
+    }
+    const bs58Module = await getBs58();
+    return bs58Module.encode(uint8Array);
+  }
+
+  /**
+   * Base58 解码
+   */
+  static async base58Decode(encodedText: string): Promise<string> {
+    try {
+      const bs58Module = await getBs58();
+      const decoded = bs58Module.decode(encodedText);
+      return CryptoJS.enc.Utf8.stringify(
+        CryptoJS.lib.WordArray.create(decoded)
+      );
+    } catch (error) {
+      console.error('Base58 decode failed:', error);
+      return '';
+    }
+  }
+
+  /**
+   * 生成随机盐
+   */
+  static generateSalt(length = 16): string {
+    return CryptoJS.lib.WordArray.random(length).toString();
+  }
+
+  /**
+   * PBKDF2 密钥派生
+   */
+  static pbkdf2(password: string, salt: string, iterations = 10000): string {
+    return CryptoJS.PBKDF2(password, salt, {
+      keySize: 256 / 32,
+      iterations: iterations,
+    }).toString();
+  }
+
+  /**
+   * HMAC-SHA256
+   */
+  static hmacSha256(message: string, key: string): string {
+    return CryptoJS.HmacSHA256(message, key).toString();
+  }
+
+  /**
+   * 验证 HMAC
+   */
+  static verifyHmac(
+    message: string,
+    key: string,
+    expectedHmac: string
+  ): boolean {
+    const computedHmac = this.hmacSha256(message, key);
+    return (
+      CryptoJS.enc.Hex.stringify(CryptoJS.enc.Hex.parse(computedHmac)) ===
+      CryptoJS.enc.Hex.stringify(CryptoJS.enc.Hex.parse(expectedHmac))
+    );
+  }
+
+  /**
+   * 生成 UUID
+   */
+  static generateUUID(): string {
+    return CryptoJS.lib.WordArray.random(16).toString(CryptoJS.enc.Hex);
+  }
+
+  /**
+   * 简单的字符串混淆（用于客户端存储）
+   */
+  static obfuscate(text: string): string {
+    // 简单的 XOR 混淆，不用于安全目的
+    const key = this.DEFAULT_KEY;
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+      result += String.fromCharCode(
+        text.charCodeAt(i) ^ key.charCodeAt(i % key.length)
+      );
+    }
+    return this.base64Encode(result);
+  }
+
+  /**
+   * 解混淆字符串
+   */
+  static deobfuscate(obfuscatedText: string): string {
+    try {
+      const decoded = this.base64Decode(obfuscatedText);
+      const key = this.DEFAULT_KEY;
+      let result = '';
+      for (let i = 0; i < decoded.length; i++) {
+        result += String.fromCharCode(
+          decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length)
+        );
+      }
+      return result;
+    } catch (error) {
+      console.error('Deobfuscation failed:', error);
+      return '';
+    }
+  }
+}
