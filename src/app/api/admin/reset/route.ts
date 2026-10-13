@@ -1,1 +1,51 @@
-LyogZXNsaW50LWRpc2FibGUgbm8tY29uc29sZSAqLwoKaW1wb3J0IHsgTmV4dFJlcXVlc3QsIE5leHRSZXNwb25zZSB9IGZyb20gJ25leHQvc2VydmVyJzsKCmltcG9ydCB7IGdldEF1dGhJbmZvRnJvbUNvb2tpZSB9IGZyb20gJ0AvbGliL2F1dGgnOwppbXBvcnQgeyByZXNldENvbmZpZyB9IGZyb20gJ0AvbGliL2NvbmZpZyc7CgpleHBvcnQgY29uc3QgcnVudGltZSA9ICdlZGdlJzsKCmV4cG9ydCBhc3luYyBmdW5jdGlvbiBHRVQocmVxdWVzdDogTmV4dFJlcXVlc3QpIHsKICBjb25zdCBzdG9yYWdlVHlwZSA9IHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX1NUT1JBR0VfVFlQRSB8fCAnbG9jYWxzdG9yYWdlJzsKICBpZiAoc3RvcmFnZVR5cGUgPT09ICdsb2NhbHN0b3JhZ2UnKSB7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsKICAgICAgICBlcnJvcjogJ+S4jeaUr+aMgeacrOWcsOWtmOWCqOi/m+ihjOeuoeeQhuWRmOmFjee9ricsCiAgICAgIH0sCiAgICAgIHsgc3RhdHVzOiA0MDAgfQogICAgKTsKICB9CgogIGNvbnN0IGF1dGhJbmZvID0gZ2V0QXV0aEluZm9Gcm9tQ29va2llKHJlcXVlc3QpOwogIGlmICghYXV0aEluZm8gfHwgIWF1dGhJbmZvLnVzZXJuYW1lKSB7CiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oeyBlcnJvcjogJ1VuYXV0aG9yaXplZCcgfSwgeyBzdGF0dXM6IDQwMSB9KTsKICB9CiAgY29uc3QgdXNlcm5hbWUgPSBhdXRoSW5mby51c2VybmFtZTsKCiAgaWYgKHVzZXJuYW1lICE9PSBwcm9jZXNzLmVudi5VU0VSTkFNRSkgewogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKHsgZXJyb3I6ICfku4XmlK/mjIHnq5nplb/ph43nva7phY3nva4nIH0sIHsgc3RhdHVzOiA0MDEgfSk7CiAgfQoKICB0cnkgewogICAgYXdhaXQgcmVzZXRDb25maWcoKTsKCiAgICByZXR1cm4gTmV4dFJlc3BvbnNlLmpzb24oCiAgICAgIHsgb2s6IHRydWUgfSwKICAgICAgewogICAgICAgIGhlYWRlcnM6IHsKICAgICAgICAgICdDYWNoZS1Db250cm9sJzogJ25vLXN0b3JlJywgLy8g566h55CG5ZGY6YWN572u5LiN57yT5a2YCiAgICAgICAgfSwKICAgICAgfQogICAgKTsKICB9IGNhdGNoIChlcnJvcikgewogICAgcmV0dXJuIE5leHRSZXNwb25zZS5qc29uKAogICAgICB7CiAgICAgICAgZXJyb3I6ICfph43nva7nrqHnkIblkZjphY3nva7lpLHotKUnLAogICAgICAgIGRldGFpbHM6IChlcnJvciBhcyBFcnJvcikubWVzc2FnZSwKICAgICAgfSwKICAgICAgeyBzdGF0dXM6IDUwMCB9CiAgICApOwogIH0KfQo=
+/* eslint-disable no-console */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+import { getAuthInfoFromCookie } from '@/lib/auth';
+import { resetConfig } from '@/lib/config';
+
+export const runtime = 'edge';
+
+export async function GET(request: NextRequest) {
+  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
+  if (storageType === 'localstorage') {
+    return NextResponse.json(
+      {
+        error: '不支持本地存储进行管理员配置',
+      },
+      { status: 400 }
+    );
+  }
+
+  const authInfo = getAuthInfoFromCookie(request);
+  if (!authInfo || !authInfo.username) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  const username = authInfo.username;
+
+  if (username !== process.env.USERNAME) {
+    return NextResponse.json({ error: '仅支持站长重置配置' }, { status: 401 });
+  }
+
+  try {
+    await resetConfig();
+
+    return NextResponse.json(
+      { ok: true },
+      {
+        headers: {
+          'Cache-Control': 'no-store', // 管理员配置不缓存
+        },
+      }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: '重置管理员配置失败',
+        details: (error as Error).message,
+      },
+      { status: 500 }
+    );
+  }
+}
