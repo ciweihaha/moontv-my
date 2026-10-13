@@ -1,1 +1,61 @@
-aW1wb3J0IHsgQmFja0J1dHRvbiB9IGZyb20gJy4vQmFja0J1dHRvbic7CmltcG9ydCBNb2JpbGVCb3R0b21OYXYgZnJvbSAnLi9Nb2JpbGVCb3R0b21OYXYnOwppbXBvcnQgTW9iaWxlSGVhZGVyIGZyb20gJy4vTW9iaWxlSGVhZGVyJzsKaW1wb3J0IFNpZGViYXIgZnJvbSAnLi9TaWRlYmFyJzsKaW1wb3J0IHsgVGhlbWVUb2dnbGUgfSBmcm9tICcuL1RoZW1lVG9nZ2xlJzsKaW1wb3J0IHsgVXNlck1lbnUgfSBmcm9tICcuL1VzZXJNZW51JzsKCmludGVyZmFjZSBQYWdlTGF5b3V0UHJvcHMgewogIGNoaWxkcmVuOiBSZWFjdC5SZWFjdE5vZGU7CiAgYWN0aXZlUGF0aD86IHN0cmluZzsKfQoKY29uc3QgUGFnZUxheW91dCA9ICh7IGNoaWxkcmVuLCBhY3RpdmVQYXRoID0gJy8nIH06IFBhZ2VMYXlvdXRQcm9wcykgPT4gewogIHJldHVybiAoCiAgICA8ZGl2IGNsYXNzTmFtZT0ndy1mdWxsIG1pbi1oLXNjcmVlbic+CiAgICAgIHsvKiDnp7vliqjnq6/lpLTpg6ggKi99CiAgICAgIDxNb2JpbGVIZWFkZXIgc2hvd0JhY2tCdXR0b249e1snL3BsYXknXS5pbmNsdWRlcyhhY3RpdmVQYXRoKX0gLz4KCiAgICAgIHsvKiDkuLvopoHluIPlsYDlrrnlmaggKi99CiAgICAgIDxkaXYgY2xhc3NOYW1lPSdmbGV4IG1kOmdyaWQgbWQ6Z3JpZC1jb2xzLVthdXRvXzFmcl0gdy1mdWxsIG1pbi1oLXNjcmVlbiBtZDptaW4taC1hdXRvJz4KICAgICAgICB7Lyog5L6n6L655qCPIC0g5qGM6Z2i56uv5pi+56S677yM56e75Yqo56uv6ZqQ6JePICovfQogICAgICAgIDxkaXYgY2xhc3NOYW1lPSdoaWRkZW4gbWQ6YmxvY2snPgogICAgICAgICAgPFNpZGViYXIgYWN0aXZlUGF0aD17YWN0aXZlUGF0aH0gLz4KICAgICAgICA8L2Rpdj4KCiAgICAgICAgey8qIOS4u+WGheWuueWMuuWfnyAqL30KICAgICAgICA8ZGl2IGNsYXNzTmFtZT0ncmVsYXRpdmUgbWluLXctMCBmbGV4LTEgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tMzAwJz4KICAgICAgICAgIHsvKiDmoYzpnaLnq6/lt6bkuIrop5Lov5Tlm57mjInpkq4gKi99CiAgICAgICAgICB7WycvcGxheSddLmluY2x1ZGVzKGFjdGl2ZVBhdGgpICYmICgKICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9J2Fic29sdXRlIHRvcC0zIGxlZnQtMSB6LTIwIGhpZGRlbiBtZDpmbGV4Jz4KICAgICAgICAgICAgICA8QmFja0J1dHRvbiAvPgogICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICl9CgogICAgICAgICAgey8qIOahjOmdouerr+mhtumDqOaMiemSriAqL30KICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPSdhYnNvbHV0ZSB0b3AtMiByaWdodC00IHotMjAgaGlkZGVuIG1kOmZsZXggaXRlbXMtY2VudGVyIGdhcC0yJz4KICAgICAgICAgICAgPFRoZW1lVG9nZ2xlIC8+CiAgICAgICAgICAgIDxVc2VyTWVudSAvPgogICAgICAgICAgPC9kaXY+CgogICAgICAgICAgey8qIOS4u+WGheWuuSAqL30KICAgICAgICAgIDxtYWluCiAgICAgICAgICAgIGNsYXNzTmFtZT0nZmxleC0xIG1kOm1pbi1oLTAgbWItMTQgbWQ6bWItMCcKICAgICAgICAgICAgc3R5bGU9e3sKICAgICAgICAgICAgICBwYWRkaW5nQm90dG9tOiAnY2FsYygzLjVyZW0gKyBlbnYoc2FmZS1hcmVhLWluc2V0LWJvdHRvbSkpJywKICAgICAgICAgICAgfX0KICAgICAgICAgID4KICAgICAgICAgICAge2NoaWxkcmVufQogICAgICAgICAgPC9tYWluPgogICAgICAgIDwvZGl2PgogICAgICA8L2Rpdj4KCiAgICAgIHsvKiDnp7vliqjnq6/lupXpg6jlr7zoiKogKi99CiAgICAgIDxkaXYgY2xhc3NOYW1lPSdtZDpoaWRkZW4nPgogICAgICAgIDxNb2JpbGVCb3R0b21OYXYgYWN0aXZlUGF0aD17YWN0aXZlUGF0aH0gLz4KICAgICAgPC9kaXY+CiAgICA8L2Rpdj4KICApOwp9OwoKZXhwb3J0IGRlZmF1bHQgUGFnZUxheW91dDsK
+import { BackButton } from './BackButton';
+import MobileBottomNav from './MobileBottomNav';
+import MobileHeader from './MobileHeader';
+import Sidebar from './Sidebar';
+import { ThemeToggle } from './ThemeToggle';
+import { UserMenu } from './UserMenu';
+
+interface PageLayoutProps {
+  children: React.ReactNode;
+  activePath?: string;
+}
+
+const PageLayout = ({ children, activePath = '/' }: PageLayoutProps) => {
+  return (
+    <div className='w-full min-h-screen'>
+      {/* 移动端头部 */}
+      <MobileHeader showBackButton={['/play'].includes(activePath)} />
+
+      {/* 主要布局容器 */}
+      <div className='flex md:grid md:grid-cols-[auto_1fr] w-full min-h-screen md:min-h-auto'>
+        {/* 侧边栏 - 桌面端显示，移动端隐藏 */}
+        <div className='hidden md:block'>
+          <Sidebar activePath={activePath} />
+        </div>
+
+        {/* 主内容区域 */}
+        <div className='relative min-w-0 flex-1 transition-all duration-300'>
+          {/* 桌面端左上角返回按钮 */}
+          {['/play'].includes(activePath) && (
+            <div className='absolute top-3 left-1 z-20 hidden md:flex'>
+              <BackButton />
+            </div>
+          )}
+
+          {/* 桌面端顶部按钮 */}
+          <div className='absolute top-2 right-4 z-20 hidden md:flex items-center gap-2'>
+            <ThemeToggle />
+            <UserMenu />
+          </div>
+
+          {/* 主内容 */}
+          <main
+            className='flex-1 md:min-h-0 mb-14 md:mb-0'
+            style={{
+              paddingBottom: 'calc(3.5rem + env(safe-area-inset-bottom))',
+            }}
+          >
+            {children}
+          </main>
+        </div>
+      </div>
+
+      {/* 移动端底部导航 */}
+      <div className='md:hidden'>
+        <MobileBottomNav activePath={activePath} />
+      </div>
+    </div>
+  );
+};
+
+export default PageLayout;
