@@ -35,6 +35,10 @@ export async function POST(request: NextRequest) {
     if (!newPassword || typeof newPassword !== 'string') {
       return NextResponse.json({ error: '新密码不得为空' }, { status: 400 });
     }
+    // SEC-R2: 新密码最小长度 4 位
+    if (newPassword.length < 4) {
+      return NextResponse.json({ error: '新密码长度至少 4 位' }, { status: 400 });
+    }
 
     const username = authInfo.username;
 
@@ -60,11 +64,11 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
+    // SEC-R2: 不向客户端泄露内部错误原文
     console.error('修改密码失败:', error);
     return NextResponse.json(
       {
         error: '修改密码失败',
-        details: (error as Error).message,
       },
       { status: 500 }
     );
