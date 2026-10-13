@@ -1,1 +1,62 @@
-LyogZXNsaW50LWRpc2FibGUgQHR5cGVzY3JpcHQtZXNsaW50L25vLWV4cGxpY2l0LWFueSxyZWFjdC1ob29rcy9leGhhdXN0aXZlLWRlcHMgKi8KCid1c2UgY2xpZW50JzsKCmltcG9ydCB7IE1vb24sIFN1biB9IGZyb20gJ2x1Y2lkZS1yZWFjdCc7CmltcG9ydCB7IHVzZVRoZW1lIH0gZnJvbSAnbmV4dC10aGVtZXMnOwppbXBvcnQgeyB1c2VFZmZlY3QsIHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnOwoKZXhwb3J0IGZ1bmN0aW9uIFRoZW1lVG9nZ2xlKCkgewogIGNvbnN0IFttb3VudGVkLCBzZXRNb3VudGVkXSA9IHVzZVN0YXRlKGZhbHNlKTsKICBjb25zdCB7IHNldFRoZW1lLCByZXNvbHZlZFRoZW1lIH0gPSB1c2VUaGVtZSgpOwoKICBjb25zdCBzZXRUaGVtZUNvbG9yID0gKHRoZW1lPzogc3RyaW5nKSA9PiB7CiAgICBjb25zdCBtZXRhID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcignbWV0YVtuYW1lPSJ0aGVtZS1jb2xvciJdJyk7CiAgICBpZiAoIW1ldGEpIHsKICAgICAgY29uc3QgbWV0YSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ21ldGEnKTsKICAgICAgbWV0YS5uYW1lID0gJ3RoZW1lLWNvbG9yJzsKICAgICAgbWV0YS5jb250ZW50ID0gdGhlbWUgPT09ICdkYXJrJyA/ICcjMGMxMTFjJyA6ICcjZjlmYmZlJzsKICAgICAgZG9jdW1lbnQuaGVhZC5hcHBlbmRDaGlsZChtZXRhKTsKICAgIH0gZWxzZSB7CiAgICAgIG1ldGEuc2V0QXR0cmlidXRlKCdjb250ZW50JywgdGhlbWUgPT09ICdkYXJrJyA/ICcjMGMxMTFjJyA6ICcjZjlmYmZlJyk7CiAgICB9CiAgfTsKCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIHNldE1vdW50ZWQodHJ1ZSk7CiAgICBzZXRUaGVtZUNvbG9yKHJlc29sdmVkVGhlbWUpOwogIH0sIFtdKTsKCiAgaWYgKCFtb3VudGVkKSB7CiAgICAvLyDmuLLmn5PkuIDkuKrljaDkvY3nrKbku6Xpgb/lhY3luIPlsYDlgY/np7sKICAgIHJldHVybiA8ZGl2IGNsYXNzTmFtZT0ndy0xMCBoLTEwJyAvPjsKICB9CgogIGNvbnN0IHRvZ2dsZVRoZW1lID0gKCkgPT4gewogICAgLy8g5qOA5p+l5rWP6KeI5Zmo5piv5ZCm5pSv5oyBIFZpZXcgVHJhbnNpdGlvbnMgQVBJCiAgICBjb25zdCB0YXJnZXRUaGVtZSA9IHJlc29sdmVkVGhlbWUgPT09ICdkYXJrJyA/ICdsaWdodCcgOiAnZGFyayc7CiAgICBzZXRUaGVtZUNvbG9yKHRhcmdldFRoZW1lKTsKICAgIGlmICghKGRvY3VtZW50IGFzIGFueSkuc3RhcnRWaWV3VHJhbnNpdGlvbikgewogICAgICBzZXRUaGVtZSh0YXJnZXRUaGVtZSk7CiAgICAgIHJldHVybjsKICAgIH0KCiAgICAoZG9jdW1lbnQgYXMgYW55KS5zdGFydFZpZXdUcmFuc2l0aW9uKCgpID0+IHsKICAgICAgc2V0VGhlbWUodGFyZ2V0VGhlbWUpOwogICAgfSk7CiAgfTsKCiAgcmV0dXJuICgKICAgIDxidXR0b24KICAgICAgb25DbGljaz17dG9nZ2xlVGhlbWV9CiAgICAgIGNsYXNzTmFtZT0ndy0xMCBoLTEwIHAtMiByb3VuZGVkLWZ1bGwgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgdGV4dC1ncmF5LTYwMCBob3ZlcjpiZy1ncmF5LTIwMC81MCBkYXJrOnRleHQtZ3JheS0zMDAgZGFyazpob3ZlcjpiZy1ncmF5LTcwMC81MCB0cmFuc2l0aW9uLWNvbG9ycycKICAgICAgYXJpYS1sYWJlbD0nVG9nZ2xlIHRoZW1lJwogICAgPgogICAgICB7cmVzb2x2ZWRUaGVtZSA9PT0gJ2RhcmsnID8gKAogICAgICAgIDxTdW4gY2xhc3NOYW1lPSd3LWZ1bGwgaC1mdWxsJyAvPgogICAgICApIDogKAogICAgICAgIDxNb29uIGNsYXNzTmFtZT0ndy1mdWxsIGgtZnVsbCcgLz4KICAgICAgKX0KICAgIDwvYnV0dG9uPgogICk7Cn0K
+/* eslint-disable @typescript-eslint/no-explicit-any,react-hooks/exhaustive-deps */
+
+'use client';
+
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+
+export function ThemeToggle() {
+  const [mounted, setMounted] = useState(false);
+  const { setTheme, resolvedTheme } = useTheme();
+
+  const setThemeColor = (theme?: string) => {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      const meta = document.createElement('meta');
+      meta.name = 'theme-color';
+      meta.content = theme === 'dark' ? '#0c111c' : '#f9fbfe';
+      document.head.appendChild(meta);
+    } else {
+      meta.setAttribute('content', theme === 'dark' ? '#0c111c' : '#f9fbfe');
+    }
+  };
+
+  useEffect(() => {
+    setMounted(true);
+    setThemeColor(resolvedTheme);
+  }, []);
+
+  if (!mounted) {
+    // 渲染一个占位符以避免布局偏移
+    return <div className='w-10 h-10' />;
+  }
+
+  const toggleTheme = () => {
+    // 检查浏览器是否支持 View Transitions API
+    const targetTheme = resolvedTheme === 'dark' ? 'light' : 'dark';
+    setThemeColor(targetTheme);
+    if (!(document as any).startViewTransition) {
+      setTheme(targetTheme);
+      return;
+    }
+
+    (document as any).startViewTransition(() => {
+      setTheme(targetTheme);
+    });
+  };
+
+  return (
+    <button
+      onClick={toggleTheme}
+      className='w-10 h-10 p-2 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200/50 dark:text-gray-300 dark:hover:bg-gray-700/50 transition-colors'
+      aria-label='Toggle theme'
+    >
+      {resolvedTheme === 'dark' ? (
+        <Sun className='w-full h-full' />
+      ) : (
+        <Moon className='w-full h-full' />
+      )}
+    </button>
+  );
+}
