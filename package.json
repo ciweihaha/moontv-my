@@ -100,6 +100,5 @@
     "overrides": {
       "@types/minimatch": "5.1.2"
     }
-  },
-  "packageManager": "pnpm@9.15.9"
+  }
 }
