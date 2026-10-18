@@ -67,21 +67,8 @@ async function initConfig() {
 
 async function doInitConfig() {
 
-  if (process.env.DOCKER_ENV === 'true') {
-    // P2-2: 用 createRequire 代替 eval('require')，避免安全扫描告警
-    const { createRequire } = await import(/* webpackIgnore: true */ 'module');
-    const _require = createRequire(import.meta.url);
-    const fs = _require('fs') as typeof import('fs');
-    const path = _require('path') as typeof import('path');
-
-    const configPath = path.join(process.cwd(), 'config.json');
-    const raw = fs.readFileSync(configPath, 'utf-8');
-    fileConfig = JSON.parse(raw) as ConfigFileStruct;
-    console.log('load dynamic config success');
-  } else {
-    // 默认使用编译时生成的配置
-    fileConfig = runtimeConfig as unknown as ConfigFileStruct;
-  }
+  // Cloudflare Pages 无 DOCKER_ENV，直接用编译时配置（原 Docker 分支的 import('module') 会导致 esbuild 构建失败）
+  fileConfig = runtimeConfig as unknown as ConfigFileStruct;
   const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
   if (storageType !== 'localstorage') {
     // 数据库存储，读取并补全管理员配置
@@ -293,7 +280,7 @@ async function doInitConfig() {
 
 export async function getConfig(): Promise<AdminConfig> {
   const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
-  if (process.env.DOCKER_ENV === 'true' || storageType === 'localstorage') {
+  if (storageType === 'localstorage') {
     await initConfig();
     return cachedConfig;
   }
@@ -413,21 +400,8 @@ export async function resetConfig() {
     }
   }
 
-  if (process.env.DOCKER_ENV === 'true') {
-    // P2-2: 用 createRequire 代替 eval('require')，避免安全扫描告警
-    const { createRequire } = await import(/* webpackIgnore: true */ 'module');
-    const _require = createRequire(import.meta.url);
-    const fs = _require('fs') as typeof import('fs');
-    const path = _require('path') as typeof import('path');
-
-    const configPath = path.join(process.cwd(), 'config.json');
-    const raw = fs.readFileSync(configPath, 'utf-8');
-    fileConfig = JSON.parse(raw) as ConfigFileStruct;
-    console.log('load dynamic config success');
-  } else {
-    // 默认使用编译时生成的配置
-    fileConfig = runtimeConfig as unknown as ConfigFileStruct;
-  }
+  // Cloudflare Pages 无 DOCKER_ENV，直接用编译时配置（原 Docker 分支的 import('module') 会导致 esbuild 构建失败）
+  fileConfig = runtimeConfig as unknown as ConfigFileStruct;
 
   const apiSiteEntries = Object.entries(fileConfig.api_site);
   const customCategories = fileConfig.custom_category || [];
