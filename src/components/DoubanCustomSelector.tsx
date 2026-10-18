@@ -125,8 +125,8 @@ const DoubanCustomSelector: React.FC<DoubanCustomSelectorProps> = ({
   // 更新指示器位置的通用函数
   const updateIndicatorPosition = (
     activeIndex: number,
-    containerRef: React.RefObject<HTMLDivElement>,
-    buttonRefs: React.MutableRefObject<(HTMLButtonElement | null)[]>,
+    containerRef: React.RefObject<HTMLDivElement | null>,
+    buttonRefs: React.RefObject<(HTMLButtonElement | null)[]>,
     setIndicatorStyle: React.Dispatch<
       React.SetStateAction<{ left: number; width: number }>
     >

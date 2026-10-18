@@ -69,7 +69,7 @@ async function doInitConfig() {
 
   if (process.env.DOCKER_ENV === 'true') {
     // P2-2: 用 createRequire 代替 eval('require')，避免安全扫描告警
-    const { createRequire } = await import('module');
+    const { createRequire } = await import(/* webpackIgnore: true */ 'module');
     const _require = createRequire(import.meta.url);
     const fs = _require('fs') as typeof import('fs');
     const path = _require('path') as typeof import('path');
@@ -415,7 +415,7 @@ export async function resetConfig() {
 
   if (process.env.DOCKER_ENV === 'true') {
     // P2-2: 用 createRequire 代替 eval('require')，避免安全扫描告警
-    const { createRequire } = await import('module');
+    const { createRequire } = await import(/* webpackIgnore: true */ 'module');
     const _require = createRequire(import.meta.url);
     const fs = _require('fs') as typeof import('fs');
     const path = _require('path') as typeof import('path');

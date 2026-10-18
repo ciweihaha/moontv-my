@@ -63,7 +63,7 @@ export async function GET(request: Request) {
       Promise.allSettled(searchPromises).then((settled) =>
         settled
           .filter(
-            (s): s is PromiseFulfilledResult<Awaited<ReturnType<typeof searchPromises[number]>>> =>
+            (s): s is PromiseFulfilledResult<Awaited<(typeof searchPromises)[number]>> =>
               s.status === 'fulfilled'
           )
           .map((s) => s.value)
