@@ -1,7 +1,7 @@
 /* eslint-disable no-console,@typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 
-import { generateSignature, getSessionSecret } from '@/lib/auth';
+import { buildSessionSignData, generateSignature, getSessionSecret } from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
 
@@ -19,16 +19,19 @@ const STORAGE_TYPE =
 // QUALITY-R3: generateSignature 已移至 @/lib/auth，避免与 login 路由重复定义
 
 // 生成认证Cookie（带签名）
+// AUDIT-R3 P0-B: 签名覆盖 username + role + timestamp 整体
 async function generateAuthCookie(username: string): Promise<string> {
+  const timestamp = Date.now();
   const authData: any = {
     role: 'user',
     username,
-    timestamp: Date.now(),
+    timestamp,
   };
 
-  // 使用会话密钥签名（AUDIT-R2：优先 SESSION_SECRET，回退 PASSWORD），而不是用户密码
+  // 使用会话密钥对规范化会话数据整体签名
   const signingKey = getSessionSecret();
-  const signature = await generateSignature(username, signingKey);
+  const signData = buildSessionSignData(username, 'user', timestamp);
+  const signature = await generateSignature(signData, signingKey);
   authData.signature = signature;
 
   return encodeURIComponent(JSON.stringify(authData));

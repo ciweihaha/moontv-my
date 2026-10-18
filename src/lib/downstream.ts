@@ -96,7 +96,9 @@ export async function searchFromApi(
   apiSite: ApiSite,
   query: string,
   // PERF-R1: 由调用方一次性传入，避免每次搜索对每个上游重复读取配置（44 次/搜索）
-  maxSearchPages: number = 2
+  maxSearchPages: number = 2,
+  // AUDIT-R3 P1: 外部取消信号（搜索整体超时时取消后台请求）
+  signal?: AbortSignal
 ): Promise<SearchResult[]> {
   try {
     const apiBaseUrl = apiSite.api;
@@ -107,7 +109,7 @@ export async function searchFromApi(
     // S3: 超时 + 指数退避重试（8s 单次超时，1 次重试）
     const response = await fetchWithRetry(
       apiUrl,
-      { headers: API_CONFIG.search.headers },
+      { headers: API_CONFIG.search.headers, signal },
       { timeoutMs: 8000, retries: 1 }
     );
 

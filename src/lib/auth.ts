@@ -111,8 +111,22 @@ export interface VerifiedSession {
 }
 
 /**
- * AUDIT-R2 P0: 服务端会话验证（签名 + 时间戳时效）。
- * 替代原来只验签名的做法；登录/中间件/会话接口统一走这里。
+ * AUDIT-R3 P0-B: 构建规范化会话签名数据。
+ * 签名必须绑定 username + role + timestamp，防止篡改时间戳绕过过期、
+ * 篡改 role 提权。格式：subject|role|timestamp
+ */
+export function buildSessionSignData(
+  subject: string,
+  role: string,
+  timestamp: number
+): string {
+  return `${subject}|${role}|${timestamp}`;
+}
+
+/**
+ * AUDIT-R3 P0-B: 服务端会话验证（签名 + 时间戳时效）。
+ * 签名覆盖 username/role/timestamp 整体；验签通过后再检查有效期。
+ * 缺失时间戳的旧 Cookie 直接拒绝（不再放行）。
  */
 export async function verifyAuthSession(
   authInfo: AuthCookieData | null
@@ -122,26 +136,27 @@ export async function verifyAuthSession(
   const secret = getSessionSecret();
   if (!secret) return null;
 
-  // 时间戳时效检查（缺失时间戳的极旧 Cookie 仍放行，避免误伤；存在则强制过期）
-  if (typeof authInfo.timestamp === 'number') {
-    const age = Date.now() - authInfo.timestamp;
-    if (age < 0 || age > SESSION_MAX_AGE_MS) {
-      return null;
-    }
+  // P0-B: 缺失时间戳的旧 Cookie 直接拒绝
+  if (typeof authInfo.timestamp !== 'number') {
+    return null;
   }
 
-  // localstorage 模式对固定标识签名，其他模式对用户名签名
-  const signedData = authInfo.username || 'localstorage-auth';
-  const valid = await verifyHmacSignature(
-    signedData,
-    authInfo.signature,
-    secret
-  );
+  // P0-B: 时间戳时效检查（拒绝未来时间戳与过期时间戳）
+  const age = Date.now() - authInfo.timestamp;
+  if (age < 0 || age > SESSION_MAX_AGE_MS) {
+    return null;
+  }
+
+  // P0-B: 签名覆盖 subject + role + timestamp 整体
+  const subject = authInfo.username || 'localstorage-auth';
+  const role = authInfo.role ?? 'user';
+  const signData = buildSessionSignData(subject, role, authInfo.timestamp);
+  const valid = await verifyHmacSignature(signData, authInfo.signature, secret);
   if (!valid) return null;
 
   return {
     username: authInfo.username ?? null,
-    role: authInfo.role ?? 'user',
+    role: role as 'owner' | 'admin' | 'user',
   };
 }
 

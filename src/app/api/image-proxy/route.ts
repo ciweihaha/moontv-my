@@ -92,6 +92,28 @@ const ALLOWED_CONTENT_TYPES = [
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // 10MB
 // AUDIT-R2: 总超时覆盖「建连 + 响应头 + 完整响应体读取」
 const TOTAL_TIMEOUT_MS = 20000;
+// AUDIT-R3 P0-C: 最大重定向跳数
+const MAX_REDIRECTS = 5;
+
+/**
+ * AUDIT-R3 P0-C: 验证 URL 是否允许请求（协议 + 主机）。
+ * 每一跳重定向前都要调用，禁止的请求在发出前就被拦截。
+ */
+function validateUrlForFetch(urlString: string): { ok: boolean; error?: string; status?: number } {
+  let parsed: URL;
+  try {
+    parsed = new URL(urlString);
+  } catch {
+    return { ok: false, error: 'Invalid URL', status: 400 };
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    return { ok: false, error: 'Only http/https allowed', status: 400 };
+  }
+  if (isBlockedHost(parsed.hostname)) {
+    return { ok: false, error: 'Blocked host', status: 403 };
+  }
+  return { ok: true };
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -127,27 +149,60 @@ export async function GET(request: Request) {
   const abortTimer = setTimeout(() => controller.abort(), TOTAL_TIMEOUT_MS);
 
   try {
-    const imageResponse = await fetch(imageUrl, {
-      headers: {
-        Referer: 'https://movie.douban.com/',
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-      },
-      signal: controller.signal,
-      redirect: 'follow',
-    });
+    // AUDIT-R3 P0-C: 手动逐跳处理重定向，每一跳先验证再请求。
+    // 禁止的目标在发出请求前就被拦截，不会先收到请求。
+    let currentUrl = imageUrl;
+    let imageResponse: Response | null = null;
 
-    // R8-S1: 校验重定向后的最终 URL，防重定向绕过 SSRF 检查
-    try {
-      const finalUrl = new URL(imageResponse.url);
-      if (finalUrl.protocol !== 'http:' && finalUrl.protocol !== 'https:') {
-        return NextResponse.json({ error: 'Redirect to non-http(s)' }, { status: 400 });
+    for (let redirectCount = 0; redirectCount <= MAX_REDIRECTS; redirectCount++) {
+      if (Date.now() > deadline) {
+        return NextResponse.json({ error: 'Image fetch timeout' }, { status: 504 });
       }
-      if (isBlockedHost(finalUrl.hostname)) {
-        return NextResponse.json({ error: 'Redirect to blocked host' }, { status: 403 });
+
+      const validation = validateUrlForFetch(currentUrl);
+      if (!validation.ok) {
+        return NextResponse.json(
+          { error: validation.error },
+          { status: validation.status || 400 }
+        );
       }
-    } catch {
-      return NextResponse.json({ error: 'Invalid redirect URL' }, { status: 400 });
+
+      const resp = await fetch(currentUrl, {
+        headers: {
+          Referer: 'https://movie.douban.com/',
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+        },
+        signal: controller.signal,
+        redirect: 'manual', // P0-C: 手动处理，不自动跟随
+      });
+
+      // 3xx 重定向：取 Location 头，下一跳继续验证
+      if (resp.status >= 300 && resp.status < 400) {
+        const location = resp.headers.get('location');
+        // 消费掉响应体避免泄漏
+        await resp.arrayBuffer().catch(() => undefined);
+        if (!location) {
+          return NextResponse.json({ error: 'Redirect without location' }, { status: 502 });
+        }
+        if (redirectCount >= MAX_REDIRECTS) {
+          return NextResponse.json({ error: 'Too many redirects' }, { status: 502 });
+        }
+        try {
+          // 相对 Location 按当前 URL 解析
+          currentUrl = new URL(location, currentUrl).toString();
+        } catch {
+          return NextResponse.json({ error: 'Invalid redirect URL' }, { status: 502 });
+        }
+        continue;
+      }
+
+      imageResponse = resp;
+      break;
+    }
+
+    if (!imageResponse) {
+      return NextResponse.json({ error: 'Too many redirects' }, { status: 502 });
     }
 
     if (!imageResponse.ok) {

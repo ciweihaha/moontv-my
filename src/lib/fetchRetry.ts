@@ -49,15 +49,29 @@ export async function fetchWithRetry(
   const retries = options.retries ?? DEFAULT_RETRIES;
   const backoffMs = options.backoffMs ?? DEFAULT_BACKOFF_MS;
 
+  // AUDIT-R3 P1: 支持外部取消信号（如搜索整体超时）。
+  // 外部 signal abort 时，内部 controller 也 abort，正在进行的请求被取消。
+  const externalSignal = init.signal as AbortSignal | undefined;
+
   let lastError: unknown = null;
 
   for (let attempt = 0; attempt <= retries; attempt++) {
+    // 外部已取消则直接退出，不再发起新尝试
+    if (externalSignal?.aborted) {
+      throw new Error('fetchWithRetry: 外部取消');
+    }
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    // 外部取消 → 内部取消
+    const onExternalAbort = () => controller.abort();
+    externalSignal?.addEventListener('abort', onExternalAbort, { once: true });
 
     try {
       const response = await fetch(url, { ...init, signal: controller.signal });
       clearTimeout(timeoutId);
+      externalSignal?.removeEventListener('abort', onExternalAbort);
 
       if (response.ok || !isRetryable(null, response)) {
         return response;
@@ -66,8 +80,13 @@ export async function fetchWithRetry(
       lastError = new Error(`upstream ${response.status}`);
     } catch (error) {
       clearTimeout(timeoutId);
+      externalSignal?.removeEventListener('abort', onExternalAbort);
       lastError = error;
       if (!isRetryable(error)) {
+        throw error;
+      }
+      // 外部取消不重试
+      if (externalSignal?.aborted) {
         throw error;
       }
     }

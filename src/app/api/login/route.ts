@@ -1,7 +1,7 @@
 /* eslint-disable no-console,@typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 
-import { generateSignature, getSessionSecret } from '@/lib/auth';
+import { buildSessionSignData, generateSignature, getSessionSecret } from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
 import {
@@ -28,15 +28,16 @@ const STORAGE_TYPE =
 // QUALITY-R3: generateSignature 已移至 @/lib/auth，避免与 register 路由重复定义
 
 // 生成认证Cookie（带签名）
-// P1-3: 不再存储明文密码。localstorage 模式下对固定标识做 HMAC 签名，
-// 中间件验签即可，无需在 Cookie 里放密码。
+// AUDIT-R3 P0-B: 签名覆盖 subject + role + timestamp 整体，防篡改时间戳/提权。
 async function generateAuthCookie(
   username?: string,
   password?: string,
   role?: 'owner' | 'admin' | 'user',
   includePassword = false
 ): Promise<string> {
-  const authData: any = { role: role || 'user' };
+  const roleValue = role || 'user';
+  const timestamp = Date.now();
+  const authData: any = { role: roleValue, timestamp };
 
   // P1-3: includePassword 已废弃（不再存明文密码），保留参数以兼容调用方
   void includePassword;
@@ -44,18 +45,13 @@ async function generateAuthCookie(
 
   if (username && getSessionSecret()) {
     authData.username = username;
-    // 使用会话密钥对用户名进行签名（AUDIT-R2：优先 SESSION_SECRET，回退 PASSWORD）
-    const signature = await generateSignature(username, getSessionSecret());
-    authData.signature = signature;
-    authData.timestamp = Date.now(); // 添加时间戳防重放攻击
+    // AUDIT-R3: 对规范化会话数据整体签名
+    const signData = buildSessionSignData(username, roleValue, timestamp);
+    authData.signature = await generateSignature(signData, getSessionSecret());
   } else if (getSessionSecret()) {
     // P1-3: localstorage 模式：对固定标识签名，不存明文密码
-    const signature = await generateSignature(
-      'localstorage-auth',
-      getSessionSecret()
-    );
-    authData.signature = signature;
-    authData.timestamp = Date.now();
+    const signData = buildSessionSignData('localstorage-auth', roleValue, timestamp);
+    authData.signature = await generateSignature(signData, getSessionSecret());
   }
 
   return encodeURIComponent(JSON.stringify(authData));

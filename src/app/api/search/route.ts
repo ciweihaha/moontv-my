@@ -120,8 +120,12 @@ async function doUpstreamSearch(
   const CONCURRENCY_LIMIT = 10;
   // AUDIT-R2: 增量收集已完成结果，总超时到达时返回部分结果而非空数组
   const completedChunks: SearchResult[][] = [];
+  // AUDIT-R3 P1: 整体取消控制器，超时后取消所有后台上游请求
+  const abortController = new AbortController();
 
   async function searchOneGroup(sites: ApiSiteEntry[]): Promise<void> {
+    // 已取消则直接退出
+    if (abortController.signal.aborted) return;
     // R2-S5: 熔断器——连续失败的上游短暂跳过，不拖慢整体
     const apiKey = sites[0].api;
     if (shouldSkipUpstream(apiKey)) {
@@ -129,7 +133,7 @@ async function doUpstreamSearch(
     }
     // 用组内第一个站点作为代表发起请求（PERF-R1: 页数一次传入，避免重复读配置）
     try {
-      const results = await searchFromApi(sites[0], query, maxSearchPages);
+      const results = await searchFromApi(sites[0], query, maxSearchPages, abortController.signal);
       recordUpstreamSuccess(apiKey);
       // 结果展开回组内每个站点，保留各自的 source key 和 source_name
       const expanded = sites.flatMap((site) =>
@@ -148,6 +152,8 @@ async function doUpstreamSearch(
     let nextIndex = 0;
     async function worker(): Promise<void> {
       while (nextIndex < groups.length) {
+        // 检查取消
+        if (abortController.signal.aborted) break;
         const i = nextIndex++;
         await searchOneGroup(groups[i]);
       }
@@ -162,10 +168,14 @@ async function doUpstreamSearch(
   try {
     // P2-5/AUDIT-R2: 总超时 10s；超时后返回已完成的部分结果，不再等最慢上游，
     // 也不丢弃已拿到的数据（修复原来超时返回空数组与注释不一致的问题）
+    // AUDIT-R3 P1: 超时后 abort，取消所有后台上游请求，不再消耗资源
     const TOTAL_TIMEOUT_MS = 10000;
     const allDone = runWithConcurrencyLimit();
     const timeout = new Promise<void>((resolve) =>
-      setTimeout(resolve, TOTAL_TIMEOUT_MS)
+      setTimeout(() => {
+        abortController.abort();
+        resolve();
+      }, TOTAL_TIMEOUT_MS)
     );
     await Promise.race([allDone, timeout]);
 
