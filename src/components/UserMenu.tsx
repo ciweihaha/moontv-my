@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { getAuthInfoFromBrowserCookie } from '@/lib/auth';
+import { clearClientSession, fetchSessionInfo } from '@/lib/auth';
 import { checkForUpdates, CURRENT_VERSION, UpdateStatus } from '@/lib/version';
 
 interface AuthInfo {
@@ -47,11 +47,14 @@ export const UserMenu: React.FC = () => {
     setMounted(true);
   }, []);
 
-  // 获取认证信息和存储类型
+  // 获取认证信息和存储类型（AUDIT-R2：Cookie 已 HttpOnly，改走服务端验证的会话接口）
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const auth = getAuthInfoFromBrowserCookie();
-      setAuthInfo(auth);
+      fetchSessionInfo().then((session) => {
+        setAuthInfo(
+          session ? { username: session.username ?? undefined, role: session.role ?? undefined } : null
+        );
+      });
 
       const type =
         (window as any).RUNTIME_CONFIG?.STORAGE_TYPE || 'localstorage';
@@ -142,6 +145,7 @@ export const UserMenu: React.FC = () => {
     } catch (error) {
       console.error('注销请求失败:', error);
     }
+    clearClientSession();
     window.location.href = '/';
   };
 

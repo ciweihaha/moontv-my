@@ -34,7 +34,7 @@ import { Suspense, useCallback, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 
 import { AdminConfig, AdminConfigResult } from '@/lib/admin.types';
-import { getAuthInfoFromBrowserCookie } from '@/lib/auth';
+import { fetchSessionInfo } from '@/lib/auth';
 
 import PageLayout from '@/components/PageLayout';
 
@@ -141,8 +141,13 @@ const UserConfig = ({ config, role, refreshConfig }: UserConfigProps) => {
     password: '',
   });
 
-  // 当前登录用户名
-  const currentUsername = getAuthInfoFromBrowserCookie()?.username || null;
+  // 当前登录用户名（AUDIT-R2：Cookie 已 HttpOnly，改走服务端验证的会话接口）
+  const [currentUsername, setCurrentUsername] = useState<string | null>(null);
+  useEffect(() => {
+    fetchSessionInfo().then((session) => {
+      setCurrentUsername(session?.username ?? null);
+    });
+  }, []);
 
   // 检测存储类型是否为 d1
   const isD1Storage =

@@ -1,7 +1,7 @@
 /* eslint-disable no-console,@typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 
-import { generateSignature } from '@/lib/auth';
+import { generateSignature, getSessionSecret } from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
 
@@ -26,8 +26,8 @@ async function generateAuthCookie(username: string): Promise<string> {
     timestamp: Date.now(),
   };
 
-  // 使用process.env.PASSWORD作为签名密钥，而不是用户密码
-  const signingKey = process.env.PASSWORD || '';
+  // 使用会话密钥签名（AUDIT-R2：优先 SESSION_SECRET，回退 PASSWORD），而不是用户密码
+  const signingKey = getSessionSecret();
   const signature = await generateSignature(username, signingKey);
   authData.signature = signature;
 

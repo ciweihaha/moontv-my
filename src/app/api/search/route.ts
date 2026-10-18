@@ -116,63 +116,76 @@ async function doUpstreamSearch(
   maxSearchPages: number,
   disableYellowFilter: boolean | undefined
 ): Promise<SearchResult[]> {
-  const searchPromises = Array.from(sitesByApi.values()).map(
-    async (sites: ApiSiteEntry[]) => {
-      // R2-S5: 熔断器——连续失败的上游短暂跳过，不拖慢整体
-      const apiKey = sites[0].api;
-      if (shouldSkipUpstream(apiKey)) {
-        return [] as SearchResult[];
-      }
-      // 用组内第一个站点作为代表发起请求（PERF-R1: 页数一次传入，避免重复读配置）
-      try {
-        const results = await searchFromApi(sites[0], query, maxSearchPages);
-        recordUpstreamSuccess(apiKey);
-        // 结果展开回组内每个站点，保留各自的 source key 和 source_name
-        return sites.flatMap((site) =>
-          results.map((r) => ({ ...r, source: site.key, source_name: site.name }))
-        );
-      } catch (err) {
-        recordUpstreamFailure(apiKey);
-        throw err;
+  // AUDIT-R2: 全局并发上限，避免首次搜索对数十个上游同时发起请求形成峰值
+  const CONCURRENCY_LIMIT = 10;
+  // AUDIT-R2: 增量收集已完成结果，总超时到达时返回部分结果而非空数组
+  const completedChunks: SearchResult[][] = [];
+
+  async function searchOneGroup(sites: ApiSiteEntry[]): Promise<void> {
+    // R2-S5: 熔断器——连续失败的上游短暂跳过，不拖慢整体
+    const apiKey = sites[0].api;
+    if (shouldSkipUpstream(apiKey)) {
+      return;
+    }
+    // 用组内第一个站点作为代表发起请求（PERF-R1: 页数一次传入，避免重复读配置）
+    try {
+      const results = await searchFromApi(sites[0], query, maxSearchPages);
+      recordUpstreamSuccess(apiKey);
+      // 结果展开回组内每个站点，保留各自的 source key 和 source_name
+      const expanded = sites.flatMap((site) =>
+        results.map((r) => ({ ...r, source: site.key, source_name: site.name }))
+      );
+      completedChunks.push(expanded);
+    } catch {
+      recordUpstreamFailure(apiKey);
+      // 单组失败不影响其他组（原 Promise.allSettled 语义）
+    }
+  }
+
+  // 简单 worker 池：限制同时进行的上游请求数
+  async function runWithConcurrencyLimit(): Promise<void> {
+    const groups = Array.from(sitesByApi.values());
+    let nextIndex = 0;
+    async function worker(): Promise<void> {
+      while (nextIndex < groups.length) {
+        const i = nextIndex++;
+        await searchOneGroup(groups[i]);
       }
     }
-  );
+    const workers = Array.from(
+      { length: Math.min(CONCURRENCY_LIMIT, groups.length) },
+      () => worker()
+    );
+    await Promise.all(workers);
+  }
 
   try {
-    // P2-5: 总超时 10s，超时后返回已完成部分，不再等最慢上游
+    // P2-5/AUDIT-R2: 总超时 10s；超时后返回已完成的部分结果，不再等最慢上游，
+    // 也不丢弃已拿到的数据（修复原来超时返回空数组与注释不一致的问题）
     const TOTAL_TIMEOUT_MS = 10000;
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('搜索总超时')), TOTAL_TIMEOUT_MS)
+    const allDone = runWithConcurrencyLimit();
+    const timeout = new Promise<void>((resolve) =>
+      setTimeout(resolve, TOTAL_TIMEOUT_MS)
     );
-    const results = await Promise.race([
-      Promise.allSettled(searchPromises).then((settled) =>
-        settled
-          .filter(
-            (s): s is PromiseFulfilledResult<SearchResult[]> =>
-              s.status === 'fulfilled'
-          )
-          .map((s) => s.value)
-      ),
-      timeoutPromise,
-    ]).catch(() => {
-      // 超时：返回空（上游各自有 8s 单超时，此处为兜底）
+    await Promise.race([allDone, timeout]);
+
+    const flattenedResults: SearchResult[] = completedChunks.flat();
+    if (flattenedResults.length === 0) {
       return [];
-    });
-    let flattenedResults: SearchResult[] = (
-      results as SearchResult[][]
-    ).flat();
-    if (!disableYellowFilter) {
-      flattenedResults = flattenedResults.filter((result) => {
-        // 与详情接口对齐：同时检查 title + type_name，并转小写做大小写归一化
-        // PERF-R1: 预编译正则一次匹配，替代逐词 includes
-        const checkText = (
-          (result.title || '') + (result.type_name || '')
-        ).toLowerCase();
-        return !yellowRegex.test(checkText);
-      });
     }
-    return flattenedResults;
+    if (disableYellowFilter) {
+      return flattenedResults;
+    }
+    return flattenedResults.filter((result) => {
+      // 与详情接口对齐：同时检查 title + type_name，并转小写做大小写归一化
+      // PERF-R1: 预编译正则一次匹配，替代逐词 includes
+      const checkText = (
+        (result.title || '') + (result.type_name || '')
+      ).toLowerCase();
+      return !yellowRegex.test(checkText);
+    });
   } catch {
-    return [];
+    // 异常兜底：返回已收集的部分结果
+    return completedChunks.flat();
   }
 }

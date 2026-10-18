@@ -1,7 +1,7 @@
 /* eslint-disable no-console,@typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 
-import { generateSignature } from '@/lib/auth';
+import { generateSignature, getSessionSecret } from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
 import {
@@ -42,17 +42,17 @@ async function generateAuthCookie(
   void includePassword;
   void password;
 
-  if (username && process.env.PASSWORD) {
+  if (username && getSessionSecret()) {
     authData.username = username;
-    // 使用密码作为密钥对用户名进行签名
-    const signature = await generateSignature(username, process.env.PASSWORD);
+    // 使用会话密钥对用户名进行签名（AUDIT-R2：优先 SESSION_SECRET，回退 PASSWORD）
+    const signature = await generateSignature(username, getSessionSecret());
     authData.signature = signature;
     authData.timestamp = Date.now(); // 添加时间戳防重放攻击
-  } else if (process.env.PASSWORD) {
+  } else if (getSessionSecret()) {
     // P1-3: localstorage 模式：对固定标识签名，不存明文密码
     const signature = await generateSignature(
       'localstorage-auth',
-      process.env.PASSWORD
+      getSessionSecret()
     );
     authData.signature = signature;
     authData.timestamp = Date.now();

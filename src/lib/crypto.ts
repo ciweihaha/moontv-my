@@ -21,23 +21,31 @@ async function getBs58(): Promise<Bs58Codec> {
 }
 
 export class CryptoUtils {
-  private static readonly DEFAULT_KEY = 'moontv-default-key-2024';
+  /**
+   * 客户端存储混淆用固定盐（AUDIT-R2：仅用于 obfuscate/deobfuscate 这类
+   * 「非安全目的」的混淆，绝不用于真正的加密；真正的加密必须显式传 key）。
+   */
+  private static readonly OBFUSCATION_SALT = 'moontv-default-key-2024';
 
   /**
-   * AES 加密
+   * AES 加密（AUDIT-R2：key 必填；缺失时直接抛错，不再静默回退固定密钥）
    */
-  static encrypt(text: string, key?: string): string {
-    const encryptionKey = key || this.DEFAULT_KEY;
-    return CryptoJS.AES.encrypt(text, encryptionKey).toString();
+  static encrypt(text: string, key: string): string {
+    if (!key) {
+      throw new Error('CryptoUtils.encrypt: encryption key is required');
+    }
+    return CryptoJS.AES.encrypt(text, key).toString();
   }
 
   /**
-   * AES 解密
+   * AES 解密（AUDIT-R2：key 必填；缺失时直接抛错，不再静默回退固定密钥）
    */
-  static decrypt(ciphertext: string, key?: string): string {
+  static decrypt(ciphertext: string, key: string): string {
+    if (!key) {
+      throw new Error('CryptoUtils.decrypt: decryption key is required');
+    }
     try {
-      const encryptionKey = key || this.DEFAULT_KEY;
-      const bytes = CryptoJS.AES.decrypt(ciphertext, encryptionKey);
+      const bytes = CryptoJS.AES.decrypt(ciphertext, key);
       return bytes.toString(CryptoJS.enc.Utf8);
     } catch (error) {
       console.error('Decryption failed:', error);
@@ -165,7 +173,7 @@ export class CryptoUtils {
    */
   static obfuscate(text: string): string {
     // 简单的 XOR 混淆，不用于安全目的
-    const key = this.DEFAULT_KEY;
+    const key = this.OBFUSCATION_SALT;
     let result = '';
     for (let i = 0; i < text.length; i++) {
       result += String.fromCharCode(
@@ -181,7 +189,7 @@ export class CryptoUtils {
   static deobfuscate(obfuscatedText: string): string {
     try {
       const decoded = this.base64Decode(obfuscatedText);
-      const key = this.DEFAULT_KEY;
+      const key = this.OBFUSCATION_SALT;
       let result = '';
       for (let i = 0; i < decoded.length; i++) {
         result += String.fromCharCode(

@@ -6,6 +6,7 @@ import { AlertCircle, CheckCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 
+import { fetchSessionInfo } from '@/lib/auth';
 import { checkForUpdates, CURRENT_VERSION, UpdateStatus } from '@/lib/version';
 
 import { useSite } from '@/components/SiteProvider';
@@ -107,6 +108,9 @@ function LoginPageClient() {
       });
 
       if (res.ok) {
+        // AUDIT-R2: 登录成功后预热客户端会话（用户名/角色走服务端验证接口，
+        // Cookie 为 HttpOnly，JS 不可读）
+        await fetchSessionInfo().catch(() => null);
         const redirect = searchParams.get('redirect') || '/';
         router.replace(redirect);
       } else if (res.status === 401) {
@@ -136,6 +140,7 @@ function LoginPageClient() {
       });
 
       if (res.ok) {
+        await fetchSessionInfo().catch(() => null);
         const redirect = searchParams.get('redirect') || '/';
         router.replace(redirect);
       } else {
