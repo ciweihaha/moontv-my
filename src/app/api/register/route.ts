@@ -103,9 +103,10 @@ export async function POST(req: NextRequest) {
       response.cookies.set('auth', cookieValue, {
         path: '/',
         expires,
-        sameSite: 'lax', // 改为 lax 以支持 PWA
-        httpOnly: false, // PWA 需要客户端可访问
-        secure: false, // 根据协议自动设置
+        sameSite: 'lax',
+        // R9-S1: 与 login 路由保持一致，禁止 JS 读取、仅 HTTPS 传输
+        httpOnly: true,
+        secure: true,
       });
 
       return response;
