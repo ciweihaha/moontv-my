@@ -83,6 +83,19 @@ export async function GET(request: Request) {
     });
     clearTimeout(timeoutId);
 
+    // R8-S1: 校验重定向后的最终 URL，防重定向绕过 SSRF 检查
+    try {
+      const finalUrl = new URL(imageResponse.url);
+      if (finalUrl.protocol !== 'http:' && finalUrl.protocol !== 'https:') {
+        return NextResponse.json({ error: 'Redirect to non-http(s)' }, { status: 400 });
+      }
+      if (isBlockedHost(finalUrl.hostname)) {
+        return NextResponse.json({ error: 'Redirect to blocked host' }, { status: 403 });
+      }
+    } catch {
+      return NextResponse.json({ error: 'Invalid redirect URL' }, { status: 400 });
+    }
+
     if (!imageResponse.ok) {
       return NextResponse.json(
         { error: imageResponse.statusText },
