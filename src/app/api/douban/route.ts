@@ -9,6 +9,7 @@ import {
   setCachedDouban,
 } from '@/lib/doubanCache';
 import { reportError } from '@/lib/errorReport';
+import { fetchWithRetry } from '@/lib/fetchRetry';
 import { jsonWithCache } from '@/lib/http';
 import { DoubanItem, DoubanResult } from '@/lib/types';
 
@@ -22,35 +23,25 @@ interface DoubanApiResponse {
 }
 
 async function fetchDoubanData(url: string): Promise<DoubanApiResponse> {
-  // 添加超时控制
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
-
-  // 设置请求选项，包括信号和头部
-  const fetchOptions = {
-    signal: controller.signal,
-    headers: {
-      'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-      Referer: 'https://movie.douban.com/',
-      Accept: 'application/json, text/plain, */*',
+  // R4-S8: 加重试（之前是裸 fetch，豆瓣偶发 5xx 直接失败）
+  const response = await fetchWithRetry(
+    url,
+    {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+        Referer: 'https://movie.douban.com/',
+        Accept: 'application/json, text/plain, */*',
+      },
     },
-  };
+    { timeoutMs: 10000, retries: 1 }
+  );
 
-  try {
-    // 尝试直接访问豆瓣API
-    const response = await fetch(url, fetchOptions);
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    clearTimeout(timeoutId);
-    throw error;
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
   }
+
+  return await response.json();
 }
 
 export const runtime = 'edge';
@@ -214,7 +205,7 @@ function handleTop250(pageStart: number) {
       // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
       return jsonWithCache(apiResponse, cacheTime);
     })
-    .catch((error) => {
+    .catch((_error) => {
       clearTimeout(timeoutId);
       // QUALITY-R3: 不向客户端泄露内部错误原文
       return NextResponse.json(

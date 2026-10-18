@@ -166,18 +166,12 @@ export async function searchFromApi(
 
         const pagePromise = (async () => {
           try {
-            const pageController = new AbortController();
-            const pageTimeoutId = setTimeout(
-              () => pageController.abort(),
-              8000
+            // R4-S7: 分页请求也加重试（之前是裸 fetch，瞬时失败直接丢页）
+            const pageResponse = await fetchWithRetry(
+              pageUrl,
+              { headers: API_CONFIG.search.headers },
+              { timeoutMs: 8000, retries: 1 }
             );
-
-            const pageResponse = await fetch(pageUrl, {
-              headers: API_CONFIG.search.headers,
-              signal: pageController.signal,
-            });
-
-            clearTimeout(pageTimeoutId);
 
             // R3: 响应头预检 + 读取时硬上限（防分块传输绕过）
             const pageCL = pageResponse.headers.get('content-length');
