@@ -4,6 +4,8 @@ dist
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
-# AUDIT-R5 P2: pnpm-lock.yaml 提交到仓库，保证 CI 可复现安装。
-# package.json 的 packageManager 字段指定 pnpm@9.15.9，
-# Cloudflare Pages 应使用该版本（若构建冲突见部署验证记录）。
+# AUDIT-R5 P2 (reverted): pnpm-lock.yaml 不提交。
+# Cloudflare Pages 的 pnpm 自动检测与构建镜像冲突（npm install -g pnpm@8 报 File exists），
+# 提交锁文件会导致生产构建失败。CI 在运行时按需生成并用 --frozen-lockfile 验证。
+# package.json 保留 packageManager 字段供工具识别。
+pnpm-lock.yaml

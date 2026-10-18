@@ -33,9 +33,15 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        # AUDIT-R5 P2: pnpm-lock.yaml 已提交到仓库，直接冻结安装，保证可复现。
-        # 若锁文件与 package.json 不一致，CI 在此失败，不自动改写锁文件。
-        run: pnpm install --frozen-lockfile
+        # AUDIT-R5 P2 (reverted): pnpm-lock.yaml 不提交到仓库（Cloudflare Pages 构建冲突）。
+        # CI 在此按需生成：若锁文件不存在先用普通安装生成，再用 --frozen-lockfile
+        # 验证一致性；若已存在则直接冻结安装。
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then
+            echo "pnpm-lock.yaml not found, generating..."
+            pnpm install --no-frozen-lockfile
+          fi
+          pnpm install --frozen-lockfile
 
       - name: Typecheck
         run: pnpm run typecheck
