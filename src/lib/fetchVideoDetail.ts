@@ -7,6 +7,8 @@ interface FetchVideoDetailOptions {
   source: string;
   id: string;
   fallbackTitle?: string;
+  // P1-5: cron 场景下 source+id 已知，跳过搜索直查详情，省 1~2 个上游请求
+  skipSearch?: boolean;
 }
 
 /**
@@ -18,6 +20,7 @@ export async function fetchVideoDetail({
   source,
   id,
   fallbackTitle = '',
+  skipSearch = false,
 }: FetchVideoDetailOptions): Promise<SearchResult> {
   // 优先通过搜索接口查找精确匹配
   const apiSites = await getAvailableApiSites();
@@ -25,7 +28,7 @@ export async function fetchVideoDetail({
   if (!apiSite) {
     throw new Error('无效的API来源');
   }
-  if (fallbackTitle) {
+  if (fallbackTitle && !skipSearch) {
     try {
       // PERF-R1: 最大搜索页数一次传入，避免 searchFromApi 内部重复读取配置
       const config = await getConfig();

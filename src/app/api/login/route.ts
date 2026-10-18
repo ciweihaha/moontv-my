@@ -28,6 +28,8 @@ const STORAGE_TYPE =
 // QUALITY-R3: generateSignature 已移至 @/lib/auth，避免与 register 路由重复定义
 
 // 生成认证Cookie（带签名）
+// P1-3: 不再存储明文密码。localstorage 模式下对固定标识做 HMAC 签名，
+// 中间件验签即可，无需在 Cookie 里放密码。
 async function generateAuthCookie(
   username?: string,
   password?: string,
@@ -36,10 +38,9 @@ async function generateAuthCookie(
 ): Promise<string> {
   const authData: any = { role: role || 'user' };
 
-  // 只在需要时包含 password
-  if (includePassword && password) {
-    authData.password = password;
-  }
+  // P1-3: includePassword 已废弃（不再存明文密码），保留参数以兼容调用方
+  void includePassword;
+  void password;
 
   if (username && process.env.PASSWORD) {
     authData.username = username;
@@ -47,6 +48,14 @@ async function generateAuthCookie(
     const signature = await generateSignature(username, process.env.PASSWORD);
     authData.signature = signature;
     authData.timestamp = Date.now(); // 添加时间戳防重放攻击
+  } else if (process.env.PASSWORD) {
+    // P1-3: localstorage 模式：对固定标识签名，不存明文密码
+    const signature = await generateSignature(
+      'localstorage-auth',
+      process.env.PASSWORD
+    );
+    authData.signature = signature;
+    authData.timestamp = Date.now();
   }
 
   return encodeURIComponent(JSON.stringify(authData));

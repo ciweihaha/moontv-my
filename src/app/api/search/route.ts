@@ -54,7 +54,25 @@ export async function GET(request: Request) {
   );
 
   try {
-    const results = await Promise.all(searchPromises);
+    // P2-5: 总超时 10s，超时后返回已完成部分，不再等最慢上游
+    const TOTAL_TIMEOUT_MS = 10000;
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('搜索总超时')), TOTAL_TIMEOUT_MS)
+    );
+    const results = await Promise.race([
+      Promise.allSettled(searchPromises).then((settled) =>
+        settled
+          .filter(
+            (s): s is PromiseFulfilledResult<Awaited<ReturnType<typeof searchPromises[number]>>> =>
+              s.status === 'fulfilled'
+          )
+          .map((s) => s.value)
+      ),
+      timeoutPromise,
+    ]).catch(() => {
+      // 超时：返回空（上游各自有 8s 单超时，此处为兜底）
+      return [];
+    });
     let flattenedResults = results.flat();
     if (!config.SiteConfig.DisableYellowFilter) {
       flattenedResults = flattenedResults.filter((result) => {

@@ -59,7 +59,11 @@ function mapSearchItem(
   source: string,
   sourceName: string,
   splitBest: boolean
-): SearchResult {
+): SearchResult | null {
+  // P0-2: 脏数据守卫 - vod_id/vod_name 为空时返回 null，调用方过滤，只跳过单条
+  if (item.vod_id == null || item.vod_name == null) {
+    return null;
+  }
   return {
     id: item.vod_id.toString(),
     title: item.vod_name.trim().replace(/\s+/g, ' '),
@@ -137,9 +141,11 @@ export async function searchFromApi(
       return [];
     }
     // 处理第一页结果（PERF-R1: 复用模块级 mapSearchItem，避免重复代码）
-    const results = data.list.map((item: ApiSearchItem) =>
-      mapSearchItem(item, apiSite.key, apiName, true)
-    );
+    const results = data.list
+      .map((item: ApiSearchItem) =>
+        mapSearchItem(item, apiSite.key, apiName, true)
+      )
+      .filter(Boolean) as SearchResult[];
 
     // PERF-R1: 最大页数由调用方传入，不再每次重复读取配置
     const MAX_SEARCH_PAGES: number = maxSearchPages;
@@ -192,9 +198,11 @@ export async function searchFromApi(
             if (!pageData || !pageData.list || !Array.isArray(pageData.list))
               return [];
 
-            return pageData.list.map((item: ApiSearchItem) =>
-              mapSearchItem(item, apiSite.key, apiName, false)
-            );
+            return pageData.list
+              .map((item: ApiSearchItem) =>
+                mapSearchItem(item, apiSite.key, apiName, false)
+              )
+              .filter(Boolean) as SearchResult[];
           } catch (error) {
             return [];
           }
@@ -227,6 +235,10 @@ export async function getDetailFromApi(
   apiSite: ApiSite,
   id: string
 ): Promise<SearchResult> {
+  // P1-6: id 格式校验（纵深防御，与 /api/detail 路由层一致）
+  if (!/^[\w-]+$/.test(id)) {
+    throw new Error('无效的视频ID格式');
+  }
   if (apiSite.detail) {
     return handleSpecialSourceDetail(id, apiSite);
   }

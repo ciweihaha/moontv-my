@@ -85,11 +85,19 @@ export async function GET(request: Request) {
     );
   }
 
+  // P2-6: tag 长度上限 50，与搜索接口风格统一
+  if (tag.length > 50) {
+    return NextResponse.json(
+      { error: 'tag 参数过长（最多 50 字符）' },
+      { status: 400 }
+    );
+  }
+
   if (tag === 'top250') {
     return handleTop250(pageStart);
   }
 
-  const target = `https://movie.douban.com/j/search_subjects?type=${type}&tag=${tag}&sort=recommend&page_limit=${pageSize}&page_start=${pageStart}`;
+  const target = `https://movie.douban.com/j/search_subjects?type=${type}&tag=${encodeURIComponent(tag)}&sort=recommend&page_limit=${pageSize}&page_start=${pageStart}`;
 
   try {
     // 调用豆瓣 API

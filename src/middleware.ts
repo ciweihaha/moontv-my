@@ -29,12 +29,17 @@ export async function middleware(request: NextRequest) {
   }
 
   // localstorage模式：在middleware中完成验证
+  // P1-3: 验 HMAC 签名，不再比较明文密码（Cookie 里已无 password 字段）
   if (storageType === 'localstorage') {
-    // SEC-R5: 常量时间比较，防时序攻击
-    if (
-      !authInfo.password ||
-      !constantTimeEqual(authInfo.password, process.env.PASSWORD)
-    ) {
+    if (!authInfo.signature) {
+      return handleAuthFailure(request, pathname);
+    }
+    const isValidSignature = await verifySignature(
+      'localstorage-auth',
+      authInfo.signature,
+      process.env.PASSWORD || ''
+    );
+    if (!isValidSignature) {
       return handleAuthFailure(request, pathname);
     }
     return NextResponse.next();

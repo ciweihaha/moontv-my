@@ -601,7 +601,7 @@ function PlayPageClient() {
     ): Promise<SearchResult[]> => {
       try {
         const detailResponse = await fetch(
-          `/api/detail?source=${source}&id=${id}`
+          `/api/detail?source=${encodeURIComponent(source)}&id=${encodeURIComponent(id)}`
         );
         if (!detailResponse.ok) {
           throw new Error('获取视频详情失败');

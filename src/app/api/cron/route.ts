@@ -10,7 +10,6 @@ import { SearchResult } from '@/lib/types';
 export const runtime = 'edge';
 
 export async function GET(request: NextRequest) {
-  console.log(request.url);
   try {
     // SEC-R5: cron 接口认证。配置 CRON_SECRET 环境变量后，调用方必须携带
     // Authorization: Bearer <secret> 或 ?secret=<secret>；未配置时放行并告警（兼容旧部署）
@@ -33,7 +32,7 @@ export async function GET(request: NextRequest) {
 
     console.log('Cron job triggered:', new Date().toISOString());
 
-    refreshRecordAndFavorites();
+    await refreshRecordAndFavorites();
 
     return NextResponse.json({
       success: true,
@@ -83,6 +82,7 @@ async function refreshRecordAndFavorites() {
           source,
           id,
           fallbackTitle: fallbackTitle.trim(),
+          skipSearch: true, // P1-5: cron 直查详情，不浪费搜索请求
         })
           .then((detail) => {
             // 成功时才缓存结果
@@ -102,48 +102,51 @@ async function refreshRecordAndFavorites() {
       console.log(`开始处理用户: ${user}`);
 
       // 播放记录
+      // P1-4: 批次并发（5 并发），避免串行 HTTP 超时
       try {
         const playRecords = await db.getAllPlayRecords(user);
-        const totalRecords = Object.keys(playRecords).length;
+        const entries = Object.entries(playRecords);
+        const totalRecords = entries.length;
         let processedRecords = 0;
 
-        for (const [key, record] of Object.entries(playRecords)) {
-          try {
-            const [source, id] = key.split('+');
-            if (!source || !id) {
-              console.warn(`跳过无效的播放记录键: ${key}`);
-              continue;
-            }
-
-            const detail = await getDetail(source, id, record.title);
-            if (!detail) {
-              console.warn(`跳过无法获取详情的播放记录: ${key}`);
-              continue;
-            }
-
-            const episodeCount = detail.episodes?.length || 0;
-            if (episodeCount > 0 && episodeCount !== record.total_episodes) {
-              await db.savePlayRecord(user, source, id, {
-                title: detail.title || record.title,
-                source_name: record.source_name,
-                cover: detail.poster || record.cover,
-                index: record.index,
-                total_episodes: episodeCount,
-                play_time: record.play_time,
-                year: detail.year || record.year,
-                total_time: record.total_time,
-                save_time: record.save_time,
-                search_title: record.search_title,
-              });
-              console.log(
-                `更新播放记录: ${record.title} (${record.total_episodes} -> ${episodeCount})`
-              );
-            }
-
-            processedRecords++;
-          } catch (err) {
-            console.error(`处理播放记录失败 (${key}):`, err);
-            // 继续处理下一个记录
+        const CONCURRENCY = 5;
+        for (let i = 0; i < entries.length; i += CONCURRENCY) {
+          const batch = entries.slice(i, i + CONCURRENCY);
+          const results = await Promise.allSettled(
+            batch.map(async ([key, record]) => {
+              const [source, id] = key.split('+');
+              if (!source || !id) {
+                console.warn(`跳过无效的播放记录键: ${key}`);
+                return;
+              }
+              const detail = await getDetail(source, id, record.title);
+              if (!detail) {
+                console.warn(`跳过无法获取详情的播放记录: ${key}`);
+                return;
+              }
+              const episodeCount = detail.episodes?.length || 0;
+              if (episodeCount > 0 && episodeCount !== record.total_episodes) {
+                await db.savePlayRecord(user, source, id, {
+                  title: detail.title || record.title,
+                  source_name: record.source_name,
+                  cover: detail.poster || record.cover,
+                  index: record.index,
+                  total_episodes: episodeCount,
+                  play_time: record.play_time,
+                  year: detail.year || record.year,
+                  total_time: record.total_time,
+                  save_time: record.save_time,
+                  search_title: record.search_title,
+                });
+                console.log(
+                  `更新播放记录: ${record.title} (${record.total_episodes} -> ${episodeCount})`
+                );
+              }
+            })
+          );
+          for (const r of results) {
+            if (r.status === 'fulfilled') processedRecords++;
+            else console.error('处理播放记录失败:', r.reason);
           }
         }
 
@@ -153,45 +156,48 @@ async function refreshRecordAndFavorites() {
       }
 
       // 收藏
+      // P1-4: 批次并发（5 并发），避免串行 HTTP 超时
       try {
         const favorites = await db.getAllFavorites(user);
-        const totalFavorites = Object.keys(favorites).length;
+        const favEntries = Object.entries(favorites);
+        const totalFavorites = favEntries.length;
         let processedFavorites = 0;
 
-        for (const [key, fav] of Object.entries(favorites)) {
-          try {
-            const [source, id] = key.split('+');
-            if (!source || !id) {
-              console.warn(`跳过无效的收藏键: ${key}`);
-              continue;
-            }
-
-            const favDetail = await getDetail(source, id, fav.title);
-            if (!favDetail) {
-              console.warn(`跳过无法获取详情的收藏: ${key}`);
-              continue;
-            }
-
-            const favEpisodeCount = favDetail.episodes?.length || 0;
-            if (favEpisodeCount > 0 && favEpisodeCount !== fav.total_episodes) {
-              await db.saveFavorite(user, source, id, {
-                title: favDetail.title || fav.title,
-                source_name: fav.source_name,
-                cover: favDetail.poster || fav.cover,
-                year: favDetail.year || fav.year,
-                total_episodes: favEpisodeCount,
-                save_time: fav.save_time,
-                search_title: fav.search_title,
-              });
-              console.log(
-                `更新收藏: ${fav.title} (${fav.total_episodes} -> ${favEpisodeCount})`
-              );
-            }
-
-            processedFavorites++;
-          } catch (err) {
-            console.error(`处理收藏失败 (${key}):`, err);
-            // 继续处理下一个收藏
+        const CONCURRENCY = 5;
+        for (let i = 0; i < favEntries.length; i += CONCURRENCY) {
+          const batch = favEntries.slice(i, i + CONCURRENCY);
+          const results = await Promise.allSettled(
+            batch.map(async ([key, fav]) => {
+              const [source, id] = key.split('+');
+              if (!source || !id) {
+                console.warn(`跳过无效的收藏键: ${key}`);
+                return;
+              }
+              const favDetail = await getDetail(source, id, fav.title);
+              if (!favDetail) {
+                console.warn(`跳过无法获取详情的收藏: ${key}`);
+                return;
+              }
+              const favEpisodeCount = favDetail.episodes?.length || 0;
+              if (favEpisodeCount > 0 && favEpisodeCount !== fav.total_episodes) {
+                await db.saveFavorite(user, source, id, {
+                  title: favDetail.title || fav.title,
+                  source_name: fav.source_name,
+                  cover: favDetail.poster || fav.cover,
+                  year: favDetail.year || fav.year,
+                  total_episodes: favEpisodeCount,
+                  save_time: fav.save_time,
+                  search_title: fav.search_title,
+                });
+                console.log(
+                  `更新收藏: ${fav.title} (${fav.total_episodes} -> ${favEpisodeCount})`
+                );
+              }
+            })
+          );
+          for (const r of results) {
+            if (r.status === 'fulfilled') processedFavorites++;
+            else console.error('处理收藏失败:', r.reason);
           }
         }
 

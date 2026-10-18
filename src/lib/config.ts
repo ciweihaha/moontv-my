@@ -47,15 +47,30 @@ export const API_CONFIG = {
 // 在模块加载时根据环境决定配置来源
 let fileConfig: ConfigFileStruct;
 let cachedConfig: AdminConfig;
+// P2-4: 缓存初始化 Promise，并发请求共享，避免冷启动重复初始化
+let initPromise: Promise<void> | null = null;
 
 async function initConfig() {
   if (cachedConfig) {
     return;
   }
+  if (initPromise) {
+    return initPromise;
+  }
+  initPromise = doInitConfig();
+  try {
+    await initPromise;
+  } finally {
+    initPromise = null;
+  }
+}
+
+async function doInitConfig() {
 
   if (process.env.DOCKER_ENV === 'true') {
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
-    const _require = eval('require') as NodeRequire;
+    // P2-2: 用 createRequire 代替 eval('require')，避免安全扫描告警
+    const { createRequire } = await import('module');
+    const _require = createRequire(import.meta.url);
     const fs = _require('fs') as typeof import('fs');
     const path = _require('path') as typeof import('path');
 
@@ -399,8 +414,9 @@ export async function resetConfig() {
   }
 
   if (process.env.DOCKER_ENV === 'true') {
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
-    const _require = eval('require') as NodeRequire;
+    // P2-2: 用 createRequire 代替 eval('require')，避免安全扫描告警
+    const { createRequire } = await import('module');
+    const _require = createRequire(import.meta.url);
     const fs = _require('fs') as typeof import('fs');
     const path = _require('path') as typeof import('path');
 
