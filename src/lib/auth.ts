@@ -100,6 +100,15 @@ export const SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
  * 会话签名密钥。
  * 优先使用独立的 SESSION_SECRET；未配置时回退到 PASSWORD（兼容现有会话）。
  * 建议在生产环境配置高强度随机的 SESSION_SECRET，与密码验证用途分离。
+ *
+ * AUDIT-R5 P2: 密钥缺失时的行为（明确定义）：
+ *  1. SESSION_SECRET 已配置 → 使用 SESSION_SECRET 签名/验签。
+ *  2. SESSION_SECRET 未配置、PASSWORD 已配置 → 回退使用 PASSWORD。
+ *     行为与历史版本完全一致，现有用户会话不受影响，无需重新登录。
+ *  3. 两者都未配置 → 返回空字符串；verifyAuthSession 对空密钥直接返回 null，
+ *     即所有会话验证失败，等同于「未登录」状态，不会产生可伪造的会话。
+ * 生产环境建议走第 1 种（独立强随机密钥）；修改密钥会使既有会话失效，
+ * 轮换前需评估用户重新登录成本。
  */
 export function getSessionSecret(): string {
   return process.env.SESSION_SECRET || process.env.PASSWORD || '';

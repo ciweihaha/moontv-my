@@ -185,11 +185,116 @@ const TOTAL_TIMEOUT_MS = 20000;
 // AUDIT-R3 P0-C: 最大重定向跳数
 const MAX_REDIRECTS = 5;
 
+// AUDIT-R5 P1: DNS-over-HTTPS 解析配置（防 DNS 重绑定）
+// 仅对非 IP 字面量的主机名做 DoH 解析，验证其 A/AAAA 记录全部为公网 IP。
+// fail-closed：DNS 解析失败/超时/无记录时直接拒绝。
+const DOH_ENDPOINT = 'https://cloudflare-dns.com/dns-query';
+const DOH_TIMEOUT_MS = 5000;
+const DNS_CACHE_TTL_MS = 60 * 1000; // 60 秒内存缓存，平衡安全与性能
+const dnsCache = new Map<string, { ips: string[]; expires: number }>();
+
 /**
- * AUDIT-R3 P0-C: 验证 URL 是否允许请求（协议 + 主机）。
- * 每一跳重定向前都要调用，禁止的请求在发出前就被拦截。
+ * AUDIT-R5 P1: 用 DNS-over-HTTPS 解析主机名的 A/AAAA 记录。
+ * 返回去重后的 IP 列表；解析失败、超时、无记录时返回 null（调用方 fail-closed）。
  */
-function validateUrlForFetch(urlString: string): { ok: boolean; error?: string; status?: number } {
+async function resolveHostnameToIPs(hostname: string): Promise<string[] | null> {
+  const now = Date.now();
+  const cached = dnsCache.get(hostname);
+  if (cached && cached.expires > now) {
+    return cached.ips;
+  }
+  // 简单的缓存淘汰，防止无界增长
+  if (dnsCache.size > 500) {
+    const now2 = Date.now();
+    const toDelete: string[] = [];
+    dnsCache.forEach((v, k) => {
+      if (v.expires <= now2) toDelete.push(k);
+    });
+    for (const k of toDelete) {
+      dnsCache.delete(k);
+      if (dnsCache.size <= 400) break;
+    }
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), DOH_TIMEOUT_MS);
+  try {
+    const ips = new Set<string>();
+    for (const type of ['A', 'AAAA']) {
+      const url = `${DOH_ENDPOINT}?name=${encodeURIComponent(hostname)}&type=${type}`;
+      const resp = await fetch(url, {
+        headers: { Accept: 'application/dns-json' },
+        signal: controller.signal,
+      });
+      if (!resp.ok) return null;
+      const data = (await resp.json()) as {
+        Status?: number;
+        Answer?: Array<{ type: number; data: string }>;
+      };
+      // Status 0 = NOERROR；3 = NXDOMAIN（域名不存在，直接拒绝）
+      if (data.Status !== 0 || !data.Answer) {
+        if (data.Status === 3) return null;
+        continue;
+      }
+      for (const ans of data.Answer) {
+        // type 1 = A, 28 = AAAA
+        if (ans.type === 1 || ans.type === 28) {
+          ips.add(ans.data.trim());
+        }
+      }
+    }
+    if (ips.size === 0) return null;
+    const list = Array.from(ips);
+    dnsCache.set(hostname, { ips: list, expires: now + DNS_CACHE_TTL_MS });
+    return list;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * AUDIT-R5 P1: 验证主机名的 DNS 解析结果全部为公网 IP。
+ * - IP 字面量：沿用 isBlockedHost 的字符串检查（WHATWG URL 已规范化）
+ * - 域名：DoH 解析 A/AAAA，任一记录为内网/特殊地址则拒绝
+ * 返回 { ok: true } 或 { ok: false, reason }。
+ *
+ * 注意剩余风险（TOCTOU）：DoH 查询与实际 fetch 之间存在时间窗口，
+ * 攻击者若控制 DNS 且使用极短 TTL，仍可能在检查后切换解析结果。
+ * 本检查显著缩小攻击窗口，但不能替代「在 fetch 时固定目标 IP」；
+ * 后者在 fetch API 下会破坏 HTTPS 的 SNI/证书校验，故采用此折中方案。
+ */
+async function validateHostnameDNS(hostname: string): Promise<{ ok: boolean; reason?: string }> {
+  const h = hostname.toLowerCase().trim();
+  const bare = h.startsWith('[') && h.endsWith(']') ? h.slice(1, -1) : h;
+
+  // IP 字面量：字符串检查已足够（URL 解析器已规范化十六进制/八进制写法）
+  if (bare.includes(':') || /^\d+\.\d+\.\d+\.\d+$/.test(bare)) {
+    return { ok: true };
+  }
+
+  // 域名：DoH 解析并检查每条记录
+  const ips = await resolveHostnameToIPs(bare);
+  if (!ips) {
+    return { ok: false, reason: 'DNS resolution failed' };
+  }
+  for (const ip of ips) {
+    if (isBlockedHost(ip)) {
+      return { ok: false, reason: `DNS resolves to blocked IP: ${ip}` };
+    }
+  }
+  return { ok: true };
+}
+
+/**
+ * AUDIT-R3 P0-C: 验证 URL 是否允许请求（协议 + 主机 + DNS 解析）。
+ * 每一跳重定向前都要调用，禁止的请求在发出前就被拦截。
+ * AUDIT-R5 P1: 增加 DNS-over-HTTPS 解析检查，防 DNS 重绑定。
+ */
+async function validateUrlForFetch(
+  urlString: string
+): Promise<{ ok: boolean; error?: string; status?: number }> {
   let parsed: URL;
   try {
     parsed = new URL(urlString);
@@ -201,6 +306,11 @@ function validateUrlForFetch(urlString: string): { ok: boolean; error?: string; 
   }
   if (isBlockedHost(parsed.hostname)) {
     return { ok: false, error: 'Blocked host', status: 403 };
+  }
+  // AUDIT-R5 P1: DNS 解析结果检查（fail-closed）
+  const dnsCheck = await validateHostnameDNS(parsed.hostname);
+  if (!dnsCheck.ok) {
+    return { ok: false, error: `DNS check failed: ${dnsCheck.reason || 'blocked'}`, status: 403 };
   }
   return { ok: true };
 }
@@ -249,7 +359,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Image fetch timeout' }, { status: 504 });
       }
 
-      const validation = validateUrlForFetch(currentUrl);
+      const validation = await validateUrlForFetch(currentUrl);
       if (!validation.ok) {
         return NextResponse.json(
           { error: validation.error },

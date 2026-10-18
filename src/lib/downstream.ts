@@ -86,8 +86,10 @@ function mapSearchItem(
  * 之前先用 response.arrayBuffer() 把整个响应读入内存再检查大小，
  * 超大响应会先占满内存。现改为逐块读取、累计字节数，
  * 超过上限立即取消读取并返回 null，内存占用恒定为上限值。
+ *
+ * AUDIT-R5 P2: 导出以便单元测试（测试文件：src/lib/__tests__/downstream.test.ts）。
  */
-async function readBodyWithLimit(
+export async function readBodyWithLimit(
   response: Response,
   maxBytes: number,
   signal?: AbortSignal
