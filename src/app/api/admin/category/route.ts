@@ -2,8 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
-import { getConfig } from '@/lib/config';
+import { requireAdmin } from '@/lib/adminAuth';
 import { getStorage } from '@/lib/db';
 import { IStorage } from '@/lib/types';
 
@@ -18,14 +17,6 @@ interface BaseBody {
 
 export async function POST(request: NextRequest) {
   const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
-  if (storageType === 'localstorage') {
-    return NextResponse.json(
-      {
-        error: '不支持本地存储进行管理员配置',
-      },
-      { status: 400 }
-    );
-  }
   if (storageType === 'd1' || storageType === 'upstash') {
     return NextResponse.json(
       {
@@ -35,15 +26,15 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // R3-A3: 统一 admin 鉴权（requireAdmin 已含 localstorage 400 检查）
+  const { user, config, error } = await requireAdmin(request);
+  if (error) return error;
+  const adminConfig = config!;
+  const username = user!.username;
+
   try {
     const body = (await request.json()) as BaseBody & Record<string, any>;
     const { action } = body;
-
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const username = authInfo.username;
 
     // 基础校验
     const ACTIONS: Action[] = ['add', 'disable', 'enable', 'delete', 'sort'];
@@ -51,19 +42,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '参数格式错误' }, { status: 400 });
     }
 
-    // 获取配置与存储
-    const adminConfig = await getConfig();
+    // 获取存储
     const storage: IStorage | null = getStorage();
-
-    // 权限与身份校验
-    if (username !== process.env.USERNAME) {
-      const userEntry = adminConfig.UserConfig.Users.find(
-        (u) => u.username === username
-      );
-      if (!userEntry || userEntry.role !== 'admin') {
-        return NextResponse.json({ error: '权限不足' }, { status: 401 });
-      }
-    }
 
     switch (action) {
       case 'add': {

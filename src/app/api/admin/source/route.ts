@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
+import { requireAdmin } from '@/lib/adminAuth';
 import { getConfig } from '@/lib/config';
 import { getStorage } from '@/lib/db';
 import { IStorage } from '@/lib/types';
@@ -17,25 +17,14 @@ interface BaseBody {
 }
 
 export async function POST(request: NextRequest) {
-  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
-  if (storageType === 'localstorage') {
-    return NextResponse.json(
-      {
-        error: '不支持本地存储进行管理员配置',
-      },
-      { status: 400 }
-    );
-  }
+  // R3-A3: 统一 admin 鉴权（requireAdmin 含 localstorage 检查）
+  const { user: _adminUser, error: _adminError } = await requireAdmin(request);
+  if (_adminError) return _adminError;
+  const username = _adminUser!.username;
 
   try {
     const body = (await request.json()) as BaseBody & Record<string, any>;
     const { action } = body;
-
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const username = authInfo.username;
 
     // 基础校验
     const ACTIONS: Action[] = ['add', 'disable', 'enable', 'delete', 'sort'];
@@ -47,15 +36,6 @@ export async function POST(request: NextRequest) {
     const adminConfig = await getConfig();
     const storage: IStorage | null = getStorage();
 
-    // 权限与身份校验
-    if (username !== process.env.USERNAME) {
-      const userEntry = adminConfig.UserConfig.Users.find(
-        (u) => u.username === username
-      );
-      if (!userEntry || userEntry.role !== 'admin') {
-        return NextResponse.json({ error: '权限不足' }, { status: 401 });
-      }
-    }
 
     switch (action) {
       case 'add': {

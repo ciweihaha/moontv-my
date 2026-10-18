@@ -2,30 +2,17 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
+import { requireAdmin } from '@/lib/adminAuth';
 import { resetConfig } from '@/lib/config';
 
 export const runtime = 'edge';
 
 export async function GET(request: NextRequest) {
-  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
-  if (storageType === 'localstorage') {
-    return NextResponse.json(
-      {
-        error: '不支持本地存储进行管理员配置',
-      },
-      { status: 400 }
-    );
-  }
-
-  const authInfo = getAuthInfoFromCookie(request);
-  if (!authInfo || !authInfo.username) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  const username = authInfo.username;
-
-  if (username !== process.env.USERNAME) {
-    return NextResponse.json({ error: '仅支持站长重置配置' }, { status: 401 });
+  // R3-A3: 统一鉴权，owner-only（requireAdmin 含 localstorage 检查）
+  const { user, error } = await requireAdmin(request);
+  if (error) return error;
+  if (user!.role !== 'owner') {
+    return NextResponse.json({ error: '仅支持站长重置配置' }, { status: 403 });
   }
 
   try {

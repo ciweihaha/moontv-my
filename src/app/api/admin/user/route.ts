@@ -2,8 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
-import { getConfig } from '@/lib/config';
+import { requireAdmin } from '@/lib/adminAuth';
 import { getStorage } from '@/lib/db';
 import { IStorage } from '@/lib/types';
 
@@ -22,24 +21,15 @@ const ACTIONS = [
 ] as const;
 
 export async function POST(request: NextRequest) {
-  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
-  if (storageType === 'localstorage') {
-    return NextResponse.json(
-      {
-        error: '不支持本地存储进行管理员配置',
-      },
-      { status: 400 }
-    );
-  }
+  // R3-A3: 统一 admin 鉴权
+  const { user, config, error } = await requireAdmin(request);
+  if (error) return error;
+  const adminConfig = config!;
+  const username = user!.username;
+  const operatorRole = user!.role;
 
   try {
     const body = await request.json();
-
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const username = authInfo.username;
 
     const {
       targetUsername, // 目标用户名
@@ -73,23 +63,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 获取配置与存储
-    const adminConfig = await getConfig();
+    // 获取存储（配置已由 requireAdmin 返回）
     const storage: IStorage | null = getStorage();
-
-    // 判定操作者角色
-    let operatorRole: 'owner' | 'admin';
-    if (username === process.env.USERNAME) {
-      operatorRole = 'owner';
-    } else {
-      const userEntry = adminConfig.UserConfig.Users.find(
-        (u) => u.username === username
-      );
-      if (!userEntry || userEntry.role !== 'admin') {
-        return NextResponse.json({ error: '权限不足' }, { status: 401 });
-      }
-      operatorRole = 'admin';
-    }
 
     // 查找目标用户条目
     let targetEntry = adminConfig.UserConfig.Users.find(

@@ -2,31 +2,19 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
+import { requireAdmin } from '@/lib/adminAuth';
 import { getConfig } from '@/lib/config';
 import { getStorage } from '@/lib/db';
 
 export const runtime = 'edge';
 
 export async function POST(request: NextRequest) {
-  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
-  if (storageType === 'localstorage') {
-    return NextResponse.json(
-      {
-        error: '不支持本地存储进行管理员配置',
-      },
-      { status: 400 }
-    );
-  }
+  // R3-A3: 统一 admin 鉴权（requireAdmin 含 localstorage 检查）
+  const { user: _adminUser, error: _adminError } = await requireAdmin(request);
+  if (_adminError) return _adminError;
 
   try {
     const body = await request.json();
-
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const username = authInfo.username;
 
     const {
       SiteName,
@@ -62,16 +50,6 @@ export async function POST(request: NextRequest) {
     const adminConfig = await getConfig();
     const storage = getStorage();
 
-    // 权限校验
-    if (username !== process.env.USERNAME) {
-      // 管理员
-      const user = adminConfig.UserConfig.Users.find(
-        (u) => u.username === username
-      );
-      if (!user || user.role !== 'admin') {
-        return NextResponse.json({ error: '权限不足' }, { status: 401 });
-      }
-    }
 
     // 更新缓存中的站点设置
     adminConfig.SiteConfig = {

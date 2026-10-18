@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
+import { requireAdmin } from '@/lib/adminAuth';
 import { getSearchKV } from '@/lib/kv';
 
 export const runtime = 'edge';
@@ -13,10 +13,8 @@ export const runtime = 'edge';
  * 需管理员鉴权。
  */
 export async function DELETE(request: NextRequest) {
-  const authInfo = getAuthInfoFromCookie(request);
-  if (!authInfo || !authInfo.username) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const { user, error } = await requireAdmin(request, false);
+  if (error) return error;
 
   const kv = getSearchKV();
   if (!kv) {
@@ -52,7 +50,7 @@ export async function DELETE(request: NextRequest) {
       if (deleted >= 1000) break;
     } while (cursor);
 
-    console.log(`[admin/cache] 用户 ${authInfo.username} 清理缓存 prefix=${prefix}，删除 ${deleted} 条`);
+    console.log(`[admin/cache] 用户 ${user!.username} 清理缓存 prefix=${prefix}，删除 ${deleted} 条`);
     return NextResponse.json({ ok: true, deleted, prefix });
   } catch (error) {
     console.error('[admin/cache] 清理失败:', error);
