@@ -68,9 +68,11 @@ async function initConfig() {
 async function doInitConfig() {
 
   if (process.env.DOCKER_ENV === 'true') {
-    // P2-2: 动态 import 代替 eval('require')，避免安全扫描告警（Edge 下 fs 不可用，此分支仅 Docker 用）
-    const fs = await import('fs');
-    const path = await import('path');
+    // P2-2: 用 createRequire 代替 eval('require')，避免安全扫描告警
+    const { createRequire } = await import(/* webpackIgnore: true */ 'module');
+    const _require = createRequire(import.meta.url);
+    const fs = _require('fs') as typeof import('fs');
+    const path = _require('path') as typeof import('path');
 
     const configPath = path.join(process.cwd(), 'config.json');
     const raw = fs.readFileSync(configPath, 'utf-8');
@@ -412,9 +414,11 @@ export async function resetConfig() {
   }
 
   if (process.env.DOCKER_ENV === 'true') {
-    // P2-2: 动态 import 代替 eval('require')，避免安全扫描告警（Edge 下 fs 不可用，此分支仅 Docker 用）
-    const fs = await import('fs');
-    const path = await import('path');
+    // P2-2: 用 createRequire 代替 eval('require')，避免安全扫描告警
+    const { createRequire } = await import(/* webpackIgnore: true */ 'module');
+    const _require = createRequire(import.meta.url);
+    const fs = _require('fs') as typeof import('fs');
+    const path = _require('path') as typeof import('path');
 
     const configPath = path.join(process.cwd(), 'config.json');
     const raw = fs.readFileSync(configPath, 'utf-8');

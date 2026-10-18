@@ -442,7 +442,7 @@ function DoubanPageClient() {
               ref={(el) => {
                 if (el && el.offsetParent !== null) {
                   (
-                    loadingRef as React.MutableRefObject<HTMLDivElement | null>
+                    loadingRef as React.RefObject<HTMLDivElement | null>
                   ).current = el;
                 }
               }}

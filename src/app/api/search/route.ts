@@ -56,16 +56,20 @@ export async function GET(request: Request) {
   try {
     // P2-5: 总超时 10s，超时后返回已完成部分，不再等最慢上游
     const TOTAL_TIMEOUT_MS = 10000;
-    type SearchResult = Awaited<typeof searchPromises[number]>;
-    const searchAll: Promise<SearchResult> = Promise.allSettled(searchPromises).then((settled) =>
-      settled
-        .filter((s): s is PromiseFulfilledResult<SearchResult> => s.status === 'fulfilled')
-        .flatMap((s) => s.value)
-    );
-    const timeout: Promise<SearchResult> = new Promise((_, reject) =>
+    const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error('搜索总超时')), TOTAL_TIMEOUT_MS)
     );
-    const results = await Promise.race([searchAll, timeout]).catch((): SearchResult => {
+    const results = await Promise.race([
+      Promise.allSettled(searchPromises).then((settled) =>
+        settled
+          .filter(
+            (s): s is PromiseFulfilledResult<Awaited<(typeof searchPromises)[number]>> =>
+              s.status === 'fulfilled'
+          )
+          .map((s) => s.value)
+      ),
+      timeoutPromise,
+    ]).catch(() => {
       // 超时：返回空（上游各自有 8s 单超时，此处为兜底）
       return [];
     });

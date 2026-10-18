@@ -47,6 +47,16 @@ export interface BangumiSearchResult {
   list: BangumiItem[];
 }
 
+// Bangumi 每日放送 API 类型
+interface BangumiSubject {
+  air_date?: string;
+  [key: string]: unknown;
+}
+interface BangumiCalendarDay {
+  items?: BangumiSubject[];
+  [key: string]: unknown;
+}
+
 export class BangumiClient {
   private static readonly BASE_URL = 'https://api.bgm.tv';
   private static readonly SEARCH_URL = 'https://api.bgm.tv/search/subject';
@@ -134,7 +144,10 @@ export class BangumiClient {
   /**
    * 根据年份和季度获取番剧列表
    */
-  static async getCalendar(year?: number, season?: string): Promise<any[]> {
+  static async getCalendar(
+    year?: number,
+    season?: string
+  ): Promise<BangumiCalendarDay[]> {
     try {
       const currentYear = year || new Date().getFullYear();
       const currentSeason = season || this.getCurrentSeason();
@@ -152,9 +165,11 @@ export class BangumiClient {
       const data = await response.json();
 
       // 过滤指定年份和季节的数据
-      return data.filter((item: any) => {
+      const days = data as BangumiCalendarDay[];
+      return days.filter((item) => {
         if (!item.items) return false;
-        return item.items.some((subject: any) => {
+        return item.items.some((subject) => {
+          if (!subject.air_date) return false;
           const airDate = new Date(subject.air_date);
           return airDate.getFullYear() === currentYear &&
                  this.getSeasonFromDate(airDate) === currentSeason;

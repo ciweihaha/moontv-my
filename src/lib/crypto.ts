@@ -2,12 +2,19 @@
 
 import CryptoJS from 'crypto-js';
 
-let bs58: any = null;
+// bs58 编解码接口（兼容 CJS/ESM 打包互操作）
+interface Bs58Codec {
+  encode: (data: Uint8Array) => string;
+  decode: (text: string) => Uint8Array;
+}
+let bs58: Bs58Codec | null = null;
 
-async function getBs58() {
+async function getBs58(): Promise<Bs58Codec> {
   if (!bs58) {
-    const bs58Module = await import('bs58');
-    bs58 = bs58Module.default || bs58Module;
+    const mod = await import('bs58');
+    // 有的打包器会把 CJS 模块包一层 default
+    const resolved = (mod as unknown as { default?: Bs58Codec }).default ?? mod;
+    bs58 = resolved as Bs58Codec;
   }
   return bs58;
 }
