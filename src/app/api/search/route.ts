@@ -3,6 +3,7 @@
 import { NextResponse } from 'next/server';
 
 import { getCacheTime, getConfig } from '@/lib/config';
+import { recordUpstreamFailure, recordUpstreamSuccess, shouldSkipUpstream } from '@/lib/circuitBreaker';
 import { searchFromApi } from '@/lib/downstream';
 import { reportError } from '@/lib/errorReport';
 import { jsonWithCache } from '@/lib/http';
@@ -117,12 +118,23 @@ async function doUpstreamSearch(
 ): Promise<SearchResult[]> {
   const searchPromises = Array.from(sitesByApi.values()).map(
     async (sites: ApiSiteEntry[]) => {
+      // R2-S5: 熔断器——连续失败的上游短暂跳过，不拖慢整体
+      const apiKey = sites[0].api;
+      if (shouldSkipUpstream(apiKey)) {
+        return [] as SearchResult[];
+      }
       // 用组内第一个站点作为代表发起请求（PERF-R1: 页数一次传入，避免重复读配置）
-      const results = await searchFromApi(sites[0], query, maxSearchPages);
-      // 结果展开回组内每个站点，保留各自的 source key 和 source_name
-      return sites.flatMap((site) =>
-        results.map((r) => ({ ...r, source: site.key, source_name: site.name }))
-      );
+      try {
+        const results = await searchFromApi(sites[0], query, maxSearchPages);
+        recordUpstreamSuccess(apiKey);
+        // 结果展开回组内每个站点，保留各自的 source key 和 source_name
+        return sites.flatMap((site) =>
+          results.map((r) => ({ ...r, source: site.key, source_name: site.name }))
+        );
+      } catch (err) {
+        recordUpstreamFailure(apiKey);
+        throw err;
+      }
     }
   );
 

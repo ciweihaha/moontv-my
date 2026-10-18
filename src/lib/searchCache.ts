@@ -2,18 +2,15 @@
 
 import { SearchResult } from '@/lib/types';
 
-import { getSearchKV } from './kv';
+import { CACHE_KEY_VERSION, cacheGet, cacheSet, getInflight as _getInflight, setInflight as _setInflight, ttlWithJitter } from './cache';
 
-// 缓存 key 版本前缀：value 结构变化时 bump，天然失效旧缓存
-const CACHE_KEY_VERSION = 'v1';
+// R2-A1: 已收敛到通用缓存层（src/lib/cache.ts），本文件仅保留搜索特有的 key 构建与 TTL 策略。
 
 // TTL 策略
 const TTL_HIT_BASE = 3600; // 有结果：1 小时（热门搜索）
 const TTL_EMPTY = 300; // 无结果：5 分钟（防缓存穿透，不宜过长）
-const TTL_JITTER_RATIO = 0.1; // ±10% 抖动，防雪崩（避免同时过期）
 
-// 单个缓存 value 上限：超限不写 KV，防止大 value 拖慢读写
-const MAX_CACHE_VALUE_BYTES = 1024 * 1024; // 1MB
+const INFLIGHT_NS = 'search';
 
 interface CachedSearch {
   results: SearchResult[];
@@ -42,10 +39,24 @@ async function sha256Hex(input: string): Promise<string> {
 /**
  * 从启用的上游站点算指纹：管理员增删/禁用源后指纹变化，
  * 缓存 key 随之变化，旧缓存自然失效，无需手动清。
+ *
+ * R2-P3: 指纹 5 分钟内存缓存（站点配置变化不频繁，每次搜索都算 SHA-256 浪费）。
  */
+const fingerprintCache = new Map<string, { fp: string; ts: number }>();
+const FINGERPRINT_TTL_MS = 5 * 60 * 1000;
+
 export async function sitesFingerprint(apiUrls: string[]): Promise<string> {
   const sorted = Array.from(new Set(apiUrls)).sort().join('|');
-  return (await sha256Hex(sorted)).slice(0, 12);
+  const now = Date.now();
+  const cached = fingerprintCache.get(sorted);
+  if (cached && now - cached.ts < FINGERPRINT_TTL_MS) {
+    return cached.fp;
+  }
+  const fp = (await sha256Hex(sorted)).slice(0, 12);
+  fingerprintCache.set(sorted, { fp, ts: now });
+  // 防内存泄漏：条目过多时清空
+  if (fingerprintCache.size > 100) fingerprintCache.clear();
+  return fp;
 }
 
 export async function buildSearchCacheKey(
@@ -58,26 +69,15 @@ export async function buildSearchCacheKey(
 
 function ttlForResults(count: number): number {
   if (count === 0) return TTL_EMPTY;
-  // ±10% 抖动
-  const jitter = 1 + (Math.random() * 2 - 1) * TTL_JITTER_RATIO;
-  return Math.round(TTL_HIT_BASE * jitter);
+  return ttlWithJitter(TTL_HIT_BASE);
 }
 
 export async function getCachedSearch(
   cacheKey: string
 ): Promise<CachedSearch | null> {
-  const kv = getSearchKV();
-  if (!kv) return null;
-  try {
-    const data = (await kv.get(cacheKey, { type: 'json' })) as
-      | CachedSearch
-      | null;
-    if (!data || !Array.isArray(data.results)) return null;
-    return data;
-  } catch (err) {
-    console.error('[searchCache] KV get 失败，降级为无缓存:', err);
-    return null;
-  }
+  const data = await cacheGet<CachedSearch>(cacheKey);
+  if (!data || !Array.isArray(data.results)) return null;
+  return data;
 }
 
 export async function setCachedSearch(
@@ -85,37 +85,22 @@ export async function setCachedSearch(
   query: string,
   results: SearchResult[]
 ): Promise<void> {
-  const kv = getSearchKV();
-  if (!kv) return;
-  try {
-    const value = JSON.stringify({
+  await cacheSet(
+    cacheKey,
+    {
       results,
       cachedAt: Date.now(),
       query: normalizeQuery(query),
-    } satisfies CachedSearch);
-    if (new TextEncoder().encode(value).byteLength > MAX_CACHE_VALUE_BYTES) {
-      return; // 超限不缓存
-    }
-    await kv.put(cacheKey, value, {
-      expirationTtl: ttlForResults(results.length),
-    });
-  } catch (err) {
-    console.error('[searchCache] KV put 失败:', err);
-  }
+    } satisfies CachedSearch,
+    ttlForResults(results.length)
+  );
 }
 
-// ---- 单机 single-flight：同一 isolate 内并发同 query 只打一次上游 ----
-// 防缓存击穿（热点 key 过期瞬间大量请求同时回源）
-const inflight = new Map<string, Promise<SearchResult[]>>();
-
+// ---- single-flight（命名空间隔离，防击穿） ----
 export function getInflight(cacheKey: string) {
-  return inflight.get(cacheKey);
+  return _getInflight<SearchResult[]>(INFLIGHT_NS, cacheKey);
 }
 
 export function setInflight(cacheKey: string, p: Promise<SearchResult[]>) {
-  inflight.set(cacheKey, p);
-  const cleanup = () => {
-    if (inflight.get(cacheKey) === p) inflight.delete(cacheKey);
-  };
-  p.then(cleanup, cleanup);
+  _setInflight<SearchResult[]>(INFLIGHT_NS, cacheKey, p);
 }
