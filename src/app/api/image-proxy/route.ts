@@ -28,30 +28,120 @@ function isBlockedIPv4(ip: string): boolean {
   return false;
 }
 
+/**
+ * AUDIT-R4 P1-2: 将 IPv6 地址展开为 8 个 16 位组（hextet）的数字数组。
+ * 处理 :: 压缩、首尾 ::、IPv4 尾段（如 ::ffff:192.168.1.1）等形式。
+ * 无法解析时返回 null。
+ */
+function expandIPv6(ip: string): number[] | null {
+  let addr = ip.toLowerCase().trim();
+  // 去括号
+  if (addr.startsWith('[') && addr.endsWith(']')) {
+    addr = addr.slice(1, -1);
+  }
+  // 处理 zone id（fe80::1%eth0）
+  const pctIdx = addr.indexOf('%');
+  if (pctIdx !== -1) {
+    addr = addr.slice(0, pctIdx);
+  }
+
+  // 拆分 :: 压缩
+  const dblColon = addr.split('::');
+  if (dblColon.length > 2) return null; // 多个 :: 非法
+
+  const parsePart = (part: string): number[] | null => {
+    if (part === '') return [];
+    const groups = part.split(':');
+    const out: number[] = [];
+    for (const g of groups) {
+      // IPv4 尾段（如 ::ffff:192.168.1.1 中的 192.168.1.1）
+      if (g.includes('.')) {
+        const octets = g.split('.');
+        if (octets.length !== 4) return null;
+        const nums = octets.map((o) => parseInt(o, 10));
+        if (nums.some((n) => Number.isNaN(n) || n < 0 || n > 255)) return null;
+        out.push((nums[0] << 8) | nums[1], (nums[2] << 8) | nums[3]);
+      } else {
+        if (!/^[0-9a-f]{1,4}$/.test(g)) return null;
+        out.push(parseInt(g, 16));
+      }
+    }
+    return out;
+  };
+
+  if (dblColon.length === 1) {
+    // 无压缩，必须正好 8 组
+    const groups = parsePart(dblColon[0]);
+    if (!groups || groups.length !== 8) return null;
+    return groups;
+  }
+
+  // 有 :: 压缩：左右两部分相加不足 8 组，中间补 0
+  const left = parsePart(dblColon[0]);
+  const right = parsePart(dblColon[1]);
+  if (!left || !right) return null;
+  const missing = 8 - left.length - right.length;
+  if (missing < 1) return null; // :: 至少压缩一组
+  return [...left, ...new Array(missing).fill(0), ...right];
+}
+
+/**
+ * AUDIT-R4 P1-2: 从展开的 IPv6 中提取内嵌 IPv4。
+ * 覆盖两种形式：
+ *  1. IPv4-mapped ::ffff:0:0/96（如 ::ffff:192.168.1.1 或 ::ffff:c0a8:101）
+ *  2. IPv4-compatible ::/96（已废弃，但仍检查）
+ * 返回点分十进制字符串，无内嵌 IPv4 时返回 null。
+ */
+function extractEmbeddedIPv4(groups: number[]): string | null {
+  // ::ffff:0:0/96: 前 80 位为 0，第 81-96 位为 0xffff
+  const isMapped =
+    groups.slice(0, 5).every((g) => g === 0) && groups[5] === 0xffff;
+  // ::/96（兼容地址，已废弃）：前 96 位为 0，且不全为 0（::1 除外由上层处理）
+  const isCompatible =
+    groups.slice(0, 6).every((g) => g === 0) &&
+    !(groups[6] === 0 && groups[7] <= 1);
+  if (!isMapped && !isCompatible) return null;
+  const a = (groups[6] >> 8) & 0xff;
+  const b = groups[6] & 0xff;
+  const c = (groups[7] >> 8) & 0xff;
+  const d = groups[7] & 0xff;
+  return `${a}.${b}.${c}.${d}`;
+}
+
 /** IPv6 特殊段检查（输入为去括号小写形式） */
 function isBlockedIPv6(ip: string): boolean {
-  // ::ffff:a.b.c.d 形式的 IPv4 映射地址 → 检查内嵌 IPv4
-  const mapped = ip.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/);
-  if (mapped) {
-    return isBlockedIPv4(mapped[1]);
-  }
-  // 6to4 / NAT64 等内嵌 IPv4 的形式，做尽力检查
-  const embeddedV4 = ip.match(/(\d+\.\d+\.\d+\.\d+)$/);
-  if (embeddedV4 && isBlockedIPv4(embeddedV4[1])) {
+  const groups = expandIPv6(ip);
+  if (!groups) {
+    // 无法解析的按可疑处理：保守起见拦截
     return true;
   }
 
-  const firstHextet = ip.split(':')[0];
-  const first = parseInt(firstHextet, 16);
-  if (Number.isNaN(first)) return false;
-
-  if (ip === '::1' || ip === '::') return true; // 回环 / 未指定
-  if (first >= 0xfe80 && first <= 0xfebf) return true; // fe80::/10 链路本地
-  if (first >= 0xfc00 && first <= 0xfdff) return true; // fc00::/7 唯一本地
-  if (first === 0x2001) {
-    const second = parseInt(ip.split(':')[1] || '0', 16);
-    if (second === 0xdb8) return true; // 2001:db8::/32 文档地址
+  // 1. 内嵌 IPv4（映射/兼容地址）：转交 IPv4 检查
+  //    覆盖 ::ffff:192.168.1.1（点分）与 ::ffff:c0a8:101（十六进制压缩）等形式
+  const embedded = extractEmbeddedIPv4(groups);
+  if (embedded) {
+    return isBlockedIPv4(embedded);
   }
+
+  // 2. ::1 回环 / :: 未指定
+  if (groups.every((g) => g === 0)) return true; // ::
+  if (groups.slice(0, 7).every((g) => g === 0) && groups[7] === 1) return true; // ::1
+
+  const first = groups[0];
+  // fe80::/10 链路本地
+  if (first >= 0xfe80 && first <= 0xfebf) return true;
+  // fc00::/7 唯一本地
+  if (first >= 0xfc00 && first <= 0xfdff) return true;
+  // 2001:db8::/32 文档地址
+  if (first === 0x2001 && groups[1] === 0x0db8) return true;
+  // 2001::/23 特殊用途（Teredo 等），保守拦截
+  if (first === 0x2001 && (groups[1] & 0xff00) === 0x0000) {
+    // 仅拦截 2001:0::/32（Teredo）
+    if (groups[1] === 0x0000) return true;
+  }
+  // ff00::/8 组播（出站代理请求组播无意义，拦截）
+  if (first >= 0xff00 && first <= 0xffff) return true;
+
   return false;
 }
 

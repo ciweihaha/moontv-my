@@ -124,9 +124,13 @@ export function buildSessionSignData(
 }
 
 /**
- * AUDIT-R3 P0-B: 服务端会话验证（签名 + 时间戳时效）。
- * 签名覆盖 username/role/timestamp 整体；验签通过后再检查有效期。
- * 缺失时间戳的旧 Cookie 直接拒绝（不再放行）。
+ * AUDIT-R3 P0-B / AUDIT-R4 P1-3: 服务端会话验证（签名 + 时间戳时效）。
+ * 顺序：先验签（不信任未验证的数据），验签通过后再检查时间戳有效期。
+ * 签名覆盖 username/role/timestamp 整体；缺失时间戳的旧 Cookie 直接拒绝。
+ *
+ * 注意：SESSION_SECRET 未配置时回退到 PASSWORD（兼容现有会话）。
+ * 生产环境建议配置独立的高强度随机 SESSION_SECRET，与密码验证用途分离，
+ * 但这是可选的——不配置时行为与之前完全一致，现有用户无需重新登录。
  */
 export async function verifyAuthSession(
   authInfo: AuthCookieData | null
@@ -136,23 +140,22 @@ export async function verifyAuthSession(
   const secret = getSessionSecret();
   if (!secret) return null;
 
-  // P0-B: 缺失时间戳的旧 Cookie 直接拒绝
+  // 1. 先验证签名：缺失时间戳的旧 Cookie 直接拒绝（签名需要 timestamp 参与）
   if (typeof authInfo.timestamp !== 'number') {
     return null;
   }
-
-  // P0-B: 时间戳时效检查（拒绝未来时间戳与过期时间戳）
-  const age = Date.now() - authInfo.timestamp;
-  if (age < 0 || age > SESSION_MAX_AGE_MS) {
-    return null;
-  }
-
-  // P0-B: 签名覆盖 subject + role + timestamp 整体
   const subject = authInfo.username || 'localstorage-auth';
   const role = authInfo.role ?? 'user';
   const signData = buildSessionSignData(subject, role, authInfo.timestamp);
   const valid = await verifyHmacSignature(signData, authInfo.signature, secret);
   if (!valid) return null;
+
+  // 2. 验签通过后，再检查时间戳时效（拒绝未来时间戳与过期时间戳）
+  //    注意：时间戳本身已被签名保护，攻击者无法篡改它来绕过此检查。
+  const age = Date.now() - authInfo.timestamp;
+  if (age < 0 || age > SESSION_MAX_AGE_MS) {
+    return null;
+  }
 
   return {
     username: authInfo.username ?? null,

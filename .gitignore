@@ -4,3 +4,6 @@ dist
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
+# AUDIT-R4: pnpm-lock.yaml 不提交（Cloudflare Pages 构建与其冲突，见构建日志）；
+# CI 在运行时按需生成并用 --frozen-lockfile 验证。
+pnpm-lock.yaml

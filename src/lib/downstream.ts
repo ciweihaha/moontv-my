@@ -81,15 +81,53 @@ function mapSearchItem(
   };
 }
 
+/**
+ * AUDIT-R4 P1-1: 流式读取响应体并做字节数硬上限。
+ * 之前先用 response.arrayBuffer() 把整个响应读入内存再检查大小，
+ * 超大响应会先占满内存。现改为逐块读取、累计字节数，
+ * 超过上限立即取消读取并返回 null，内存占用恒定为上限值。
+ */
 async function readBodyWithLimit(
   response: Response,
-  maxBytes: number
+  maxBytes: number,
+  signal?: AbortSignal
 ): Promise<ArrayBuffer | null> {
-  const buf = await response.arrayBuffer();
-  if (buf.byteLength > maxBytes) {
-    return null;
+  // 无 body 流的降级路径（极少数环境）
+  if (!response.body) {
+    const buf = await response.arrayBuffer();
+    return buf.byteLength > maxBytes ? null : buf;
   }
-  return buf;
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    for (;;) {
+      // 外部取消（整体超时）时立即停止读取
+      if (signal?.aborted) {
+        await reader.cancel().catch(() => undefined);
+        throw new DOMException('Aborted', 'AbortError');
+      }
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        // 超上限：取消上游流，不再继续读
+        await reader.cancel().catch(() => undefined);
+        return null;
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  // 合并分块为单个 ArrayBuffer
+  const result = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    result.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return result.buffer;
 }
 
 export async function searchFromApi(
@@ -126,7 +164,8 @@ export async function searchFromApi(
 
     const searchBody = await readBodyWithLimit(
       response,
-      MAX_SEARCH_BODY_BYTES
+      MAX_SEARCH_BODY_BYTES,
+      signal
     );
     if (searchBody === null) {
       return [];
@@ -169,9 +208,10 @@ export async function searchFromApi(
         const pagePromise = (async () => {
           try {
             // R4-S7: 分页请求也加重试（之前是裸 fetch，瞬时失败直接丢页）
+            // AUDIT-R4 P1-1: 传入整体 signal，超时后分页请求也被取消
             const pageResponse = await fetchWithRetry(
               pageUrl,
-              { headers: API_CONFIG.search.headers },
+              { headers: API_CONFIG.search.headers, signal },
               { timeoutMs: 8000, retries: 1 }
             );
 
@@ -184,7 +224,8 @@ export async function searchFromApi(
 
             const pageBody = await readBodyWithLimit(
               pageResponse,
-              MAX_SEARCH_BODY_BYTES
+              MAX_SEARCH_BODY_BYTES,
+              signal
             );
             if (pageBody === null) return [];
             const pageData = JSON.parse(new TextDecoder().decode(pageBody));
