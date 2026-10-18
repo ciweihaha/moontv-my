@@ -1,6 +1,14 @@
+/* eslint-disable no-console */
+
 import { NextResponse } from 'next/server';
 
 import { getCacheTime } from '@/lib/config';
+import {
+  buildDoubanCacheKey,
+  getCachedDouban,
+  setCachedDouban,
+} from '@/lib/doubanCache';
+import { reportError } from '@/lib/errorReport';
 import { jsonWithCache } from '@/lib/http';
 import { DoubanItem, DoubanResult } from '@/lib/types';
 
@@ -99,6 +107,16 @@ export async function GET(request: Request) {
 
   const target = `https://movie.douban.com/j/search_subjects?type=${type}&tag=${encodeURIComponent(tag)}&sort=recommend&page_limit=${pageSize}&page_start=${pageStart}`;
 
+  // P2: KV 缓存（榜单变化慢，6 小时）
+  const cacheKey = buildDoubanCacheKey(type, tag, pageSize, pageStart);
+  const cacheTime = await getCacheTime();
+  const cached = await getCachedDouban(cacheKey);
+  if (cached) {
+    return jsonWithCache(cached, cacheTime, 200, {
+      'X-Douban-Cache': 'HIT',
+    });
+  }
+
   try {
     // 调用豆瓣 API
     const doubanData = await fetchDoubanData(target);
@@ -118,11 +136,17 @@ export async function GET(request: Request) {
       list: list,
     };
 
-    const cacheTime = await getCacheTime();
+    // 异步写缓存
+    setCachedDouban(cacheKey, response).catch(() => {});
+
     // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
-    return jsonWithCache(response, cacheTime);
+    return jsonWithCache(response, cacheTime, 200, {
+      'X-Douban-Cache': 'MISS',
+    });
   } catch (error) {
     // QUALITY-R3: 不向客户端泄露内部错误原文
+    console.error('[douban] 获取失败:', error);
+    reportError('api/douban', error);
     return NextResponse.json({ error: '获取豆瓣数据失败' }, { status: 500 });
   }
 }

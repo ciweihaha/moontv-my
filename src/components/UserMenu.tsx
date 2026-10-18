@@ -201,7 +201,7 @@ export const UserMenu: React.FC = () => {
       // 修改成功，关闭弹窗并登出
       setIsChangePasswordOpen(false);
       await handleLogout();
-    } catch (error) {
+    } catch {
       setPasswordError('网络错误，请稍后重试');
     } finally {
       setPasswordLoading(false);

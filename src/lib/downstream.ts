@@ -2,6 +2,8 @@ import { API_CONFIG, ApiSite } from '@/lib/config';
 import { SearchResult } from '@/lib/types';
 import { cleanHtmlTags } from '@/lib/utils';
 
+import { fetchWithRetry } from './fetchRetry';
+
 interface ApiSearchItem {
   vod_id: string;
   vod_name: string;
@@ -102,16 +104,12 @@ export async function searchFromApi(
       apiBaseUrl + API_CONFIG.search.path + encodeURIComponent(query);
     const apiName = apiSite.name;
 
-    // 添加超时处理
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-    const response = await fetch(apiUrl, {
-      headers: API_CONFIG.search.headers,
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
+    // S3: 超时 + 指数退避重试（8s 单次超时，1 次重试）
+    const response = await fetchWithRetry(
+      apiUrl,
+      { headers: API_CONFIG.search.headers },
+      { timeoutMs: 8000, retries: 1 }
+    );
 
     // R3: 响应头 content-length 只是快速预检；分块传输时头部缺失，
     // 读取时再做字节数硬上限，防止超大响应占满内存
@@ -203,7 +201,7 @@ export async function searchFromApi(
                 mapSearchItem(item, apiSite.key, apiName, false)
               )
               .filter(Boolean) as SearchResult[];
-          } catch (error) {
+          } catch {
             return [];
           }
         })();
@@ -223,7 +221,7 @@ export async function searchFromApi(
     }
 
     return results;
-  } catch (error) {
+  } catch {
     return [];
   }
 }
@@ -245,15 +243,12 @@ export async function getDetailFromApi(
 
   const detailUrl = `${apiSite.api}${API_CONFIG.detail.path}${id}`;
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-  const response = await fetch(detailUrl, {
-    headers: API_CONFIG.detail.headers,
-    signal: controller.signal,
-  });
-
-  clearTimeout(timeoutId);
+  // S3: 超时 + 重试
+  const response = await fetchWithRetry(
+    detailUrl,
+    { headers: API_CONFIG.detail.headers },
+    { timeoutMs: 10000, retries: 1 }
+  );
 
   // R3: 响应头预检（详情 2MB 上限）+ 读取时硬上限（防分块传输绕过）
   const detailCL = response.headers.get('content-length');
@@ -330,15 +325,12 @@ async function handleSpecialSourceDetail(
 ): Promise<SearchResult> {
   const detailUrl = `${apiSite.detail}/index.php/vod/detail/id/${id}.html`;
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-  const response = await fetch(detailUrl, {
-    headers: API_CONFIG.detail.headers,
-    signal: controller.signal,
-  });
-
-  clearTimeout(timeoutId);
+  // S3: 超时 + 重试
+  const response = await fetchWithRetry(
+    detailUrl,
+    { headers: API_CONFIG.detail.headers },
+    { timeoutMs: 10000, retries: 1 }
+  );
 
   // R3: 响应头预检（详情 2MB 上限）+ 读取时硬上限（防分块传输绕过）
   const specialCL = response.headers.get('content-length');

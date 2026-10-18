@@ -18,6 +18,14 @@ export interface KVNamespaceLike {
     options?: { expirationTtl?: number }
   ): Promise<void>;
   delete(key: string): Promise<void>;
+  list(options?: {
+    prefix?: string;
+    cursor?: string;
+  }): Promise<{
+    keys: Array<{ name: string }>;
+    list_complete: boolean;
+    cursor?: string;
+  }>;
 }
 
 let kvInstance: KVNamespaceLike | null | undefined;

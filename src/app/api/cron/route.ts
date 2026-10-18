@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { db } from '@/lib/db';
+import { reportError } from '@/lib/errorReport';
 import { fetchVideoDetail } from '@/lib/fetchVideoDetail';
 import { constantTimeEqual } from '@/lib/rateLimit';
 import { SearchResult } from '@/lib/types';
@@ -30,17 +31,37 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log('Cron job triggered:', new Date().toISOString());
+    // O4: 结构化日志，方便过滤和告警
+    const startTime = Date.now();
+    console.log(
+      JSON.stringify({
+        event: 'cron_start',
+        time: new Date().toISOString(),
+      })
+    );
 
-    await refreshRecordAndFavorites();
+    const stats = await refreshRecordAndFavorites();
+
+    const durationMs = Date.now() - startTime;
+    console.log(
+      JSON.stringify({
+        event: 'cron_done',
+        durationMs,
+        ...stats,
+        time: new Date().toISOString(),
+      })
+    );
 
     return NextResponse.json({
       success: true,
       message: 'Cron job executed successfully',
       timestamp: new Date().toISOString(),
+      stats,
     });
   } catch (error) {
     console.error('Cron job failed:', error);
+    // O4: 失败上报到 webhook
+    reportError('api/cron', error);
 
     return NextResponse.json(
       {
@@ -53,12 +74,15 @@ export async function GET(request: NextRequest) {
   }
 }
 
-async function refreshRecordAndFavorites() {
+async function refreshRecordAndFavorites(): Promise<{
+  users: number;
+  skipped: boolean;
+}> {
   if (
     (process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage') === 'localstorage'
   ) {
     console.log('跳过刷新：当前使用 localstorage 存储模式');
-    return;
+    return { users: 0, skipped: true };
   }
 
   try {
@@ -208,7 +232,10 @@ async function refreshRecordAndFavorites() {
     }
 
     console.log('刷新播放记录/收藏任务完成');
+    return { users: users.length, skipped: false };
   } catch (err) {
     console.error('刷新播放记录/收藏任务启动失败', err);
+    reportError('api/cron/refresh', err);
+    return { users: 0, skipped: false };
   }
 }

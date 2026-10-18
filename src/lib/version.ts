@@ -12,9 +12,10 @@ export enum UpdateStatus {
 }
 
 // 远程版本检查URL配置
+// O2: 上游 senshinya/MoonTV 已停更（2025-08），改为检查自己的仓库
 const VERSION_CHECK_URLS = [
-  'https://ghfast.top/raw.githubusercontent.com/senshinya/MoonTV/main/VERSION.txt',
-  'https://raw.githubusercontent.com/senshinya/MoonTV/main/VERSION.txt',
+  'https://ghfast.top/raw.githubusercontent.com/ciweihaha/moontv-my/main/VERSION.txt',
+  'https://raw.githubusercontent.com/ciweihaha/moontv-my/main/VERSION.txt',
 ];
 
 /**

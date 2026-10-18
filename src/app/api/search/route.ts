@@ -1,7 +1,10 @@
+/* eslint-disable no-console */
+
 import { NextResponse } from 'next/server';
 
 import { getCacheTime, getConfig } from '@/lib/config';
 import { searchFromApi } from '@/lib/downstream';
+import { reportError } from '@/lib/errorReport';
 import { jsonWithCache } from '@/lib/http';
 import {
   buildSearchCacheKey,
@@ -19,6 +22,16 @@ export const runtime = 'edge';
 type ApiSiteEntry = Awaited<ReturnType<typeof getConfig>>['SourceConfig'][number];
 
 export async function GET(request: Request) {
+  try {
+    return await doSearch(request);
+  } catch (error) {
+    console.error('[search] 搜索失败:', error);
+    reportError('api/search', error);
+    return NextResponse.json({ error: '搜索失败' }, { status: 500 });
+  }
+}
+
+async function doSearch(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
 

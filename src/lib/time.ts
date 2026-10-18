@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // 时间处理工具函数
 
 /**

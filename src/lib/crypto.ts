@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // 加密解密工具
 
 import CryptoJS from 'crypto-js';

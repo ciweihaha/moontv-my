@@ -1,9 +1,9 @@
 /* eslint-disable no-console,@typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 
+import { generateSignature } from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
-import { generateSignature } from '@/lib/auth';
 import {
   checkRateLimit,
   constantTimeEqual,

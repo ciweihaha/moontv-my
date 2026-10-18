@@ -232,7 +232,7 @@ function PlayPageClient() {
               source,
               testResult,
             };
-          } catch (error) {
+          } catch {
             return null;
           }
         })

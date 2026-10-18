@@ -1,7 +1,17 @@
+/* eslint-disable no-console */
+
 import { NextResponse } from 'next/server';
 
 import { getAvailableApiSites, getCacheTime } from '@/lib/config';
+import {
+  buildDetailCacheKey,
+  getCachedDetail,
+  getDetailInflight,
+  setCachedDetail,
+  setDetailInflight,
+} from '@/lib/detailCache';
 import { getDetailFromApi } from '@/lib/downstream';
+import { reportError } from '@/lib/errorReport';
 import { jsonWithCache } from '@/lib/http';
 import { yellowRegex } from '@/lib/yellow';
 
@@ -28,22 +38,58 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: '无效的API来源' }, { status: 400 });
     }
 
-    const result = await getDetailFromApi(apiSite, id);
+    // P1: KV 缓存（未绑定时自动降级）
+    const cacheKey = buildDetailCacheKey(sourceCode, id);
+    const cacheTime = await getCacheTime();
+    const cached = await getCachedDetail(cacheKey);
+    if (cached) {
+      return jsonWithCache(cached, cacheTime, 200, {
+        'X-Detail-Cache': 'HIT',
+      });
+    }
 
-    // 黄色词过滤（与搜索接口对齐，防止绕过）；转小写做大小写归一化
-    // PERF-R1: 预编译正则一次匹配，替代逐词 includes
-    const checkText = ((result.title || '') + (result.type_name || '')).toLowerCase();
-    if (yellowRegex.test(checkText)) {
+    // single-flight 防击穿
+    const inflight = getDetailInflight(cacheKey);
+    if (inflight) {
+      const shared = await inflight;
+      if (shared) {
+        return jsonWithCache(shared, cacheTime, 200, {
+          'X-Detail-Cache': 'HIT-SHARED',
+        });
+      }
+    }
+
+    const upstreamPromise = (async () => {
+      const result = await getDetailFromApi(apiSite, id);
+
+      // 黄色词过滤（与搜索接口对齐，防止绕过）；转小写做大小写归一化
+      const checkText = (
+        (result.title || '') +
+        (result.type_name || '')
+      ).toLowerCase();
+      if (yellowRegex.test(checkText)) {
+        return null;
+      }
+
+      // 异步写缓存，不阻塞响应
+      setCachedDetail(cacheKey, result).catch(() => {});
+      return result;
+    })();
+    setDetailInflight(cacheKey, upstreamPromise);
+
+    const result = await upstreamPromise;
+    if (!result) {
       return NextResponse.json({ error: '内容不可用' }, { status: 451 });
     }
 
-    const cacheTime = await getCacheTime();
-
     // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
-    return jsonWithCache(result, cacheTime);
+    return jsonWithCache(result, cacheTime, 200, {
+      'X-Detail-Cache': 'MISS',
+    });
   } catch (error) {
-    // 不泄露上游错误原文，记录到服务端日志
+    // 不泄露上游错误原文，记录到服务端日志 + 上报
     console.error('详情获取失败:', error);
+    reportError('api/detail', error);
     return NextResponse.json(
       { error: '详情获取失败' },
       { status: 500 }

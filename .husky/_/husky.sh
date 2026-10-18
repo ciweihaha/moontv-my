@@ -1,1 +1,31 @@
-IyEvYmluL3NoCmlmIFsgLXogIiRodXNreV9za2lwX2luaXQiIF07IHRoZW4KICBkZWJ1ZyAoKSB7CiAgICBpZiBbICIkSFVTS1lfREVCVUciID0gIjEiIF07IHRoZW4KICAgICAgZWNobyAiaHVza3kgKGRlYnVnKSAtICQxIgogICAgZmkKICB9CgogIHJlYWRvbmx5IGhvb2tfbmFtZT0iJChiYXNlbmFtZSAiJDAiKSIKICBkZWJ1ZyAic3RhcnRpbmcgJGhvb2tfbmFtZS4uLiIKCiAgaWYgWyAiJEhVU0tZIiA9ICIwIiBdOyB0aGVuCiAgICBkZWJ1ZyAiSFVTS1kgZW52IHZhcmlhYmxlIGlzIHNldCB0byAwLCBza2lwcGluZyBob29rIgogICAgZXhpdCAwCiAgZmkKCiAgaWYgWyAtZiB+Ly5odXNreXJjIF07IHRoZW4KICAgIGRlYnVnICJzb3VyY2luZyB+Ly5odXNreXJjIgogICAgLiB+Ly5odXNreXJjCiAgZmkKCiAgZXhwb3J0IHJlYWRvbmx5IGh1c2t5X3NraXBfaW5pdD0xCiAgc2ggLWUgIiQwIiAiJEAiCiAgZXhpdENvZGU9IiQ/IgoKICBpZiBbICRleGl0Q29kZSAhPSAwIF07IHRoZW4KICAgIGVjaG8gImh1c2t5IC0gJGhvb2tfbmFtZSBob29rIGV4aXRlZCB3aXRoIGNvZGUgJGV4aXRDb2RlIChlcnJvcikiCiAgZmkKCiAgZXhpdCAkZXhpdENvZGUKZmkK
+#!/bin/sh
+if [ -z "$husky_skip_init" ]; then
+  debug () {
+    if [ "$HUSKY_DEBUG" = "1" ]; then
+      echo "husky (debug) - $1"
+    fi
+  }
+
+  readonly hook_name="$(basename "$0")"
+  debug "starting $hook_name..."
+
+  if [ "$HUSKY" = "0" ]; then
+    debug "HUSKY env variable is set to 0, skipping hook"
+    exit 0
+  fi
+
+  if [ -f ~/.huskyrc ]; then
+    debug "sourcing ~/.huskyrc"
+    . ~/.huskyrc
+  fi
+
+  export readonly husky_skip_init=1
+  sh -e "$0" "$@"
+  exitCode="$?"
+
+  if [ $exitCode != 0 ]; then
+    echo "husky - $hook_name hook exited with code $exitCode (error)"
+  fi
+
+  exit $exitCode
+fi

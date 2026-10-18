@@ -22,6 +22,22 @@ export async function fetchVideoDetail({
   fallbackTitle = '',
   skipSearch = false,
 }: FetchVideoDetailOptions): Promise<SearchResult> {
+  // S4: 整体 15s 超时兜底（下游各有 8s/10s 单超时，此处防整体 hanging）
+  const timeoutMs = 15000;
+  return Promise.race([
+    doFetchVideoDetail({ source, id, fallbackTitle, skipSearch }),
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('fetchVideoDetail 总超时')), timeoutMs)
+    ),
+  ]);
+}
+
+async function doFetchVideoDetail({
+  source,
+  id,
+  fallbackTitle = '',
+  skipSearch = false,
+}: FetchVideoDetailOptions): Promise<SearchResult> {
   // 优先通过搜索接口查找精确匹配
   const apiSites = await getAvailableApiSites();
   const apiSite = apiSites.find((site) => site.key === source);
@@ -45,7 +61,7 @@ export async function fetchVideoDetail({
       if (exactMatch) {
         return exactMatch;
       }
-    } catch (error) {
+    } catch {
       // do nothing
     }
   }

@@ -270,7 +270,7 @@ function SearchPageClient() {
         top: 0,
         behavior: 'smooth',
       });
-    } catch (error) {
+    } catch {
       // 如果平滑滚动完全失败，使用立即滚动
       document.body.scrollTop = 0;
     }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // 番剧搜索客户端
 
 export interface BangumiItem {
