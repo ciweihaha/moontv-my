@@ -41,7 +41,39 @@ async function fetchDoubanData(url: string): Promise<DoubanApiResponse> {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  return await response.json();
+  // R5: 响应体大小硬限制（豆瓣列表正常 <100KB，1MB 为 generous 上限）
+  const MAX_DOUBAN_BODY_BYTES = 1 * 1024 * 1024;
+  const contentLength = response.headers.get('content-length');
+  if (contentLength && parseInt(contentLength, 10) > MAX_DOUBAN_BODY_BYTES) {
+    throw new Error('豆瓣响应体过大');
+  }
+  if (!response.body) {
+    return await response.json();
+  }
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > MAX_DOUBAN_BODY_BYTES) {
+        await reader.cancel().catch(() => undefined);
+        throw new Error('豆瓣响应体过大');
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  const merged = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return JSON.parse(new TextDecoder().decode(merged));
 }
 
 export const runtime = 'edge';

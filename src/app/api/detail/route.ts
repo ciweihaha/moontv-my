@@ -77,7 +77,19 @@ export async function GET(request: Request) {
     })();
     setDetailInflight(cacheKey, upstreamPromise);
 
-    const result = await upstreamPromise;
+    // R5: 详情整体截止时间 25s（上游单次 10s + 1 次重试，整体不无限等）
+    const DETAIL_TOTAL_TIMEOUT_MS = 25000;
+    let timedOut = false;
+    const timeoutPromise = new Promise<null>((resolve) =>
+      setTimeout(() => {
+        timedOut = true;
+        resolve(null);
+      }, DETAIL_TOTAL_TIMEOUT_MS)
+    );
+    const result = await Promise.race([upstreamPromise, timeoutPromise]);
+    if (timedOut) {
+      return NextResponse.json({ error: '详情请求超时' }, { status: 504 });
+    }
     if (!result) {
       return NextResponse.json({ error: '内容不可用' }, { status: 451 });
     }
