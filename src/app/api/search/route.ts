@@ -2,8 +2,8 @@
 
 import { NextResponse } from 'next/server';
 
-import { getCacheTime, getConfig } from '@/lib/config';
 import { recordUpstreamFailure, recordUpstreamSuccess, shouldSkipUpstream } from '@/lib/circuitBreaker';
+import { getCacheTime, getConfig } from '@/lib/config';
 import { searchFromApi } from '@/lib/downstream';
 import { reportError } from '@/lib/errorReport';
 import { jsonWithCache } from '@/lib/http';
@@ -172,7 +172,7 @@ async function doUpstreamSearch(
       });
     }
     return flattenedResults;
-  } catch (error) {
+  } catch {
     return [];
   }
 }

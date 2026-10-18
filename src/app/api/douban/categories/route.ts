@@ -120,7 +120,7 @@ export async function GET(request: Request) {
     const cacheTime = await getCacheTime();
     // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
     return jsonWithCache(response, cacheTime);
-  } catch (error) {
+  } catch {
     // QUALITY-R3: 不向客户端泄露内部错误原文
     return NextResponse.json({ error: '获取豆瓣数据失败' }, { status: 500 });
   }

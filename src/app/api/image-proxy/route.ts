@@ -115,7 +115,7 @@ export async function GET(request: Request) {
     headers.set('CDN-Cache-Control', 'public, s-maxage=15720000');
 
     return new Response(imageResponse.body, { status: 200, headers });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Error fetching image' }, { status: 500 });
   }
 }

@@ -313,8 +313,7 @@ function PlayPageClient() {
     // 按综合评分排序，选择最佳播放源
     resultsWithScore.sort((a, b) => b.score - a.score);
 
-    resultsWithScore.forEach((result, index) => {
-    });
+
 
     return resultsWithScore[0].source;
   };
@@ -1347,7 +1346,7 @@ function PlayPageClient() {
                   artPlayerRef.current = null;
                 }
                 setBlockAdEnabled(newVal);
-              } catch (_) {
+              } catch {
                 // ignore
               }
               return newVal ? '当前开启' : '当前关闭';

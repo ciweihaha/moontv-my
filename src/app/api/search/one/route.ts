@@ -77,7 +77,7 @@ export async function GET(request: Request) {
       // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
       return jsonWithCache({ results: result }, cacheTime);
     }
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       {
         error: '搜索失败',

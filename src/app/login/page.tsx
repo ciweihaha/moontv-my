@@ -21,7 +21,7 @@ function VersionDisplay() {
       try {
         const status = await checkForUpdates();
         setUpdateStatus(status);
-      } catch (_) {
+      } catch {
         // do nothing
       } finally {
         setIsChecking(false);

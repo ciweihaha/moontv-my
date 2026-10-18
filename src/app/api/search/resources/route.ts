@@ -13,7 +13,7 @@ export async function GET() {
 
     // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
     return jsonWithCache(apiSites, cacheTime);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: '获取资源失败' }, { status: 500 });
   }
 }
