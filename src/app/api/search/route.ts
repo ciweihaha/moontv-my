@@ -3,9 +3,20 @@ import { NextResponse } from 'next/server';
 import { getCacheTime, getConfig } from '@/lib/config';
 import { searchFromApi } from '@/lib/downstream';
 import { jsonWithCache } from '@/lib/http';
+import {
+  buildSearchCacheKey,
+  getCachedSearch,
+  getInflight,
+  setCachedSearch,
+  setInflight,
+  sitesFingerprint,
+} from '@/lib/searchCache';
+import { SearchResult } from '@/lib/types';
 import { yellowRegex } from '@/lib/yellow';
 
 export const runtime = 'edge';
+
+type ApiSiteEntry = Awaited<ReturnType<typeof getConfig>>['SourceConfig'][number];
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -38,16 +49,65 @@ export async function GET(request: Request) {
       sitesByApi.set(site.api, [site]);
     }
   }
+
+  // KV-CACHE: 缓存 key = 版本 + 站点指纹 + 归一化搜索词哈希
+  // 站点增删/禁用 → 指纹变化 → 旧缓存自然失效
+  const fingerprint = await sitesFingerprint(Array.from(sitesByApi.keys()));
+  const cacheKey = await buildSearchCacheKey(query, fingerprint);
+
+  // KV-CACHE: 先查缓存（未绑定 KV 时 getCachedSearch 直接返回 null）
+  const cached = await getCachedSearch(cacheKey);
+  if (cached) {
+    const cacheTime = await getCacheTime();
+    return jsonWithCache({ results: cached.results }, cacheTime, 200, {
+      'X-Search-Cache': 'HIT',
+    });
+  }
+
+  // KV-CACHE: single-flight，同一 isolate 内并发同 query 只打一次上游（防击穿）
+  const inflight = getInflight(cacheKey);
+  if (inflight) {
+    const results = await inflight;
+    const cacheTime = await getCacheTime();
+    return jsonWithCache({ results }, cacheTime, 200, {
+      'X-Search-Cache': 'HIT-SHARED',
+    });
+  }
+
+  const upstreamPromise = doUpstreamSearch(
+    sitesByApi,
+    query,
+    config.SiteConfig.SearchDownstreamMaxPage,
+    config.SiteConfig.DisableYellowFilter
+  );
+  setInflight(cacheKey, upstreamPromise);
+
+  const flattenedResults = await upstreamPromise;
+
+  // KV-CACHE: 写回（失败不影响响应；空结果短 TTL 防穿透）
+  await setCachedSearch(cacheKey, query, flattenedResults);
+
+  const cacheTime = await getCacheTime();
+
+  // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
+  return jsonWithCache({ results: flattenedResults }, cacheTime, 200, {
+    'X-Search-Cache': 'MISS',
+  });
+}
+
+/** 原搜索主流程下沉为函数：44 上游并行 → 黄词过滤，便于缓存层复用 */
+async function doUpstreamSearch(
+  sitesByApi: Map<string, ApiSiteEntry[]>,
+  query: string,
+  maxSearchPages: number,
+  disableYellowFilter: boolean | undefined
+): Promise<SearchResult[]> {
   const searchPromises = Array.from(sitesByApi.values()).map(
-    async (sites: typeof apiSites) => {
+    async (sites: ApiSiteEntry[]) => {
       // 用组内第一个站点作为代表发起请求（PERF-R1: 页数一次传入，避免重复读配置）
-      const results = await searchFromApi(
-        sites[0],
-        query,
-        config.SiteConfig.SearchDownstreamMaxPage
-      );
+      const results = await searchFromApi(sites[0], query, maxSearchPages);
       // 结果展开回组内每个站点，保留各自的 source key 和 source_name
-      return sites.flatMap((site: (typeof apiSites)[number]) =>
+      return sites.flatMap((site) =>
         results.map((r) => ({ ...r, source: site.key, source_name: site.name }))
       );
     }
@@ -63,7 +123,7 @@ export async function GET(request: Request) {
       Promise.allSettled(searchPromises).then((settled) =>
         settled
           .filter(
-            (s): s is PromiseFulfilledResult<Awaited<ReturnType<typeof searchPromises[number]>>> =>
+            (s): s is PromiseFulfilledResult<SearchResult[]> =>
               s.status === 'fulfilled'
           )
           .map((s) => s.value)
@@ -73,8 +133,10 @@ export async function GET(request: Request) {
       // 超时：返回空（上游各自有 8s 单超时，此处为兜底）
       return [];
     });
-    let flattenedResults = results.flat();
-    if (!config.SiteConfig.DisableYellowFilter) {
+    let flattenedResults: SearchResult[] = (
+      results as SearchResult[][]
+    ).flat();
+    if (!disableYellowFilter) {
       flattenedResults = flattenedResults.filter((result) => {
         // 与详情接口对齐：同时检查 title + type_name，并转小写做大小写归一化
         // PERF-R1: 预编译正则一次匹配，替代逐词 includes
@@ -84,11 +146,8 @@ export async function GET(request: Request) {
         return !yellowRegex.test(checkText);
       });
     }
-    const cacheTime = await getCacheTime();
-
-    // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
-    return jsonWithCache({ results: flattenedResults }, cacheTime);
+    return flattenedResults;
   } catch (error) {
-    return NextResponse.json({ error: '搜索失败' }, { status: 500 });
+    return [];
   }
 }

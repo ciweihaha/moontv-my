@@ -7,7 +7,9 @@ import { NextResponse } from 'next/server';
 export function jsonWithCache<T>(
   data: T,
   cacheTime: number,
-  status: number = 200
+  status = 200,
+  // KV-CACHE: 可选额外响应头（如 X-Search-Cache: HIT/MISS），向后兼容
+  extraHeaders?: Record<string, string>
 ): NextResponse {
   return NextResponse.json(data, {
     status,
@@ -15,6 +17,7 @@ export function jsonWithCache<T>(
       'Cache-Control': `public, max-age=${cacheTime}, s-maxage=${cacheTime}`,
       'CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
       'Vercel-CDN-Cache-Control': `public, s-maxage=${cacheTime}`,
+      ...extraHeaders,
     },
   });
 }
