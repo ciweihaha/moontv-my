@@ -7,7 +7,8 @@ import { resetConfig } from '@/lib/config';
 
 export const runtime = 'edge';
 
-export async function GET(request: NextRequest) {
+// R7-S1: 破坏性操作改用 POST，防 CSRF/预加载误触发
+export async function POST(request: NextRequest) {
   // R3-A3: 统一鉴权，owner-only（requireAdmin 含 localstorage 检查）
   const { user, error } = await requireAdmin(request);
   if (error) return error;
