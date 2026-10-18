@@ -12,9 +12,10 @@ export async function POST() {
     response.cookies.set('auth', '', {
       path: '/',
       expires: new Date(0),
-      sameSite: 'lax', // 改为 lax 以支持 PWA
-      httpOnly: false, // PWA 需要客户端可访问
-      secure: false, // 根据协议自动设置
+      sameSite: 'lax',
+      // R10-S1: 与 login 保持一致，确保 Cookie 正确清除
+      httpOnly: true,
+      secure: true,
     });
 
     return response;
