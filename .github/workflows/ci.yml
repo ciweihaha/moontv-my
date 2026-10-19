@@ -22,32 +22,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.9
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install dependencies
-        # AUDIT-R5 P2 (reverted): pnpm-lock.yaml 不提交到仓库（Cloudflare Pages 构建冲突）。
-        # CI 在此按需生成：若锁文件不存在先用普通安装生成，再用 --frozen-lockfile
-        # 验证一致性；若已存在则直接冻结安装。
-        run: |
-          if [ ! -f pnpm-lock.yaml ]; then
-            echo "pnpm-lock.yaml not found, generating..."
-            pnpm install --no-frozen-lockfile
-          fi
-          pnpm install --frozen-lockfile
+        # 仓库提交了 package-lock.json，直接 npm ci 冻结安装，保证依赖可复现。
+        # 旧流程用 pnpm 并按需临时生成锁文件，已弃用。
+        run: npm ci
+
+      - name: Test
+        # package.json 含 test 脚本（jest）：CI 执行它
+        run: npm test -- --ci
 
       - name: Typecheck
-        run: pnpm run typecheck
+        run: npm run typecheck
 
       - name: Lint
-        run: pnpm run lint
+        run: npm run lint
 
       - name: Build
-        run: pnpm run build
+        run: npm run build
