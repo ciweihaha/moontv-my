@@ -18,13 +18,24 @@ function isBlockedIPv4(ip: string): boolean {
   if (parts.length !== 4) return false;
   const nums = parts.map((p) => parseInt(p, 10));
   if (nums.some((n) => Number.isNaN(n) || n < 0 || n > 255)) return false;
-  const [a, b] = nums;
+  const [a, b, c] = nums;
   if (a === 10) return true; // 10.0.0.0/8
   if (a === 172 && b >= 16 && b <= 31) return true; // 172.16.0.0/12
   if (a === 192 && b === 168) return true; // 192.168.0.0/16
   if (a === 127) return true; // 127.0.0.0/8 回环
   if (a === 169 && b === 254) return true; // 169.254.0.0/16 链路本地
   if (a === 0) return true; // 0.0.0.0/8
+  // AUDIT-R6：补齐 IANA 特殊用途地址段（默认仅公网可路由地址才可能放行）
+  if (a === 100 && b >= 64 && b <= 127) return true; // 100.64.0.0/10 共享地址空间（CGNAT）
+  if (a === 192 && b === 0 && c === 0) return true; // 192.0.0.0/24 IETF 协议分配
+  if (a === 192 && b === 0 && c === 2) return true; // 192.0.2.0/24 文档示例（TEST-NET-1）
+  if (a === 198 && b >= 18 && b <= 19) return true; // 198.18.0.0/15 基准测试
+  if (a === 198 && b === 51 && c === 100) return true; // 198.51.100.0/24 文档示例（TEST-NET-2）
+  if (a === 203 && b === 0 && c === 113) return true; // 203.0.113.0/24 文档示例（TEST-NET-3）
+  if (a >= 224 && a <= 239) return true; // 224.0.0.0/4 组播
+  if (a >= 240) return true; // 240.0.0.0/4 保留（含 255.255.255.255 有限广播）
+  // 注：192.31.196.0/24（AS112）、192.52.193.0/24（AMT）、192.88.99.0/24
+  // （已废弃的 6to4 中继，IANA 2015 年回收）不属非公网可路由，故不拦截。
   return false;
 }
 
@@ -87,9 +98,11 @@ function expandIPv6(ip: string): number[] | null {
 
 /**
  * AUDIT-R4 P1-2: 从展开的 IPv6 中提取内嵌 IPv4。
- * 覆盖两种形式：
+ * 覆盖三种形式：
  *  1. IPv4-mapped ::ffff:0:0/96（如 ::ffff:192.168.1.1 或 ::ffff:c0a8:101）
  *  2. IPv4-compatible ::/96（已废弃，但仍检查）
+ *  3. NAT64（RFC 6052 / RFC 8219）：64:ff9b::/96（well-known）与
+ *     64:ff9b:1::/48（local-use），内嵌 IPv4 为末 32 位
  * 返回点分十进制字符串，无内嵌 IPv4 时返回 null。
  */
 function extractEmbeddedIPv4(groups: number[]): string | null {
@@ -100,7 +113,18 @@ function extractEmbeddedIPv4(groups: number[]): string | null {
   const isCompatible =
     groups.slice(0, 6).every((g) => g === 0) &&
     !(groups[6] === 0 && groups[7] <= 1);
-  if (!isMapped && !isCompatible) return null;
+  // AUDIT-R6：NAT64 前缀的内嵌 IPv4 为末 32 位（groups[6], groups[7]）
+  const isNat64WellKnown =
+    groups[0] === 0x64 &&
+    groups[1] === 0xff9b &&
+    groups[2] === 0 &&
+    groups[3] === 0 &&
+    groups[4] === 0 &&
+    groups[5] === 0;
+  const isNat64LocalUse =
+    groups[0] === 0x64 && groups[1] === 0xff9b && groups[2] === 0x1;
+  if (!isMapped && !isCompatible && !isNat64WellKnown && !isNat64LocalUse)
+    return null;
   const a = (groups[6] >> 8) & 0xff;
   const b = groups[6] & 0xff;
   const c = (groups[7] >> 8) & 0xff;
@@ -196,9 +220,11 @@ const dnsCache = new Map<string, { ips: string[]; expires: number }>();
 
 /**
  * AUDIT-R5 P1: 用 DNS-over-HTTPS 解析主机名的 A/AAAA 记录。
- * 返回去重后的 IP 列表；解析失败、超时、无记录时返回 null（表示"未知"，
+ * 返回去重后的 IP 列表；解析失败、超时、两族均无记录时返回 null（表示"未知"，
  * 调用方按 2026-10-19 方案 B（fail-closed）决策：未知直接拒绝，
  * 仅全部记录为公网 IP 时放行）。
+ * AUDIT-R6：某地址族 Status=0 但无 Answer（NODATA）不视为失败，
+ * 仅合法地继续查另一地址族；错误码（含 Status 缺失）则整体判未知。
  */
 async function resolveHostnameToIPs(hostname: string): Promise<string[] | null> {
   const now = Date.now();
@@ -234,9 +260,17 @@ async function resolveHostnameToIPs(hostname: string): Promise<string[] | null> 
         Status?: number;
         Answer?: Array<{ type: number; data: string }>;
       };
-      // Status 0 = NOERROR；3 = NXDOMAIN（域名不存在，直接拒绝）
-      if (data.Status !== 0 || !data.Answer) {
-        if (data.Status === 3) return null;
+      // AUDIT-R6：严格区分"查询失败"与"该地址族无记录"。
+      // - Status 缺失或为错误码（SERVFAIL/FORMERR/REFUSED 等，含 NXDOMAIN=3）：
+      //   DNS 解析服务本身不可信 → 整个主机名判为"未知"，按方案 B 直接拒绝。
+      // - Status=0 但无 Answer（NODATA）：该地址族确实无记录，合法地继续查另一地址族。
+      // 旧逻辑对非 3 的错误码继续查另一种记录，导致 A 查询 SERVFAIL、AAAA 返回公网
+      // 时只凭 AAAA 放行——未经验证的错误被当作"无记录"跳过。
+      const status = data.Status;
+      if (status === undefined || status !== 0) {
+        return null;
+      }
+      if (!data.Answer) {
         continue;
       }
       for (const ans of data.Answer) {

@@ -123,6 +123,21 @@ interface DohEntry {
   dohStatus?: number;
   /** false 表示 DoH HTTP 层直接失败 */
   dohOk?: boolean;
+  /** 按查询类型（A / AAAA）分别指定 DoH 响应，用于不对称状态测试 */
+  aType?: DohTypeEntry;
+  aaaaType?: DohTypeEntry;
+}
+
+/** 单个查询类型（A 或 AAAA）的 DoH 响应 */
+interface DohTypeEntry {
+  /** 该地址族的地址列表 */
+  ips?: string[];
+  /** DoH Status；0=NOERROR（默认） */
+  dohStatus?: number;
+  /** true 时返回不带 Status 的 payload（视为解析服务异常） */
+  noStatus?: boolean;
+  /** false 表示 DoH HTTP 层直接失败 */
+  dohOk?: boolean;
 }
 
 /** 最小的目标响应形状：GET 只用 ok/status/statusText/headers.get/arrayBuffer/body.getReader/json */
@@ -146,6 +161,17 @@ function dohJson(payload: unknown): MockTargetResponse {
     body: null,
     json: async () => payload,
   };
+}
+
+/** 按查询类型构造 DoH 响应：{Status:0} 且无 Answer 表示 NODATA */
+function dohTypeJson(qtype: string, sub: DohTypeEntry): MockTargetResponse {
+  if (sub.dohOk === false) return dohHttpFail();
+  if (sub.noStatus) return dohJson({});
+  const status = sub.dohStatus ?? 0;
+  if (status !== 0) return dohJson({ Status: status });
+  const t = qtype === 'AAAA' ? 28 : 1;
+  const answers = (sub.ips ?? []).map((ip) => ({ type: t, data: ip }));
+  return dohJson(answers.length > 0 ? { Status: 0, Answer: answers } : { Status: 0 });
 }
 
 function dohHttpFail(): MockTargetResponse {
@@ -229,8 +255,14 @@ function installFetchMock(opts: {
     if (url.startsWith(DOH_PREFIX)) {
       const u = new URL(url);
       const name = u.searchParams.get('name') || '';
+      const qtype = u.searchParams.get('type') || 'A';
       const entry = opts.doh[name];
-      if (!entry || entry.dohOk === false) return dohHttpFail();
+      if (!entry) return dohHttpFail();
+      // 按查询类型分别指定的响应（不对称状态测试）
+      const sub = qtype === 'AAAA' ? entry.aaaaType : entry.aType;
+      if (sub) return dohTypeJson(qtype, sub);
+      // 旧扁平写法：同一 payload 同时用作 A/AAAA 的响应
+      if (entry.dohOk === false) return dohHttpFail();
       const status = entry.dohStatus ?? 0;
       if (status !== 0) return dohJson({ Status: status });
       const answers: Array<{ type: number; data: string }> = [];
@@ -446,6 +478,138 @@ describe('image-proxy SSRF 回归', () => {
       });
       const res = await callProxy('http://redirect-public.example/go.jpg');
       expect(res.status).toBe(200);
+    });
+  });
+
+  describe('IPv4 新增 IANA 特殊用途段 → 403 且不发起任何请求', () => {
+    const cases: Array<[string, string]> = [
+      ['100.64.0.0/10 共享地址空间（CGNAT）', 'http://100.64.1.1/x.jpg'],
+      ['192.0.0.0/24 IETF 协议分配', 'http://192.0.0.1/x.jpg'],
+      ['192.0.2.0/24 文档示例', 'http://192.0.2.1/x.jpg'],
+      ['198.18.0.0/15 基准测试', 'http://198.18.0.1/x.jpg'],
+      ['198.51.100.0/24 文档示例', 'http://198.51.100.1/x.jpg'],
+      ['203.0.113.0/24 文档示例', 'http://203.0.113.1/x.jpg'],
+      ['224.0.0.0/4 组播', 'http://224.0.0.1/x.jpg'],
+      ['240.0.0.0/4 保留', 'http://240.0.0.1/x.jpg'],
+      ['255.255.255.255 有限广播', 'http://255.255.255.255/x.jpg'],
+    ];
+    it.each(cases)('%s', async (_label, target) => {
+      const { calls } = installFetchMock({ doh: {}, targets: {} });
+      const res = await callProxy(target);
+      expect(res.status).toBe(403);
+      expect(calls).toHaveLength(0);
+    });
+  });
+
+  describe('NAT64 前缀内嵌 IPv4 → 提取后按 IPv4 规则判定', () => {
+    it.each([
+      ['64:ff9b::/96 → 内嵌 169.254.169.254（链路本地）', 'http://[64:ff9b::a9fe:a9fe]/x.jpg'],
+      ['64:ff9b:1::/48 → 内嵌 192.168.1.1（私有）', 'http://[64:ff9b:1::c0a8:101]/x.jpg'],
+    ])('%s', async (_label, target) => {
+      const { calls } = installFetchMock({ doh: {}, targets: {} });
+      const res = await callProxy(target);
+      expect(res.status).toBe(403);
+      expect(calls).toHaveLength(0);
+    });
+
+    it('64:ff9b::/96 → 内嵌 8.8.8.8（公网）→ 放行', async () => {
+      const { calls } = installFetchMock({
+        doh: {},
+        targets: { '64:ff9b::808:808': 'image' },
+      });
+      const res = await callProxy('http://[64:ff9b::808:808]/x.jpg');
+      expect(res.status).toBe(200);
+      expect(res.headers.get('content-type')).toBe('image/png');
+      expect(calls.some((c) => c.includes('64:ff9b::808:808'))).toBe(true);
+    });
+  });
+
+  describe('DoH 不对称状态 → 查询失败即拒绝，NODATA 合法继续', () => {
+    it('A=SERVFAIL + AAAA=公网 → 403（错误不被当作无记录）', async () => {
+      const { calls } = installFetchMock({
+        doh: {
+          'asym-sfail-a.example': {
+            aType: { dohStatus: 2 },
+            aaaaType: { ips: [PUBLIC_A] },
+          },
+        },
+        targets: {},
+      });
+      const res = await callProxy('http://asym-sfail-a.example/x.jpg');
+      expect(res.status).toBe(403);
+      expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
+    });
+
+    it('AAAA=SERVFAIL + A=公网 → 403', async () => {
+      const { calls } = installFetchMock({
+        doh: {
+          'asym-sfail-aaaa.example': {
+            aType: { ips: [PUBLIC_A] },
+            aaaaType: { dohStatus: 2 },
+          },
+        },
+        targets: {},
+      });
+      const res = await callProxy('http://asym-sfail-aaaa.example/x.jpg');
+      expect(res.status).toBe(403);
+      expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
+    });
+
+    it('A 缺 Status + AAAA=公网 → 403（缺失视为失败）', async () => {
+      const { calls } = installFetchMock({
+        doh: {
+          'asym-nostatus-a.example': {
+            aType: { noStatus: true },
+            aaaaType: { ips: [PUBLIC_A] },
+          },
+        },
+        targets: {},
+      });
+      const res = await callProxy('http://asym-nostatus-a.example/x.jpg');
+      expect(res.status).toBe(403);
+      expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
+    });
+
+    it('A=NODATA + AAAA=公网 → 200 放行', async () => {
+      const { calls } = installFetchMock({
+        doh: {
+          'asym-nodata-a.example': {
+            aType: {},
+            aaaaType: { ips: [PUBLIC_A] },
+          },
+        },
+        targets: { 'asym-nodata-a.example': 'image' },
+      });
+      const res = await callProxy('http://asym-nodata-a.example/x.jpg');
+      expect(res.status).toBe(200);
+      expect(calls.some((c) => c.startsWith('http://asym-nodata-a.example'))).toBe(true);
+    });
+
+    it('AAAA=NODATA + A=公网 → 200 放行', async () => {
+      const { calls } = installFetchMock({
+        doh: {
+          'asym-nodata-aaaa.example': {
+            aType: { ips: [PUBLIC_A] },
+            aaaaType: {},
+          },
+        },
+        targets: { 'asym-nodata-aaaa.example': 'image' },
+      });
+      const res = await callProxy('http://asym-nodata-aaaa.example/x.jpg');
+      expect(res.status).toBe(200);
+      expect(calls.some((c) => c.startsWith('http://asym-nodata-aaaa.example'))).toBe(true);
+    });
+  });
+
+  describe('域名 DoH 解析到 CGNAT 共享地址空间 → 403', () => {
+    it('域名解析到 100.64.23.9 → 403，且不抓取目标', async () => {
+      const { calls } = installFetchMock({
+        doh: { 'cgnat-a.example': { a: ['100.64.23.9'] } },
+        targets: {},
+      });
+      const res = await callProxy('http://cgnat-a.example/x.jpg');
+      expect(res.status).toBe(403);
+      expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
   });
 });
