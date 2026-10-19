@@ -17,7 +17,7 @@
  * WHATWG 垫片：jest 27 的 node 环境未暴露 Request/Response/Headers/AbortController
  * 全局变量（见 jest.setup.js 对 ReadableStream 的同类处理），而 next/server 在模块
  * 加载时就会引用它们。这里提供仅覆盖 handler 实际用法的最小垫片，并在垫片就绪
- * 后再用 require 加载 route 模块（ES import 会被提升到垫片之前，故不能用）。
+ * 后再用动态 import() 加载 route 模块（ES import 会被提升到垫片之前，故不能用）。
  */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -106,10 +106,13 @@ if (typeof g.Headers === 'undefined') g.Headers = ShimHeaders;
 if (typeof g.AbortController === 'undefined')
   g.AbortController = ShimAbortController;
 
-// 垫片就绪后再加载被测模块（import 会被提升，故用 require）
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const routeModule = require('../route') as typeof import('../route');
-const { GET } = routeModule;
+// 垫片就绪后再动态加载被测模块（静态 import 会被提升到垫片之前，
+// 而 require() 风格被仓库 ESLint 禁止，故用动态 import）。
+let GET: (request: Request) => Promise<Response>;
+beforeAll(async () => {
+  const mod = (await import('../route')) as typeof import('../route');
+  GET = mod.GET;
+});
 
 const DOH_PREFIX = 'https://cloudflare-dns.com/dns-query';
 
