@@ -98,20 +98,34 @@ export const SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 /**
  * 会话签名密钥。
- * 优先使用独立的 SESSION_SECRET；未配置时回退到 PASSWORD（兼容现有会话）。
- * 建议在生产环境配置高强度随机的 SESSION_SECRET，与密码验证用途分离。
- *
- * AUDIT-R5 P2: 密钥缺失时的行为（明确定义）：
- *  1. SESSION_SECRET 已配置 → 使用 SESSION_SECRET 签名/验签。
- *  2. SESSION_SECRET 未配置、PASSWORD 已配置 → 回退使用 PASSWORD。
- *     行为与历史版本完全一致，现有用户会话不受影响，无需重新登录。
- *  3. 两者都未配置 → 返回空字符串；verifyAuthSession 对空密钥直接返回 null，
- *     即所有会话验证失败，等同于「未登录」状态，不会产生可伪造的会话。
- * 生产环境建议走第 1 种（独立强随机密钥）；修改密钥会使既有会话失效，
- * 轮换前需评估用户重新登录成本。
+ * 优先使用独立的 SESSION_SECRET；未配置时的行为按环境区分：
+ *  - 生产环境（NODE_ENV === 'production'）→ 抛出错误，会话功能 fail-closed，
+ *    绝不在生产环境静默回退到登录密码做签名密钥（AUDIT-R6）。
+ *  - 非生产环境 → 回退到 PASSWORD（与历史版本行为一致，开发/兼容），
+ *    并输出一次告警提醒配置独立密钥。
+ *  - 两者都未配置 → 返回空字符串；verifyAuthSession 对空密钥直接返回 null，
+ *    即所有会话验证失败，等同于「未登录」状态，不会产生可伪造的会话。
+ * 修改密钥会使既有会话失效，轮换前需评估用户重新登录成本。
  */
+let sessionSecretFallbackWarned = false;
+
 export function getSessionSecret(): string {
-  return process.env.SESSION_SECRET || process.env.PASSWORD || '';
+  const configured = process.env.SESSION_SECRET;
+  if (configured) return configured;
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      '[auth] SESSION_SECRET 未配置：生产环境拒绝启动会话功能。请设置高强度随机的 ' +
+      'SESSION_SECRET（与登录密码 PASSWORD 分离）。'
+    );
+  }
+  if (!sessionSecretFallbackWarned) {
+    sessionSecretFallbackWarned = true;
+    console.warn(
+      '[auth] SESSION_SECRET 未配置，非生产环境回退使用 PASSWORD 签名会话；' +
+      '生产环境请务必配置独立的高强度随机 SESSION_SECRET。'
+    );
+  }
+  return process.env.PASSWORD || '';
 }
 
 export interface VerifiedSession {
@@ -137,9 +151,9 @@ export function buildSessionSignData(
  * 顺序：先验签（不信任未验证的数据），验签通过后再检查时间戳有效期。
  * 签名覆盖 username/role/timestamp 整体；缺失时间戳的旧 Cookie 直接拒绝。
  *
- * 注意：SESSION_SECRET 未配置时回退到 PASSWORD（兼容现有会话）。
- * 生产环境建议配置独立的高强度随机 SESSION_SECRET，与密码验证用途分离，
- * 但这是可选的——不配置时行为与之前完全一致，现有用户无需重新登录。
+ * 注意：SESSION_SECRET 未配置时，非生产环境回退到 PASSWORD（兼容现有会话）；
+ * 生产环境（NODE_ENV === 'production'）直接抛错，会话功能 fail-closed。
+ * 生产环境务必配置独立的高强度随机 SESSION_SECRET，与密码验证用途分离。
  */
 export async function verifyAuthSession(
   authInfo: AuthCookieData | null
