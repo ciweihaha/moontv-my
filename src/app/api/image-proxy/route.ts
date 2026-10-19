@@ -187,8 +187,8 @@ const MAX_REDIRECTS = 5;
 
 // AUDIT-R5 P1: DNS-over-HTTPS 解析配置（防 DNS 重绑定）
 // 仅对非 IP 字面量的主机名做 DoH 解析，验证其 A/AAAA 记录全部为公网 IP。
-// 2026-10-19 方案 A：fail-open on 未知、fail-closed on 确认恶意。
-// DoH 查不到（NXDOMAIN/SERVFAIL/超时/空记录）时放行，仅明确解析出内网 IP 时拒绝。
+// 2026-10-19 方案 B（fail-closed）：DoH 查不到（NXDOMAIN/SERVFAIL/超时/空记录）
+// 或解析出任一内网/特殊地址时都拒绝请求，仅全部记录为公网 IP 时放行。
 const DOH_ENDPOINT = 'https://cloudflare-dns.com/dns-query';
 const DOH_TIMEOUT_MS = 5000;
 const DNS_CACHE_TTL_MS = 60 * 1000; // 60 秒内存缓存，平衡安全与性能
@@ -197,7 +197,8 @@ const dnsCache = new Map<string, { ips: string[]; expires: number }>();
 /**
  * AUDIT-R5 P1: 用 DNS-over-HTTPS 解析主机名的 A/AAAA 记录。
  * 返回去重后的 IP 列表；解析失败、超时、无记录时返回 null（表示"未知"，
- * 调用方按 2026-10-19 方案 A 决策：未知放行，仅确认恶意时拦截）。
+ * 调用方按 2026-10-19 方案 B（fail-closed）决策：未知直接拒绝，
+ * 仅全部记录为公网 IP 时放行）。
  */
 async function resolveHostnameToIPs(hostname: string): Promise<string[] | null> {
   const now = Date.now();
@@ -259,20 +260,20 @@ async function resolveHostnameToIPs(hostname: string): Promise<string[] | null> 
 /**
  * AUDIT-R5 P1: 验证主机名的 DNS 解析结果全部为公网 IP。
  * - IP 字面量：沿用 isBlockedHost 的字符串检查（WHATWG URL 已规范化）
- * - 域名：DoH 解析 A/AAAA，仅当**明确解析出**内网/特殊地址时拒绝
+ * - 域名：DoH 解析 A/AAAA，任一记录为内网/特殊地址时拒绝
  *
- * 2026-10-19 方案 A（fail-open on 未知，fail-closed on 确认恶意）：
- * DoH 返回 NXDOMAIN / SERVFAIL / 超时 / 空记录时视为"未知"直接放行，
- * 不再 403。原因：部分合法图床（如 img.ffzyimg.com、pic.wujinpic.com）
- * 在公共 DoH 上 NXDOMAIN，但经边缘本地 DNS 可正常出图；fail-closed
- * 把可用性问题的责任推给了安全检查，造成误伤。字符串层检查
- * （isBlockedHost：IP 字面量、localhost、元数据地址等）不受影响，仍全量生效。
+ * 2026-10-19 方案 B（fail-closed）：DoH 返回 NXDOMAIN / SERVFAIL / 超时 /
+ * 空记录时视为"未知"并直接拒绝（403），仅当解析结果非空且全部为公网 IP
+ * 时放行。已确认方案 A 的可用性顾虑（个别图床在公共 DoH 上 NXDOMAIN）服从
+ * 安全需求：查不到解析结果的请求不放行。
+ * 字符串层检查（isBlockedHost：IP 字面量、localhost、元数据地址等）不受影响，仍全量生效。
  *
- * 注意剩余风险（TOCTOU）：DoH 查询与实际 fetch 之间存在时间窗口，
+ * 注意剩余风险（TOCTOU / DNS 重绑定）：DoH 查询与实际 fetch 之间存在时间窗口，
  * 攻击者若控制 DNS 且使用极短 TTL，仍可能在检查后切换解析结果。
  * 本检查显著缩小攻击窗口，但不能替代「在 fetch 时固定目标 IP」；
- * 后者在 fetch API 下会破坏 HTTPS 的 SNI/证书校验，故采用此折中方案。
- * 方案 A 下该残余风险依然存在，特此文档化。
+ * 后者在 fetch API 下会破坏 HTTPS 的 SNI/证书校验（edge runtime 下引入
+ * undici 自定义 dispatcher 的改动面过大），故采用此折中方案。
+ * 真正的 rebinding 绑定（连接固定到已校验 IP）尚未实现，留作后续工作。
  */
 async function validateHostnameDNS(hostname: string): Promise<{ ok: boolean; reason?: string }> {
   const h = hostname.toLowerCase().trim();
@@ -286,8 +287,8 @@ async function validateHostnameDNS(hostname: string): Promise<{ ok: boolean; rea
   // 域名：DoH 解析并检查每条记录
   const ips = await resolveHostnameToIPs(bare);
   if (!ips) {
-    // 方案 A：DoH 未知（NXDOMAIN/SERVFAIL/超时/空记录）→ 放行
-    return { ok: true };
+    // 方案 B（fail-closed）：DoH 未知（NXDOMAIN/SERVFAIL/超时/空记录）→ 拒绝
+    return { ok: false, reason: 'DNS resolution failed or returned no records' };
   }
   for (const ip of ips) {
     if (isBlockedHost(ip)) {
@@ -301,7 +302,7 @@ async function validateHostnameDNS(hostname: string): Promise<{ ok: boolean; rea
  * AUDIT-R3 P0-C: 验证 URL 是否允许请求（协议 + 主机 + DNS 解析）。
  * 每一跳重定向前都要调用，禁止的请求在发出前就被拦截。
  * AUDIT-R5 P1: 增加 DNS-over-HTTPS 解析检查，防 DNS 重绑定。
- * 2026-10-19 方案 A：DNS 未知时放行，仅确认解析出内网 IP 时拦截。
+ * 2026-10-19 方案 B：DNS 未知或解析出内网 IP 时拦截，仅全公网记录放行。
  */
 async function validateUrlForFetch(
   urlString: string
@@ -318,7 +319,7 @@ async function validateUrlForFetch(
   if (isBlockedHost(parsed.hostname)) {
     return { ok: false, error: 'Blocked host', status: 403 };
   }
-  // AUDIT-R5 P1: DNS 解析结果检查（2026-10-19 方案 A：未知放行，确认恶意才拦截）
+  // AUDIT-R5 P1: DNS 解析结果检查（2026-10-19 方案 B：未知拒绝，仅全公网记录放行）
   const dnsCheck = await validateHostnameDNS(parsed.hostname);
   if (!dnsCheck.ok) {
     return { ok: false, error: `DNS check failed: ${dnsCheck.reason || 'blocked'}`, status: 403 };
