@@ -13,8 +13,88 @@
  * 重定向逐跳校验（跳到内网 IP、跳到内网域名、全程公网）。
  *
  * 注意：dnsCache 是模块级内存缓存，各用例使用互不重复的主机名，避免缓存串扰。
+ *
+ * WHATWG 垫片：jest 27 的 node 环境未暴露 Request/Response/Headers/AbortController
+ * 全局变量（见 jest.setup.js 对 ReadableStream 的同类处理），而 next/server 在模块
+ * 加载时就会引用它们。这里提供仅覆盖 handler 实际用法的最小垫片，并在垫片就绪
+ * 后再用 require 加载 route 模块（ES import 会被提升到垫片之前，故不能用）。
  */
-import { GET } from '../route';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+class ShimHeaders {
+  private map = new Map<string, string>();
+  constructor(init?: Record<string, string> | ShimHeaders) {
+    if (init instanceof ShimHeaders) {
+      init.map.forEach((v, k) => this.map.set(k, v));
+    } else if (init) {
+      for (const k of Object.keys(init)) this.map.set(k.toLowerCase(), init[k]);
+    }
+  }
+  set(name: string, value: string): void {
+    this.map.set(name.toLowerCase(), value);
+  }
+  get(name: string): string | null {
+    return this.map.get(name.toLowerCase()) ?? null;
+  }
+}
+
+class ShimResponse {
+  readonly status: number;
+  readonly headers: ShimHeaders;
+  private readonly body: unknown;
+  constructor(body?: unknown, init?: { status?: number; headers?: unknown }) {
+    this.status = init?.status ?? 200;
+    this.headers =
+      init?.headers instanceof ShimHeaders
+        ? init.headers
+        : new ShimHeaders(init?.headers as Record<string, string> | undefined);
+    this.body = body;
+  }
+  async json(): Promise<any> {
+    return JSON.parse(String(this.body));
+  }
+  async arrayBuffer(): Promise<ArrayBuffer> {
+    if (this.body instanceof Uint8Array) {
+      return this.body.buffer.slice(
+        this.body.byteOffset,
+        this.body.byteOffset + this.body.byteLength
+      );
+    }
+    return new ArrayBuffer(0);
+  }
+}
+
+class ShimRequest {
+  readonly url: string;
+  constructor(url: string) {
+    this.url = url;
+  }
+}
+
+class ShimAbortController {
+  readonly signal = {
+    aborted: false,
+    addEventListener: () => undefined,
+    removeEventListener: () => undefined,
+  };
+  abort(): void {
+    (this.signal as { aborted: boolean }).aborted = true;
+  }
+}
+
+// eslint-disable-next-line no-undef
+const g = globalThis as any;
+if (typeof g.Request === 'undefined') g.Request = ShimRequest;
+if (typeof g.Response === 'undefined') g.Response = ShimResponse;
+if (typeof g.Headers === 'undefined') g.Headers = ShimHeaders;
+if (typeof g.AbortController === 'undefined')
+  g.AbortController = ShimAbortController;
+
+// 垫片就绪后再加载被测模块（import 会被提升，故用 require）
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const routeModule = require('../route') as typeof import('../route');
+const { GET } = routeModule;
 
 const DOH_PREFIX = 'https://cloudflare-dns.com/dns-query';
 
@@ -27,7 +107,7 @@ interface DohEntry {
   dohOk?: boolean;
 }
 
-/** 最小的目标响应形状：GET 只用 ok/status/statusText/headers.get/arrayBuffer/body.getReader */
+/** 最小的目标响应形状：GET 只用 ok/status/statusText/headers.get/arrayBuffer/body.getReader/json */
 interface MockTargetResponse {
   ok: boolean;
   status: number;
@@ -35,6 +115,7 @@ interface MockTargetResponse {
   headers: { get: (name: string) => string | null };
   arrayBuffer: () => Promise<ArrayBuffer>;
   body: { getReader: () => unknown } | null;
+  json?: () => Promise<any>;
 }
 
 function dohJson(payload: unknown): MockTargetResponse {
@@ -45,10 +126,8 @@ function dohJson(payload: unknown): MockTargetResponse {
     headers: { get: () => 'application/dns-json' },
     arrayBuffer: async () => new ArrayBuffer(0),
     body: null,
-    // GET 链路只在 DoH 上调用 resp.json()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    json: (async () => payload) as any,
-  } as MockTargetResponse;
+    json: async () => payload,
+  };
 }
 
 function dohHttpFail(): MockTargetResponse {
@@ -150,29 +229,25 @@ function installFetchMock(opts: {
     }
     return targetResponse(kind);
   };
-  global.fetch = fake as unknown as typeof fetch;
+  g.fetch = fake;
   return { calls };
 }
 
-/** 调用代理 handler，返回原生 Response 以便断言 status */
+/** 调用代理 handler。handler 只读 request.url，这里用最小形状避免依赖全局 Request。 */
 async function callProxy(target: string): Promise<Response> {
-  const req = new Request(
-    `http://localhost/api/image-proxy?url=${encodeURIComponent(target)}`
-  );
-  return GET(req);
+  const req = {
+    url: `http://localhost/api/image-proxy?url=${encodeURIComponent(target)}`,
+  } as unknown as Request;
+  return (await GET(req)) as unknown as Response;
 }
 
 const PUBLIC_A = '93.184.216.34'; // 文档网段，仅作"公网"占位
 
 describe('image-proxy SSRF 回归', () => {
-  let realFetch: typeof fetch;
-
-  beforeEach(() => {
-    realFetch = global.fetch;
-  });
+  const realFetch = g.fetch;
 
   afterEach(() => {
-    global.fetch = realFetch;
+    g.fetch = realFetch;
   });
 
   describe('IPv4 字面量内网段 → 403 且不发起任何请求', () => {
@@ -213,7 +288,10 @@ describe('image-proxy SSRF 回归', () => {
     const cases: Array<[string, string]> = [
       ['http://127.1 → 规范化为 127.0.0.1', 'http://127.1/x.jpg'],
       ['http://0x7f000001 → 规范化为 127.0.0.1', 'http://0x7f000001/x.jpg'],
-      ['http://2130706433（十进制）→ 规范化为 127.0.0.1', 'http://2130706433/x.jpg'],
+      [
+        'http://2130706433（十进制）→ 规范化为 127.0.0.1',
+        'http://2130706433/x.jpg',
+      ],
     ];
     it.each(cases)('%s', async (_label, target) => {
       const { calls } = installFetchMock({ doh: {}, targets: {} });
