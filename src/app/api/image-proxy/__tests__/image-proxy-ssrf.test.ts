@@ -515,7 +515,8 @@ describe('image-proxy SSRF 回归', () => {
     it('64:ff9b::/96 → 内嵌 8.8.8.8（公网）→ 放行', async () => {
       const { calls } = installFetchMock({
         doh: {},
-        targets: { '64:ff9b::808:808': 'image' },
+        // Node 的 URL.hostname 对 IPv6 字面量保留方括号（已实测），键需含括号
+        targets: { '[64:ff9b::808:808]': 'image' },
       });
       const res = await callProxy('http://[64:ff9b::808:808]/x.jpg');
       expect(res.status).toBe(200);
