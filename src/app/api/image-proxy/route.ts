@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import type { LookupFunction } from 'node:net';
 
 export const runtime = 'edge';
 
@@ -302,20 +303,23 @@ async function resolveHostnameToIPs(hostname: string): Promise<string[] | null> 
  * 安全需求：查不到解析结果的请求不放行。
  * 字符串层检查（isBlockedHost：IP 字面量、localhost、元数据地址等）不受影响，仍全量生效。
  *
- * 注意剩余风险（TOCTOU / DNS 重绑定）：DoH 查询与实际 fetch 之间存在时间窗口，
- * 攻击者若控制 DNS 且使用极短 TTL，仍可能在检查后切换解析结果。
- * 本检查显著缩小攻击窗口，但不能替代「在 fetch 时固定目标 IP」；
- * 后者在 fetch API 下会破坏 HTTPS 的 SNI/证书校验（edge runtime 下引入
- * undici 自定义 dispatcher 的改动面过大），故采用此折中方案。
- * 真正的 rebinding 绑定（连接固定到已校验 IP）尚未实现，留作后续工作。
+ * 注意剩余风险（TOCTOU / DNS 重绑定）：DoH 查询与实际 fetch 之间存在时间窗口。
+ * AUDIT-R7（2026-10-19 双运行时 IP 钉死）已封死该窗口在 nodejs 运行时（Docker
+ * 自托管）下的利用：本函数返回的 ips 即本跳已校验的 IP 集合，调用方用它构造
+ * 钉死 dispatcher（见 getPinnedFetchClient），连接目标被固定为该集合；
+ * edge 运行时（Cloudflare Pages）因 workerd 无连接层可定制，保持现状
+ * （edge 跑在 Cloudflare 机房，无用户内网可打，残余风险低）。
+ * 钉死不改变的假设：DoH 本身仍是信任根；同一已校验 IP 上的内容替换超出 SSRF 范畴。
  */
-async function validateHostnameDNS(hostname: string): Promise<{ ok: boolean; reason?: string }> {
+async function validateHostnameDNS(
+  hostname: string
+): Promise<{ ok: boolean; reason?: string; ips?: string[] }> {
   const h = hostname.toLowerCase().trim();
   const bare = h.startsWith('[') && h.endsWith(']') ? h.slice(1, -1) : h;
 
   // IP 字面量：字符串检查已足够（URL 解析器已规范化十六进制/八进制写法）
   if (bare.includes(':') || /^\d+\.\d+\.\d+\.\d+$/.test(bare)) {
-    return { ok: true };
+    return { ok: true, ips: [bare] };
   }
 
   // 域名：DoH 解析并检查每条记录
@@ -329,7 +333,72 @@ async function validateHostnameDNS(hostname: string): Promise<{ ok: boolean; rea
       return { ok: false, reason: `DNS resolves to blocked IP: ${ip}` };
     }
   }
-  return { ok: true };
+  return { ok: true, ips };
+}
+
+// ---------------------------------------------------------------------------
+// AUDIT-R7: 双运行时 IP 钉死（DNS 重绑定绑定）
+//  - edge（Cloudflare Pages）：workerd 的 fetch 没有连接层可定制，保持全局
+//    fetch 现状；edge 运行在 Cloudflare 机房，无用户内网可打。
+//  - nodejs（Docker 自托管，构建期 sed 已把本文件 runtime 翻为 'nodejs'）：
+//    用 undici 的 Agent 自定义 lookup，只连接本跳已校验的 IP 集合，封死
+//    「DoH 检查 → 实际建连」之间的重绑定窗口；TLS 的 SNI/证书校验仍按 URL
+//    主机名进行（undici 默认行为），未被绕过。
+// ---------------------------------------------------------------------------
+
+/** 钉死 lookup：忽略系统 DNS，只返回本跳已校验的 IP 集合（fail-closed）。 */
+function buildPinnedLookup(validatedIps: string[]): LookupFunction {
+  const pinned = validatedIps.map((ip) => ({
+    address: ip,
+    family: ip.includes(':') ? 6 : 4,
+  }));
+  const lookup = (
+    _hostname: string,
+    options: { all?: boolean },
+    callback: (...args: unknown[]) => void
+  ): void => {
+    // Node 20+ 默认开启 autoSelectFamily，会以 { all: true } 调用 lookup，
+    // 此时必须返回地址数组，否则抛 ERR_INVALID_IP_ADDRESS。
+    if (options && options.all === true) {
+      callback(
+        null,
+        pinned.map((p) => ({ address: p.address, family: p.family }))
+      );
+      return;
+    }
+    const first = pinned[0];
+    if (!first) {
+      // 已校验集合为空：fail-closed，绝不回退系统解析
+      callback(new Error('pinned lookup: empty validated IP set'));
+      return;
+    }
+    callback(null, first.address, first.family);
+  };
+  return lookup as unknown as LookupFunction;
+}
+
+interface PinnedFetchClient {
+  fetch: typeof import('undici').fetch;
+  dispatcher: import('undici').Dispatcher;
+}
+
+/**
+ * 按运行时构造钉死抓取客户端；edge 下返回 null（调用方走全局 fetch 现状）。
+ * undici 必须懒加载 + webpackIgnore：禁止打包器把它打进 edge 产物；
+ * 且必须用 undici 自己的 fetch + Agent（与全局 fetch 混用会抛
+ * invalid onRequestStart）。
+ */
+async function getPinnedFetchClient(
+  validatedIps: string[]
+): Promise<PinnedFetchClient | null> {
+  if (process.env.NEXT_RUNTIME !== 'nodejs') {
+    return null;
+  }
+  const undici = await import(/* webpackIgnore: true */ 'undici');
+  const dispatcher = new undici.Agent({
+    connect: { lookup: buildPinnedLookup(validatedIps) },
+  });
+  return { fetch: undici.fetch, dispatcher };
 }
 
 /**
@@ -340,7 +409,7 @@ async function validateHostnameDNS(hostname: string): Promise<{ ok: boolean; rea
  */
 async function validateUrlForFetch(
   urlString: string
-): Promise<{ ok: boolean; error?: string; status?: number }> {
+): Promise<{ ok: boolean; error?: string; status?: number; ips?: string[] }> {
   let parsed: URL;
   try {
     parsed = new URL(urlString);
@@ -358,7 +427,8 @@ async function validateUrlForFetch(
   if (!dnsCheck.ok) {
     return { ok: false, error: `DNS check failed: ${dnsCheck.reason || 'blocked'}`, status: 403 };
   }
-  return { ok: true };
+  // AUDIT-R7：把本跳已校验的 IP 集合传出，供 nodejs 运行时构造钉死 dispatcher
+  return { ok: true, ips: dnsCheck.ips };
 }
 
 export async function GET(request: Request) {
@@ -413,15 +483,28 @@ export async function GET(request: Request) {
         );
       }
 
-      const resp = await fetch(currentUrl, {
-        headers: {
-          Referer: 'https://movie.douban.com/',
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-        },
-        signal: controller.signal,
-        redirect: 'manual', // P0-C: 手动处理，不自动跟随
-      });
+      // AUDIT-R7 双运行时抓取：
+      // - nodejs（Docker 自托管）：undici 钉死 dispatcher，只连接本跳已校验的 IP，
+      //   封死 DoH 检查与实际建连之间的 DNS 重绑定窗口；
+      // - edge（Cloudflare Pages）：getPinnedFetchClient 返回 null，走全局 fetch 现状。
+      const fetchHeaders = {
+        Referer: 'https://movie.douban.com/',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+      };
+      const pinnedClient = await getPinnedFetchClient(validation.ips ?? []);
+      const resp: Response = pinnedClient
+        ? ((await pinnedClient.fetch(currentUrl, {
+            headers: fetchHeaders,
+            signal: controller.signal,
+            redirect: 'manual',
+            dispatcher: pinnedClient.dispatcher,
+          })) as unknown as Response)
+        : await fetch(currentUrl, {
+            headers: fetchHeaders,
+            signal: controller.signal,
+            redirect: 'manual', // P0-C: 手动处理，不自动跟随
+          });
 
       // 3xx 重定向：取 Location 头，下一跳继续验证
       if (resp.status >= 300 && resp.status < 400) {
