@@ -43,6 +43,21 @@ class ShimResponse {
   readonly status: number;
   readonly headers: ShimHeaders;
   private readonly body: unknown;
+  /** Next 的 NextResponse.json 内部调用原生 Response 的静态 json 方法 */
+  static json(
+    body: unknown,
+    init?: { status?: number; headers?: Record<string, string> | ShimHeaders }
+  ): ShimResponse {
+    const headers =
+      init?.headers instanceof ShimHeaders
+        ? init.headers
+        : new ShimHeaders(init?.headers);
+    headers.set('content-type', 'application/json');
+    return new ShimResponse(JSON.stringify(body), {
+      status: init?.status ?? 200,
+      headers,
+    });
+  }
   constructor(body?: unknown, init?: { status?: number; headers?: unknown }) {
     this.status = init?.status ?? 200;
     this.headers =
