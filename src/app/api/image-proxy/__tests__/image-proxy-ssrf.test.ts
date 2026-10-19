@@ -114,6 +114,23 @@ beforeAll(async () => {
   GET = mod.GET;
 });
 
+// AUDIT-R7 钉死路径的 undici mock：route 在 nodejs 运行时会
+// `await import('undici')` 并取其 Agent/fetch；这里替换为记录行为的假实现。
+// 注意：jest.mock 工厂只能引用 mock* 前缀变量（hoist 限制）。
+const mockUndiciFetch = jest.fn();
+const mockAgentInstances: Array<{ options: any }> = [];
+jest.mock('undici', () => {
+  const Agent = jest.fn().mockImplementation((opts: any) => {
+    const inst = { options: opts };
+    mockAgentInstances.push(inst);
+    return inst;
+  });
+  return {
+    Agent,
+    fetch: (...args: any[]) => mockUndiciFetch(...args),
+  };
+});
+
 const DOH_PREFIX = 'https://cloudflare-dns.com/dns-query';
 
 interface DohEntry {
@@ -224,7 +241,8 @@ type TargetKind =
   | 'image'
   | 'redirect-internal-ip'
   | 'redirect-internal-host'
-  | 'redirect-public';
+  | 'redirect-public'
+  | 'redirect-pin-hop2';
 
 function targetResponse(kind: TargetKind): MockTargetResponse {
   switch (kind) {
@@ -236,6 +254,8 @@ function targetResponse(kind: TargetKind): MockTargetResponse {
       return redirect302('http://inside.example/pic.jpg');
     case 'redirect-public':
       return redirect302('http://public-b.example/done.jpg');
+    case 'redirect-pin-hop2':
+      return redirect302('http://pin-hop2.example/done.jpg');
   }
 }
 
@@ -611,6 +631,255 @@ describe('image-proxy SSRF 回归', () => {
       const res = await callProxy('http://cgnat-a.example/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
+    });
+  });
+
+  describe('IP 钉死（nodejs 运行时，AUDIT-R7）', () => {
+    const realFetch = g.fetch;
+    let restoreRuntime: () => void = () => undefined;
+
+    interface UndiciMockOpts {
+      targets: Record<string, TargetKind>;
+      /** 模拟建连不可达的地址（测试多 IP 回退 / 全不可达） */
+      unreachable?: Set<string>;
+    }
+
+    /**
+     * 模拟 undici 的建连语义：调用 dispatcher 里钉死 lookup 的 {all:true}，
+     * 按返回顺序取第一个不在 unreachable 里的地址作为"连上"的目标；
+     * 全部不可达时抛连接错误（模拟 ECONNREFUSED，无系统 DNS 回退）。
+     */
+    function installUndiciMock(opts: UndiciMockOpts): {
+      connectedTo: string[];
+      lookups: Array<{
+        hostname: string;
+        all: boolean;
+        addrs: Array<{ address: string; family: number }>;
+      }>;
+    } {
+      const connectedTo: string[] = [];
+      const lookups: Array<{
+        hostname: string;
+        all: boolean;
+        addrs: Array<{ address: string; family: number }>;
+      }> = [];
+      const unreachable = opts.unreachable ?? new Set<string>();
+      mockUndiciFetch.mockImplementation(async (input: unknown, init: any) => {
+        const url = String(input);
+        const hostname = new URL(url).hostname;
+        const lookup = init?.dispatcher?.options?.connect?.lookup;
+        if (typeof lookup !== 'function') {
+          throw new Error('pinned fetch called without pinned dispatcher');
+        }
+        const addrs: Array<{ address: string; family: number }> =
+          await new Promise((resolve, reject) => {
+            lookup(hostname, { all: true }, (err: any, res: any) => {
+              if (err) {
+                reject(err);
+              } else {
+                lookups.push({ hostname, all: true, addrs: res });
+                resolve(res);
+              }
+            });
+          });
+        const target = addrs.find((a) => !unreachable.has(a.address));
+        if (!target) {
+          const e = new Error(
+            `connect ECONNREFUSED ${addrs[0]?.address ?? 'unknown'}`
+          ) as any;
+          e.code = 'ECONNREFUSED';
+          e.cause = { code: 'ECONNREFUSED' };
+          throw e;
+        }
+        connectedTo.push(target.address);
+        const kind = opts.targets[hostname];
+        if (!kind) {
+          throw new Error(
+            `unexpected pinned fetch to ${url} (should have been blocked)`
+          );
+        }
+        return targetResponse(kind);
+      });
+      return { connectedTo, lookups };
+    }
+
+    function withNodejsRuntime(): () => void {
+      const prev = process.env.NEXT_RUNTIME;
+      process.env.NEXT_RUNTIME = 'nodejs';
+      mockUndiciFetch.mockReset();
+      mockAgentInstances.length = 0;
+      return () => {
+        if (prev === undefined) delete process.env.NEXT_RUNTIME;
+        else process.env.NEXT_RUNTIME = prev;
+      };
+    }
+
+    beforeEach(() => {
+      restoreRuntime = withNodejsRuntime();
+    });
+
+    afterEach(() => {
+      restoreRuntime();
+      g.fetch = realFetch;
+    });
+
+    it('nodejs 下图片抓取走 undici 钉死路径，lookup 只返回已校验 IP', async () => {
+      const { connectedTo, lookups } = installUndiciMock({
+        targets: { 'pin-basic.example': 'image' },
+      });
+      const { calls } = installFetchMock({
+        doh: { 'pin-basic.example': { a: [PUBLIC_A] } },
+        targets: {},
+      });
+      const res = await callProxy('http://pin-basic.example/x.jpg');
+      expect(res.status).toBe(200);
+      // undici 被使用：每跳恰构造一个 Agent，fetch 走了 undici
+      expect(mockAgentInstances).toHaveLength(1);
+      expect(mockUndiciFetch).toHaveBeenCalledTimes(1);
+      const dispatcherArg = (mockUndiciFetch.mock.calls[0] as any[])[1]
+        ?.dispatcher;
+      expect(dispatcherArg).toBeDefined();
+      // lookup 只返回已校验集合（忽略系统 DNS，不存在"重绑定后解析"）
+      expect(lookups).toHaveLength(1);
+      expect(lookups[0].hostname).toBe('pin-basic.example');
+      expect(lookups[0].addrs).toEqual([{ address: PUBLIC_A, family: 4 }]);
+      expect(connectedTo).toEqual([PUBLIC_A]);
+      // 全局 fetch 只走了 DoH：图片 URL 没经过它（失败也不会回退）
+      expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
+    });
+
+    it('多 IP 按顺序回退：首个不可达时连第二个已校验 IP', async () => {
+      const second = '93.184.216.36';
+      const { connectedTo, lookups } = installUndiciMock({
+        targets: { 'pin-fallback.example': 'image' },
+        unreachable: new Set([PUBLIC_A]),
+      });
+      installFetchMock({
+        doh: { 'pin-fallback.example': { a: [PUBLIC_A, second] } },
+        targets: {},
+      });
+      const res = await callProxy('http://pin-fallback.example/x.jpg');
+      expect(res.status).toBe(200);
+      // lookup 返回整组已校验 IP（顺序保留），建连取第一个可达的
+      expect(lookups[0].addrs).toEqual([
+        { address: PUBLIC_A, family: 4 },
+        { address: second, family: 4 },
+      ]);
+      expect(connectedTo).toEqual([second]);
+    });
+
+    it('已校验 IP 全不可达 → 明确失败，不回退系统解析', async () => {
+      installUndiciMock({
+        targets: { 'pin-dead.example': 'image' },
+        unreachable: new Set([PUBLIC_A]),
+      });
+      const { calls } = installFetchMock({
+        doh: { 'pin-dead.example': { a: [PUBLIC_A] } },
+        targets: {},
+      });
+      const res = await callProxy('http://pin-dead.example/x.jpg');
+      expect(res.status).toBe(500);
+      // 失败后没有回退到全局 fetch 重试：全局侧只见过 DoH
+      expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
+      expect(mockUndiciFetch).toHaveBeenCalledTimes(1);
+    });
+
+    it('lookup 非 all 模式返回首个已校验地址', async () => {
+      installUndiciMock({ targets: { 'pin-single.example': 'image' } });
+      installFetchMock({
+        doh: { 'pin-single.example': { a: [PUBLIC_A, '93.184.216.36'] } },
+        targets: {},
+      });
+      await callProxy('http://pin-single.example/x.jpg');
+      const lookup = mockAgentInstances[0].options.connect.lookup;
+      const [err, address, family] = await new Promise<any[]>((resolve) => {
+        lookup('pin-single.example', {}, (...args: any[]) => resolve(args));
+      });
+      expect(err).toBeNull();
+      expect(address).toBe(PUBLIC_A);
+      expect(family).toBe(4);
+    });
+
+    it('IPv6 已校验地址 family=6', async () => {
+      const v6 = '2606:4700:4700::1111';
+      const { connectedTo, lookups } = installUndiciMock({
+        targets: { 'pin-v6.example': 'image' },
+      });
+      installFetchMock({
+        doh: { 'pin-v6.example': { aaaa: [v6] } },
+        targets: {},
+      });
+      const res = await callProxy('http://pin-v6.example/x.jpg');
+      expect(res.status).toBe(200);
+      expect(lookups[0].addrs).toEqual([{ address: v6, family: 6 }]);
+      expect(connectedTo).toEqual([v6]);
+    });
+
+    it('重定向每跳独立钉死：各跳只连各自已校验 IP', async () => {
+      const hop2ip = '93.184.216.37';
+      const { connectedTo, lookups } = installUndiciMock({
+        targets: {
+          'pin-hop1.example': 'redirect-pin-hop2', // 302 → http://pin-hop2.example/done.jpg
+          'pin-hop2.example': 'image',
+        },
+      });
+      installFetchMock({
+        doh: {
+          'pin-hop1.example': { a: [PUBLIC_A] },
+          'pin-hop2.example': { a: [hop2ip] },
+        },
+        targets: {},
+      });
+      const res = await callProxy('http://pin-hop1.example/go.jpg');
+      expect(res.status).toBe(200);
+      // 两跳 → 两个 Agent，每跳的 lookup 只返回本跳集合
+      expect(mockAgentInstances).toHaveLength(2);
+      expect(mockUndiciFetch).toHaveBeenCalledTimes(2);
+      expect(lookups).toHaveLength(2);
+      expect(lookups[0].hostname).toBe('pin-hop1.example');
+      expect(lookups[0].addrs).toEqual([{ address: PUBLIC_A, family: 4 }]);
+      expect(lookups[1].hostname).toBe('pin-hop2.example');
+      expect(lookups[1].addrs).toEqual([{ address: hop2ip, family: 4 }]);
+      expect(connectedTo).toEqual([PUBLIC_A, hop2ip]);
+    });
+
+    it('IP 字面量目标：钉死集合即字面量本身', async () => {
+      const { connectedTo } = installUndiciMock({
+        targets: { '93.184.216.38': 'image' },
+      });
+      installFetchMock({ doh: {}, targets: {} });
+      const res = await callProxy('http://93.184.216.38/x.jpg');
+      expect(res.status).toBe(200);
+      expect(mockAgentInstances).toHaveLength(1);
+      expect(connectedTo).toEqual(['93.184.216.38']);
+    });
+  });
+
+  describe('edge 分支不受钉死影响', () => {
+    const realFetch = g.fetch;
+
+    beforeEach(() => {
+      delete process.env.NEXT_RUNTIME;
+      mockUndiciFetch.mockReset();
+      mockAgentInstances.length = 0;
+    });
+
+    afterEach(() => {
+      g.fetch = realFetch;
+    });
+
+    it('未设置 NEXT_RUNTIME 时走全局 fetch，不构造 undici', async () => {
+      const { calls } = installFetchMock({
+        doh: { 'edge-unaffected.example': { a: [PUBLIC_A] } },
+        targets: { 'edge-unaffected.example': 'image' },
+      });
+      const res = await callProxy('http://edge-unaffected.example/x.jpg');
+      expect(res.status).toBe(200);
+      expect(mockAgentInstances).toHaveLength(0);
+      expect(mockUndiciFetch).not.toHaveBeenCalled();
+      expect(
+        calls.some((c) => c.startsWith('http://edge-unaffected.example'))
+      ).toBe(true);
     });
   });
 });
