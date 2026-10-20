@@ -118,10 +118,15 @@ beforeAll(async () => {
 // `await import('undici')` 并取其 Agent/fetch；这里替换为记录行为的假实现。
 // 注意：jest.mock 工厂只能引用 mock* 前缀变量（hoist 限制）。
 const mockUndiciFetch = jest.fn();
-const mockAgentInstances: Array<{ options: any }> = [];
+const mockAgentInstances: Array<{ options: any; destroy?: any; close?: any }> = [];
 jest.mock('undici', () => {
   const Agent = jest.fn().mockImplementation((opts: any) => {
-    const inst = { options: opts };
+    // AUDIT-R8：实例带 destroy/close 间谍，供生命周期回归断言读取
+    const inst = {
+      options: opts,
+      destroy: jest.fn(async () => undefined),
+      close: jest.fn(async () => undefined),
+    };
     mockAgentInstances.push(inst);
     return inst;
   });
@@ -852,6 +857,56 @@ describe('image-proxy SSRF 回归', () => {
       expect(res.status).toBe(200);
       expect(mockAgentInstances).toHaveLength(1);
       expect(connectedTo).toEqual(['93.184.216.38']);
+    });
+
+    it('AUDIT-R8 生命周期：单跳成功后该跳 Agent 被确定性释放', async () => {
+      installUndiciMock({ targets: { 'life-one.example': 'image' } });
+      installFetchMock({
+        doh: { 'life-one.example': { a: [PUBLIC_A] } },
+        targets: {},
+      });
+      const res = await callProxy('http://life-one.example/x.jpg');
+      expect(res.status).toBe(200);
+      expect(mockAgentInstances).toHaveLength(1);
+      expect(mockAgentInstances[0].destroy).toHaveBeenCalledTimes(1);
+    });
+
+    it('AUDIT-R8 生命周期：重定向两跳各自 Agent 均被释放', async () => {
+      const hop2ip = '93.184.216.37';
+      installUndiciMock({
+        targets: {
+          'life-hop1.example': 'redirect-pin-hop2', // 302 → http://pin-hop2.example/done.jpg
+          'pin-hop2.example': 'image',
+        },
+      });
+      installFetchMock({
+        doh: {
+          'life-hop1.example': { a: [PUBLIC_A] },
+          'pin-hop2.example': { a: [hop2ip] },
+        },
+        targets: {},
+      });
+      const res = await callProxy('http://life-hop1.example/go.jpg');
+      expect(res.status).toBe(200);
+      expect(mockAgentInstances).toHaveLength(2);
+      for (const inst of mockAgentInstances) {
+        expect(inst.destroy).toHaveBeenCalledTimes(1);
+      }
+    });
+
+    it('AUDIT-R8 生命周期：抓取失败（全不可达）也释放 Agent', async () => {
+      installUndiciMock({
+        targets: { 'life-dead.example': 'image' },
+        unreachable: new Set([PUBLIC_A]),
+      });
+      installFetchMock({
+        doh: { 'life-dead.example': { a: [PUBLIC_A] } },
+        targets: {},
+      });
+      const res = await callProxy('http://life-dead.example/x.jpg');
+      expect(res.status).toBe(500);
+      expect(mockAgentInstances).toHaveLength(1);
+      expect(mockAgentInstances[0].destroy).toHaveBeenCalledTimes(1);
     });
   });
 
