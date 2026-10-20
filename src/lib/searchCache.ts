@@ -83,7 +83,10 @@ export async function getCachedSearch(
 export async function setCachedSearch(
   cacheKey: string,
   query: string,
-  results: SearchResult[]
+  results: SearchResult[],
+  // HARDENING-001 M-03: 调用方可显式指定 TTL（如部分结果的短 TTL），
+  // 指定时原样使用（不再叠加抖动，保证不超过调用方给的上限）
+  options?: { ttlSeconds?: number }
 ): Promise<void> {
   await cacheSet(
     cacheKey,
@@ -92,15 +95,20 @@ export async function setCachedSearch(
       cachedAt: Date.now(),
       query: normalizeQuery(query),
     } satisfies CachedSearch,
-    ttlForResults(results.length)
+    options?.ttlSeconds ?? ttlForResults(results.length)
   );
 }
 
 // ---- single-flight（命名空间隔离，防击穿） ----
-export function getInflight(cacheKey: string) {
-  return _getInflight<SearchResult[]>(INFLIGHT_NS, cacheKey);
+export function getInflight<T = SearchResult[]>(
+  cacheKey: string
+): Promise<T> | undefined {
+  return _getInflight<T>(INFLIGHT_NS, cacheKey);
 }
 
-export function setInflight(cacheKey: string, p: Promise<SearchResult[]>) {
-  _setInflight<SearchResult[]>(INFLIGHT_NS, cacheKey, p);
+export function setInflight<T = SearchResult[]>(
+  cacheKey: string,
+  p: Promise<T>
+): void {
+  _setInflight<T>(INFLIGHT_NS, cacheKey, p);
 }
