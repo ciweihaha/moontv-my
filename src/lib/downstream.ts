@@ -132,6 +132,30 @@ export async function readBodyWithLimit(
   return result.buffer;
 }
 
+/**
+ * HARDENING-001 M-02: 上游搜索失败的类型化错误。
+ *
+ * searchFromApi 新契约（调用方必须按此对齐）：
+ * - 成功（含空结果）：resolve SearchResult[]。HTTP 200 且 list 为空/缺失
+ *   属于「空结果」，返回 []，调用方应记 success。
+ * - 失败：reject SearchUpstreamError。包括 fetchWithRetry 重试耗尽后抛出的
+ *   网络错误 / 5xx、非 2xx 响应（status 字段携带 HTTP 状态码）、响应体过
+ *   大、响应体读取失败与 JSON 解析失败。调用方应记 failure（如熔断器）。
+ * - 取消：若外部 signal 已 abort，原始错误（AbortError 等）直接透传、
+ *   不包装为 SearchUpstreamError；调用方应以 signal.aborted 为准，
+ *   不要把「被整体超时取消」计为上游失败。
+ * 分页请求失败仍按旧行为吞为该页 []（首页已成功，源存活，不算整源失败）。
+ */
+export class SearchUpstreamError extends Error {
+  readonly status?: number;
+
+  constructor(message: string, status?: number) {
+    super(message);
+    this.name = 'SearchUpstreamError';
+    this.status = status;
+  }
+}
+
 export async function searchFromApi(
   apiSite: ApiSite,
   query: string,
@@ -155,13 +179,19 @@ export async function searchFromApi(
 
     // R3: 响应头 content-length 只是快速预检；分块传输时头部缺失，
     // 读取时再做字节数硬上限，防止超大响应占满内存
+    // M-02: 超限不是空结果，是上游异常响应 → 抛错让聚合层计失败
     const contentLength = response.headers.get('content-length');
     if (contentLength && parseInt(contentLength, 10) > MAX_SEARCH_BODY_BYTES) {
-      return [];
+      throw new SearchUpstreamError(
+        `搜索响应体过大（content-length ${contentLength}）`
+      );
     }
 
     if (!response.ok) {
-      return [];
+      throw new SearchUpstreamError(
+        `搜索请求失败: ${response.status}`,
+        response.status
+      );
     }
 
     const searchBody = await readBodyWithLimit(
@@ -170,7 +200,7 @@ export async function searchFromApi(
       signal
     );
     if (searchBody === null) {
-      return [];
+      throw new SearchUpstreamError('搜索响应体过大');
     }
     const data = JSON.parse(new TextDecoder().decode(searchBody));
     if (
@@ -260,8 +290,20 @@ export async function searchFromApi(
     }
 
     return results;
-  } catch {
-    return [];
+  } catch (error) {
+    // M-02: 失败不再吞为 []（旧行为使聚合层把失败记成 success、熔断永不打开）
+    if (error instanceof SearchUpstreamError) {
+      throw error;
+    }
+    // 外部取消：透传原始错误，由调用方按 signal.aborted 判定，不计上游失败
+    if (signal?.aborted) {
+      throw error;
+    }
+    // 其余（fetchWithRetry 重试耗尽的网络错误/5xx、JSON 解析失败、
+    // 响应体读取失败等）统一包装为类型化失败
+    throw new SearchUpstreamError(
+      error instanceof Error ? error.message : '搜索上游请求失败'
+    );
   }
 }
 

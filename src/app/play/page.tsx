@@ -119,6 +119,8 @@ function PlayPageClient() {
   const videoYearRef = useRef(videoYear);
   const detailRef = useRef<SearchResult | null>(detail);
   const currentEpisodeIndexRef = useRef(currentEpisodeIndex);
+  // M-01：详情直查后的换源列表后台补齐只触发一次，防重复/竞态
+  const sourcesBackfillStartedRef = useRef(false);
 
   // 同步最新值到 refs
   useEffect(() => {
@@ -606,7 +608,10 @@ function PlayPageClient() {
         setSourceSearchLoading(false);
       }
     };
-    const fetchSourcesData = async (query: string): Promise<SearchResult[]> => {
+    const fetchSourcesData = async (
+      query: string,
+      options?: { background?: boolean }
+    ): Promise<SearchResult[]> => {
       // 根据搜索词获取全部源信息
       try {
         const response = await fetch(
@@ -630,11 +635,34 @@ function PlayPageClient() {
                 (searchType === 'movie' && result.episodes.length === 1)
               : true)
         );
-        setAvailableSources(results);
+        if (options?.background) {
+          // M-01 后台补齐：只并入新源，不覆盖已有列表（当前源必然在其中），
+          // 也不触碰 detail / currentSource / currentEpisodeIndex 等播放状态
+          setAvailableSources((prev) => {
+            const merged = [...prev];
+            results.forEach((result: SearchResult) => {
+              if (
+                !merged.some(
+                  (item) =>
+                    item.source === result.source && item.id === result.id
+                )
+              ) {
+                merged.push(result);
+              }
+            });
+            return merged;
+          });
+        } else {
+          setAvailableSources(results);
+        }
         return results;
       } catch (err) {
-        setSourceSearchError(err instanceof Error ? err.message : '搜索失败');
-        setAvailableSources([]);
+        if (!options?.background) {
+          setSourceSearchError(
+            err instanceof Error ? err.message : '搜索失败'
+          );
+          setAvailableSources([]);
+        }
         return [];
       } finally {
         setSourceSearchLoading(false);
@@ -655,8 +683,36 @@ function PlayPageClient() {
           : '🔍 正在搜索播放源...'
       );
 
+      // M-01 后台补齐换源列表：仅在详情直查成功且进入可播放状态后触发一次，
+      // 不阻塞播放；fetchSourcesData 的 background 分支只并入新源，不覆盖已选定状态
+      const startBackgroundSourcesBackfill = () => {
+        if (sourcesBackfillStartedRef.current) return;
+        sourcesBackfillStartedRef.current = true;
+        void fetchSourcesData(searchTitle || videoTitleRef.current, {
+          background: true,
+        });
+      };
+
+      // 原「先搜索后详情」流程，M-01 的兜底路径，行为与改动前一致
+      const fetchSourcesViaSearch = async (): Promise<SearchResult[]> => {
+        let searched = await fetchSourcesData(searchTitle || videoTitle);
+        if (
+          currentSource &&
+          currentId &&
+          !searched.some(
+            (source) =>
+              source.source === currentSource && source.id === currentId
+          )
+        ) {
+          searched = await fetchSourceDetail(currentSource, currentId);
+        }
+        return searched;
+      };
+
       // R4: 优先使用 sessionStorage 中的搜索结果，避免二次全量搜索
       let sourcesInfo: SearchResult[];
+      let detailFirst = false;
+      let cachedSources: SearchResult[] | null = null;
       try {
         const cached = sessionStorage.getItem('play_search_cache');
         if (cached) {
@@ -671,29 +727,47 @@ function PlayPageClient() {
                 (searchTitle || videoTitle).replaceAll(' ', '').toLowerCase()
             )
           ) {
-            sourcesInfo = parsed;
+            cachedSources = parsed;
             setAvailableSources(parsed);
             setSourceSearchLoading(false);
             // 用完即清，避免过期数据
             sessionStorage.removeItem('play_search_cache');
-          } else {
-            sourcesInfo = await fetchSourcesData(searchTitle || videoTitle);
           }
-        } else {
-          sourcesInfo = await fetchSourcesData(searchTitle || videoTitle);
         }
       } catch {
-        // sessionStorage 不可用或解析失败时降级为原有行为
-        sourcesInfo = await fetchSourcesData(searchTitle || videoTitle);
+        // sessionStorage 不可用或解析失败时降级为后续流程
+        cachedSources = null;
       }
-      if (
-        currentSource &&
-        currentId &&
-        !sourcesInfo.some(
-          (source) => source.source === currentSource && source.id === currentId
-        )
-      ) {
-        sourcesInfo = await fetchSourceDetail(currentSource, currentId);
+
+      if (cachedSources) {
+        sourcesInfo = cachedSources;
+        if (
+          currentSource &&
+          currentId &&
+          !sourcesInfo.some(
+            (source) =>
+              source.source === currentSource && source.id === currentId
+          )
+        ) {
+          sourcesInfo = await fetchSourceDetail(currentSource, currentId);
+        }
+      } else if (currentSource && currentId && !needPreferRef.current) {
+        // M-01：已知 source+id 且无需优选时，详情单链优先，不再先全量搜索。
+        // 需要优选时仍走原搜索路径——优选须先拿到全部候选源才能决策。
+        const detailList = await fetchSourceDetail(currentSource, currentId);
+        if (
+          detailList.length > 0 &&
+          detailList[0].episodes &&
+          detailList[0].episodes.length > 0
+        ) {
+          detailFirst = true;
+          sourcesInfo = detailList;
+        } else {
+          // 详情失败或无可播剧集：回退原「先搜索后详情」流程
+          sourcesInfo = await fetchSourcesViaSearch();
+        }
+      } else {
+        sourcesInfo = await fetchSourcesViaSearch();
       }
       if (sourcesInfo.length === 0) {
         setError('未找到匹配结果');
@@ -754,6 +828,10 @@ function PlayPageClient() {
       // 短暂延迟让用户看到完成状态
       setTimeout(() => {
         setLoading(false);
+        // M-01：进入可播放状态后才在后台补齐换源列表，不阻塞首播
+        if (detailFirst) {
+          startBackgroundSourcesBackfill();
+        }
       }, 1000);
     };
 
