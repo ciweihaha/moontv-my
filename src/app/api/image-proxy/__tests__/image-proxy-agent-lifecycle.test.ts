@@ -19,12 +19,10 @@
  * 说明：buildPinnedLookup 与 route.ts 中的实现逐字一致地复制于此
  * （route 模块不导出内部函数；语义由 ssrf 套件的钉死用例另行覆盖）。
  */
-import { createServer, type Server } from 'node:http';
 import { readdirSync } from 'node:fs';
+import { type Server,createServer } from 'node:http';
 import type { AddressInfo } from 'node:net';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
-const undici = require('undici');
+import { Agent, fetch as undiciFetch } from 'undici';
 
 jest.setTimeout(90000);
 
@@ -93,11 +91,11 @@ describe('pinned Agent 生命周期（真实 undici，AUDIT-R8）', () => {
 
   /** 按 route 逐跳构造方式发一次请求；release=true 时模拟修复后的释放。 */
   async function oneFetch(release: boolean): Promise<void> {
-    const agent = new undici.Agent({
+    const agent = new Agent({
       connect: { lookup: buildPinnedLookup(['127.0.0.1']) },
     });
     try {
-      const resp = await undici.fetch(`http://lifecycle.test:${port}/pic`, {
+      const resp = await undiciFetch(`http://lifecycle.test:${port}/pic`, {
         dispatcher: agent,
       });
       await resp.arrayBuffer();
