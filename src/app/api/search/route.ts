@@ -79,12 +79,14 @@ async function doSearch(request: Request) {
   }
 
   // KV-CACHE: single-flight，同一 isolate 内并发同 query 只打一次上游（防击穿）
-  const inflight = getInflight(cacheKey);
+  const inflight = getInflight<UpstreamSearchOutcome>(cacheKey);
   if (inflight) {
-    const results = await inflight;
+    const shared = await inflight;
     const cacheTime = await getCacheTime();
-    return jsonWithCache({ results }, cacheTime, 200, {
+    return jsonWithCache({ results: shared.results }, cacheTime, 200, {
       'X-Search-Cache': 'HIT-SHARED',
+      // M-03: 共享的若是部分结果，标注同样透传
+      ...(shared.partial ? { 'X-Search-Partial': '1' } : {}),
     });
   }
 
@@ -96,26 +98,57 @@ async function doSearch(request: Request) {
   );
   setInflight(cacheKey, upstreamPromise);
 
-  const flattenedResults = await upstreamPromise;
+  const upstream = await upstreamPromise;
+  const flattenedResults = upstream.results;
 
   // KV-CACHE: 写回（失败不影响响应；空结果短 TTL 防穿透）
-  await setCachedSearch(cacheKey, query, flattenedResults);
+  // M-03: 部分结果只写短 TTL（60s），不按完整结果的 3600s 污染缓存；
+  // 选短 TTL 而非不写的理由：慢源期间同词重复搜索仍能摊薄上游压力，
+  // 且残缺结果最迟 60s 后自然过期、由后续搜索补齐慢源。
+  await setCachedSearch(
+    cacheKey,
+    query,
+    flattenedResults,
+    upstream.partial
+      ? { ttlSeconds: SEARCH_PARTIAL_CACHE_TTL_SECONDS }
+      : undefined
+  );
 
   const cacheTime = await getCacheTime();
 
   // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
   return jsonWithCache({ results: flattenedResults }, cacheTime, 200, {
     'X-Search-Cache': 'MISS',
+    ...(upstream.partial ? { 'X-Search-Partial': '1' } : {}),
   });
 }
 
-/** 原搜索主流程下沉为函数：44 上游并行 → 黄词过滤，便于缓存层复用 */
-async function doUpstreamSearch(
+/**
+ * HARDENING-001 M-03: doUpstreamSearch 的返回契约。
+ * partial=true 表示总超时截断（或异常兜底），results 可能不完整，
+ * 调用方不得按完整结果缓存/呈现为完整结果。
+ */
+export interface UpstreamSearchOutcome {
+  results: SearchResult[];
+  partial: boolean;
+}
+
+/** M-03: 部分结果写 KV 的短 TTL（秒） */
+export const SEARCH_PARTIAL_CACHE_TTL_SECONDS = 60;
+
+/** 搜索总超时默认值（毫秒） */
+const SEARCH_TOTAL_TIMEOUT_MS = 10000;
+
+/** 原搜索主流程下沉为函数：44 上游并行 → 黄词过滤，便于缓存层复用
+ * M-03: 导出供回归测试；totalTimeoutMs 可注入（默认 10s，生产行为不变），
+ * 返回 {results, partial}，partial 表示总超时截断、结果可能不完整。 */
+export async function doUpstreamSearch(
   sitesByApi: Map<string, ApiSiteEntry[]>,
   query: string,
   maxSearchPages: number,
-  disableYellowFilter: boolean | undefined
-): Promise<SearchResult[]> {
+  disableYellowFilter: boolean | undefined,
+  totalTimeoutMs: number = SEARCH_TOTAL_TIMEOUT_MS
+): Promise<UpstreamSearchOutcome> {
   // AUDIT-R2: 全局并发上限，避免首次搜索对数十个上游同时发起请求形成峰值
   const CONCURRENCY_LIMIT = 10;
   // AUDIT-R2: 增量收集已完成结果，总超时到达时返回部分结果而非空数组
@@ -171,37 +204,45 @@ async function doUpstreamSearch(
     await Promise.all(workers);
   }
 
+  // M-03: 总超时是否先于全部上游完成触发（决定 partial 标记）
+  let timedOut = false;
   try {
     // P2-5/AUDIT-R2: 总超时 10s；超时后返回已完成的部分结果，不再等最慢上游，
     // 也不丢弃已拿到的数据（修复原来超时返回空数组与注释不一致的问题）
     // AUDIT-R3 P1: 超时后 abort，取消所有后台上游请求，不再消耗资源
-    const TOTAL_TIMEOUT_MS = 10000;
     const allDone = runWithConcurrencyLimit();
-    const timeout = new Promise<void>((resolve) =>
-      setTimeout(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const timeout = new Promise<void>((resolve) => {
+      timer = setTimeout(() => {
+        timedOut = true;
         abortController.abort();
         resolve();
-      }, TOTAL_TIMEOUT_MS)
-    );
+      }, totalTimeoutMs);
+    });
     await Promise.race([allDone, timeout]);
+    // 全部完成先到时清掉定时器，避免悬挂的 10s 定时器拖住进程/测试
+    if (timer) clearTimeout(timer);
 
     const flattenedResults: SearchResult[] = completedChunks.flat();
     if (flattenedResults.length === 0) {
-      return [];
+      return { results: [], partial: timedOut };
     }
     if (disableYellowFilter) {
-      return flattenedResults;
+      return { results: flattenedResults, partial: timedOut };
     }
-    return flattenedResults.filter((result) => {
-      // 与详情接口对齐：同时检查 title + type_name，并转小写做大小写归一化
-      // PERF-R1: 预编译正则一次匹配，替代逐词 includes
-      const checkText = (
-        (result.title || '') + (result.type_name || '')
-      ).toLowerCase();
-      return !yellowRegex.test(checkText);
-    });
+    return {
+      results: flattenedResults.filter((result) => {
+        // 与详情接口对齐：同时检查 title + type_name，并转小写做大小写归一化
+        // PERF-R1: 预编译正则一次匹配，替代逐词 includes
+        const checkText = (
+          (result.title || '') + (result.type_name || '')
+        ).toLowerCase();
+        return !yellowRegex.test(checkText);
+      }),
+      partial: timedOut,
+    };
   } catch {
-    // 异常兜底：返回已收集的部分结果
-    return completedChunks.flat();
+    // 异常兜底：返回已收集的部分结果，并保守按 partial 处理（不写长 TTL）
+    return { results: completedChunks.flat(), partial: true };
   }
 }
