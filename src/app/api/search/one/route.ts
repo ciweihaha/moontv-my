@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 
 import { getCacheTime, getConfig } from '@/lib/config';
-import { searchFromApi } from '@/lib/downstream';
 import { jsonWithCache } from '@/lib/http';
+import { fetchSearchOneResults } from '@/lib/searchOne';
 import { yellowRegex } from '@/lib/yellow';
 
 export const runtime = 'edge';
@@ -47,7 +47,10 @@ export async function GET(request: Request) {
     }
 
     // PERF-R1: 最大搜索页数一次传入，避免 searchFromApi 内部重复读取配置
-    const results = await searchFromApi(
+    // M-04: 经保护层调用（熔断/总超时+AbortSignal/单源缓存/single-flight，
+    // 与主搜索同一口径，见 src/lib/searchOne.ts）；上游失败/超时/熔断时
+    // 返回空结果，走下方「未找到结果」404 出口，与原行为兼容
+    const { results, cacheStatus } = await fetchSearchOneResults(
       targetSite,
       query,
       config.SiteConfig.SearchDownstreamMaxPage
@@ -75,7 +78,10 @@ export async function GET(request: Request) {
       );
     } else {
       // QUALITY-R3: 缓存头拼写收敛到 jsonWithCache
-      return jsonWithCache({ results: result }, cacheTime);
+      // M-04: 标注保护层缓存状态（HIT/HIT-SHARED/MISS/SKIPPED），与主搜索对齐
+      return jsonWithCache({ results: result }, cacheTime, 200, {
+        'X-Search-Cache': cacheStatus,
+      });
     }
   } catch {
     return NextResponse.json(
