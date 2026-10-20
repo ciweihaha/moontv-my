@@ -133,6 +133,9 @@ async function doUpstreamSearch(
     }
     // 用组内第一个站点作为代表发起请求（PERF-R1: 页数一次传入，避免重复读配置）
     try {
+      // M-02: searchFromApi 新契约——失败（重试耗尽/5xx/网络等）抛
+      // SearchUpstreamError，只有 HTTP 200（含空列表）才 resolve，
+      // 因此 resolve 记 success、reject 记 failure，熔断不再被吞错架空
       const results = await searchFromApi(sites[0], query, maxSearchPages, abortController.signal);
       recordUpstreamSuccess(apiKey);
       // 结果展开回组内每个站点，保留各自的 source key 和 source_name
@@ -141,7 +144,10 @@ async function doUpstreamSearch(
       );
       completedChunks.push(expanded);
     } catch {
-      recordUpstreamFailure(apiKey);
+      // 总超时 abort 取消的在途请求不是上游失败，不计入熔断
+      if (!abortController.signal.aborted) {
+        recordUpstreamFailure(apiKey);
+      }
       // 单组失败不影响其他组（原 Promise.allSettled 语义）
     }
   }
