@@ -402,6 +402,31 @@ async function getPinnedFetchClient(
 }
 
 /**
+ * AUDIT-R8：确定性释放钉死 dispatcher。
+ * 每个 Agent 只服务一跳（见 GET 的逐跳构造），此前从不 close/destroy，
+ * 只能等 undici 空闲超时（约 9s）回收：实测 FD 按请求线性累积（+2/次），
+ * 突发高频下可能打满容器 FD 上限。响应体被调用方消费完（或请求已失败）
+ * 后调用本函数立即拆掉底层 socket，不改变任何抓取/校验语义。
+ * dispatcher 无 destroy/close（如测试 mock）或释放本身抛错时静默跳过——
+ * 释放失败绝不能影响请求结果。
+ */
+async function releasePinnedDispatcher(
+  dispatcher: import('undici').Dispatcher | null | undefined
+): Promise<void> {
+  if (!dispatcher) return;
+  const d = dispatcher as { destroy?: unknown; close?: unknown };
+  try {
+    if (typeof d.destroy === 'function') {
+      await (d.destroy as () => Promise<void>).call(dispatcher);
+    } else if (typeof d.close === 'function') {
+      await (d.close as () => Promise<void>).call(dispatcher);
+    }
+  } catch {
+    // 释放失败不得影响请求本身
+  }
+}
+
+/**
  * AUDIT-R3 P0-C: 验证 URL 是否允许请求（协议 + 主机 + DNS 解析）。
  * 每一跳重定向前都要调用，禁止的请求在发出前就被拦截。
  * AUDIT-R5 P1: 增加 DNS-over-HTTPS 解析检查，防 DNS 重绑定。
@@ -463,6 +488,10 @@ export async function GET(request: Request) {
   const deadline = Date.now() + TOTAL_TIMEOUT_MS;
   const controller = new AbortController();
   const abortTimer = setTimeout(() => controller.abort(), TOTAL_TIMEOUT_MS);
+  // AUDIT-R8：最终响应那一跳的钉死 dispatcher，响应体消费完成后在
+  // finally 释放。必须声明在 try 外：try 内 let 对 finally 不可见。
+  // edge 运行时恒为 null。
+  let imageDispatcher: import('undici').Dispatcher | null = null;
 
   try {
     // AUDIT-R3 P0-C: 手动逐跳处理重定向，每一跳先验证再请求。
@@ -493,41 +522,53 @@ export async function GET(request: Request) {
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
       };
       const pinnedClient = await getPinnedFetchClient(validation.ips ?? []);
-      const resp: Response = pinnedClient
-        ? ((await pinnedClient.fetch(currentUrl, {
-            headers: fetchHeaders,
-            signal: controller.signal,
-            redirect: 'manual',
-            dispatcher: pinnedClient.dispatcher,
-          })) as unknown as Response)
-        : await fetch(currentUrl, {
-            headers: fetchHeaders,
-            signal: controller.signal,
-            redirect: 'manual', // P0-C: 手动处理，不自动跟随
-          });
+      // AUDIT-R8：本跳 dispatcher 的所有权——重定向/校验失败/抛错时在本跳
+      // 结束（finally）即释放；命中最终响应时所有权移交 imageDispatcher，
+      // 由外层 finally 在响应体消费完成后统一释放。
+      let hopOwnsDispatcher = pinnedClient !== null;
+      try {
+        const resp: Response = pinnedClient
+          ? ((await pinnedClient.fetch(currentUrl, {
+              headers: fetchHeaders,
+              signal: controller.signal,
+              redirect: 'manual',
+              dispatcher: pinnedClient.dispatcher,
+            })) as unknown as Response)
+          : await fetch(currentUrl, {
+              headers: fetchHeaders,
+              signal: controller.signal,
+              redirect: 'manual', // P0-C: 手动处理，不自动跟随
+            });
 
-      // 3xx 重定向：取 Location 头，下一跳继续验证
-      if (resp.status >= 300 && resp.status < 400) {
-        const location = resp.headers.get('location');
-        // 消费掉响应体避免泄漏
-        await resp.arrayBuffer().catch(() => undefined);
-        if (!location) {
-          return NextResponse.json({ error: 'Redirect without location' }, { status: 502 });
+        // 3xx 重定向：取 Location 头，下一跳继续验证
+        if (resp.status >= 300 && resp.status < 400) {
+          const location = resp.headers.get('location');
+          // 消费掉响应体避免泄漏
+          await resp.arrayBuffer().catch(() => undefined);
+          if (!location) {
+            return NextResponse.json({ error: 'Redirect without location' }, { status: 502 });
+          }
+          if (redirectCount >= MAX_REDIRECTS) {
+            return NextResponse.json({ error: 'Too many redirects' }, { status: 502 });
+          }
+          try {
+            // 相对 Location 按当前 URL 解析
+            currentUrl = new URL(location, currentUrl).toString();
+          } catch {
+            return NextResponse.json({ error: 'Invalid redirect URL' }, { status: 502 });
+          }
+          continue;
         }
-        if (redirectCount >= MAX_REDIRECTS) {
-          return NextResponse.json({ error: 'Too many redirects' }, { status: 502 });
+
+        imageResponse = resp;
+        imageDispatcher = pinnedClient ? pinnedClient.dispatcher : null;
+        hopOwnsDispatcher = false;
+        break;
+      } finally {
+        if (hopOwnsDispatcher && pinnedClient) {
+          await releasePinnedDispatcher(pinnedClient.dispatcher);
         }
-        try {
-          // 相对 Location 按当前 URL 解析
-          currentUrl = new URL(location, currentUrl).toString();
-        } catch {
-          return NextResponse.json({ error: 'Invalid redirect URL' }, { status: 502 });
-        }
-        continue;
       }
-
-      imageResponse = resp;
-      break;
     }
 
     if (!imageResponse) {
@@ -605,5 +646,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Error fetching image' }, { status: 500 });
   } finally {
     clearTimeout(abortTimer);
+    // AUDIT-R8：释放最终响应那一跳的钉死 dispatcher（走到这里时响应体
+    // 已被完整缓冲，或请求已失败/提前返回）；edge 运行时恒为 null。
+    await releasePinnedDispatcher(imageDispatcher);
   }
 }
