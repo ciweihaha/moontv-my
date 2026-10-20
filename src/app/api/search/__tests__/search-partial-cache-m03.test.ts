@@ -147,7 +147,9 @@ let doUpstreamSearch: any;
 beforeAll(async () => {
   const routeMod = (await import('../route')) as any;
   GET = routeMod.GET;
-  doUpstreamSearch = routeMod.doUpstreamSearch;
+  // 集成修正（next build 路由类型校验）：doUpstreamSearch 已下沉
+  // src/lib/upstreamSearch，route 文件不再导出非路由字段
+  doUpstreamSearch = (await import('@/lib/upstreamSearch')).doUpstreamSearch;
 });
 
 /** 200 且带一条结果的上游响应（body 走 arrayBuffer 降级路径） */
