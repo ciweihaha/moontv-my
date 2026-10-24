@@ -223,7 +223,7 @@ const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // 10MB
 // AUDIT-R2: 总超时覆盖「建连 + 响应头 + 完整响应体读取」
 const TOTAL_TIMEOUT_MS = 20000;
 // AUDIT-R3 P0-C: 最大重定向跳数
-const MAX_REDIRECTS = 5;
+const MAX_REDIRECTS = 5; /* ROUND2 F5: per-isolate concurrency, edge memory is not shared */ const MAX_CONCURRENT_IMAGE_PROXY = 10; let activeImageProxyRequests = 0;
 
 // AUDIT-R5 P1: DNS-over-HTTPS 解析配置（防 DNS 重绑定）
 // 仅对非 IP 字面量的主机名做 DoH 解析，验证其 A/AAAA 记录全部为公网 IP。
@@ -262,7 +262,7 @@ async function resolveHostnameToIPs(hostname: string): Promise<string[] | null> 
   }
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), DOH_TIMEOUT_MS);
+  /* ROUND2 F6: expired eviction did not bring size down, clear cache */ if (dnsCache.size > 500) dnsCache.clear(); const timer = setTimeout(() => controller.abort(), DOH_TIMEOUT_MS);
   try {
     const ips = new Set<string>();
     for (const type of ['A', 'AAAA']) {
@@ -345,7 +345,7 @@ async function validateHostnameDNS(
   }
   for (const ip of ips) {
     if (isBlockedHost(ip)) {
-      return { ok: false, reason: `DNS resolves to blocked IP: ${ip}` };
+      console.warn('[image-proxy] DNS resolves to blocked IP:', ip); return { ok: false, reason: 'blocked IP' };
     }
   }
   return { ok: true, ips };
@@ -465,7 +465,7 @@ async function validateUrlForFetch(
   // AUDIT-R5 P1: DNS 解析结果检查（2026-10-19 方案 B：未知拒绝，仅全公网记录放行）
   const dnsCheck = await validateHostnameDNS(parsed.hostname);
   if (!dnsCheck.ok) {
-    return { ok: false, error: `DNS check failed: ${dnsCheck.reason || 'blocked'}`, status: 403 };
+    return { ok: false, error: 'DNS check failed', status: 403 };
   }
   // AUDIT-R7：把本跳已校验的 IP 集合传出，供 nodejs 运行时构造钉死 dispatcher
   return { ok: true, ips: dnsCheck.ips };
@@ -500,7 +500,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'URL too long' }, { status: 400 });
   }
 
-  const deadline = Date.now() + TOTAL_TIMEOUT_MS;
+  if (activeImageProxyRequests >= MAX_CONCURRENT_IMAGE_PROXY) { return NextResponse.json({ error: 'Too many concurrent image proxy requests' }, { status: 429 }); } activeImageProxyRequests++; const deadline = Date.now() + TOTAL_TIMEOUT_MS;
   const controller = new AbortController();
   const abortTimer = setTimeout(() => controller.abort(), TOTAL_TIMEOUT_MS);
   // 客户端断开联动（2026-10-24 诊断缺口 P2）：此前 GET 全程不读
@@ -533,7 +533,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Image fetch timeout' }, { status: 504 });
       }
 
-      const validation = await validateUrlForFetch(currentUrl);
+      const validation: Awaited<ReturnType<typeof validateUrlForFetch>> = await Promise.race([validateUrlForFetch(currentUrl), new Promise<never>((_, reject) => setTimeout(() => reject(new Error('Image fetch timeout')), Math.max(0, deadline - Date.now())))]).catch(() => ({ ok: false, error: 'Image fetch timeout', status: 504 }));
       if (!validation.ok) {
         return NextResponse.json(
           { error: validation.error },
@@ -573,7 +573,7 @@ export async function GET(request: Request) {
         if (resp.status >= 300 && resp.status < 400) {
           const location = resp.headers.get('location');
           // 消费掉响应体避免泄漏
-          await resp.arrayBuffer().catch(() => undefined);
+          await resp.body?.cancel().catch(() => {});
           if (!location) {
             return NextResponse.json({ error: 'Redirect without location' }, { status: 502 });
           }
@@ -604,7 +604,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Too many redirects' }, { status: 502 });
     }
 
-    if (!imageResponse.ok) {
+    if (!imageResponse.ok) { await imageResponse.body?.cancel().catch(() => {});
       return NextResponse.json(
         { error: imageResponse.statusText },
         { status: imageResponse.status }
@@ -613,13 +613,13 @@ export async function GET(request: Request) {
 
     // 4. Content-Type 必须是图片
     const contentType = imageResponse.headers.get('content-type')?.split(';')[0].trim().toLowerCase() || '';
-    if (!ALLOWED_CONTENT_TYPES.includes(contentType)) {
+    if (!ALLOWED_CONTENT_TYPES.includes(contentType)) { await imageResponse.body?.cancel().catch(() => {});
       return NextResponse.json({ error: 'Not an image' }, { status: 400 });
     }
 
     // 5a. 声明大小预检（有 Content-Length 时快速拒绝）
     const contentLength = imageResponse.headers.get('content-length');
-    if (contentLength && parseInt(contentLength, 10) > MAX_IMAGE_BYTES) {
+    if (contentLength && parseInt(contentLength, 10) > MAX_IMAGE_BYTES) { await imageResponse.body?.cancel().catch(() => {});
       return NextResponse.json({ error: 'Image too large' }, { status: 413 });
     }
 
@@ -632,7 +632,7 @@ export async function GET(request: Request) {
 
     // 5b. AUDIT-R2: 实际流式读取并累计字节数，分块传输无 Content-Length 时也能硬限制；
     // 超时覆盖整个响应体读取过程
-    const reader = imageResponse.body.getReader();
+    const reader = imageResponse.body.getReader(); let readTimedOut = false;
     const chunks: Uint8Array[] = [];
     let totalBytes = 0;
     try {
@@ -641,7 +641,7 @@ export async function GET(request: Request) {
           await reader.cancel().catch(() => undefined);
           return NextResponse.json({ error: 'Image download timeout' }, { status: 504 });
         }
-        const { done, value } = await reader.read();
+        const { done, value } = await Promise.race([reader.read(), new Promise<never>((_, reject) => setTimeout(() => reject(new Error('Image download timeout')), Math.max(0, deadline - Date.now()))) ]).catch((err) => { if (err instanceof Error && err.message === 'Image download timeout') { readTimedOut = true; reader.cancel().catch(() => undefined); return { done: true, value: undefined } as ReadableStreamReadResult<Uint8Array>; } throw err; });
         if (done) break;
         totalBytes += value.byteLength;
         if (totalBytes > MAX_IMAGE_BYTES) {
@@ -654,7 +654,7 @@ export async function GET(request: Request) {
       reader.releaseLock();
     }
 
-    // 合并分块
+    if (readTimedOut) { return NextResponse.json({ error: 'Image download timeout' }, { status: 504 }); } // 合并分块
     const body = new Uint8Array(totalBytes);
     let offset = 0;
     for (const chunk of chunks) {
@@ -664,7 +664,7 @@ export async function GET(request: Request) {
 
     const headers = new Headers();
     headers.set('Content-Type', contentType);
-    headers.set('Cache-Control', 'public, max-age=15720000, s-maxage=15720000');
+    headers.set('X-Content-Type-Options', 'nosniff'); headers.set('Cache-Control', 'public, max-age=15720000, s-maxage=15720000');
     headers.set('CDN-Cache-Control', 'public, s-maxage=15720000');
 
     return new Response(body, { status: 200, headers });
@@ -682,6 +682,6 @@ export async function GET(request: Request) {
     }
     // AUDIT-R8：释放最终响应那一跳的钉死 dispatcher（走到这里时响应体
     // 已被完整缓冲，或请求已失败/提前返回）；edge 运行时恒为 null。
-    await releasePinnedDispatcher(imageDispatcher);
+    activeImageProxyRequests--; await releasePinnedDispatcher(imageDispatcher);
   }
 }
