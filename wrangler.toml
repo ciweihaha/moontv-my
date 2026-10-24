@@ -12,7 +12,7 @@ database_name = "moontv-db"
 database_id = "YOUR_D1_DATABASE_ID"
 
 [build]
-command = "pnpm install && pnpm gen:runtime && pnpm gen:manifest && pnpm build"
+command = "npm ci && npm run gen:runtime && npm run gen:manifest && npm run build"
 watch_dir = "src"
 
 [dev]

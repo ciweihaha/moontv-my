@@ -2,7 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # 生成版本号
-pnpm gen:version
+npm run gen:version
 
 # 自动添加修改的版本文件
 git add src/lib/version.ts
