@@ -132,15 +132,32 @@ export async function readBodyWithLimit(
   return result.buffer;
 }
 
-export async function searchFromApi(
+/**
+ * 搜索结果三分语义（repo-hardening 第 5/12 项）：
+ * - ok：上游请求成功，results 可为空数组（合法零结果）；
+ * - failed：上游故障（网络异常 / 非 2xx / 响应体超限 / 解析失败 / 结构异常）；
+ * - cancelled：被外部信号取消（如搜索整体超时）——不是上游的错，
+ *   调用方不得据此记上游失败。
+ * 旧实现把三者全部吞成 []，导致路由层无法区分、故障源被误记成功而永不熔断。
+ */
+export type SearchOutcome =
+  | { status: 'ok'; results: SearchResult[] }
+  | { status: 'failed' }
+  | { status: 'cancelled' };
+
+export async function searchFromApiWithOutcome(
   apiSite: ApiSite,
   query: string,
   // PERF-R1: 由调用方一次性传入，避免每次搜索对每个上游重复读取配置（44 次/搜索）
   maxSearchPages: number = 2,
   // AUDIT-R3 P1: 外部取消信号（搜索整体超时时取消后台请求）
   signal?: AbortSignal
-): Promise<SearchResult[]> {
+): Promise<SearchOutcome> {
+  // 取消的唯一判据：外部信号已中止。fetchWithRetry 内部单次超时产生的
+  // AbortError 不算取消（那是上游故障，应记 failed）。
+  const cancelled = (): SearchOutcome => ({ status: 'cancelled' });
   try {
+    if (signal?.aborted) return cancelled();
     const apiBaseUrl = apiSite.api;
     const apiUrl =
       apiBaseUrl + API_CONFIG.search.path + encodeURIComponent(query);
@@ -154,14 +171,15 @@ export async function searchFromApi(
     );
 
     // R3: 响应头 content-length 只是快速预检；分块传输时头部缺失，
-    // 读取时再做字节数硬上限，防止超大响应占满内存
+    // 读取时再做字节数硬上限，防止超大响应占满内存。
+    // 语义修正：超限是上游异常输出，记 failed 而非冒充零结果。
     const contentLength = response.headers.get('content-length');
     if (contentLength && parseInt(contentLength, 10) > MAX_SEARCH_BODY_BYTES) {
-      return [];
+      return { status: 'failed' };
     }
 
     if (!response.ok) {
-      return [];
+      return { status: 'failed' };
     }
 
     const searchBody = await readBodyWithLimit(
@@ -170,16 +188,16 @@ export async function searchFromApi(
       signal
     );
     if (searchBody === null) {
-      return [];
+      return { status: 'failed' };
     }
     const data = JSON.parse(new TextDecoder().decode(searchBody));
-    if (
-      !data ||
-      !data.list ||
-      !Array.isArray(data.list) ||
-      data.list.length === 0
-    ) {
-      return [];
+    if (!data || !Array.isArray(data.list)) {
+      // 结构异常（无 list 数组）属于上游故障，与合法空结果区分
+      return { status: 'failed' };
+    }
+    if (data.list.length === 0) {
+      // 合法零结果：请求成功，只是没有匹配条目
+      return { status: 'ok', results: [] };
     }
     // 处理第一页结果（PERF-R1: 复用模块级 mapSearchItem，避免重复代码）
     const results = data.list
@@ -259,10 +277,33 @@ export async function searchFromApi(
       });
     }
 
-    return results;
+    // 分页阶段被整体取消：已拿到第一页也不冒充成功，整体记 cancelled
+    if (signal?.aborted) return cancelled();
+    return { status: 'ok', results };
   } catch {
-    return [];
+    if (signal?.aborted) return cancelled();
+    return { status: 'failed' };
   }
+}
+
+/**
+ * 兼容包装：保持旧签名 Promise<SearchResult[]>（search/one、fetchVideoDetail 在用）。
+ * 失败/取消一律返回 []；需要区分语义的调用方（如搜索路由的熔断记录）
+ * 应改用 searchFromApiWithOutcome。
+ */
+export async function searchFromApi(
+  apiSite: ApiSite,
+  query: string,
+  maxSearchPages: number = 2,
+  signal?: AbortSignal
+): Promise<SearchResult[]> {
+  const outcome = await searchFromApiWithOutcome(
+    apiSite,
+    query,
+    maxSearchPages,
+    signal
+  );
+  return outcome.status === 'ok' ? outcome.results : [];
 }
 
 // 匹配 m3u8 链接的正则

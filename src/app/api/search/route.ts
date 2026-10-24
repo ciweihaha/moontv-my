@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 import { recordUpstreamFailure, recordUpstreamSuccess, shouldSkipUpstream } from '@/lib/circuitBreaker';
 import { getCacheTime, getConfig } from '@/lib/config';
-import { searchFromApi } from '@/lib/downstream';
+import { searchFromApiWithOutcome } from '@/lib/downstream';
 import { reportError } from '@/lib/errorReport';
 import { jsonWithCache } from '@/lib/http';
 import {
@@ -133,15 +133,34 @@ async function doUpstreamSearch(
     }
     // 用组内第一个站点作为代表发起请求（PERF-R1: 页数一次传入，避免重复读配置）
     try {
-      const results = await searchFromApi(sites[0], query, maxSearchPages, abortController.signal);
+      // repo-hardening 第 5/12 项：三分语义记录熔断——
+      // ok（含合法零结果）记成功；failed 记失败；cancelled（整体超时取消）
+      // 既不记成功也不记失败，避免把全局超时算到单个上游头上。
+      const outcome = await searchFromApiWithOutcome(
+        sites[0],
+        query,
+        maxSearchPages,
+        abortController.signal
+      );
+      if (outcome.status === 'cancelled') {
+        return;
+      }
+      if (outcome.status === 'failed') {
+        recordUpstreamFailure(apiKey);
+        return;
+      }
       recordUpstreamSuccess(apiKey);
+      const results = outcome.results;
       // 结果展开回组内每个站点，保留各自的 source key 和 source_name
       const expanded = sites.flatMap((site) =>
         results.map((r) => ({ ...r, source: site.key, source_name: site.name }))
       );
       completedChunks.push(expanded);
     } catch {
-      recordUpstreamFailure(apiKey);
+      // 兜底：意外抛错时，外部已取消则不记失败，其余记失败
+      if (!abortController.signal.aborted) {
+        recordUpstreamFailure(apiKey);
+      }
       // 单组失败不影响其他组（原 Promise.allSettled 语义）
     }
   }
