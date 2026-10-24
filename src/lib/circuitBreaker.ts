@@ -20,6 +20,7 @@ interface BreakerState {
   failures: number;
   openedAt: number; // 熔断开始时间（0 = 未熔断）
   halfOpen: boolean; // 半开试探中
+  halfOpenAt: number; // 半开试探放行时刻（0 = 无试探在途）
 }
 
 const breakers = new Map<string, BreakerState>();
@@ -56,7 +57,16 @@ export function shouldSkipUpstream(key: string): boolean {
     // 进入半开：允许一次试探
     if (!s.halfOpen) {
       s.halfOpen = true;
+      s.halfOpenAt = now;
       return false; // 放行一次试探
+    }
+    // 上一次试探迟迟没有任何结果记录（如试探请求被搜索整体超时取消，
+    // 而调用方按约定不把取消记为失败）时，闸门会被这次无下文的试探长期
+    // 占用、上游被无限期跳过（原实现只能等 sweep 清理状态才恢复）。
+    // 超过一个完整熔断周期仍无记录 → 视为试探已遗弃，重新放行一次。
+    if (now - s.halfOpenAt >= OPEN_DURATION_MS) {
+      s.halfOpenAt = now;
+      return false;
     }
     // 半开试探已在进行中，其他并发请求跳过
     return true;
@@ -73,6 +83,7 @@ export function recordUpstreamSuccess(key: string): void {
     s.failures = 0;
     s.openedAt = 0;
     s.halfOpen = false;
+    s.halfOpenAt = 0;
   }
 }
 
@@ -84,13 +95,14 @@ export function recordUpstreamFailure(key: string): void {
   sweep(now);
   let s = breakers.get(key);
   if (!s) {
-    s = { failures: 0, openedAt: 0, halfOpen: false };
+    s = { failures: 0, openedAt: 0, halfOpen: false, halfOpenAt: 0 };
     breakers.set(key, s);
   }
   // 半开试探失败 → 重新熔断
   if (s.halfOpen) {
     s.openedAt = now;
     s.halfOpen = false;
+    s.halfOpenAt = 0;
     console.warn(`[circuitBreaker] ${key.slice(0, 60)} 半开试探失败，重新熔断`);
     return;
   }
