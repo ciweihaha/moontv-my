@@ -84,13 +84,23 @@ export async function GET(request: Request) {
     // R5: 详情整体截止时间 25s（上游单次 10s + 1 次重试，整体不无限等）
     const DETAIL_TOTAL_TIMEOUT_MS = 25000;
     let timedOut = false;
-    const timeoutPromise = new Promise<null>((resolve) =>
-      setTimeout(() => {
+    let deadlineTimer: ReturnType<typeof setTimeout> | undefined;
+    const timeoutPromise = new Promise<null>((resolve) => {
+      deadlineTimer = setTimeout(() => {
         timedOut = true;
         resolve(null);
-      }, DETAIL_TOTAL_TIMEOUT_MS)
-    );
-    const result = await Promise.race([upstreamPromise, timeoutPromise]);
+      }, DETAIL_TOTAL_TIMEOUT_MS);
+    });
+    let result: Awaited<typeof upstreamPromise>;
+    try {
+      result = await Promise.race([upstreamPromise, timeoutPromise]);
+    } finally {
+      // 竞速落定后必须清掉截止定时器（超时已触发时 clear 为无操作）：
+      // 旧实现从不清理，成功路径每次都遗留一个最长 25s 的无用定时器
+      // （生产无谓句柄占用；也是 Jest worker 无法退出的根因，诊断
+      // 2026-10-24 已定位）。截止语义与超时行为不变。
+      clearTimeout(deadlineTimer);
+    }
     if (timedOut) {
       // M-05 真取消：通知下游中止 fetch 与响应体读取（共享同一 inflight
       // 的并发请求会随之失败，属超时场景下可接受的降级）

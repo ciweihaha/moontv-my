@@ -136,4 +136,28 @@ describe('detail route 缓存写入生命周期', () => {
     // 核心断言：响应返回时写入已经落地，而不是悬空的后台 Promise
     expect(mockState.writeCompleted).toBe(true);
   });
+
+  test('成功路径落定后 25s 整体截止定时器必须已被 clearTimeout', async () => {
+    // 回归（2026-10-24 诊断定位）：route 用真实 setTimeout 构造 25s 截止
+    // 与上游竞速，旧实现成功路径从不 clearTimeout，定时器挂到自然到期
+    // ——生产每次成功详情请求都遗留一个最长 25s 的无用定时器，也是
+    // Jest worker 迟迟不退出的根因（本套件旧实现下墙钟约 30s)。
+    // 断言手法：监听全局 setTimeout/clearTimeout，钉住那只 25s 定时器
+    // 的句柄，要求 GET 返回前它已被 clear（句柄级断言，不依赖墙钟）。
+    const setSpy = jest.spyOn(global, 'setTimeout');
+    const clearSpy = jest.spyOn(global, 'clearTimeout');
+    try {
+      const res = await GET(
+        new ShimRequest('http://localhost/api/detail?id=123&source=src1') as any
+      );
+      expect(res.status).toBe(200);
+      const idx = setSpy.mock.calls.findIndex((c) => c[1] === 25000);
+      expect(idx).toBeGreaterThanOrEqual(0);
+      const deadlineHandle = setSpy.mock.results[idx].value;
+      expect(clearSpy).toHaveBeenCalledWith(deadlineHandle);
+    } finally {
+      setSpy.mockRestore();
+      clearSpy.mockRestore();
+    }
+  });
 });

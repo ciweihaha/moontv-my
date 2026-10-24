@@ -503,6 +503,20 @@ export async function GET(request: Request) {
   const deadline = Date.now() + TOTAL_TIMEOUT_MS;
   const controller = new AbortController();
   const abortTimer = setTimeout(() => controller.abort(), TOTAL_TIMEOUT_MS);
+  // 客户端断开联动（2026-10-24 诊断缺口 P2）：此前 GET 全程不读
+  // request.signal，客户端中途断开后上游请求与响应体读取仍跑满 20s
+  // 总超时才收尾，白白占用连接与缓冲。把客户端信号并入内部 controller
+  // 的触发源（任一触发即中止上游）；监听器在请求结束时于 finally 摘除，
+  // 避免随请求累积。SSRF 校验、大小上限、逐跳复验与超时语义不变。
+  const clientSignal = request.signal;
+  const onClientAbort = () => controller.abort();
+  if (clientSignal) {
+    if (clientSignal.aborted) {
+      controller.abort();
+    } else if (typeof clientSignal.addEventListener === 'function') {
+      clientSignal.addEventListener('abort', onClientAbort, { once: true });
+    }
+  }
   // AUDIT-R8：最终响应那一跳的钉死 dispatcher，响应体消费完成后在
   // finally 释放。必须声明在 try 外：try 内 let 对 finally 不可见。
   // edge 运行时恒为 null。
@@ -661,6 +675,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Error fetching image' }, { status: 500 });
   } finally {
     clearTimeout(abortTimer);
+    // 摘除客户端断开监听（与 GET 开头并入 request.signal 对应），
+    // 防止监听器随请求累积泄漏。
+    if (clientSignal && typeof clientSignal.removeEventListener === 'function') {
+      clientSignal.removeEventListener('abort', onClientAbort);
+    }
     // AUDIT-R8：释放最终响应那一跳的钉死 dispatcher（走到这里时响应体
     // 已被完整缓冲，或请求已失败/提前返回）；edge 运行时恒为 null。
     await releasePinnedDispatcher(imageDispatcher);
