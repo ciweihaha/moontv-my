@@ -24,7 +24,7 @@
 - 🔍 **多源聚合搜索**：内置数十个免费资源站点，一次搜索立刻返回全源结果。
 - 📄 **丰富详情页**：支持剧集列表、演员、年份、简介等完整信息展示。
 - ▶️ **流畅在线播放**：集成 HLS.js & ArtPlayer。
-- ❤️ **收藏 + 继续观看**：支持 Redis/D1/Upstash 存储，多端同步进度。
+- ❤️ **收藏 + 继续观看**：支持 D1 存储（及 localstorage 本地模式），多端同步进度。
 - 📱 **PWA**：离线缓存、安装到桌面/主屏，移动端原生体验。
 - 🌗 **响应式布局**：桌面侧边栏 + 移动底部导航，自适应各种屏幕尺寸。
 - 🚀 **极简部署**：一条 Docker 命令即可将完整服务跑起来，或免费部署到 Vercel 和 Cloudflare。
@@ -71,13 +71,15 @@
 |               | Docker | Vercel | Cloudflare |
 | :-----------: | :----: | :----: | :--------: |
 | localstorage  |   ✅   |   ✅   |     ✅     |
-|  原生 redis   |   ✅   |        |            |
+|  原生 redis   |   ❌   |        |            |
 | Cloudflare D1 |        |        |     ✅     |
-| Upstash Redis |   ☑️   |   ✅   |     ☑️     |
+| Upstash Redis |   ❌   |        |     ❌     |
 
 ✅：经测试支持
 
 ☑️：理论上支持，未测试
+
+❌：**未实现**。当前源码仅实现 localstorage 与 d1 两种存储；把 NEXT_PUBLIC_STORAGE_TYPE 设为 redis/upstash 会在启动时直接报错（旧版本会静默落到空存储后以晦涩的 500 失败），请勿配置。
 
 除 localstorage 方式外，其他方式都支持多账户、记录同步和管理页面
 
@@ -95,6 +97,8 @@
 部署完成后即可通过分配的域名访问，也可以绑定自定义域名。
 
 #### Upstash Redis 支持
+
+> ⚠️ **未实现**：当前源码没有 upstash 存储驱动，`NEXT_PUBLIC_STORAGE_TYPE=upstash` 会在启动时报错。以下步骤为历史说明，请勿按此配置；多账户模式请使用 Cloudflare D1。
 
 0. 完成普通部署并成功访问。
 1. 在 [upstash](https://upstash.com/) 注册账号并新建一个 Redis 实例，名称任意。
@@ -165,6 +169,8 @@ services:
 
 ### Redis 版本（推荐，多账户数据隔离，跨设备同步）
 
+> ⚠️ **未实现**：当前源码没有 redis 存储驱动，`NEXT_PUBLIC_STORAGE_TYPE=redis` 会在启动时报错。以下 compose 为历史示例，请勿按此配置；多账户模式请使用 Cloudflare D1。
+
 ```yaml
 services:
   moontv-core:
@@ -214,7 +220,7 @@ networks:
 | PASSWORD                          | 非 localstorage 部署时为管理员密码           | 任意字符串                       | （空）                                                                                                                     |
 | SITE_NAME                         | 站点名称                                     | 任意字符串                       | MoonTV                                                                                                                     |
 | ANNOUNCEMENT                      | 站点公告                                     | 任意字符串                       | 本网站仅提供影视信息搜索服务，所有内容均来自第三方网站。本站不存储任何视频资源，不对任何内容的准确性、合法性、完整性负责。 |
-| NEXT_PUBLIC_STORAGE_TYPE          | 播放记录/收藏的存储方式                      | localstorage、redis、d1、upstash | localstorage                                                                                                               |
+| NEXT_PUBLIC_STORAGE_TYPE          | 播放记录/收藏的存储方式                      | localstorage、d1（redis、upstash 未实现，配置将报错） | localstorage                                                                                                               |
 | REDIS_URL                         | redis 连接 url                               | 连接 url                         | 空                                                                                                                         |
 | UPSTASH_URL                       | upstash redis 连接 url                       | 连接 url                         | 空                                                                                                                         |
 | UPSTASH_TOKEN                     | upstash redis 连接 token                     | 连接 token                       | 空                                                                                                                         |
