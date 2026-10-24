@@ -13,8 +13,8 @@ export async function GET(request: Request) {
   let onClientAbort: (() => void) | undefined;
   const clientAbortPromise = new Promise<never>((_, reject) => {
     onClientAbort = () => reject(new Error('client disconnected'));
-    if (clientSignal.aborted) reject(new Error('client disconnected'));
-    else if (typeof clientSignal.addEventListener === 'function') {
+    if (clientSignal?.aborted) reject(new Error('client disconnected'));
+    else if (typeof clientSignal?.addEventListener === 'function') {
       clientSignal.addEventListener('abort', onClientAbort, { once: true });
     }
   });
@@ -100,7 +100,7 @@ export async function GET(request: Request) {
     );
   }
 } finally {
-  if (onClientAbort && typeof clientSignal.removeEventListener === 'function') {
+  if (onClientAbort && typeof clientSignal?.removeEventListener === 'function') {
     clientSignal.removeEventListener('abort', onClientAbort);
   }
 }
