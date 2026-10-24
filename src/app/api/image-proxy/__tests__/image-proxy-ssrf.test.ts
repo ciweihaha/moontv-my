@@ -256,11 +256,11 @@ function targetResponse(kind: TargetKind): MockTargetResponse {
     case 'redirect-internal-ip':
       return redirect302('http://192.168.9.9/pic.jpg');
     case 'redirect-internal-host':
-      return redirect302('http://inside.example/pic.jpg');
+      return redirect302('http://api.ffzyapi.com/pic.jpg');
     case 'redirect-public':
-      return redirect302('http://public-b.example/done.jpg');
+      return redirect302('http://api.wujinapi.me/done.jpg');
     case 'redirect-pin-hop2':
-      return redirect302('http://pin-hop2.example/done.jpg');
+      return redirect302('http://www.moduzy.com/done.jpg');
   }
 }
 
@@ -368,10 +368,10 @@ describe('image-proxy SSRF 回归', () => {
 
     it('DoH AAAA 解析到 2002::/16 6to4 → 403', async () => {
       const { calls } = installFetchMock({
-        doh: { 'v6to4.example': { aaaa: ['2002:c0a8:101::'] } },
+        doh: { 'api.wujinapi.cc': { aaaa: ['2002:c0a8:101::'] } },
         targets: {},
       });
-      const res = await callProxy('http://v6to4.example/x.jpg');
+      const res = await callProxy('http://api.wujinapi.cc/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
@@ -411,53 +411,53 @@ describe('image-proxy SSRF 回归', () => {
   describe('DoH 解析驱动的域名判定', () => {
     it('域名解析到内网 IP → 403，且不抓取目标', async () => {
       const { calls } = installFetchMock({
-        doh: { 'internal-a.example': { a: ['10.1.2.3'] } },
+        doh: { 'hhzyapi.com': { a: ['10.1.2.3'] } },
         targets: {},
       });
-      const res = await callProxy('http://internal-a.example/x.jpg');
+      const res = await callProxy('http://hhzyapi.com/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
 
     it('域名解析到云元数据地址 → 403', async () => {
       const { calls } = installFetchMock({
-        doh: { 'metadata-b.example': { a: ['169.254.169.254'] } },
+        doh: { 'subocaiji.com': { a: ['169.254.169.254'] } },
         targets: {},
       });
-      const res = await callProxy('http://metadata-b.example/x.jpg');
+      const res = await callProxy('http://subocaiji.com/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
 
     it('域名全部解析为公网 IP → 200 放行', async () => {
       const { calls } = installFetchMock({
-        doh: { 'public-a.example': { a: [PUBLIC_A] } },
-        targets: { 'public-a.example': 'image' },
+        doh: { 'api.guangsuapi.com': { a: [PUBLIC_A] } },
+        targets: { 'api.guangsuapi.com': 'image' },
       });
-      const res = await callProxy('http://public-a.example/x.jpg');
+      const res = await callProxy('http://api.guangsuapi.com/x.jpg');
       expect(res.status).toBe(200);
       expect(res.headers.get('content-type')).toBe('image/png');
-      expect(calls.some((c) => c.startsWith('http://public-a.example'))).toBe(
+      expect(calls.some((c) => c.startsWith('http://api.guangsuapi.com'))).toBe(
         true
       );
     });
 
     it('混合记录（含任一内网）→ 403', async () => {
       const { calls } = installFetchMock({
-        doh: { 'mixed-a.example': { a: [PUBLIC_A, '192.168.1.7'] } },
+        doh: { 'cj.lziapi.com': { a: [PUBLIC_A, '192.168.1.7'] } },
         targets: {},
       });
-      const res = await callProxy('http://mixed-a.example/x.jpg');
+      const res = await callProxy('http://cj.lziapi.com/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
 
     it('AAAA 解析到 ULA → 403', async () => {
       const { calls } = installFetchMock({
-        doh: { 'v6internal-a.example': { aaaa: ['fc00::5'] } },
+        doh: { 'jinyingzy.com': { aaaa: ['fc00::5'] } },
         targets: {},
       });
-      const res = await callProxy('http://v6internal-a.example/x.jpg');
+      const res = await callProxy('http://jinyingzy.com/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
@@ -472,10 +472,10 @@ describe('image-proxy SSRF 回归', () => {
     ];
     it.each(cases)('%s', async (_label, entry) => {
       const { calls } = installFetchMock({
-        doh: { 'unresolvable-a.example': entry },
+        doh: { 'jyzyapi.com': entry },
         targets: {},
       });
-      const res = await callProxy('http://unresolvable-a.example/x.jpg');
+      const res = await callProxy('http://jyzyapi.com/x.jpg');
       expect(res.status).toBe(403);
       // 只允许 DoH 查询，目标绝不能被抓取
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
@@ -485,10 +485,10 @@ describe('image-proxy SSRF 回归', () => {
   describe('重定向逐跳校验', () => {
     it('第一跳公网 302 跳内网 IP → 第二跳 403', async () => {
       const { calls } = installFetchMock({
-        doh: { 'redirect-to-ip.example': { a: [PUBLIC_A] } },
-        targets: { 'redirect-to-ip.example': 'redirect-internal-ip' },
+        doh: { 'api.wujinapi.net': { a: [PUBLIC_A] } },
+        targets: { 'api.wujinapi.net': 'redirect-internal-ip' },
       });
-      const res = await callProxy('http://redirect-to-ip.example/start.jpg');
+      const res = await callProxy('http://api.wujinapi.net/start.jpg');
       expect(res.status).toBe(403);
       expect(calls.some((c) => c.includes('192.168.9.9'))).toBe(false);
     });
@@ -496,14 +496,14 @@ describe('image-proxy SSRF 回归', () => {
     it('第一跳公网 302 跳内网域名 → 第二跳 403（DoH 判定）', async () => {
       const { calls } = installFetchMock({
         doh: {
-          'redirect-to-internal.example': { a: [PUBLIC_A] },
-          'inside.example': { a: ['10.9.9.9'] },
+          'api.1080zyku.com': { a: [PUBLIC_A] },
+          'api.ffzyapi.com': { a: ['10.9.9.9'] },
         },
-        targets: { 'redirect-to-internal.example': 'redirect-internal-host' },
+        targets: { 'api.1080zyku.com': 'redirect-internal-host' },
       });
-      const res = await callProxy('http://redirect-to-internal.example/go.jpg');
+      const res = await callProxy('http://api.1080zyku.com/go.jpg');
       expect(res.status).toBe(403);
-      expect(calls.some((c) => c.includes('inside.example/pic.jpg'))).toBe(
+      expect(calls.some((c) => c.includes('api.ffzyapi.com/pic.jpg'))).toBe(
         false
       );
     });
@@ -511,15 +511,15 @@ describe('image-proxy SSRF 回归', () => {
     it('全程公网的合法重定向 → 200', async () => {
       installFetchMock({
         doh: {
-          'redirect-public.example': { a: [PUBLIC_A] },
-          'public-b.example': { a: ['93.184.216.35'] },
+          'api.xinlangapi.com': { a: [PUBLIC_A] },
+          'api.wujinapi.me': { a: ['93.184.216.35'] },
         },
         targets: {
-          'redirect-public.example': 'redirect-public',
-          'public-b.example': 'image',
+          'api.xinlangapi.com': 'redirect-public',
+          'api.wujinapi.me': 'image',
         },
       });
-      const res = await callProxy('http://redirect-public.example/go.jpg');
+      const res = await callProxy('http://api.xinlangapi.com/go.jpg');
       expect(res.status).toBe(200);
     });
   });
@@ -555,16 +555,16 @@ describe('image-proxy SSRF 回归', () => {
       expect(calls).toHaveLength(0);
     });
 
-    it('64:ff9b::/96 → 内嵌 8.8.8.8（公网）→ 放行', async () => {
+    it('64:ff9b::/96 → 内嵌 8.8.8.8（公网）：IP 字面量不在白名单内 → 403，白名单门先于后续流程', async () => {
       const { calls } = installFetchMock({
         doh: {},
-        // Node 的 URL.hostname 对 IPv6 字面量保留方括号（已实测），键需含括号
-        targets: { '[64:ff9b::808:808]': 'image' },
+        // 白名单门先于后续流程：IP 字面量不在白名单内，直接 403，不发起任何请求
+        targets: {},
       });
       const res = await callProxy('http://[64:ff9b::808:808]/x.jpg');
-      expect(res.status).toBe(200);
-      expect(res.headers.get('content-type')).toBe('image/png');
-      expect(calls.some((c) => c.includes('64:ff9b::808:808'))).toBe(true);
+      expect(res.status).toBe(403);
+      expect(res.headers.get('content-type')).toBe('application/json');
+      expect(calls).toHaveLength(0);
     });
   });
 
@@ -572,14 +572,14 @@ describe('image-proxy SSRF 回归', () => {
     it('A=SERVFAIL + AAAA=公网 → 403（错误不被当作无记录）', async () => {
       const { calls } = installFetchMock({
         doh: {
-          'asym-sfail-a.example': {
+          'cj.ffzyapi.com': {
             aType: { dohStatus: 2 },
             aaaaType: { ips: [PUBLIC_A] },
           },
         },
         targets: {},
       });
-      const res = await callProxy('http://asym-sfail-a.example/x.jpg');
+      const res = await callProxy('http://cj.ffzyapi.com/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
@@ -587,14 +587,14 @@ describe('image-proxy SSRF 回归', () => {
     it('AAAA=SERVFAIL + A=公网 → 403', async () => {
       const { calls } = installFetchMock({
         doh: {
-          'asym-sfail-aaaa.example': {
+          'caiji.moduapi.cc': {
             aType: { ips: [PUBLIC_A] },
             aaaaType: { dohStatus: 2 },
           },
         },
         targets: {},
       });
-      const res = await callProxy('http://asym-sfail-aaaa.example/x.jpg');
+      const res = await callProxy('http://caiji.moduapi.cc/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
@@ -602,14 +602,14 @@ describe('image-proxy SSRF 回归', () => {
     it('A 缺 Status + AAAA=公网 → 403（缺失视为失败）', async () => {
       const { calls } = installFetchMock({
         doh: {
-          'asym-nostatus-a.example': {
+          'www.mdzyapi.com': {
             aType: { noStatus: true },
             aaaaType: { ips: [PUBLIC_A] },
           },
         },
         targets: {},
       });
-      const res = await callProxy('http://asym-nostatus-a.example/x.jpg');
+      const res = await callProxy('http://www.mdzyapi.com/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
@@ -617,41 +617,41 @@ describe('image-proxy SSRF 回归', () => {
     it('A=NODATA + AAAA=公网 → 200 放行', async () => {
       const { calls } = installFetchMock({
         doh: {
-          'asym-nodata-a.example': {
+          'jszyapi.com': {
             aType: {},
             aaaaType: { ips: [PUBLIC_A] },
           },
         },
-        targets: { 'asym-nodata-a.example': 'image' },
+        targets: { 'jszyapi.com': 'image' },
       });
-      const res = await callProxy('http://asym-nodata-a.example/x.jpg');
+      const res = await callProxy('http://jszyapi.com/x.jpg');
       expect(res.status).toBe(200);
-      expect(calls.some((c) => c.startsWith('http://asym-nodata-a.example'))).toBe(true);
+      expect(calls.some((c) => c.startsWith('http://jszyapi.com'))).toBe(true);
     });
 
     it('AAAA=NODATA + A=公网 → 200 放行', async () => {
       const { calls } = installFetchMock({
         doh: {
-          'asym-nodata-aaaa.example': {
+          'www.hongniuzy3.com': {
             aType: { ips: [PUBLIC_A] },
             aaaaType: {},
           },
         },
-        targets: { 'asym-nodata-aaaa.example': 'image' },
+        targets: { 'www.hongniuzy3.com': 'image' },
       });
-      const res = await callProxy('http://asym-nodata-aaaa.example/x.jpg');
+      const res = await callProxy('http://www.hongniuzy3.com/x.jpg');
       expect(res.status).toBe(200);
-      expect(calls.some((c) => c.startsWith('http://asym-nodata-aaaa.example'))).toBe(true);
+      expect(calls.some((c) => c.startsWith('http://www.hongniuzy3.com'))).toBe(true);
     });
   });
 
   describe('域名 DoH 解析到 CGNAT 共享地址空间 → 403', () => {
     it('域名解析到 100.64.23.9 → 403，且不抓取目标', async () => {
       const { calls } = installFetchMock({
-        doh: { 'cgnat-a.example': { a: ['100.64.23.9'] } },
+        doh: { 'api.ukuapi88.com': { a: ['100.64.23.9'] } },
         targets: {},
       });
-      const res = await callProxy('http://cgnat-a.example/x.jpg');
+      const res = await callProxy('http://api.ukuapi88.com/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
@@ -748,13 +748,13 @@ describe('image-proxy SSRF 回归', () => {
 
     it('nodejs 下图片抓取走 undici 钉死路径，lookup 只返回已校验 IP', async () => {
       const { connectedTo, lookups } = installUndiciMock({
-        targets: { 'pin-basic.example': 'image' },
+        targets: { 'api.wujinapi.com': 'image' },
       });
       const { calls } = installFetchMock({
-        doh: { 'pin-basic.example': { a: [PUBLIC_A] } },
+        doh: { 'api.wujinapi.com': { a: [PUBLIC_A] } },
         targets: {},
       });
-      const res = await callProxy('http://pin-basic.example/x.jpg');
+      const res = await callProxy('http://api.wujinapi.com/x.jpg');
       expect(res.status).toBe(200);
       // undici 被使用：每跳恰构造一个 Agent，fetch 走了 undici
       expect(mockAgentInstances).toHaveLength(1);
@@ -764,7 +764,7 @@ describe('image-proxy SSRF 回归', () => {
       expect(dispatcherArg).toBeDefined();
       // lookup 只返回已校验集合（忽略系统 DNS，不存在"重绑定后解析"）
       expect(lookups).toHaveLength(1);
-      expect(lookups[0].hostname).toBe('pin-basic.example');
+      expect(lookups[0].hostname).toBe('api.wujinapi.com');
       expect(lookups[0].addrs).toEqual([{ address: PUBLIC_A, family: 4 }]);
       expect(connectedTo).toEqual([PUBLIC_A]);
       // 全局 fetch 只走了 DoH：图片 URL 没经过它（失败也不会回退）
@@ -774,14 +774,14 @@ describe('image-proxy SSRF 回归', () => {
     it('多 IP 按顺序回退：首个不可达时连第二个已校验 IP', async () => {
       const second = '93.184.216.36';
       const { connectedTo, lookups } = installUndiciMock({
-        targets: { 'pin-fallback.example': 'image' },
+        targets: { 'bfzyapi.com': 'image' },
         unreachable: new Set([PUBLIC_A]),
       });
       installFetchMock({
-        doh: { 'pin-fallback.example': { a: [PUBLIC_A, second] } },
+        doh: { 'bfzyapi.com': { a: [PUBLIC_A, second] } },
         targets: {},
       });
-      const res = await callProxy('http://pin-fallback.example/x.jpg');
+      const res = await callProxy('http://bfzyapi.com/x.jpg');
       expect(res.status).toBe(200);
       // lookup 返回整组已校验 IP（顺序保留），建连取第一个可达的
       expect(lookups[0].addrs).toEqual([
@@ -793,14 +793,14 @@ describe('image-proxy SSRF 回归', () => {
 
     it('已校验 IP 全不可达 → 明确失败，不回退系统解析', async () => {
       installUndiciMock({
-        targets: { 'pin-dead.example': 'image' },
+        targets: { 'zuidazy.me': 'image' },
         unreachable: new Set([PUBLIC_A]),
       });
       const { calls } = installFetchMock({
-        doh: { 'pin-dead.example': { a: [PUBLIC_A] } },
+        doh: { 'zuidazy.me': { a: [PUBLIC_A] } },
         targets: {},
       });
-      const res = await callProxy('http://pin-dead.example/x.jpg');
+      const res = await callProxy('http://zuidazy.me/x.jpg');
       expect(res.status).toBe(500);
       // 失败后没有回退到全局 fetch 重试：全局侧只见过 DoH
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
@@ -808,15 +808,15 @@ describe('image-proxy SSRF 回归', () => {
     });
 
     it('lookup 非 all 模式返回首个已校验地址', async () => {
-      installUndiciMock({ targets: { 'pin-single.example': 'image' } });
+      installUndiciMock({ targets: { 'm3u8.apiyhzy.com': 'image' } });
       installFetchMock({
-        doh: { 'pin-single.example': { a: [PUBLIC_A, '93.184.216.36'] } },
+        doh: { 'm3u8.apiyhzy.com': { a: [PUBLIC_A, '93.184.216.36'] } },
         targets: {},
       });
-      await callProxy('http://pin-single.example/x.jpg');
+      await callProxy('http://m3u8.apiyhzy.com/x.jpg');
       const lookup = mockAgentInstances[0].options.connect.lookup;
       const [err, address, family] = await new Promise<any[]>((resolve) => {
-        lookup('pin-single.example', {}, (...args: any[]) => resolve(args));
+        lookup('m3u8.apiyhzy.com', {}, (...args: any[]) => resolve(args));
       });
       expect(err).toBeNull();
       expect(address).toBe(PUBLIC_A);
@@ -826,13 +826,13 @@ describe('image-proxy SSRF 回归', () => {
     it('IPv6 已校验地址 family=6', async () => {
       const v6 = '2606:4700:4700::1111';
       const { connectedTo, lookups } = installUndiciMock({
-        targets: { 'pin-v6.example': 'image' },
+        targets: { 'caiji.dyttzyapi.com': 'image' },
       });
       installFetchMock({
-        doh: { 'pin-v6.example': { aaaa: [v6] } },
+        doh: { 'caiji.dyttzyapi.com': { aaaa: [v6] } },
         targets: {},
       });
-      const res = await callProxy('http://pin-v6.example/x.jpg');
+      const res = await callProxy('http://caiji.dyttzyapi.com/x.jpg');
       expect(res.status).toBe(200);
       expect(lookups[0].addrs).toEqual([{ address: v6, family: 6 }]);
       expect(connectedTo).toEqual([v6]);
@@ -842,48 +842,48 @@ describe('image-proxy SSRF 回归', () => {
       const hop2ip = '93.184.216.37';
       const { connectedTo, lookups } = installUndiciMock({
         targets: {
-          'pin-hop1.example': 'redirect-pin-hop2', // 302 → http://pin-hop2.example/done.jpg
-          'pin-hop2.example': 'image',
+          'www.hongniuzy2.com': 'redirect-pin-hop2', // 302 → http://www.moduzy.com/done.jpg
+          'www.moduzy.com': 'image',
         },
       });
       installFetchMock({
         doh: {
-          'pin-hop1.example': { a: [PUBLIC_A] },
-          'pin-hop2.example': { a: [hop2ip] },
+          'www.hongniuzy2.com': { a: [PUBLIC_A] },
+          'www.moduzy.com': { a: [hop2ip] },
         },
         targets: {},
       });
-      const res = await callProxy('http://pin-hop1.example/go.jpg');
+      const res = await callProxy('http://www.hongniuzy2.com/go.jpg');
       expect(res.status).toBe(200);
       // 两跳 → 两个 Agent，每跳的 lookup 只返回本跳集合
       expect(mockAgentInstances).toHaveLength(2);
       expect(mockUndiciFetch).toHaveBeenCalledTimes(2);
       expect(lookups).toHaveLength(2);
-      expect(lookups[0].hostname).toBe('pin-hop1.example');
+      expect(lookups[0].hostname).toBe('www.hongniuzy2.com');
       expect(lookups[0].addrs).toEqual([{ address: PUBLIC_A, family: 4 }]);
-      expect(lookups[1].hostname).toBe('pin-hop2.example');
+      expect(lookups[1].hostname).toBe('www.moduzy.com');
       expect(lookups[1].addrs).toEqual([{ address: hop2ip, family: 4 }]);
       expect(connectedTo).toEqual([PUBLIC_A, hop2ip]);
     });
 
-    it('IP 字面量目标：钉死集合即字面量本身', async () => {
-      const { connectedTo } = installUndiciMock({
+    it('IP 字面量目标：不在白名单内 → 403，白名单门先于钉死流程（原钉死集合意图已不可达）', async () => {
+      installUndiciMock({
         targets: { '93.184.216.38': 'image' },
       });
       installFetchMock({ doh: {}, targets: {} });
       const res = await callProxy('http://93.184.216.38/x.jpg');
-      expect(res.status).toBe(200);
-      expect(mockAgentInstances).toHaveLength(1);
-      expect(connectedTo).toEqual(['93.184.216.38']);
+      expect(res.status).toBe(403);
+      expect(mockAgentInstances).toHaveLength(0);
+      expect(mockUndiciFetch).not.toHaveBeenCalled();
     });
 
     it('AUDIT-R8 生命周期：单跳成功后该跳 Agent 被确定性释放', async () => {
-      installUndiciMock({ targets: { 'life-one.example': 'image' } });
+      installUndiciMock({ targets: { '360zy.com': 'image' } });
       installFetchMock({
-        doh: { 'life-one.example': { a: [PUBLIC_A] } },
+        doh: { '360zy.com': { a: [PUBLIC_A] } },
         targets: {},
       });
-      const res = await callProxy('http://life-one.example/x.jpg');
+      const res = await callProxy('http://360zy.com/x.jpg');
       expect(res.status).toBe(200);
       expect(mockAgentInstances).toHaveLength(1);
       expect(mockAgentInstances[0].destroy).toHaveBeenCalledTimes(1);
@@ -893,18 +893,18 @@ describe('image-proxy SSRF 回归', () => {
       const hop2ip = '93.184.216.37';
       installUndiciMock({
         targets: {
-          'life-hop1.example': 'redirect-pin-hop2', // 302 → http://pin-hop2.example/done.jpg
-          'pin-hop2.example': 'image',
+          'api.ukuapi.com': 'redirect-pin-hop2', // 302 → http://www.moduzy.com/done.jpg
+          'www.moduzy.com': 'image',
         },
       });
       installFetchMock({
         doh: {
-          'life-hop1.example': { a: [PUBLIC_A] },
-          'pin-hop2.example': { a: [hop2ip] },
+          'api.ukuapi.com': { a: [PUBLIC_A] },
+          'www.moduzy.com': { a: [hop2ip] },
         },
         targets: {},
       });
-      const res = await callProxy('http://life-hop1.example/go.jpg');
+      const res = await callProxy('http://api.ukuapi.com/go.jpg');
       expect(res.status).toBe(200);
       expect(mockAgentInstances).toHaveLength(2);
       for (const inst of mockAgentInstances) {
@@ -914,14 +914,14 @@ describe('image-proxy SSRF 回归', () => {
 
     it('AUDIT-R8 生命周期：抓取失败（全不可达）也释放 Agent', async () => {
       installUndiciMock({
-        targets: { 'life-dead.example': 'image' },
+        targets: { 'ikunzyapi.com': 'image' },
         unreachable: new Set([PUBLIC_A]),
       });
       installFetchMock({
-        doh: { 'life-dead.example': { a: [PUBLIC_A] } },
+        doh: { 'ikunzyapi.com': { a: [PUBLIC_A] } },
         targets: {},
       });
-      const res = await callProxy('http://life-dead.example/x.jpg');
+      const res = await callProxy('http://ikunzyapi.com/x.jpg');
       expect(res.status).toBe(500);
       expect(mockAgentInstances).toHaveLength(1);
       expect(mockAgentInstances[0].destroy).toHaveBeenCalledTimes(1);
@@ -943,16 +943,33 @@ describe('image-proxy SSRF 回归', () => {
 
     it('未设置 NEXT_RUNTIME 时走全局 fetch，不构造 undici', async () => {
       const { calls } = installFetchMock({
-        doh: { 'edge-unaffected.example': { a: [PUBLIC_A] } },
-        targets: { 'edge-unaffected.example': 'image' },
+        doh: { 'cj.rycjapi.com': { a: [PUBLIC_A] } },
+        targets: { 'cj.rycjapi.com': 'image' },
       });
-      const res = await callProxy('http://edge-unaffected.example/x.jpg');
+      const res = await callProxy('http://cj.rycjapi.com/x.jpg');
       expect(res.status).toBe(200);
       expect(mockAgentInstances).toHaveLength(0);
       expect(mockUndiciFetch).not.toHaveBeenCalled();
       expect(
-        calls.some((c) => c.startsWith('http://edge-unaffected.example'))
+        calls.some((c) => c.startsWith('http://cj.rycjapi.com'))
       ).toBe(true);
     });
+  });
+});
+describe('图片代理白名单门（round2 F1）', () => {
+  it('白名单内域名放行到后续流程', async () => {
+    const { calls } = installFetchMock({
+      doh: { 'www.huyaapi.com': { a: [PUBLIC_A] } },
+      targets: { 'www.huyaapi.com': 'image' },
+    });
+    const res = await callProxy('http://www.huyaapi.com/x.jpg');
+    expect(res.status).toBe(200);
+    expect(calls.some((c) => c.startsWith('http://www.huyaapi.com'))).toBe(true);
+  });
+  it('白名单外域名直接 403 且不发起任何请求（Host not allowed，白名单门先于 DNS 检查）', async () => {
+    const { calls } = installFetchMock({ doh: {}, targets: {} });
+    const res = await callProxy('http://not-allowlisted.example/x.jpg');
+    expect(res.status).toBe(403);
+    expect(calls).toHaveLength(0);
   });
 });

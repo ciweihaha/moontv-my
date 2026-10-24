@@ -173,7 +173,7 @@ describe('image-proxy 客户端断开联动', () => {
     const promise = GET(
       new ShimRequest(
         'http://localhost/api/image-proxy?url=' +
-          encodeURIComponent('https://drip-client-abort.test/pic.jpg'),
+          encodeURIComponent('https://api.guangsuapi.com/pic.jpg'),
         client.signal
       ) as any
     ).then((r: any) => {
@@ -213,7 +213,7 @@ describe('image-proxy 客户端断开联动', () => {
     const res: any = await GET(
       new ShimRequest(
         'http://localhost/api/image-proxy?url=' +
-          encodeURIComponent('https://complete-resp.test/pic.jpg'),
+          encodeURIComponent('https://api.xinlangapi.com/pic.jpg'),
         client.signal
       ) as any
     );
@@ -242,7 +242,7 @@ describe('image-proxy 客户端断开联动', () => {
     const res: any = await GET(
       new ShimRequest(
         'http://localhost/api/image-proxy?url=' +
-          encodeURIComponent('https://pre-aborted.test/pic.jpg'),
+          encodeURIComponent('https://api.wujinapi.me/pic.jpg'),
         client.signal
       ) as any
     );
