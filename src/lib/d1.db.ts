@@ -206,9 +206,9 @@ export class D1Storage implements IStorage {
       await db
         .prepare(
           `
-          INSERT OR REPLACE INTO favorites 
-          (username, key, title, source_name, cover, year, total_episodes, save_time)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+          INSERT OR REPLACE INTO favorites
+          (username, key, title, source_name, cover, year, total_episodes, save_time, search_title)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `
         )
         .bind(
@@ -219,7 +219,10 @@ export class D1Storage implements IStorage {
           favorite.cover,
           favorite.year,
           favorite.total_episodes,
-          favorite.save_time
+          favorite.save_time,
+          // repo-hardening 第 20 项：此前 INSERT 不写 search_title，
+          // 而 getFavorite/getAllFavorites 一直在读——写进去就丢。
+          favorite.search_title ?? null
         )
         .run();
     } catch (err) {
