@@ -9,6 +9,15 @@ export const runtime = 'edge';
 
 // OrionTV 兼容接口
 export async function GET(request: Request) {
+  const clientSignal = request.signal;
+  let onClientAbort: (() => void) | undefined;
+  const clientAbortPromise = new Promise<never>((_, reject) => {
+    onClientAbort = () => reject(new Error('client disconnected'));
+    if (clientSignal?.aborted) reject(new Error('client disconnected'));
+    else if (typeof clientSignal?.addEventListener === 'function') {
+      clientSignal.addEventListener('abort', onClientAbort, { once: true });
+    }
+  });
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
   const resourceId = searchParams.get('resourceId');
@@ -50,11 +59,11 @@ export async function GET(request: Request) {
     // M-04: 经保护层调用（熔断/总超时+AbortSignal/单源缓存/single-flight，
     // 与主搜索同一口径，见 src/lib/searchOne.ts）；上游失败/超时/熔断时
     // 返回空结果，走下方「未找到结果」404 出口，与原行为兼容
-    const { results, cacheStatus } = await fetchSearchOneResults(
+    const { results, cacheStatus } = await Promise.race([fetchSearchOneResults(
       targetSite,
       query,
       config.SiteConfig.SearchDownstreamMaxPage
-    );
+    ), clientAbortPromise, ]);
     let result = results.filter((r) => r.title === query);
     if (!config.SiteConfig.DisableYellowFilter) {
       result = result.filter((result) => {
@@ -90,4 +99,9 @@ export async function GET(request: Request) {
       { status: 500 }
     );
   }
+ finally {
+  if (onClientAbort && typeof clientSignal?.removeEventListener === 'function') {
+    clientSignal.removeEventListener('abort', onClientAbort);
+  }
+}
 }

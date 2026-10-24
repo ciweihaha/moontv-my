@@ -22,16 +22,28 @@ import {
 export const runtime = 'edge';
 
 export async function GET(request: Request) {
+  const clientSignal = request.signal;
+  const upstreamAbort = new AbortController();
+  const onClientAbort = () => upstreamAbort.abort();
+  if (clientSignal?.aborted) {
+    upstreamAbort.abort();
+  } else if (typeof clientSignal?.addEventListener === 'function') {
+    clientSignal.addEventListener('abort', onClientAbort, { once: true });
+  }
   try {
-    return await doSearch(request);
+    return await doSearch(request, upstreamAbort.signal);
   } catch (error) {
     console.error('[search] 搜索失败:', error);
     reportError('api/search', error);
     return NextResponse.json({ error: '搜索失败' }, { status: 500 });
+  } finally {
+    if (typeof clientSignal?.removeEventListener === 'function') {
+      clientSignal.removeEventListener('abort', onClientAbort);
+    }
   }
 }
 
-async function doSearch(request: Request) {
+async function doSearch(request: Request, clientAbortSignal?: AbortSignal) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get('q');
 
@@ -68,7 +80,11 @@ async function doSearch(request: Request) {
   // 管理员改名、改 key、增删或禁用源 → 指纹变化 → 旧缓存自然失效。
   // 注意不能只喂去重后的 api 地址——同址多源的 key/name 差异正是要防的串缓存。
   const fingerprint = await sitesFingerprint(config.SourceConfig);
-  const cacheKey = await buildSearchCacheKey(query, fingerprint);
+  const cacheKey = await buildSearchCacheKey(query, fingerprint, { disableYellowFilter: config.SiteConfig.DisableYellowFilter, searchDownstreamMaxPage: config.SiteConfig.SearchDownstreamMaxPage });
+  const clientAbortPromise = new Promise<never>((_, reject) => {
+    if (clientAbortSignal?.aborted) reject(new Error('client disconnected'));
+    else clientAbortSignal?.addEventListener('abort', () => reject(new Error('client disconnected')), { once: true });
+  });
 
   // KV-CACHE: 先查缓存（未绑定 KV 时 getCachedSearch 直接返回 null）
   const cached = await getCachedSearch(cacheKey);
@@ -82,7 +98,7 @@ async function doSearch(request: Request) {
   // KV-CACHE: single-flight，同一 isolate 内并发同 query 只打一次上游（防击穿）
   const inflight = getInflight<UpstreamSearchOutcome>(cacheKey);
   if (inflight) {
-    const shared = await inflight;
+    const shared = await Promise.race([inflight, clientAbortPromise]);
     const cacheTime = await getCacheTime();
     return jsonWithCache({ results: shared.results }, cacheTime, 200, {
       'X-Search-Cache': 'HIT-SHARED',
@@ -99,7 +115,7 @@ async function doSearch(request: Request) {
   );
   setInflight(cacheKey, upstreamPromise);
 
-  const upstream = await upstreamPromise;
+  const upstream = await Promise.race([upstreamPromise, clientAbortPromise]);
   const flattenedResults = upstream.results;
 
   // KV-CACHE: 写回（失败不影响响应；空结果短 TTL 防穿透）

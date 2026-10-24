@@ -9,6 +9,7 @@ interface FetchVideoDetailOptions {
   fallbackTitle?: string;
   // P1-5: cron 场景下 source+id 已知，跳过搜索直查详情，省 1~2 个上游请求
   skipSearch?: boolean;
+  signal?: AbortSignal;
 }
 
 /**
@@ -21,12 +22,16 @@ export async function fetchVideoDetail({
   id,
   fallbackTitle = '',
   skipSearch = false,
+  signal,
 }: FetchVideoDetailOptions): Promise<SearchResult> {
   // S4: 整体 15s 超时兜底（下游各有 8s/10s 单超时，此处防整体 hanging）
   // repo-hardening 第 8 项（M-05）：超时时真正 abort 下游请求，
   // 而不是只让外层 race 抛错、后台请求继续占用资源。
   const timeoutMs = 15000;
   const abortController = new AbortController();
+  const onExternalAbort = () => abortController.abort();
+  if (signal?.aborted) abortController.abort();
+  else if (typeof signal?.addEventListener === 'function') signal.addEventListener('abort', onExternalAbort, { once: true });
   let deadlineTimer: ReturnType<typeof setTimeout> | undefined;
   const timeoutPromise = new Promise<never>((_, reject) => {
     deadlineTimer = setTimeout(() => {
@@ -51,6 +56,7 @@ export async function fetchVideoDetail({
     // 无用定时器（生产句柄占用；Jest worker 退出滞留的 src/lib 分区
     // 残余候选）。超时语义与返回结构不变。
     clearTimeout(deadlineTimer);
+    if (signal && typeof signal.removeEventListener === 'function') signal.removeEventListener('abort', onExternalAbort);
   }
 }
 

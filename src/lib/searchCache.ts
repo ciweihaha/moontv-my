@@ -85,10 +85,14 @@ export async function sitesFingerprint(
 
 export async function buildSearchCacheKey(
   query: string,
-  fingerprint: string
+  fingerprint: string,
+  options?: {
+    disableYellowFilter?: boolean;
+    searchDownstreamMaxPage?: number;
+  }
 ): Promise<string> {
-  const qHash = (await sha256Hex(normalizeQuery(query))).slice(0, 32);
-  return `${CACHE_KEY_VERSION}:search:${fingerprint}:${qHash}`;
+  const qHash = (await sha256Hex(normalizeQuery(query))).slice(0, 32);  const suffix = options ? `:yf${options.disableYellowFilter ? '1' : '0'}:mp${options.searchDownstreamMaxPage ?? ''}` : '';
+  return `${CACHE_KEY_VERSION}:search:${fingerprint}${suffix}:${qHash}`;
 }
 
 function ttlForResults(count: number): number {
