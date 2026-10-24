@@ -55,6 +55,46 @@ export function processImageUrl(originalUrl: string): string {
 }
 
 /**
+ * 获取原始图片代理前缀（不论用户代理开关是否开启）。
+ * 服务端 RUNTIME_CONFIG.IMAGE_PROXY 优先，其次 localStorage 的 imageProxyUrl。
+ * 仅在海报加载失败的兜底路径调用，不参与首屏渲染，故不走 memo 缓存、每次读最新值。
+ * 失败路径不输出任何 URL 以外的信息。
+ */
+export function getRawImageProxyPrefix(): string | null {
+  if (typeof window === 'undefined') return null;
+
+  const serverPrefix = (window as any).RUNTIME_CONFIG?.IMAGE_PROXY;
+  if (typeof serverPrefix === 'string' && serverPrefix.trim()) {
+    return serverPrefix.trim();
+  }
+
+  const rawUrl = localStorage.getItem('imageProxyUrl');
+  if (rawUrl && rawUrl.trim()) return rawUrl.trim();
+
+  return null;
+}
+
+/**
+ * 海报失败兜底决策（纯函数）：
+ * - 已重试过 / 无代理前缀 / 原图为空 / 当前已是代理地址 → 返回 null（显示可见占位，不再重试）
+ * - 否则返回代理地址（整张海报生命周期内仅重试一次，默认路由不变）
+ */
+export function nextPosterFallbackSrc(
+  currentSrc: string,
+  originalUrl: string,
+  proxyPrefix: string | null,
+  alreadyRetried: boolean
+): string | null {
+  if (alreadyRetried) return null;
+  if (!originalUrl || !proxyPrefix) return null;
+
+  const proxied = `${proxyPrefix}${encodeURIComponent(originalUrl)}`;
+  if (currentSrc === proxied) return null;
+
+  return proxied;
+}
+
+/**
  * 获取豆瓣代理 URL 设置
  *
  * PERF-R1: 同 getImageProxyUrl，localStorage 读取 memo 化 + 原始字符串变更检测。

@@ -14,7 +14,11 @@ import {
   subscribeToDataUpdates,
 } from '@/lib/db.client';
 import { SearchResult } from '@/lib/types';
-import { processImageUrl } from '@/lib/utils';
+import {
+  getRawImageProxyPrefix,
+  nextPosterFallbackSrc,
+  processImageUrl,
+} from '@/lib/utils';
 
 import { ImagePlaceholder } from '@/components/ImagePlaceholder';
 
@@ -98,6 +102,35 @@ export default function VideoCard({
 
   const actualTitle = aggregateData?.first.title ?? title;
   const actualPoster = aggregateData?.first.poster ?? poster;
+
+  // 海报兜底链：直连失败 → 代理重试一次 → 再失败显示可见占位（骨架不永久挂起）
+  const [imgSrc, setImgSrc] = useState(() => processImageUrl(actualPoster));
+  const [imgRetried, setImgRetried] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false);
+
+  useEffect(() => {
+    setImgSrc(processImageUrl(actualPoster));
+    setImgRetried(false);
+    setImgFailed(false);
+    setIsLoading(false);
+  }, [actualPoster]);
+
+  const handlePosterError = useCallback(() => {
+    const next = nextPosterFallbackSrc(
+      imgSrc,
+      actualPoster,
+      getRawImageProxyPrefix(),
+      imgRetried
+    );
+    if (next) {
+      setImgSrc(next);
+      setImgRetried(true);
+    } else {
+      // 无路可退：结束加载状态，骨架消失、显示可见占位
+      setImgFailed(true);
+      setIsLoading(true);
+    }
+  }, [imgSrc, actualPoster, imgRetried]);
   const actualSource = aggregateData?.first.source ?? source;
   const actualId = aggregateData?.first.id ?? id;
   const actualDoubanId = String(
@@ -285,15 +318,27 @@ export default function VideoCard({
       <div className='relative aspect-[2/3] overflow-hidden rounded-lg'>
         {/* 骨架屏 */}
         {!isLoading && <ImagePlaceholder aspectRatio='aspect-[2/3]' />}
-        {/* 图片 */}
-        <Image
-          src={processImageUrl(actualPoster)}
-          alt={actualTitle}
-          fill
-          className='object-cover'
-          referrerPolicy='no-referrer'
-          onLoadingComplete={() => setIsLoading(true)}
-        />
+        {/* 图片：失败时走兜底链，最终失败显示带标题的可见占位 */}
+        {imgFailed ? (
+          <div
+            data-testid='poster-fallback'
+            className='absolute inset-0 flex items-center justify-center bg-neutral-200 p-4 dark:bg-neutral-800'
+          >
+            <span className='break-words text-center text-sm text-neutral-500'>
+              {actualTitle}
+            </span>
+          </div>
+        ) : (
+          <Image
+            src={imgSrc}
+            alt={actualTitle}
+            fill
+            className='object-cover'
+            referrerPolicy='no-referrer'
+            onLoadingComplete={() => setIsLoading(true)}
+            onError={handlePosterError}
+          />
+        )}
 
         {/* 悬浮遮罩 */}
         <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100' />
