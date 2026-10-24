@@ -15,6 +15,13 @@ const BLOCKED_HOSTNAMES = new Set([
 // round2 F1: edge allowlist
 // Initial list: hostnames of api fields in config.json api_site, deduplicated.
 // Non-listed hostname returns 403 before any fetch.
+// 2026-10-25 OrionTV 海报回归，豆瓣封面来自 img*.doubanio.com，不在 api 域名表里导致全 403，只放行 doubanio 公共图床后缀，仍走后面的 DNS 校验与内网拦截。
+const ALLOWED_IMAGE_HOSTNAME_SUFFIXES = ['.doubanio.com'];
+function isAllowedImageHostname(hostname: string): boolean {
+    const h = hostname.toLowerCase();
+    if (ALLOWED_IMAGE_HOSTNAMES.has(h)) return true;
+    return ALLOWED_IMAGE_HOSTNAME_SUFFIXES.some((suffix) => h.endsWith(suffix));
+}
 const ALLOWED_IMAGE_HOSTNAMES = new Set([
   'api.guangsuapi.com',
   'api.xinlangapi.com',
@@ -499,7 +506,7 @@ async function validateUrlForFetch(
   }
   // AUDIT-R5 P1: DNS 解析结果检查（2026-10-19 方案 B：未知拒绝，仅全公网记录放行）
   // round2 F1: edge allowlist, fail-closed, before DNS/fetch.
-  if (!ALLOWED_IMAGE_HOSTNAMES.has(parsed.hostname.toLowerCase())) {
+  if (!isAllowedImageHostname(parsed.hostname)) {
     return { ok: false, error: 'Host not allowed', status: 403 };
   }
   const dnsCheck = await validateHostnameDNS(parsed.hostname);
