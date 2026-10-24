@@ -99,7 +99,7 @@ export async function GET(request: Request) {
       { status: 500 }
     );
   }
-} finally {
+ finally {
   if (onClientAbort && typeof clientSignal?.removeEventListener === 'function') {
     clientSignal.removeEventListener('abort', onClientAbort);
   }
