@@ -28,7 +28,7 @@ const DEFAULT_RETRIES = 1;
 const DEFAULT_BACKOFF_MS = 500;
 
 function sleep(ms: number, signal?: AbortSignal): Promise<void> {
-  if (signal?.aborted) return Promise.resolve(); return new Promise((resolve) => { let timer: ReturnType<typeof setTimeout>; const onAbort = () => { clearTimeout(timer); resolve(); }; timer = setTimeout(() => { signal?.removeEventListener('abort', onAbort); resolve(); }, ms); signal?.addEventListener('abort', onAbort, { once: true }); });
+  if (signal?.aborted) return Promise.resolve(); return new Promise((resolve) => { const holder: { timer?: ReturnType<typeof setTimeout> } = {}; const onAbort = () => { if (holder.timer) clearTimeout(holder.timer); resolve(); }; holder.timer = setTimeout(() => { signal?.removeEventListener('abort', onAbort); resolve(); }, ms); signal?.addEventListener('abort', onAbort, { once: true }); });
 }
 
 /**
