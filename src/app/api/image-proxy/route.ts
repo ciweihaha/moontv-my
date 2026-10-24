@@ -12,6 +12,41 @@ const BLOCKED_HOSTNAMES = new Set([
   '0.0.0.0',
   '169.254.169.254', // 云元数据
 ]);
+// round2 F1: edge allowlist
+// Initial list: hostnames of api fields in config.json api_site, deduplicated.
+// Non-listed hostname returns 403 before any fetch.
+const ALLOWED_IMAGE_HOSTNAMES = new Set([
+  'api.guangsuapi.com',
+  'api.xinlangapi.com',
+  'api.wujinapi.me',
+  'api.wujinapi.net',
+  'api.1080zyku.com',
+  'www.huyaapi.com',
+  'hhzyapi.com',
+  'subocaiji.com',
+  'cj.lziapi.com',
+  'jinyingzy.com',
+  'jyzyapi.com',
+  'cj.ffzyapi.com',
+  'caiji.moduapi.cc',
+  'www.mdzyapi.com',
+  'api.ffzyapi.com',
+  'jszyapi.com',
+  'www.hongniuzy3.com',
+  'api.ukuapi88.com',
+  'api.wujinapi.cc',
+  '360zy.com',
+  'api.ukuapi.com',
+  'ikunzyapi.com',
+  'cj.rycjapi.com',
+  'api.wujinapi.com',
+  'bfzyapi.com',
+  'zuidazy.me',
+  'm3u8.apiyhzy.com',
+  'caiji.dyttzyapi.com',
+  'www.hongniuzy2.com',
+  'www.moduzy.com',]);
+
 
 /** IPv4 内网/特殊段检查（输入应为规范点分十进制） */
 function isBlockedIPv4(ip: string): boolean {
@@ -463,6 +498,10 @@ async function validateUrlForFetch(
     return { ok: false, error: 'Blocked host', status: 403 };
   }
   // AUDIT-R5 P1: DNS 解析结果检查（2026-10-19 方案 B：未知拒绝，仅全公网记录放行）
+  // round2 F1: edge allowlist, fail-closed, before DNS/fetch.
+  if (!ALLOWED_IMAGE_HOSTNAMES.has(parsed.hostname.toLowerCase())) {
+    return { ok: false, error: 'Host not allowed', status: 403 };
+  }
   const dnsCheck = await validateHostnameDNS(parsed.hostname);
   if (!dnsCheck.ok) {
     return { ok: false, error: `DNS check failed: ${dnsCheck.reason || 'blocked'}`, status: 403 };
