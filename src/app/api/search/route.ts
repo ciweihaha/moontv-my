@@ -25,9 +25,9 @@ export async function GET(request: Request) {
   const clientSignal = request.signal;
   const upstreamAbort = new AbortController();
   const onClientAbort = () => upstreamAbort.abort();
-  if (clientSignal.aborted) {
+  if (clientSignal?.aborted) {
     upstreamAbort.abort();
-  } else if (typeof clientSignal.addEventListener === 'function') {
+  } else if (typeof clientSignal?.addEventListener === 'function') {
     clientSignal.addEventListener('abort', onClientAbort, { once: true });
   }
   try {
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
     reportError('api/search', error);
     return NextResponse.json({ error: '搜索失败' }, { status: 500 });
   } finally {
-    if (typeof clientSignal.removeEventListener === 'function') {
+    if (typeof clientSignal?.removeEventListener === 'function') {
       clientSignal.removeEventListener('abort', onClientAbort);
     }
   }
