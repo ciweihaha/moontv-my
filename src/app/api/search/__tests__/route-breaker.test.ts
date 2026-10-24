@@ -10,7 +10,9 @@
  * upstreamSearch 依据 searchFromApi 的 M-02 抛错契约完成：
  * - resolve（含合法零结果）→ 记成功；
  * - 抛 SearchUpstreamError → 记失败，连续 3 次熔断打开、后续不再调用上游；
- * - 整体超时取消（signal abort 后抛错）→ 不记成功也不记失败，永不熔断；
+ * - 整体超时取消（signal abort 后抛错）→ 记失败：总截止时仍在途的组
+ *   已耗尽搜索预算而未交付，与干净失败同按失败计入（口径变更，
+ *   见 upstreamSearch.ts 计数规则注释；与 searchOne.ts 同口径）；
  * - 成功清零既有失败计数。
  * 本测试改指该结构：downstream 被替换为可控的 searchFromApi mock，
  * circuitBreaker 用真实实现，断言点与原测试一一对应。
@@ -79,7 +81,7 @@ describe('upstreamSearch 熔断三方处理（原 route-breaker 改指）', () =
     expect(shouldSkipUpstream(api)).toBe(false);
   });
 
-  test('cancelled 反复出现 → 不记失败，永不熔断', async () => {
+  test('cancelled 连续 3 次 → 记失败、熔断打开，第 4 次起不再调用上游', async () => {
     const api = 'https://cancel.example/api.php';
     // 模拟整体超时取消：请求挂起，直到 upstreamSearch 的 signal abort 才抛错
     mockSearch.mockImplementation(
@@ -96,8 +98,8 @@ describe('upstreamSearch 熔断三方处理（原 route-breaker 改指）', () =
     );
 
     for (let i = 0; i < 5; i++) await searchOnce(api, 50);
-    expect(mockSearch.mock.calls.length).toBe(5);
-    expect(shouldSkipUpstream(api)).toBe(false);
+    expect(mockSearch.mock.calls.length).toBe(3);
+    expect(shouldSkipUpstream(api)).toBe(true);
   });
 
   test('成功清零失败计数：2 失败 + 1 成功 + 2 失败仍不熔断，再 1 失败才熔断', async () => {

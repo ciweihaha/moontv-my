@@ -136,8 +136,9 @@ export async function readBodyWithLimit(
  * 搜索结果三分语义（repo-hardening 第 5/12 项）：
  * - ok：上游请求成功，results 可为空数组（合法零结果）；
  * - failed：上游故障（网络异常 / 非 2xx / 响应体超限 / 解析失败 / 结构异常）；
- * - cancelled：被外部信号取消（如搜索整体超时）——不是上游的错，
- *   调用方不得据此记上游失败。
+ * - cancelled：被外部信号取消（如搜索整体超时）——三态本身仍区分
+ *   取消与失败；聚合层是否记熔断按各自计数规则（upstreamSearch 把
+ *   总截止时在途的组记失败，见其注释；searchOne 同口径）。
  * 旧实现把三者全部吞成 []，导致路由层无法区分、故障源被误记成功而永不熔断。
  *
  * HARDENING-001 M-02 的类型化错误与上述三分语义是同一契约的两种形态：
@@ -315,7 +316,7 @@ export async function searchFromApiWithOutcome(
  * 契约把三分语义映射为异常形态（与 searchFromApiWithOutcome 同一语义）：
  * - ok（含合法零结果）→ resolve results；
  * - failed → 抛 SearchUpstreamError，聚合层据此记上游失败（熔断）；
- * - cancelled → 抛 AbortError；调用方以 signal.aborted 为准，不计上游失败。
+ * - cancelled → 抛 AbortError；调用方按熔断计数规则计入（见 upstreamSearch.ts）。
  * 现有调用方均可承受抛错：upstreamSearch / searchOne / fetchVideoDetail
  * 的调用点都包在 try/catch 中。需要显式三态的调用方用 searchFromApiWithOutcome。
  */

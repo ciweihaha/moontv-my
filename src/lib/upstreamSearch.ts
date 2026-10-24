@@ -77,10 +77,17 @@ export async function doUpstreamSearch(
       );
       completedChunks.push({ index: groupIndex, results: expanded });
     } catch {
-      // 总超时 abort 取消的在途请求不是上游失败，不计入熔断
-      if (!abortController.signal.aborted) {
-        recordUpstreamFailure(apiKey);
-      }
+      // 熔断计数规则（与单源路由 searchOne.ts 同口径：总超时即记失败）：
+      // 干净失败（源自身单次超时/5xx/网络/解析）与总截止取消（组在
+      // 总超时到达时仍在途）一律记失败。理由：①在途组已耗尽本次
+      // 搜索预算而未交付，无论挂死还是起步晚，都无法在预算内交付
+      // ——正是熔断器要隔离的形态；②未起步的组（入口处 aborted
+      // 早退）不记，每搜索每组至多记 1 次；③阈值 3 要求连续 3 次
+      // 搜索都被截断才跳过，单次慢搜索不致误熔断；④60s 后半开试探
+      // 恢复，成功清零、失败重熔断。旧实现以 signal.aborted 为界
+      // 不记取消，导致永久挂起源永不熔断（干净失败恰好撞上总超时
+      // 时也会漏记）。
+      recordUpstreamFailure(apiKey);
       // 单组失败不影响其他组（原 Promise.allSettled 语义）
     }
   }

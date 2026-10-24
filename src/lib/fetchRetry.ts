@@ -31,13 +31,30 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/**
+ * 超时类错误名集合：AbortError（fetch abort，含跨 realm DOMException）
+ * 与 TimeoutError（AbortSignal.timeout 等同族超时）。仅按名判断，
+ * 不依赖 instanceof——真实 abort 拒绝的原型链随 realm 而异
+ * （DOMException 在部分运行时不继承 Error；跨 realm 时 instanceof
+ * 全数失效），旧谓词因此从未拦住过真实超时错误。
+ * 注意：代码库当前实际产生的超时错误名只有 AbortError；TimeoutError
+ * 按同族超时意图一并纳入，不扩大到网络错误（TypeError 等）与 5xx。
+ */
+const TIMEOUT_ERROR_NAMES = new Set(['AbortError', 'TimeoutError']);
+
+/** 是否超时类错误：只读 .name，不触原型链 */
+function isTimeoutError(error: unknown): boolean {
+  if (typeof error !== 'object' || error === null) return false;
+  return TIMEOUT_ERROR_NAMES.has((error as { name?: unknown }).name as string);
+}
+
 /** 判断是否值得重试：网络错误或 5xx */
 function isRetryable(error: unknown, response?: Response): boolean {
   if (response) {
     return response.status >= 500 && response.status < 600;
   }
-  // fetch throw：AbortError（超时）不重试，其他网络错误重试
-  if (error instanceof Error && error.name === 'AbortError') {
+  // fetch throw：超时不重试，其他网络错误重试
+  if (isTimeoutError(error)) {
     return false;
   }
   return true;
