@@ -39,11 +39,24 @@ export async function doUpstreamSearch(
   // AUDIT-R2: 全局并发上限，避免首次搜索对数十个上游同时发起请求形成峰值
   const CONCURRENCY_LIMIT = 10;
   // AUDIT-R2: 增量收集已完成结果，总超时到达时返回部分结果而非空数组
-  const completedChunks: SearchResult[][] = [];
+  // 结果组保留其源分组索引：各组完成时序随网络时延变化，汇总时按索引
+  // 排序再展开，保证同一查询的来源排列顺序确定（与源顺序一致）
+  const completedChunks: Array<{ index: number; results: SearchResult[] }> = [];
   // AUDIT-R3 P1: 整体取消控制器，超时后取消所有后台上游请求
   const abortController = new AbortController();
 
-  async function searchOneGroup(sites: ApiSiteEntry[]): Promise<void> {
+  /** 已收集结果按源分组索引升序展开（完成时序不影响最终顺序） */
+  function orderedResults(): SearchResult[] {
+    return completedChunks
+      .slice()
+      .sort((a, b) => a.index - b.index)
+      .flatMap((chunk) => chunk.results);
+  }
+
+  async function searchOneGroup(
+    sites: ApiSiteEntry[],
+    groupIndex: number
+  ): Promise<void> {
     // 已取消则直接退出
     if (abortController.signal.aborted) return;
     // R2-S5: 熔断器——连续失败的上游短暂跳过，不拖慢整体
@@ -62,7 +75,7 @@ export async function doUpstreamSearch(
       const expanded = sites.flatMap((site) =>
         results.map((r) => ({ ...r, source: site.key, source_name: site.name }))
       );
-      completedChunks.push(expanded);
+      completedChunks.push({ index: groupIndex, results: expanded });
     } catch {
       // 总超时 abort 取消的在途请求不是上游失败，不计入熔断
       if (!abortController.signal.aborted) {
@@ -81,7 +94,7 @@ export async function doUpstreamSearch(
         // 检查取消
         if (abortController.signal.aborted) break;
         const i = nextIndex++;
-        await searchOneGroup(groups[i]);
+        await searchOneGroup(groups[i], i);
       }
     }
     const workers = Array.from(
@@ -110,7 +123,7 @@ export async function doUpstreamSearch(
     // 全部完成先到时清掉定时器，避免悬挂的 10s 定时器拖住进程/测试
     if (timer) clearTimeout(timer);
 
-    const flattenedResults: SearchResult[] = completedChunks.flat();
+    const flattenedResults: SearchResult[] = orderedResults();
     if (flattenedResults.length === 0) {
       return { results: [], partial: timedOut };
     }
@@ -128,6 +141,6 @@ export async function doUpstreamSearch(
     };
   } catch {
     // 异常兜底：返回已收集的部分结果，并保守按 partial 处理（不写长 TTL）
-    return { results: completedChunks.flat(), partial: true };
+    return { results: orderedResults(), partial: true };
   }
 }
