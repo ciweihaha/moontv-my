@@ -16,8 +16,16 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { Response as UndiciResponse } from 'undici';
+
 import { ApiSite } from '../config';
 import { searchFromApi, searchFromApiWithOutcome } from '../downstream';
+
+// jest 27 node 环境无 Response 全局（生产 Edge/Node 自带）；fetchWithRetry
+// 自第 8 项起会以跟踪流重构 Response，故用 undici 实现补齐测试环境。
+if (typeof (globalThis as any).Response === 'undefined') {
+  (globalThis as any).Response = UndiciResponse;
+}
 
 const site: ApiSite = {
   key: 'site-a',

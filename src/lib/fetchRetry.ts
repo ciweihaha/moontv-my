@@ -7,6 +7,9 @@
  * - 仅重试网络错误（fetch throw / abort 除外）与 5xx，4xx 不重试
  * - 默认 1 次重试（共 2 次尝试），指数退避 500ms → 1000ms
  * - 每次尝试独立 AbortController 超时，超时不重试（上游 hang 住时快速失败）
+ * - 超时覆盖「响应头 + 响应体读取」全过程（repo-hardening 第 8 项）：
+ *   返回的 Response 体被跟踪，读完/取消前计时器保持生效；
+ *   5xx 重试前会先 cancel 上一响应体释放连接。
  *
  * 注意：仅用于幂等 GET 请求。
  */
@@ -68,19 +71,69 @@ export async function fetchWithRetry(
     const onExternalAbort = () => controller.abort();
     externalSignal?.addEventListener('abort', onExternalAbort, { once: true });
 
+    // repo-hardening 第 8 项：计时器与外部监听的清理时机改为「响应体读完/
+    // 被取消」而非「拿到响应头」。旧实现 clearTimeout 在 fetch 返回后立即
+    // 执行，上游响应头及时、响应体永不结束时读取无限挂住、超时失效。
+    let cleanedUp = false;
+    const cleanup = () => {
+      if (cleanedUp) return;
+      cleanedUp = true;
+      clearTimeout(timeoutId);
+      externalSignal?.removeEventListener('abort', onExternalAbort);
+    };
+
     try {
       const response = await fetch(url, { ...init, signal: controller.signal });
-      clearTimeout(timeoutId);
-      externalSignal?.removeEventListener('abort', onExternalAbort);
 
       if (response.ok || !isRetryable(null, response)) {
-        return response;
+        if (!response.body) {
+          cleanup();
+          return response;
+        }
+        // 成功/不可重试：把原始响应体包一层跟踪流——读完、出错或被取消时
+        // 才清理计时器；体读取阶段超时到达时 controller.abort() 会让
+        // 底层 reader.read() 立即 reject，不再无限挂住。
+        const reader = response.body.getReader();
+        const trackedBody = new ReadableStream<Uint8Array>({
+          async pull(c) {
+            try {
+              const { done, value } = await reader.read();
+              if (done) {
+                cleanup();
+                c.close();
+              } else if (value) {
+                c.enqueue(value);
+              }
+            } catch (e) {
+              cleanup();
+              c.error(e);
+            }
+          },
+          async cancel(reason) {
+            cleanup();
+            try {
+              await reader.cancel(reason);
+            } catch {
+              /* 取消失败无妨，资源由运行时回收 */
+            }
+          },
+        });
+        return new Response(trackedBody, {
+          status: response.status,
+          statusText: response.statusText,
+          headers: response.headers,
+        });
       }
-      // 5xx：记下准备重试
+      // 5xx：重试前先取消上一响应体，释放连接/句柄，再记错准备重试
+      cleanup();
+      try {
+        await response.body?.cancel();
+      } catch {
+        /* 取消失败无妨 */
+      }
       lastError = new Error(`upstream ${response.status}`);
     } catch (error) {
-      clearTimeout(timeoutId);
-      externalSignal?.removeEventListener('abort', onExternalAbort);
+      cleanup();
       lastError = error;
       if (!isRetryable(error)) {
         throw error;

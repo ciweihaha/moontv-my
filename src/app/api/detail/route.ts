@@ -59,8 +59,11 @@ export async function GET(request: Request) {
       }
     }
 
+    // repo-hardening 第 8 项（任务书 001 的 M-05）：整体截止到达时真正
+    // abort 上游请求，而不是只返回 504 任由后台请求继续跑。
+    const detailAbort = new AbortController();
     const upstreamPromise = (async () => {
-      const result = await getDetailFromApi(apiSite, id);
+      const result = await getDetailFromApi(apiSite, id, detailAbort.signal);
 
       // 黄色词过滤（与搜索接口对齐，防止绕过）；转小写做大小写归一化
       const checkText = (
@@ -91,6 +94,9 @@ export async function GET(request: Request) {
     );
     const result = await Promise.race([upstreamPromise, timeoutPromise]);
     if (timedOut) {
+      // M-05 真取消：通知下游中止 fetch 与响应体读取（共享同一 inflight
+      // 的并发请求会随之失败，属超时场景下可接受的降级）
+      detailAbort.abort();
       return NextResponse.json({ error: '详情请求超时' }, { status: 504 });
     }
     if (!result) {

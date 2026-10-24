@@ -175,6 +175,7 @@ export async function searchFromApiWithOutcome(
     // 语义修正：超限是上游异常输出，记 failed 而非冒充零结果。
     const contentLength = response.headers.get('content-length');
     if (contentLength && parseInt(contentLength, 10) > MAX_SEARCH_BODY_BYTES) {
+      await response.body?.cancel().catch(() => {});
       return { status: 'failed' };
     }
 
@@ -311,14 +312,17 @@ const M3U8_PATTERN = /(https?:\/\/[^"'\s]+?\.m3u8)/g;
 
 export async function getDetailFromApi(
   apiSite: ApiSite,
-  id: string
+  id: string,
+  // repo-hardening 第 8 项：整体取消信号（详情路由 25s 截止 / fetchVideoDetail
+  // 15s 截止触发时真正 abort 上游，而非只让外层 race 返回错误）
+  signal?: AbortSignal
 ): Promise<SearchResult> {
   // P1-6: id 格式校验（纵深防御，与 /api/detail 路由层一致）
   if (!/^[\w-]+$/.test(id)) {
     throw new Error('无效的视频ID格式');
   }
   if (apiSite.detail) {
-    return handleSpecialSourceDetail(id, apiSite);
+    return handleSpecialSourceDetail(id, apiSite, signal);
   }
 
   const detailUrl = `${apiSite.api}${API_CONFIG.detail.path}${id}`;
@@ -326,13 +330,15 @@ export async function getDetailFromApi(
   // S3: 超时 + 重试
   const response = await fetchWithRetry(
     detailUrl,
-    { headers: API_CONFIG.detail.headers },
+    { headers: API_CONFIG.detail.headers, signal },
     { timeoutMs: 10000, retries: 1 }
   );
 
   // R3: 响应头预检（详情 2MB 上限）+ 读取时硬上限（防分块传输绕过）
   const detailCL = response.headers.get('content-length');
   if (detailCL && parseInt(detailCL, 10) > MAX_DETAIL_BODY_BYTES) {
+    // 不读体直接返回前先 cancel，释放被 fetchRetry 跟踪的响应体/计时器
+    await response.body?.cancel().catch(() => {});
     throw new Error('详情响应体过大');
   }
 
@@ -340,7 +346,11 @@ export async function getDetailFromApi(
     throw new Error(`详情请求失败: ${response.status}`);
   }
 
-  const detailBody = await readBodyWithLimit(response, MAX_DETAIL_BODY_BYTES);
+  const detailBody = await readBodyWithLimit(
+    response,
+    MAX_DETAIL_BODY_BYTES,
+    signal
+  );
   if (detailBody === null) {
     throw new Error('详情响应体过大');
   }
@@ -401,20 +411,22 @@ export async function getDetailFromApi(
 
 async function handleSpecialSourceDetail(
   id: string,
-  apiSite: ApiSite
+  apiSite: ApiSite,
+  signal?: AbortSignal
 ): Promise<SearchResult> {
   const detailUrl = `${apiSite.detail}/index.php/vod/detail/id/${id}.html`;
 
   // S3: 超时 + 重试
   const response = await fetchWithRetry(
     detailUrl,
-    { headers: API_CONFIG.detail.headers },
+    { headers: API_CONFIG.detail.headers, signal },
     { timeoutMs: 10000, retries: 1 }
   );
 
   // R3: 响应头预检（详情 2MB 上限）+ 读取时硬上限（防分块传输绕过）
   const specialCL = response.headers.get('content-length');
   if (specialCL && parseInt(specialCL, 10) > MAX_DETAIL_BODY_BYTES) {
+    await response.body?.cancel().catch(() => {});
     throw new Error('详情响应体过大');
   }
 
@@ -422,7 +434,11 @@ async function handleSpecialSourceDetail(
     throw new Error(`详情页请求失败: ${response.status}`);
   }
 
-  const specialBody = await readBodyWithLimit(response, MAX_DETAIL_BODY_BYTES);
+  const specialBody = await readBodyWithLimit(
+    response,
+    MAX_DETAIL_BODY_BYTES,
+    signal
+  );
   if (specialBody === null) {
     throw new Error('详情响应体过大');
   }
