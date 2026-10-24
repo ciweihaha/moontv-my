@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAuthInfoFromCookie } from '@/lib/auth';
 import { getStorage } from '@/lib/db';
 import { IStorage } from '@/lib/types';
+import { validateNewPassword } from '@/lib/userValidation';
 
 export const runtime = 'edge';
 
@@ -31,13 +32,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // 验证新密码
-    if (!newPassword || typeof newPassword !== 'string') {
-      return NextResponse.json({ error: '新密码不得为空' }, { status: 400 });
-    }
-    // SEC-R2: 新密码最小长度 4 位
-    if (newPassword.length < 4) {
-      return NextResponse.json({ error: '新密码长度至少 4 位' }, { status: 400 });
+    // 验证新密码：repo-hardening 第 18 项，走共享校验（最小长度统一 8，
+    // 原内联 SEC-R2 口径为 4）；空值也由共享校验给出错误信息
+    const newPasswordError = validateNewPassword(newPassword);
+    if (newPasswordError) {
+      return NextResponse.json({ error: newPasswordError }, { status: 400 });
     }
 
     const username = authInfo.username;
