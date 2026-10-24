@@ -126,9 +126,9 @@ export async function doUpstreamSearch(
         resolve();
       }, totalTimeoutMs);
     });
-    await Promise.race([allDone, timeout]);
-    // 全部完成先到时清掉定时器，避免悬挂的 10s 定时器拖住进程/测试
-    if (timer) clearTimeout(timer);
+    try { await Promise.race([allDone, timeout]); } finally { if (timer) clearTimeout(timer); }
+    // 无论 race 完成还是抛错，finally 都清掉定时器，避免悬挂的 10s 定时器拖住进程/测试
+    
 
     const flattenedResults: SearchResult[] = orderedResults();
     if (flattenedResults.length === 0) {
