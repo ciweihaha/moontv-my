@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { buildSessionSignData, generateSignature, getSessionSecret } from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
+import { validateCredentials } from '@/lib/userValidation';
 
 export const runtime = 'edge';
 
@@ -55,25 +56,11 @@ export async function POST(req: NextRequest) {
 
     const { username, password } = await req.json();
 
-    if (!username || typeof username !== 'string') {
-      return NextResponse.json({ error: '用户名不能为空' }, { status: 400 });
-    }
-    // SEC-R2: 用户名格式校验（2-20 位，字母/数字/下划线/中文），防注入与异常数据
-    if (!/^[a-zA-Z0-9_\u4e00-\u9fa5]{2,20}$/.test(username)) {
-      return NextResponse.json(
-        { error: '用户名格式不正确（2-20位，仅限字母、数字、下划线、中文）' },
-        { status: 400 }
-      );
-    }
-    if (!password || typeof password !== 'string') {
-      return NextResponse.json({ error: '密码不能为空' }, { status: 400 });
-    }
-    // SEC-R2: 密码最小长度 4 位
-    if (password.length < 4) {
-      return NextResponse.json(
-        { error: '密码长度至少 4 位' },
-        { status: 400 }
-      );
+    // repo-hardening 第 18 项：用户名/新密码走共享校验（userValidation.ts）；
+    // 密码最小长度已统一为 8（原内联 SEC-R2 口径为 4）。
+    const credentialError = validateCredentials(username, password);
+    if (credentialError) {
+      return NextResponse.json({ error: credentialError }, { status: 400 });
     }
 
     // 检查是否和管理员重复

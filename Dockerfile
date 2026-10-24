@@ -1,20 +1,16 @@
 # ---- 第 1 阶段：安装依赖 ----
 FROM node:20-alpine AS deps
 
-# 启用 corepack 并激活 pnpm（Node20 默认提供 corepack）
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
 WORKDIR /app
 
 # 仅复制依赖清单，提高构建缓存利用率
-COPY package.json pnpm-lock.yaml ./
+COPY package.json package-lock.json ./
 
-# 安装所有依赖（含 devDependencies，后续会裁剪）
-RUN pnpm install --frozen-lockfile
+# 安装所有依赖（含 devDependencies，后续会裁剪）；npm ci 即锁文件严格模式
+RUN npm ci
 
 # ---- 第 2 阶段：构建项目 ----
 FROM node:20-alpine AS builder
-RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
 # 复制依赖
@@ -32,7 +28,7 @@ ENV DOCKER_ENV=true
 RUN sed -i "/const inter = Inter({ subsets: \['latin'] });/a export const dynamic = 'force-dynamic';" src/app/layout.tsx
 
 # 生成生产构建
-RUN pnpm run build
+RUN npm run build
 
 # ---- 第 3 阶段：生成运行时镜像 ----
 FROM node:20-alpine AS runner

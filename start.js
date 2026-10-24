@@ -26,13 +26,26 @@ generateManifest();
 // 直接在当前进程中启动 standalone Server（`server.js`）
 require('./server.js');
 
-// 每 1 秒轮询一次，直到请求成功
+// 每 1 秒轮询一次，直到请求成功；最多尝试 60 次（约 60 秒），
+// 超限说明服务始终未能健康启动，打印明确错误并以非零码退出，
+// 避免无限轮询把日志刷爆且无人察觉。
 const TARGET_URL = `http://${process.env.HOSTNAME || 'localhost'}:${
   process.env.PORT || 3000
 }/login`;
+const MAX_POLL_ATTEMPTS = 60;
+let pollAttempts = 0;
 
 const intervalId = setInterval(() => {
-  console.log(`Fetching ${TARGET_URL} ...`);
+  pollAttempts += 1;
+  if (pollAttempts > MAX_POLL_ATTEMPTS) {
+    clearInterval(intervalId);
+    console.error(
+      `Server did not become ready after ${MAX_POLL_ATTEMPTS} attempts (~${MAX_POLL_ATTEMPTS}s), giving up.`
+    );
+    process.exit(1);
+  }
+
+  console.log(`Fetching ${TARGET_URL} ... (attempt ${pollAttempts}/${MAX_POLL_ATTEMPTS})`);
 
   const req = http.get(TARGET_URL, (res) => {
     // 当返回 2xx 状态码时认为成功，然后停止轮询
@@ -63,7 +76,14 @@ function executeCronJob() {
 
   console.log(`Executing cron job: ${cronUrl}`);
 
-  const req = http.get(cronUrl, (res) => {
+  // 若部署配置了 CRON_SECRET，/api/cron 要求 Bearer 鉴权；
+  // 从环境变量读取并放在 Authorization 头中（不硬编码、不进查询参数）。
+  const headers = {};
+  if (process.env.CRON_SECRET) {
+    headers.Authorization = `Bearer ${process.env.CRON_SECRET}`;
+  }
+
+  const req = http.get(cronUrl, { headers }, (res) => {
     let data = '';
 
     res.on('data', (chunk) => {

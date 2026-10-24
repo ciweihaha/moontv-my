@@ -64,8 +64,10 @@ async function doSearch(request: Request) {
   }
 
   // KV-CACHE: 缓存 key = 版本 + 站点指纹 + 归一化搜索词哈希
-  // 站点增删/禁用 → 指纹变化 → 旧缓存自然失效
-  const fingerprint = await sitesFingerprint(Array.from(sitesByApi.keys()));
+  // 指纹覆盖全部来源的 key/name/api/启用状态（含被禁用源）：
+  // 管理员改名、改 key、增删或禁用源 → 指纹变化 → 旧缓存自然失效。
+  // 注意不能只喂去重后的 api 地址——同址多源的 key/name 差异正是要防的串缓存。
+  const fingerprint = await sitesFingerprint(config.SourceConfig);
   const cacheKey = await buildSearchCacheKey(query, fingerprint);
 
   // KV-CACHE: 先查缓存（未绑定 KV 时 getCachedSearch 直接返回 null）

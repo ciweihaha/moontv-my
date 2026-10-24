@@ -1,6 +1,7 @@
 /* eslint-disable no-console, @typescript-eslint/no-explicit-any, @typescript-eslint/no-non-null-assertion */
 
 import { AdminConfig } from './admin.types';
+import { hashPassword, verifyPassword } from './passwordHash';
 import { Favorite, IStorage, PlayRecord, SkipConfig } from './types';
 
 // 搜索历史最大条数
@@ -205,9 +206,9 @@ export class D1Storage implements IStorage {
       await db
         .prepare(
           `
-          INSERT OR REPLACE INTO favorites 
-          (username, key, title, source_name, cover, year, total_episodes, save_time)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+          INSERT OR REPLACE INTO favorites
+          (username, key, title, source_name, cover, year, total_episodes, save_time, search_title)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `
         )
         .bind(
@@ -218,7 +219,10 @@ export class D1Storage implements IStorage {
           favorite.cover,
           favorite.year,
           favorite.total_episodes,
-          favorite.save_time
+          favorite.save_time,
+          // repo-hardening 第 20 项：此前 INSERT 不写 search_title，
+          // 而 getFavorite/getAllFavorites 一直在读——写进去就丢。
+          favorite.search_title ?? null
         )
         .run();
     } catch (err) {
@@ -272,12 +276,14 @@ export class D1Storage implements IStorage {
   }
 
   // 用户相关
+  // repo-hardening 第 17 项：密码一律以 PBKDF2 哈希存储（见 passwordHash.ts）
   async registerUser(userName: string, password: string): Promise<void> {
     try {
       const db = await this.getDatabase();
+      const hashed = await hashPassword(password);
       await db
         .prepare('INSERT INTO users (username, password) VALUES (?, ?)')
-        .bind(userName, password)
+        .bind(userName, hashed)
         .run();
     } catch (err) {
       console.error('Failed to register user:', err);
@@ -293,7 +299,25 @@ export class D1Storage implements IStorage {
         .bind(userName)
         .first<{ password: string }>();
 
-      return result?.password === password;
+      if (!result?.password) return false;
+
+      const check = await verifyPassword(password, result.password);
+      if (!check.ok) return false;
+
+      // 存量明文账户：校验成功后透明升级为哈希（回写失败不阻塞登录，
+      // 下次登录会再次尝试升级）。
+      if (check.needsUpgrade) {
+        try {
+          const hashed = await hashPassword(password);
+          await db
+            .prepare('UPDATE users SET password = ? WHERE username = ?')
+            .bind(hashed, userName)
+            .run();
+        } catch (upgradeErr) {
+          console.error('密码透明升级失败（不影响本次登录）:', upgradeErr);
+        }
+      }
+      return true;
     } catch (err) {
       console.error('Failed to verify user:', err);
       throw err;
@@ -318,9 +342,10 @@ export class D1Storage implements IStorage {
   async changePassword(userName: string, newPassword: string): Promise<void> {
     try {
       const db = await this.getDatabase();
+      const hashed = await hashPassword(newPassword);
       await db
         .prepare('UPDATE users SET password = ? WHERE username = ?')
-        .bind(newPassword, userName)
+        .bind(hashed, userName)
         .run();
     } catch (err) {
       console.error('Failed to change password:', err);

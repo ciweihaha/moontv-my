@@ -37,21 +37,27 @@ export async function DELETE(request: NextRequest) {
     }
 
     let deleted = 0;
+    let truncated = false;
     let cursor: string | undefined;
-    do {
+    outer: do {
       const list = await kv.list({ prefix, cursor });
-      for (const key of list.keys) {
-        await kv.delete(key.name);
+      for (let i = 0; i < list.keys.length; i++) {
+        await kv.delete(list.keys[i].name);
         deleted++;
         // 单次最多删 1000，防止超时
-        if (deleted >= 1000) break;
+        if (deleted >= 1000) {
+          // repo-hardening 第 11 项：如实反馈是否没清完——本页还有未删的
+          // key、或后面还有分页时 truncated=true；恰好删满且已列完为 false。
+          // 旧响应只有 {ok, deleted}，调用方无法区分这两种情况。
+          truncated = i < list.keys.length - 1 || !list.list_complete;
+          break outer;
+        }
       }
       cursor = list.list_complete ? undefined : list.cursor;
-      if (deleted >= 1000) break;
     } while (cursor);
 
-    console.log(`[admin/cache] 用户 ${user!.username} 清理缓存 prefix=${prefix}，删除 ${deleted} 条`);
-    return NextResponse.json({ ok: true, deleted, prefix });
+    console.log(`[admin/cache] 用户 ${user!.username} 清理缓存 prefix=${prefix}，删除 ${deleted} 条${truncated ? '（已达单次上限，未清完）' : ''}`);
+    return NextResponse.json({ ok: true, deleted, prefix, truncated });
   } catch (error) {
     console.error('[admin/cache] 清理失败:', error);
     return NextResponse.json({ error: '清理缓存失败' }, { status: 500 });

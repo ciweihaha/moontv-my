@@ -133,18 +133,17 @@ export async function readBodyWithLimit(
 }
 
 /**
- * HARDENING-001 M-02: 上游搜索失败的类型化错误。
+ * 搜索结果三分语义（repo-hardening 第 5/12 项）：
+ * - ok：上游请求成功，results 可为空数组（合法零结果）；
+ * - failed：上游故障（网络异常 / 非 2xx / 响应体超限 / 解析失败 / 结构异常）；
+ * - cancelled：被外部信号取消（如搜索整体超时）——不是上游的错，
+ *   调用方不得据此记上游失败。
+ * 旧实现把三者全部吞成 []，导致路由层无法区分、故障源被误记成功而永不熔断。
  *
- * searchFromApi 新契约（调用方必须按此对齐）：
- * - 成功（含空结果）：resolve SearchResult[]。HTTP 200 且 list 为空/缺失
- *   属于「空结果」，返回 []，调用方应记 success。
- * - 失败：reject SearchUpstreamError。包括 fetchWithRetry 重试耗尽后抛出的
- *   网络错误 / 5xx、非 2xx 响应（status 字段携带 HTTP 状态码）、响应体过
- *   大、响应体读取失败与 JSON 解析失败。调用方应记 failure（如熔断器）。
- * - 取消：若外部 signal 已 abort，原始错误（AbortError 等）直接透传、
- *   不包装为 SearchUpstreamError；调用方应以 signal.aborted 为准，
- *   不要把「被整体超时取消」计为上游失败。
- * 分页请求失败仍按旧行为吞为该页 []（首页已成功，源存活，不算整源失败）。
+ * HARDENING-001 M-02 的类型化错误与上述三分语义是同一契约的两种形态：
+ * searchFromApiWithOutcome 以返回值区分三态；searchFromApi（见文件下方
+ * 适配层）以「resolve=ok / 抛 SearchUpstreamError=failed / 抛 AbortError=
+ * cancelled」表达同一语义，供熔断感知的聚合层（upstreamSearch）使用。
  */
 export class SearchUpstreamError extends Error {
   readonly status?: number;
@@ -156,15 +155,24 @@ export class SearchUpstreamError extends Error {
   }
 }
 
-export async function searchFromApi(
+export type SearchOutcome =
+  | { status: 'ok'; results: SearchResult[] }
+  | { status: 'failed' }
+  | { status: 'cancelled' };
+
+export async function searchFromApiWithOutcome(
   apiSite: ApiSite,
   query: string,
   // PERF-R1: 由调用方一次性传入，避免每次搜索对每个上游重复读取配置（44 次/搜索）
   maxSearchPages: number = 2,
   // AUDIT-R3 P1: 外部取消信号（搜索整体超时时取消后台请求）
   signal?: AbortSignal
-): Promise<SearchResult[]> {
+): Promise<SearchOutcome> {
+  // 取消的唯一判据：外部信号已中止。fetchWithRetry 内部单次超时产生的
+  // AbortError 不算取消（那是上游故障，应记 failed）。
+  const cancelled = (): SearchOutcome => ({ status: 'cancelled' });
   try {
+    if (signal?.aborted) return cancelled();
     const apiBaseUrl = apiSite.api;
     const apiUrl =
       apiBaseUrl + API_CONFIG.search.path + encodeURIComponent(query);
@@ -178,20 +186,16 @@ export async function searchFromApi(
     );
 
     // R3: 响应头 content-length 只是快速预检；分块传输时头部缺失，
-    // 读取时再做字节数硬上限，防止超大响应占满内存
-    // M-02: 超限不是空结果，是上游异常响应 → 抛错让聚合层计失败
+    // 读取时再做字节数硬上限，防止超大响应占满内存。
+    // 语义修正：超限是上游异常输出，记 failed 而非冒充零结果。
     const contentLength = response.headers.get('content-length');
     if (contentLength && parseInt(contentLength, 10) > MAX_SEARCH_BODY_BYTES) {
-      throw new SearchUpstreamError(
-        `搜索响应体过大（content-length ${contentLength}）`
-      );
+      await response.body?.cancel().catch(() => {});
+      return { status: 'failed' };
     }
 
     if (!response.ok) {
-      throw new SearchUpstreamError(
-        `搜索请求失败: ${response.status}`,
-        response.status
-      );
+      return { status: 'failed' };
     }
 
     const searchBody = await readBodyWithLimit(
@@ -200,16 +204,16 @@ export async function searchFromApi(
       signal
     );
     if (searchBody === null) {
-      throw new SearchUpstreamError('搜索响应体过大');
+      return { status: 'failed' };
     }
     const data = JSON.parse(new TextDecoder().decode(searchBody));
-    if (
-      !data ||
-      !data.list ||
-      !Array.isArray(data.list) ||
-      data.list.length === 0
-    ) {
-      return [];
+    if (!data || !Array.isArray(data.list)) {
+      // 结构异常（无 list 数组）属于上游故障，与合法空结果区分
+      return { status: 'failed' };
+    }
+    if (data.list.length === 0) {
+      // 合法零结果：请求成功，只是没有匹配条目
+      return { status: 'ok', results: [] };
     }
     // 处理第一页结果（PERF-R1: 复用模块级 mapSearchItem，避免重复代码）
     const results = data.list
@@ -289,22 +293,47 @@ export async function searchFromApi(
       });
     }
 
-    return results;
-  } catch (error) {
-    // M-02: 失败不再吞为 []（旧行为使聚合层把失败记成 success、熔断永不打开）
-    if (error instanceof SearchUpstreamError) {
-      throw error;
-    }
-    // 外部取消：透传原始错误，由调用方按 signal.aborted 判定，不计上游失败
-    if (signal?.aborted) {
-      throw error;
-    }
-    // 其余（fetchWithRetry 重试耗尽的网络错误/5xx、JSON 解析失败、
-    // 响应体读取失败等）统一包装为类型化失败
-    throw new SearchUpstreamError(
-      error instanceof Error ? error.message : '搜索上游请求失败'
-    );
+    // 分页阶段被整体取消：已拿到第一页也不冒充成功，整体记 cancelled
+    if (signal?.aborted) return cancelled();
+    return { status: 'ok', results };
+  } catch {
+    if (signal?.aborted) return cancelled();
+    return { status: 'failed' };
   }
+}
+
+/**
+ * 适配层：保持旧签名 Promise<SearchResult[]>，但按 HARDENING-001 M-02
+ * 契约把三分语义映射为异常形态（与 searchFromApiWithOutcome 同一语义）：
+ * - ok（含合法零结果）→ resolve results；
+ * - failed → 抛 SearchUpstreamError，聚合层据此记上游失败（熔断）；
+ * - cancelled → 抛 AbortError；调用方以 signal.aborted 为准，不计上游失败。
+ * 现有调用方均可承受抛错：upstreamSearch / searchOne / fetchVideoDetail
+ * 的调用点都包在 try/catch 中。需要显式三态的调用方用 searchFromApiWithOutcome。
+ */
+export async function searchFromApi(
+  apiSite: ApiSite,
+  query: string,
+  maxSearchPages: number = 2,
+  signal?: AbortSignal
+): Promise<SearchResult[]> {
+  const outcome = await searchFromApiWithOutcome(
+    apiSite,
+    query,
+    maxSearchPages,
+    signal
+  );
+  if (outcome.status === 'ok') {
+    return outcome.results;
+  }
+  if (outcome.status === 'cancelled') {
+    // 取消形态：name='AbortError' 的普通 Error（不依赖 DOMException 全局，
+    // 与 fetch 的 abort 拒绝在调用方眼中不可区分；调用方以 signal 为准）
+    const abortError = new Error('Aborted');
+    abortError.name = 'AbortError';
+    throw abortError;
+  }
+  throw new SearchUpstreamError('搜索上游请求失败');
 }
 
 // 匹配 m3u8 链接的正则
@@ -312,14 +341,17 @@ const M3U8_PATTERN = /(https?:\/\/[^"'\s]+?\.m3u8)/g;
 
 export async function getDetailFromApi(
   apiSite: ApiSite,
-  id: string
+  id: string,
+  // repo-hardening 第 8 项：整体取消信号（详情路由 25s 截止 / fetchVideoDetail
+  // 15s 截止触发时真正 abort 上游，而非只让外层 race 返回错误）
+  signal?: AbortSignal
 ): Promise<SearchResult> {
   // P1-6: id 格式校验（纵深防御，与 /api/detail 路由层一致）
   if (!/^[\w-]+$/.test(id)) {
     throw new Error('无效的视频ID格式');
   }
   if (apiSite.detail) {
-    return handleSpecialSourceDetail(id, apiSite);
+    return handleSpecialSourceDetail(id, apiSite, signal);
   }
 
   const detailUrl = `${apiSite.api}${API_CONFIG.detail.path}${id}`;
@@ -327,13 +359,15 @@ export async function getDetailFromApi(
   // S3: 超时 + 重试
   const response = await fetchWithRetry(
     detailUrl,
-    { headers: API_CONFIG.detail.headers },
+    { headers: API_CONFIG.detail.headers, signal },
     { timeoutMs: 10000, retries: 1 }
   );
 
   // R3: 响应头预检（详情 2MB 上限）+ 读取时硬上限（防分块传输绕过）
   const detailCL = response.headers.get('content-length');
   if (detailCL && parseInt(detailCL, 10) > MAX_DETAIL_BODY_BYTES) {
+    // 不读体直接返回前先 cancel，释放被 fetchRetry 跟踪的响应体/计时器
+    await response.body?.cancel().catch(() => {});
     throw new Error('详情响应体过大');
   }
 
@@ -341,7 +375,11 @@ export async function getDetailFromApi(
     throw new Error(`详情请求失败: ${response.status}`);
   }
 
-  const detailBody = await readBodyWithLimit(response, MAX_DETAIL_BODY_BYTES);
+  const detailBody = await readBodyWithLimit(
+    response,
+    MAX_DETAIL_BODY_BYTES,
+    signal
+  );
   if (detailBody === null) {
     throw new Error('详情响应体过大');
   }
@@ -402,20 +440,22 @@ export async function getDetailFromApi(
 
 async function handleSpecialSourceDetail(
   id: string,
-  apiSite: ApiSite
+  apiSite: ApiSite,
+  signal?: AbortSignal
 ): Promise<SearchResult> {
   const detailUrl = `${apiSite.detail}/index.php/vod/detail/id/${id}.html`;
 
   // S3: 超时 + 重试
   const response = await fetchWithRetry(
     detailUrl,
-    { headers: API_CONFIG.detail.headers },
+    { headers: API_CONFIG.detail.headers, signal },
     { timeoutMs: 10000, retries: 1 }
   );
 
   // R3: 响应头预检（详情 2MB 上限）+ 读取时硬上限（防分块传输绕过）
   const specialCL = response.headers.get('content-length');
   if (specialCL && parseInt(specialCL, 10) > MAX_DETAIL_BODY_BYTES) {
+    await response.body?.cancel().catch(() => {});
     throw new Error('详情响应体过大');
   }
 
@@ -423,7 +463,11 @@ async function handleSpecialSourceDetail(
     throw new Error(`详情页请求失败: ${response.status}`);
   }
 
-  const specialBody = await readBodyWithLimit(response, MAX_DETAIL_BODY_BYTES);
+  const specialBody = await readBodyWithLimit(
+    response,
+    MAX_DETAIL_BODY_BYTES,
+    signal
+  );
   if (specialBody === null) {
     throw new Error('详情响应体过大');
   }

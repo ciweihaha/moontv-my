@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { AdminConfig } from '@/lib/admin.types';
-import { getAuthInfoFromCookie } from '@/lib/auth';
+import { getAuthInfoFromCookie, verifyAuthSession } from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 
 /**
@@ -54,6 +54,22 @@ export async function requireAdmin(
 
   const authInfo = getAuthInfoFromCookie(request);
   if (!authInfo || !authInfo.username) {
+    return fail('Unauthorized', 401);
+  }
+
+  // repo-hardening 第 19 项（纵深防御）：先自验会话签名＋时效，再做角色
+  // 判断。此前只凭 Cookie 里的用户名字段决策——绕过 middleware 的路径
+  // （或 middleware 配置疏漏）下，构造一个写着管理员用户名的无签名
+  // Cookie 即可冒充。现在与 middleware 的 verifyAuthSession 形成双层：
+  // 任一层独立拒绝伪造/过期会话。验签异常（如生产未配 SESSION_SECRET
+  // 时 getSessionSecret 抛错）按未登录处理，fail-closed。
+  let session = null;
+  try {
+    session = await verifyAuthSession(authInfo);
+  } catch {
+    session = null;
+  }
+  if (!session || session.username !== authInfo.username) {
     return fail('Unauthorized', 401);
   }
   const username = authInfo.username;

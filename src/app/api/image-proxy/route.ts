@@ -167,6 +167,21 @@ function isBlockedIPv6(ip: string): boolean {
   // ff00::/8 组播（出站代理请求组播无意义，拦截）
   if (first >= 0xff00 && first <= 0xffff) return true;
 
+  // repo-hardening 第 10 项：补齐 IANA 特殊用途段，向「仅全球可路由」收敛。
+  // 2001:0002::/48 基准测试（RFC 5180）
+  if (first === 0x2001 && groups[1] === 0x0002) return true;
+  // 2001:0010::/28 ORCHID（RFC 4843）与 2001:0020::/28 ORCHIDv2（RFC 7343）
+  if (first === 0x2001 && (groups[1] & 0xfff0) === 0x0010) return true;
+  if (first === 0x2001 && (groups[1] & 0xfff0) === 0x0020) return true;
+  // 2002::/16 6to4：协议已废弃（RFC 7526），经中继可回指任意内嵌 IPv4，
+  // 且正规图床不使用 6to4 地址——整段拦截（内嵌公网也不放行，决定已由测试固定）
+  if (first === 0x2002) return true;
+  // fec0::/10 站点本地（已废弃，RFC 3879）
+  if (first >= 0xfec0 && first <= 0xfeff) return true;
+  // 收敛规则：全球单播空间仅 2000::/3，其余未明确放行的一律拦截
+  //（覆盖 100::/64 discard-only、未分配段等；内嵌 IPv4 类已在前面优先处理）
+  if (first < 0x2000 || first > 0x3fff) return true;
+
   return false;
 }
 

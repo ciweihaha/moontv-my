@@ -59,8 +59,11 @@ export async function GET(request: Request) {
       }
     }
 
+    // repo-hardening 第 8 项（任务书 001 的 M-05）：整体截止到达时真正
+    // abort 上游请求，而不是只返回 504 任由后台请求继续跑。
+    const detailAbort = new AbortController();
     const upstreamPromise = (async () => {
-      const result = await getDetailFromApi(apiSite, id);
+      const result = await getDetailFromApi(apiSite, id, detailAbort.signal);
 
       // 黄色词过滤（与搜索接口对齐，防止绕过）；转小写做大小写归一化
       const checkText = (
@@ -71,8 +74,11 @@ export async function GET(request: Request) {
         return null;
       }
 
-      // 异步写缓存，不阻塞响应
-      setCachedDetail(cacheKey, result).catch(() => {});
+      // repo-hardening 第 7 项：返回前等待缓存写入完成。
+      // 旧实现 fire-and-forget（.catch 吞错但不 await、也无 waitUntil），
+      // 响应返回后该异步工作可能被运行时取消，缓存实际没写进去；
+      // 改为 await 落地后才返回，失败仍吞错不影响响应内容。
+      await setCachedDetail(cacheKey, result).catch(() => {});
       return result;
     })();
     setDetailInflight(cacheKey, upstreamPromise);
@@ -88,6 +94,9 @@ export async function GET(request: Request) {
     );
     const result = await Promise.race([upstreamPromise, timeoutPromise]);
     if (timedOut) {
+      // M-05 真取消：通知下游中止 fetch 与响应体读取（共享同一 inflight
+      // 的并发请求会随之失败，属超时场景下可接受的降级）
+      detailAbort.abort();
       return NextResponse.json({ error: '详情请求超时' }, { status: 504 });
     }
     if (!result) {

@@ -37,23 +37,47 @@ async function sha256Hex(input: string): Promise<string> {
 }
 
 /**
- * 从启用的上游站点算指纹：管理员增删/禁用源后指纹变化，
+ * 参与搜索结果映射的来源标识（repo-hardening 第 6/13 项）：
+ * 结果里的 source / source_name 来自 key / name，请求目标来自 api，
+ * 是否参与搜索来自 disabled——四者任一变化都必须使指纹变化。
+ */
+export interface FingerprintSite {
+  key: string;
+  name: string;
+  api: string;
+  disabled?: boolean;
+}
+
+/**
+ * 从来源配置算指纹：管理员增删源、改 key/名称、禁用源后指纹变化，
  * 缓存 key 随之变化，旧缓存自然失效，无需手动清。
  *
+ * 指纹输入是来源配置的稳定序列化（key、name、api、disabled 定序拼接），
+ * 不再只用去重后的 API URL——旧实现下只改名/改 key 时指纹不变，
+ * 旧缓存的 source_name 会过期、详情请求可能带旧 key 找不到站点。
+ *
  * R2-P3: 指纹 5 分钟内存缓存（站点配置变化不频繁，每次搜索都算 SHA-256 浪费）。
+ * 内存缓存以序列化输入串为键：配置变化 → 输入串变化 → 自然换键，不会命中旧条目。
  */
 const fingerprintCache = new Map<string, { fp: string; ts: number }>();
 const FINGERPRINT_TTL_MS = 5 * 60 * 1000;
 
-export async function sitesFingerprint(apiUrls: string[]): Promise<string> {
-  const sorted = Array.from(new Set(apiUrls)).sort().join('|');
+export async function sitesFingerprint(
+  sites: FingerprintSite[]
+): Promise<string> {
+  const serialized = sites
+    .map((s) =>
+      [s.key, s.name, s.api, s.disabled ? '1' : '0'].join('\u0001')
+    )
+    .sort()
+    .join('\u0002');
   const now = Date.now();
-  const cached = fingerprintCache.get(sorted);
+  const cached = fingerprintCache.get(serialized);
   if (cached && now - cached.ts < FINGERPRINT_TTL_MS) {
     return cached.fp;
   }
-  const fp = (await sha256Hex(sorted)).slice(0, 12);
-  fingerprintCache.set(sorted, { fp, ts: now });
+  const fp = (await sha256Hex(serialized)).slice(0, 12);
+  fingerprintCache.set(serialized, { fp, ts: now });
   // 防内存泄漏：条目过多时清空
   if (fingerprintCache.size > 100) fingerprintCache.clear();
   return fp;

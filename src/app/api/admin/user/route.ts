@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 import { getStorage } from '@/lib/db';
 import { IStorage } from '@/lib/types';
+import { validateNewPassword, validateUsername } from '@/lib/userValidation';
 
 export const runtime = 'edge';
 
@@ -97,6 +98,22 @@ export async function POST(request: NextRequest) {
           if (!targetPassword) {
             return NextResponse.json(
               { error: '缺少目标用户密码' },
+              { status: 400 }
+            );
+          }
+          // repo-hardening 第 18 项：与注册共用校验（此前只查存在，
+          // 1 字符密码也能设上）；新密码最小长度统一 8。
+          const addUsernameError = validateUsername(targetUsername);
+          if (addUsernameError) {
+            return NextResponse.json(
+              { error: addUsernameError },
+              { status: 400 }
+            );
+          }
+          const addPasswordError = validateNewPassword(targetPassword);
+          if (addPasswordError) {
+            return NextResponse.json(
+              { error: addPasswordError },
               { status: 400 }
             );
           }
@@ -208,6 +225,11 @@ export async function POST(request: NextRequest) {
           }
           if (!targetPassword) {
             return NextResponse.json({ error: '缺少新密码' }, { status: 400 });
+          }
+          // repo-hardening 第 18 项：管理员改密同样走共享校验（最小长度 8）
+          const changePwError = validateNewPassword(targetPassword);
+          if (changePwError) {
+            return NextResponse.json({ error: changePwError }, { status: 400 });
           }
 
           // 权限检查：不允许修改站长密码
