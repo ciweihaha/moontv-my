@@ -454,10 +454,10 @@ describe('image-proxy SSRF 回归', () => {
 
     it('AAAA 解析到 ULA → 403', async () => {
       const { calls } = installFetchMock({
-        doh: { 'v6hhzyapi.com': { aaaa: ['fc00::5'] } },
+        doh: { 'jinyingzy.com': { aaaa: ['fc00::5'] } },
         targets: {},
       });
-      const res = await callProxy('http://v6hhzyapi.com/x.jpg');
+      const res = await callProxy('http://jinyingzy.com/x.jpg');
       expect(res.status).toBe(403);
       expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
@@ -555,16 +555,16 @@ describe('image-proxy SSRF 回归', () => {
       expect(calls).toHaveLength(0);
     });
 
-    it('64:ff9b::/96 → 内嵌 8.8.8.8（公网）→ 放行', async () => {
+    it('64:ff9b::/96 → 内嵌 8.8.8.8（公网）：IP 字面量不在白名单内 → 403，白名单门先于后续流程', async () => {
       const { calls } = installFetchMock({
         doh: {},
-        // Node 的 URL.hostname 对 IPv6 字面量保留方括号（已实测），键需含括号
-        targets: { '[64:ff9b::808:808]': 'image' },
+        // 白名单门先于后续流程：IP 字面量不在白名单内，直接 403，不发起任何请求
+        targets: {},
       });
       const res = await callProxy('http://[64:ff9b::808:808]/x.jpg');
-      expect(res.status).toBe(200);
-      expect(res.headers.get('content-type')).toBe('image/png');
-      expect(calls.some((c) => c.includes('64:ff9b::808:808'))).toBe(true);
+      expect(res.status).toBe(403);
+      expect(res.headers.get('content-type')).toBe('application/json');
+      expect(calls).toHaveLength(0);
     });
   });
 
@@ -866,15 +866,15 @@ describe('image-proxy SSRF 回归', () => {
       expect(connectedTo).toEqual([PUBLIC_A, hop2ip]);
     });
 
-    it('IP 字面量目标：钉死集合即字面量本身', async () => {
-      const { connectedTo } = installUndiciMock({
+    it('IP 字面量目标：不在白名单内 → 403，白名单门先于钉死流程（原钉死集合意图已不可达）', async () => {
+      installUndiciMock({
         targets: { '93.184.216.38': 'image' },
       });
       installFetchMock({ doh: {}, targets: {} });
       const res = await callProxy('http://93.184.216.38/x.jpg');
-      expect(res.status).toBe(200);
-      expect(mockAgentInstances).toHaveLength(1);
-      expect(connectedTo).toEqual(['93.184.216.38']);
+      expect(res.status).toBe(403);
+      expect(mockAgentInstances).toHaveLength(0);
+      expect(mockUndiciFetch).not.toHaveBeenCalled();
     });
 
     it('AUDIT-R8 生命周期：单跳成功后该跳 Agent 被确定性释放', async () => {
@@ -954,5 +954,22 @@ describe('image-proxy SSRF 回归', () => {
         calls.some((c) => c.startsWith('http://cj.rycjapi.com'))
       ).toBe(true);
     });
+  });
+});
+describe('图片代理白名单门（round2 F1）', () => {
+  it('白名单内域名放行到后续流程', async () => {
+    const { calls } = installFetchMock({
+      doh: { 'www.huyaapi.com': { a: [PUBLIC_A] } },
+      targets: { 'www.huyaapi.com': 'image' },
+    });
+    const res = await callProxy('http://www.huyaapi.com/x.jpg');
+    expect(res.status).toBe(200);
+    expect(calls.some((c) => c.startsWith('http://www.huyaapi.com'))).toBe(true);
+  });
+  it('白名单外域名直接 403 且不发起任何请求（Host not allowed，白名单门先于 DNS 检查）', async () => {
+    const { calls } = installFetchMock({ doh: {}, targets: {} });
+    const res = await callProxy('http://not-allowlisted.example/x.jpg');
+    expect(res.status).toBe(403);
+    expect(calls).toHaveLength(0);
   });
 });
