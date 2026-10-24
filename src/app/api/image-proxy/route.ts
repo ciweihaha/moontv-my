@@ -533,7 +533,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Image fetch timeout' }, { status: 504 });
       }
 
-      const validation = await Promise.race([validateUrlForFetch(currentUrl), new Promise<never>((_, reject) => setTimeout(() => reject(new Error('Image fetch timeout')), Math.max(0, deadline - Date.now())))]).catch(() => ({ ok: false, error: 'Image fetch timeout', status: 504 }));
+      const validation: Awaited<ReturnType<typeof validateUrlForFetch>> = await Promise.race([validateUrlForFetch(currentUrl), new Promise<never>((_, reject) => setTimeout(() => reject(new Error('Image fetch timeout')), Math.max(0, deadline - Date.now())))]).catch(() => ({ ok: false, error: 'Image fetch timeout', status: 504 }));
       if (!validation.ok) {
         return NextResponse.json(
           { error: validation.error },
