@@ -124,7 +124,7 @@ export const yellowPatterns: RegExp[] = [
 export function containsYellow(text: string): boolean {
   if (!text) return false;
   const lower = text.toLowerCase();
-  const flat = lower.replace(/[\s　]+/g, '');
+  const flat = lower.replace(/[\s\u3000]+/g, '');
   if (yellowRegex.test(flat)) return true;
   return yellowPatterns.some((re) => re.test(lower));
 }

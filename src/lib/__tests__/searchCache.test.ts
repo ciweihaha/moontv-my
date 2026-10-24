@@ -12,15 +12,16 @@
  * 任一字段变化都必须使指纹变化；内存缓存以输入串为键，输入变化自然换键失效。
  */
 
-/* eslint-disable @typescript-eslint/no-var-requires, no-undef */
+import { webcrypto } from 'crypto';
+
+import { sitesFingerprint, FingerprintSite } from '../searchCache';
 
 // jest 27 的 node 环境未暴露 WebCrypto 全局（生产 Edge/Node 20 自带）；
 // searchCache 的 sha256Hex 运行时才调用 crypto.subtle，故在此补齐即可。
-if (typeof (globalThis as any).crypto === 'undefined') {
-  (globalThis as any).crypto = require('crypto').webcrypto;
+const globalCrypto = globalThis as { crypto?: Crypto };
+if (typeof globalCrypto.crypto === 'undefined') {
+  globalCrypto.crypto = webcrypto as Crypto;
 }
-
-import { sitesFingerprint, FingerprintSite } from '../searchCache';
 
 const baseSites: FingerprintSite[] = [
   { key: 'alpha', name: '甲站', api: 'https://a.example/api.php', disabled: false },
