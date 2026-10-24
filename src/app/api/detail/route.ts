@@ -71,8 +71,11 @@ export async function GET(request: Request) {
         return null;
       }
 
-      // 异步写缓存，不阻塞响应
-      setCachedDetail(cacheKey, result).catch(() => {});
+      // repo-hardening 第 7 项：返回前等待缓存写入完成。
+      // 旧实现 fire-and-forget（.catch 吞错但不 await、也无 waitUntil），
+      // 响应返回后该异步工作可能被运行时取消，缓存实际没写进去；
+      // 改为 await 落地后才返回，失败仍吞错不影响响应内容。
+      await setCachedDetail(cacheKey, result).catch(() => {});
       return result;
     })();
     setDetailInflight(cacheKey, upstreamPromise);
