@@ -27,8 +27,8 @@ const DEFAULT_TIMEOUT_MS = 8000;
 const DEFAULT_RETRIES = 1;
 const DEFAULT_BACKOFF_MS = 500;
 
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+  if (signal?.aborted) return Promise.resolve(); return new Promise((resolve) => { let timer: ReturnType<typeof setTimeout>; const onAbort = () => { clearTimeout(timer); resolve(); }; timer = setTimeout(() => { signal?.removeEventListener('abort', onAbort); resolve(); }, ms); signal?.addEventListener('abort', onAbort, { once: true }); });
 }
 
 /**
@@ -166,7 +166,7 @@ export async function fetchWithRetry(
       console.warn(
         `[fetchRetry] ${url.slice(0, 80)} 尝试 ${attempt + 1} 失败，${delay}ms 后重试`
       );
-      await sleep(delay);
+      await sleep(delay, externalSignal);
     }
   }
 
