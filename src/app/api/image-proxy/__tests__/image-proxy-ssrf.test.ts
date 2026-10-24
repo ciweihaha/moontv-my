@@ -350,12 +350,30 @@ describe('image-proxy SSRF 回归', () => {
       ['fc00::/7 ULA', 'http://[fc00::1]/x.jpg'],
       ['fe80::/10 链路本地', 'http://[fe80::1]/x.jpg'],
       ['::ffff:127.0.0.1 IPv4 映射', 'http://[::ffff:127.0.0.1]/x.jpg'],
+      // repo-hardening 第 10 项补齐：IANA 特殊用途段向「仅全球可路由」收敛
+      ['2002::/16 6to4（内嵌 192.168.1.1）', 'http://[2002:c0a8:101::]/x.jpg'],
+      ['2002::/16 6to4（内嵌公网也不放行，段已废弃）', 'http://[2002:808:808::]/x.jpg'],
+      ['fec0::/10 站点本地（已废弃）', 'http://[fec0::1]/x.jpg'],
+      ['100::/64 discard-only', 'http://[100::1]/x.jpg'],
+      ['2001:2::/48 基准测试', 'http://[2001:2::1]/x.jpg'],
+      ['2001:10::/28 ORCHID', 'http://[2001:10::1]/x.jpg'],
+      ['2001:20::/28 ORCHIDv2', 'http://[2001:20::1]/x.jpg'],
     ];
     it.each(cases)('%s', async (_label, target) => {
       const { calls } = installFetchMock({ doh: {}, targets: {} });
       const res = await callProxy(target);
       expect(res.status).toBe(403);
       expect(calls).toHaveLength(0);
+    });
+
+    it('DoH AAAA 解析到 2002::/16 6to4 → 403', async () => {
+      const { calls } = installFetchMock({
+        doh: { 'v6to4.example': { aaaa: ['2002:c0a8:101::'] } },
+        targets: {},
+      });
+      const res = await callProxy('http://v6to4.example/x.jpg');
+      expect(res.status).toBe(403);
+      expect(calls.every((c) => c.startsWith(DOH_PREFIX))).toBe(true);
     });
   });
 
