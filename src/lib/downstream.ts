@@ -195,6 +195,8 @@ export async function searchFromApiWithOutcome(
     }
 
     if (!response.ok) {
+      // 与超限分支一致：丢弃响应前先 cancel 释放连接，吞取消异常
+      await response.body?.cancel().catch(() => {});
       return { status: 'failed' };
     }
 
@@ -252,11 +254,17 @@ export async function searchFromApiWithOutcome(
             );
 
             // R3: 响应头预检 + 读取时硬上限（防分块传输绕过）
+            // 提前返回前与第一页一致：取消响应体释放连接，吞取消异常
             const pageCL = pageResponse.headers.get('content-length');
-            if (pageCL && parseInt(pageCL, 10) > MAX_SEARCH_BODY_BYTES)
+            if (pageCL && parseInt(pageCL, 10) > MAX_SEARCH_BODY_BYTES) {
+              await pageResponse.body?.cancel().catch(() => {});
               return [];
+            }
 
-            if (!pageResponse.ok) return [];
+            if (!pageResponse.ok) {
+              await pageResponse.body?.cancel().catch(() => {});
+              return [];
+            }
 
             const pageBody = await readBodyWithLimit(
               pageResponse,
