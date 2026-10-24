@@ -64,9 +64,9 @@ export async function GET(request: Request) {
     // abort 上游请求，而不是只返回 504 任由后台请求继续跑。
     const detailAbort = new AbortController();
     const onClientAbort = () => detailAbort.abort();
-    if (clientSignal.aborted) {
+    if (clientSignal?.aborted) {
       detailAbort.abort();
-    } else if (typeof clientSignal.addEventListener === 'function') {
+    } else if (typeof clientSignal?.addEventListener === 'function') {
       clientSignal.addEventListener('abort', onClientAbort, { once: true });
     }
     const upstreamPromise = (async () => {
@@ -107,7 +107,7 @@ export async function GET(request: Request) {
       // （生产无谓句柄占用；也是 Jest worker 无法退出的根因，诊断
       // 2026-10-24 已定位）。截止语义与超时行为不变。
       clearTimeout(deadlineTimer);
-      if (typeof clientSignal.removeEventListener === 'function') {
+      if (typeof clientSignal?.removeEventListener === 'function') {
         clientSignal.removeEventListener('abort', onClientAbort);
       }
     }
