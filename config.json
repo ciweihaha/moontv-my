@@ -81,10 +81,6 @@
       "name": "极速资源",
       "detail": "https://jszyapi.com"
     },
-    "xingbaziyuan": {
-      "api": "https://xingba111.com/api.php/provide/vod",
-      "name": "杏吧资源"
-    },
     "hongniuziyuan": {
       "api": "https://www.hongniuzy3.com/api.php/provide/vod",
       "name": "红牛资源"
@@ -149,39 +145,10 @@
       "api": "https://www.hongniuzy3.com/api.php/provide/vod",
       "name": "红牛资源3"
     },
-    "leba": {
-      "api": "https://lbapi9.com/api.php/provide/vod",
-      "name": "乐播资源"
-    },
-    "ck": {
-      "api": "https://www.ckzy1.com/api.php/provide/vod",
-      "name": "CK资源"
-    },
-    "jkun": {
-      "api": "https://jkunzyapi.com/api.php/provide/vod",
-      "name": "JKUN资源"
-    },
-    "gdlsp": {
-      "api": "https://www.gdlsp.com/api/json.php",
-      "name": "香奶儿资源站"
-    },
-    "kxgav": {
-      "api": "https://www.kxgav.com/api/json.php",
-      "name": "白嫖资源站"
-    },
-    "senlin": {
-      "api": "https://slapibf.com/api.php/provide/vod",
-      "name": "森林资源"
-    },
     "sync_1791751927420_1": {
       "name": "TV-360资源",
       "api": "https://360zy.com/api.php/provide/vod",
       "detail": "https://360zy.com"
-    },
-    "sync_1791751928065_2": {
-      "name": "TV-CK资源",
-      "api": "https://ckzy.me/api.php/provide/vod",
-      "detail": "https://ckzy.me"
     },
     "sync_1791751928925_3": {
       "name": "TV-U酷资源",

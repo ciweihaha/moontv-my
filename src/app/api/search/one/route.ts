@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { getCacheTime, getConfig } from '@/lib/config';
 import { jsonWithCache } from '@/lib/http';
 import { fetchSearchOneResults } from '@/lib/searchOne';
-import { yellowRegex } from '@/lib/yellow';
+import { containsYellow } from '@/lib/yellow';
 
 export const runtime = 'edge';
 
@@ -58,12 +58,10 @@ export async function GET(request: Request) {
     let result = results.filter((r) => r.title === query);
     if (!config.SiteConfig.DisableYellowFilter) {
       result = result.filter((result) => {
-        // 与搜索/详情接口对齐：同时检查 title + type_name，转小写做大小写归一化
-        // PERF-R1: 预编译正则一次匹配，替代逐词 includes
-        const checkText = (
-          (result.title || '') + (result.type_name || '')
-        ).toLowerCase();
-        return !yellowRegex.test(checkText);
+        // 与搜索/详情接口对齐：同时检查 title + type_name；containsYellow 内部做
+        // 小写归一化、去空白与词网（含语境正则）匹配
+        const checkText = (result.title || '') + (result.type_name || '');
+        return !containsYellow(checkText);
       });
     }
     const cacheTime = await getCacheTime();

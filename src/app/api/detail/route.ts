@@ -13,7 +13,7 @@ import {
 import { getDetailFromApi } from '@/lib/downstream';
 import { reportError } from '@/lib/errorReport';
 import { jsonWithCache } from '@/lib/http';
-import { yellowRegex } from '@/lib/yellow';
+import { containsYellow } from '@/lib/yellow';
 
 export const runtime = 'edge';
 
@@ -65,12 +65,10 @@ export async function GET(request: Request) {
     const upstreamPromise = (async () => {
       const result = await getDetailFromApi(apiSite, id, detailAbort.signal);
 
-      // 黄色词过滤（与搜索接口对齐，防止绕过）；转小写做大小写归一化
-      const checkText = (
-        (result.title || '') +
-        (result.type_name || '')
-      ).toLowerCase();
-      if (yellowRegex.test(checkText)) {
+      // 黄色词网过滤（与搜索接口对齐，防止绕过）；containsYellow 内部做
+      // 小写归一化、去空白与词网（含语境正则）匹配
+      const checkText = (result.title || '') + (result.type_name || '');
+      if (containsYellow(checkText)) {
         return null;
       }
 

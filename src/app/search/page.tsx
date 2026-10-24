@@ -13,7 +13,7 @@ import {
   subscribeToDataUpdates,
 } from '@/lib/db.client';
 import { SearchResult } from '@/lib/types';
-import { yellowRegex } from '@/lib/yellow';
+import { containsYellow } from '@/lib/yellow';
 
 import PageLayout from '@/components/PageLayout';
 import VideoCard from '@/components/VideoCard';
@@ -190,12 +190,10 @@ function SearchPageClient() {
         !(window as any).RUNTIME_CONFIG?.DISABLE_YELLOW_FILTER
       ) {
         results = results.filter((result: SearchResult) => {
-          // 与服务端接口对齐：同时检查 title + type_name，转小写做大小写归一化
-          // PERF-R1: 预编译正则一次匹配，替代逐词 includes
-          const checkText = (
-            (result.title || '') + (result.type_name || '')
-          ).toLowerCase();
-          return !yellowRegex.test(checkText);
+          // 与服务端接口对齐：同时检查 title + type_name；containsYellow 内部做
+          // 小写归一化、去空白与词网（含语境正则）匹配
+          const checkText = (result.title || '') + (result.type_name || '');
+          return !containsYellow(checkText);
         });
       }
       setSearchResults(
