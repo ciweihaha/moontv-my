@@ -50,6 +50,34 @@ let cachedConfig: AdminConfig;
 // P2-4: 缓存初始化 Promise，并发请求共享，避免冷启动重复初始化
 let initPromise: Promise<void> | null = null;
 
+// repo-hardening 第 21 项：初始化失败必须显式化。此前 doInitConfig 的
+// catch 只打日志、cachedConfig 保持未赋值，getConfig 会把 undefined
+// 当配置返回，调用方在 config.UserConfig 处抛含糊 TypeError，根源被吞。
+// 现在记录 initError，getConfig 在缓存仍为空时抛 ConfigInitError。
+let initError: Error | null = null;
+
+export class ConfigInitError extends Error {
+  constructor(message: string, cause?: unknown) {
+    super(message);
+    this.name = 'ConfigInitError';
+    if (cause !== undefined) {
+      (this as { cause?: unknown }).cause = cause;
+    }
+  }
+}
+
+function ensureCachedConfigOrThrow(): AdminConfig {
+  if (!cachedConfig) {
+    throw new ConfigInitError(
+      `管理员配置初始化失败，配置不可用${
+        initError ? `: ${initError.message}` : ''
+      }`,
+      initError ?? undefined
+    );
+  }
+  return cachedConfig;
+}
+
 async function initConfig() {
   if (cachedConfig) {
     return;
@@ -235,8 +263,12 @@ async function doInitConfig() {
 
       // 更新缓存
       cachedConfig = adminConfig;
+      initError = null;
     } catch (err) {
+      // 第 21 项：不再静默吞掉——记录根源，getConfig 会据此抛
+      // ConfigInitError，而不是返回未初始化的 undefined 配置。
       console.error('加载管理员配置失败:', err);
+      initError = err instanceof Error ? err : new Error(String(err));
     }
   } else {
     // 本地存储直接使用文件配置
@@ -282,7 +314,7 @@ export async function getConfig(): Promise<AdminConfig> {
   const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
   if (storageType === 'localstorage') {
     await initConfig();
-    return cachedConfig;
+    return ensureCachedConfigOrThrow();
   }
   // 非 docker 环境且 DB 存储，直接读 db 配置
   const storage = getStorage();
@@ -384,7 +416,9 @@ export async function getConfig(): Promise<AdminConfig> {
     // DB 无配置，执行一次初始化
     await initConfig();
   }
-  return cachedConfig;
+  // 第 21 项：初始化失败时 cachedConfig 仍为空——抛明确错误，
+  // 不把 undefined 当配置返回给调用方。
+  return ensureCachedConfigOrThrow();
 }
 
 export async function resetConfig() {
