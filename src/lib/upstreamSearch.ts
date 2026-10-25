@@ -23,6 +23,63 @@ export interface UpstreamSearchOutcome {
 /** M-03: 部分结果写 KV 的短 TTL（秒） */
 export const SEARCH_PARTIAL_CACHE_TTL_SECONDS = 60;
 
+/** 2026-10-25 OrionTV 搜索整理：去重 + 相关度排序（纯函数，不删条目）。 */
+const SEARCH_DEMOTE_RE = /电影解说|解说|预告|幕后|花絮|特辑/;
+function normSearchTitle(title: string): string {
+  return String(title || '')
+    .replace(/\s+/g, '')
+    .replace(/[·•・\-–—_]/g, '')
+    .replace(/[(（](普通话版|粤语版|国语版|中文版|英文版|国配|粤语|普通话)[)）]$/, '')
+    .replace(/(普通话版|粤语版|国语版|中文版|英文版)$/, '')
+    .replace(/[()（）\[\]【】《》]/g, '')
+    .toLowerCase();
+}
+function searchTier(title: string, query: string): number {
+  const cleanTitle = String(title || '').replace(/[《》\s]/g, '');
+  const cleanQuery = String(query || '').replace(/\s/g, '');
+  if (!cleanTitle || !cleanQuery) return 0;
+  if (cleanTitle === cleanQuery) return 100;
+  if (cleanTitle.startsWith(cleanQuery)) return 80;
+  if (cleanTitle.includes(cleanQuery)) return 60;
+  return 0;
+}
+export function rankSearchResults(
+  results: SearchResult[],
+  query: string
+): SearchResult[] {
+  // 去重：同片名 + 同年份只留第一条（源顺序在前者优先）。同址多源展开
+  // 造成的重复、语言版重复都在这里合并成一条，不删任何不同片。
+  const seen = new Map<string, SearchResult>();
+  for (const item of results) {
+    if (!item || !item.title) continue;
+    const key = normSearchTitle(item.title) + '|' + String(item.year || '');
+    if (!seen.has(key)) seen.set(key, item);
+  }
+  const scored = [...seen.values()].map((item) => ({
+    item,
+    tier: searchTier(item.title, query),
+    demote: SEARCH_DEMOTE_RE.test(
+      String(item.title || '') + ' ' + String(item.type_name || '')
+    )
+      ? 1
+      : 0,
+  }));
+  // 顺序：相关度层 → 解说/预告/幕后降权（不删）→ 年份降序 → 片名。
+  // SearchResult 无豆瓣分字段，故不用评分排序，避免上游注水分数误导。
+  scored.sort(
+    (a, b) =>
+      b.tier - a.tier ||
+      a.demote - b.demote ||
+      (parseInt(String(b.item.year || ''), 10) || 0) -
+        (parseInt(String(a.item.year || ''), 10) || 0) ||
+      String(a.item.title || '').localeCompare(
+        String(b.item.title || ''),
+        'zh'
+      )
+  );
+  return scored.map((x) => x.item);
+}
+
 /** 搜索总超时默认值（毫秒） */
 const SEARCH_TOTAL_TIMEOUT_MS = 10000;
 
@@ -134,11 +191,13 @@ export async function doUpstreamSearch(
     if (flattenedResults.length === 0) {
       return { results: [], partial: timedOut };
     }
+    // 2026-10-25：先去重排序再过黄词过滤（过滤不改变顺序）。
+    const rankedResults = rankSearchResults(flattenedResults, query);
     if (disableYellowFilter) {
-      return { results: flattenedResults, partial: timedOut };
+      return { results: rankedResults, partial: timedOut };
     }
     return {
-      results: flattenedResults.filter((result) => {
+      results: rankedResults.filter((result) => {
         // 与详情接口对齐：同时检查 title + type_name；containsYellow 内部做
         // 小写归一化、去空白与词网（含语境正则）匹配
         const checkText = (result.title || '') + (result.type_name || '');
