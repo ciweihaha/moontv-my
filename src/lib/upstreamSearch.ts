@@ -207,6 +207,10 @@ export async function doUpstreamSearch(
     };
   } catch {
     // 异常兜底：返回已收集的部分结果，并保守按 partial 处理（不写长 TTL）
-    return { results: orderedResults(), partial: true };
+    try {
+      return { results: rankSearchResults(orderedResults(), query), partial: true };
+    } catch {
+      return { results: orderedResults(), partial: true };
+    }
   }
 }
