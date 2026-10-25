@@ -66,6 +66,8 @@ export function rankSearchResults(
     if (DELETE_SUFFIX_RE.test(title.replace(/\s+/g, ''))) return false;
     const tn = String(item.type_name || '').trim();
     if (tn === '解说' || tn === '剪辑' || tn === '混剪' || tn === '预告' || tn === '幕后' || tn === '花絮' || tn === '特辑') return false;
+    if (title.includes('AI漫剧') || String(item.type_name || '').includes('AI漫剧')) return false;
+    
     return true;
   });
   const hasRelated = afterLabelDelete.some(
@@ -84,9 +86,11 @@ export function rankSearchResults(
     )
       ? 1
       : 0,
+    cengming: cleanQuery && String(item.title || '').replace(/[《》\s]/g, '').startsWith(cleanQuery) && String(item.title || '').replace(/[《》\s]/g, '').includes('之') ? 1 : 0,
   }));
   scored.sort(
     (a, b) =>
+      a.cengming - b.cengming ||
       b.tier - a.tier ||
       a.demote - b.demote ||
       (parseInt(String(b.item.year || ''), 10) || 0) -
