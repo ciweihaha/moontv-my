@@ -24,7 +24,7 @@ export interface UpstreamSearchOutcome {
 export const SEARCH_PARTIAL_CACHE_TTL_SECONDS = 60;
 
 /** 2026-10-25 OrionTV 搜索整理：去重 + 相关度排序（纯函数，不删条目）。 */
-const SEARCH_DEMOTE_RE = /电影解说|解说|预告|幕后|花絮|特辑/;
+const SEARCH_DEMOTE_RE = /电影解说|解说|剪辑|混剪|预告|幕后|花絮|特辑|AI漫剧/;
 function normSearchTitle(title: string): string {
   return String(title || '')
     .replace(/\s+/g, '')
@@ -47,15 +47,36 @@ export function rankSearchResults(
   results: SearchResult[],
   query: string
 ): SearchResult[] {
-  // 去重：同片名 + 同年份只留第一条（源顺序在前者优先）。同址多源展开
-  // 造成的重复、语言版重复都在这里合并成一条，不删任何不同片。
   const seen = new Map<string, SearchResult>();
   for (const item of results) {
     if (!item || !item.title) continue;
     const key = normSearchTitle(item.title) + '|' + String(item.year || '');
     if (!seen.has(key)) seen.set(key, item);
   }
-  const scored = Array.from(seen.values()).map((item) => ({
+  const cleanQuery = String(query || '').replace(/\s/g, '');
+  const DELETE_LABEL_RE = /[［\[【](解说|剪辑|混剪|预告|幕后|花絮|特辑)[\]］】]/;
+  const DELETE_SUFFIX_RE = /(解说|剪辑|混剪|预告片|预告|幕后|花絮|特辑)$/;
+  const queryHasTitle = (title: string): boolean => {
+    const ct = String(title || '').replace(/[《》\s]/g, '');
+    return !!cleanQuery && !!ct && ct.length >= 2 && cleanQuery.includes(ct);
+  };
+  const afterLabelDelete = Array.from(seen.values()).filter((item) => {
+    const title = String(item.title || '');
+    if (DELETE_LABEL_RE.test(title)) return false;
+    if (DELETE_SUFFIX_RE.test(title.replace(/\s+/g, ''))) return false;
+    const tn = String(item.type_name || '').trim();
+    if (tn === '解说' || tn === '剪辑' || tn === '混剪' || tn === '预告' || tn === '幕后' || tn === '花絮' || tn === '特辑') return false;
+    return true;
+  });
+  const hasRelated = afterLabelDelete.some(
+    (item) => searchTier(item.title, query) > 0 || queryHasTitle(item.title)
+  );
+  const filtered = hasRelated
+    ? afterLabelDelete.filter(
+        (item) => searchTier(item.title, query) > 0 || queryHasTitle(item.title)
+      )
+    : afterLabelDelete;
+  const scored = filtered.map((item) => ({
     item,
     tier: searchTier(item.title, query),
     demote: SEARCH_DEMOTE_RE.test(
@@ -64,8 +85,6 @@ export function rankSearchResults(
       ? 1
       : 0,
   }));
-  // 顺序：相关度层 → 解说/预告/幕后降权（不删）→ 年份降序 → 片名。
-  // SearchResult 无豆瓣分字段，故不用评分排序，避免上游注水分数误导。
   scored.sort(
     (a, b) =>
       b.tier - a.tier ||
@@ -185,7 +204,6 @@ export async function doUpstreamSearch(
     });
     try { await Promise.race([allDone, timeout]); } finally { if (timer) clearTimeout(timer); }
     // 无论 race 完成还是抛错，finally 都清掉定时器，避免悬挂的 10s 定时器拖住进程/测试
-    
 
     const flattenedResults: SearchResult[] = orderedResults();
     if (flattenedResults.length === 0) {
