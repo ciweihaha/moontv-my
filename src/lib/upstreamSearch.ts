@@ -55,7 +55,7 @@ export function rankSearchResults(
     const key = normSearchTitle(item.title) + '|' + String(item.year || '');
     if (!seen.has(key)) seen.set(key, item);
   }
-  const scored = [...seen.values()].map((item) => ({
+  const scored = Array.from(seen.values()).map((item) => ({
     item,
     tier: searchTier(item.title, query),
     demote: SEARCH_DEMOTE_RE.test(
