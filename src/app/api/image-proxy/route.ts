@@ -16,7 +16,27 @@ const BLOCKED_HOSTNAMES = new Set([
 // Initial list: hostnames of api fields in config.json api_site, deduplicated.
 // Non-listed hostname returns 403 before any fetch.
 // 2026-10-25 OrionTV 海报回归，豆瓣封面来自 img*.doubanio.com，不在 api 域名表里导致全 403，只放行 doubanio 公共图床后缀，仍走后面的 DNS 校验与内网拦截。
-const ALLOWED_IMAGE_HOSTNAME_SUFFIXES = ['.doubanio.com'];
+// 2026-10-31 海报全量 403 修复：采集 API 返回的 vod_pic 全部托管在独立图床 CDN（youkupic/jinyingimage/ppqrrs 等），
+// 不在 api 域名表里导致所有海报 403。实测聚合接口全库采样得到下列 16 个图床域，按「域名家族后缀」放行
+// （子域名会轮换，如 v10/v11.ppqrrs.com、pic/pic3），仍逐跳走 DNS 校验与内网拦截，SSRF 防护不变。
+const ALLOWED_IMAGE_HOSTNAME_SUFFIXES = [
+  '.doubanio.com',
+  // 2026-10-31 新增：采集站点公共图床（按后缀放行，覆盖子域名轮换）
+  '.youkupic.com',
+  '.jinyingimage.com',
+  '.guangsuimage.com',
+  '.jisuimage.com',
+  '.lzipic.com',
+  '.ukuapi88.com',
+  '.ppqrrs.com',
+  '.yzzyimg.online',
+  '.mdzypic.com',
+  '.hongniuzyimage.com',
+  '.huyajs.com',
+  '.jegms.com',
+  '.xltupian.com',
+  '.bfvp26.com',
+];
 function isAllowedImageHostname(hostname: string): boolean {
     const h = hostname.toLowerCase();
     if (ALLOWED_IMAGE_HOSTNAMES.has(h)) return true;
@@ -52,7 +72,14 @@ const ALLOWED_IMAGE_HOSTNAMES = new Set([
   'm3u8.apiyhzy.com',
   'caiji.dyttzyapi.com',
   'www.hongniuzy2.com',
-  'www.moduzy.com',]);
+  'www.moduzy.com',
+  // 2026-10-31 新增：无子域名/特殊前缀的图床裸域（endsWith 后缀匹配不含裸域，需精确条目）
+  'hongniuzyimage.com',
+  'ynztctv.com',
+  // 2026-10-31 新增：自建聚合服务域名（部分数据源的 vod_pic 已封装为聚合站图片代理 URL）
+  'ysp.ciweihaha.win',
+  'live.ciweihaha.win',
+]);
 
 
 /** IPv4 内网/特殊段检查（输入应为规范点分十进制） */
