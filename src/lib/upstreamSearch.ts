@@ -31,7 +31,7 @@ function normSearchTitle(title: string): string {
     .replace(/[·•・\-–—_]/g, '')
     .replace(/[(（](普通话版|粤语版|国语版|中文版|英文版|国配|粤语|普通话)[)）]$/, '')
     .replace(/(普通话版|粤语版|国语版|中文版|英文版)$/, '')
-    .replace(/[()（）\[\]【】《》]/g, '')
+    .replace(/[()（）[\]【】《》]/g, '')
     .toLowerCase();
 }
 function searchTier(title: string, query: string): number {
@@ -54,7 +54,7 @@ export function rankSearchResults(
     if (!seen.has(key)) seen.set(key, item);
   }
   const cleanQuery = String(query || '').replace(/\s/g, '');
-  const DELETE_LABEL_RE = /[［\[【](解说|剪辑|混剪|预告|幕后|花絮|特辑)[\]］】]/;
+  const DELETE_LABEL_RE = /[［[【](解说|剪辑|混剪|预告|幕后|花絮|特辑)[\]］】]/;
   const DELETE_SUFFIX_RE = /(解说|剪辑|混剪|预告片|预告|幕后|花絮|特辑)$/;
   const queryHasTitle = (title: string): boolean => {
     const ct = String(title || '').replace(/[《》\s]/g, '');
