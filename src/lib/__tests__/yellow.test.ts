@@ -129,9 +129,9 @@ describe('doUpstreamSearch 黄色过滤（端到端）', () => {
     expect(results.map((r: any) => r.id)).toEqual(['a3']);
   });
 
-  test('过滤关闭（DisableYellowFilter）：结果原样返回', async () => {
+test('过滤关闭（DisableYellowFilter）：成人项不过滤，结果仍按相关性顺序返回', async () => {
     const api = 'https://yellow-e2e-off.example/api.php';
     const { results } = await doUpstreamSearch(sitesByApi(api), 'q', 1, true);
-    expect(results.map((r: any) => r.id)).toEqual(['a1', 'a2', 'a3']);
+    expect(results.map((r: any) => r.id)).toEqual(['a2', 'a1', 'a3']);
   });
 });
