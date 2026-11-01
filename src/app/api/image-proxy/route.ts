@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { NextResponse } from 'next/server';
 import type { LookupFunction } from 'node:net';
 
@@ -544,6 +545,21 @@ async function validateUrlForFetch(
   return { ok: true, ips: dnsCheck.ips };
 }
 
+/**
+ * 2026-11-01：Cloudflare Pages edge 的 Cache API 暴露 caches.default（非标准扩展，
+ * 同 PoP 共享缓存）；TS 标准 CacheStorage 类型无该属性，这里断言为扩展形态。
+ * nodejs 自托管运行时无 caches 全局或无 default 时返回 null，行为与旧版一致。
+ */
+function getEdgeDefaultCache(): Cache | null {
+  if (typeof caches === 'undefined') return null;
+  try {
+    const ext = caches as unknown as { default?: Cache };
+    return ext.default ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const imageUrl = searchParams.get('url');
@@ -576,10 +592,10 @@ export async function GET(request: Request) {
   // 2026-11-01 列表页图片批量挂载修复：Cache API 结果缓存（edge 运行时）。
   // 同一张海报（热门/Top250/分类页反复出现）二次请求直接命中，不再重走 DoH+上游抓取；
   // 命中不占用并发额度、不计入 20s 总超时，列表页二次加载与多用户共享显著提速。
-  // nodejs 自托管运行时无 caches 全局，静默跳过。
-  if (typeof caches !== 'undefined') {
+  const edgeCache = getEdgeDefaultCache();
+  if (edgeCache) {
     try {
-      const cached = await caches.default.match(new Request(request.url, { method: 'GET' }));
+      const cached = await edgeCache.match(new Request(request.url, { method: 'GET' }));
       if (cached && (cached.headers.get('content-type') || '').startsWith('image/')) {
         return cached;
       }
@@ -757,8 +773,8 @@ export async function GET(request: Request) {
     // 2026-11-01 成功结果写入 Cache API（edge）：≤5MB 才缓存（海报均 <200KB），
     // 写入失败不影响本次响应。与响应头的长 Cache-Control 互补：那个只对
     // 同一浏览器会话生效，Cache API 让同 PoP 的其他用户/重新打开的会话也命中。
-    if (typeof caches !== 'undefined' && totalBytes <= 5 * 1024 * 1024) {
-      try { await caches.default.put(new Request(request.url, { method: 'GET' }), imageResp.clone()); } catch { /* 写缓存失败忽略 */ }
+    if (edgeCache && totalBytes <= 5 * 1024 * 1024) {
+      try { await edgeCache.put(new Request(request.url, { method: 'GET' }), imageResp.clone()); } catch { /* 写缓存失败忽略 */ }
     }
     return imageResp;
   } catch (err) {
