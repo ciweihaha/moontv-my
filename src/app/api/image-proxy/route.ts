@@ -579,7 +579,7 @@ export async function GET(request: Request) {
   // nodejs 自托管运行时无 caches 全局，静默跳过。
   if (typeof caches !== 'undefined') {
     try {
-      const cached = await caches.default.match(request.url, { method: 'GET' });
+      const cached = await caches.default.match(new Request(request.url, { method: 'GET' }));
       if (cached && (cached.headers.get('content-type') || '').startsWith('image/')) {
         return cached;
       }
@@ -758,7 +758,7 @@ export async function GET(request: Request) {
     // 写入失败不影响本次响应。与响应头的长 Cache-Control 互补：那个只对
     // 同一浏览器会话生效，Cache API 让同 PoP 的其他用户/重新打开的会话也命中。
     if (typeof caches !== 'undefined' && totalBytes <= 5 * 1024 * 1024) {
-      try { await caches.default.put(request.url, imageResp.clone()); } catch { /* 写缓存失败忽略 */ }
+      try { await caches.default.put(new Request(request.url, { method: 'GET' }), imageResp.clone()); } catch { /* 写缓存失败忽略 */ }
     }
     return imageResp;
   } catch (err) {
