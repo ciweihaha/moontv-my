@@ -292,7 +292,7 @@ const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // 10MB
 // AUDIT-R2: 总超时覆盖「建连 + 响应头 + 完整响应体读取」
 const TOTAL_TIMEOUT_MS = 20000;
 // AUDIT-R3 P0-C: 最大重定向跳数
-const MAX_REDIRECTS = 5; /* ROUND2 F5: per-isolate concurrency, edge memory is not shared */ const MAX_CONCURRENT_IMAGE_PROXY = 50; let activeImageProxyRequests = 0;
+const MAX_REDIRECTS = 5; /* ROUND2 F5: per-isolate concurrency, edge memory is not shared */ /* 2026-11-01 列表页批量图片修复：50→150，热门/Top250 页一次性几十张海报，叠加同 isolate 其他用户请求极易触发 429（配合新增的 Cache API 结果缓存，命中请求不再占用额度） */ const MAX_CONCURRENT_IMAGE_PROXY = 150; let activeImageProxyRequests = 0;
 
 // AUDIT-R5 P1: DNS-over-HTTPS 解析配置（防 DNS 重绑定）
 // 仅对非 IP 字面量的主机名做 DoH 解析，验证其 A/AAAA 记录全部为公网 IP。
@@ -573,6 +573,19 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'URL too long' }, { status: 400 });
   }
 
+  // 2026-11-01 列表页图片批量挂载修复：Cache API 结果缓存（edge 运行时）。
+  // 同一张海报（热门/Top250/分类页反复出现）二次请求直接命中，不再重走 DoH+上游抓取；
+  // 命中不占用并发额度、不计入 20s 总超时，列表页二次加载与多用户共享显著提速。
+  // nodejs 自托管运行时无 caches 全局，静默跳过。
+  if (typeof caches !== 'undefined') {
+    try {
+      const cached = await caches.default.match(request.url, { method: 'GET' });
+      if (cached && (cached.headers.get('content-type') || '').startsWith('image/')) {
+        return cached;
+      }
+    } catch { /* 缓存读取失败走正常路径 */ }
+  }
+
   if (activeImageProxyRequests >= MAX_CONCURRENT_IMAGE_PROXY) { return NextResponse.json({ error: 'Too many concurrent image proxy requests' }, { status: 429 }); } activeImageProxyRequests++; const deadline = Date.now() + TOTAL_TIMEOUT_MS;
   const controller = new AbortController();
   const abortTimer = setTimeout(() => controller.abort(), TOTAL_TIMEOUT_MS);
@@ -740,7 +753,14 @@ export async function GET(request: Request) {
     headers.set('X-Content-Type-Options', 'nosniff'); headers.set('Cache-Control', 'public, max-age=15720000, s-maxage=15720000');
     headers.set('CDN-Cache-Control', 'public, s-maxage=15720000');
 
-    return new Response(body, { status: 200, headers });
+    const imageResp = new Response(body, { status: 200, headers });
+    // 2026-11-01 成功结果写入 Cache API（edge）：≤5MB 才缓存（海报均 <200KB），
+    // 写入失败不影响本次响应。与响应头的长 Cache-Control 互补：那个只对
+    // 同一浏览器会话生效，Cache API 让同 PoP 的其他用户/重新打开的会话也命中。
+    if (typeof caches !== 'undefined' && totalBytes <= 5 * 1024 * 1024) {
+      try { await caches.default.put(request.url, imageResp.clone()); } catch { /* 写缓存失败忽略 */ }
+    }
+    return imageResp;
   } catch (err) {
     if (err instanceof Error && err.name === 'AbortError') {
       return NextResponse.json({ error: 'Image fetch timeout' }, { status: 504 });
