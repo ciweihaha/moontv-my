@@ -306,6 +306,11 @@ const IMAGE_PROXY_RATE_LIMIT = 600;
 const IMAGE_PROXY_RATE_WINDOW_MS = 60_000;
 const imageProxyRateBuckets = new Map<string, { count: number; resetAt: number }>();
 function getImageProxyClientIp(request: Request): string | null {
+  // PR #27 CI 修复：测试的最小请求对象只有 url、没有 headers（旧 handler
+  // 只读 request.url），直接读 request.headers.get 会抛
+  // Cannot read properties of undefined (reading 'get')，导致 36 个测试失败。
+  // request 或 headers 缺失时返回 null，走 fail-open（不限制），不改限流数值。
+  if (!request || !request.headers) return null;
   const cf = request.headers.get('cf-connecting-ip');
   if (cf) return cf.trim();
   const fwd = request.headers.get('x-forwarded-for');
