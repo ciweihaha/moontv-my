@@ -301,7 +301,7 @@ const MAX_REDIRECTS = 5; /* ROUND2 F5: per-isolate concurrency, edge memory is n
 // 或解析出任一内网/特殊地址时都拒绝请求，仅全部记录为公网 IP 时放行。
 const DOH_ENDPOINT = 'https://cloudflare-dns.com/dns-query';
 const DOH_TIMEOUT_MS = 5000;
-const DNS_CACHE_TTL_MS = 600 * 1000; // 2026-10-28 海报提速：60 秒 → 600 秒，减少每页海报重复 DoH 解析；SSRF 校验、allowlist、大小上限、重定向校验与总超时 20 秒均不动
+const DNS_CACHE_TTL_MS = 60 * 1000; // 2026-11-05 改回 60 秒（2026-10-28 海报提速曾改为 600 秒）；SSRF 校验、allowlist、大小上限、重定向校验与总超时 20 秒均不动
 const dnsCache = new Map<string, { ips: string[]; expires: number }>();
 
 /**
