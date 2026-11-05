@@ -44,19 +44,61 @@ export function getImageProxyUrl(): string | null {
 
 /**
  * 处理图片 URL，如果设置了图片代理则使用代理
+ *
+ * 2026-11-05 豆瓣海报修复：豆瓣图床（img*.doubanio.com）现要求请求带
+ * *.douban.com 的 Referer，无 Referer 直接返回 418（本地实测：无 Referer
+ * 4 个子域全部 418，带 Referer: https://movie.douban.com/ 3/3 返回 200）。
+ * 而 VideoCard 为防盗链把 img 的 referrerPolicy 设为 no-referrer，直连
+ * 必然 418；失败兜底又依赖用户/服务端配置的图片代理前缀，生产未配置
+ * NEXT_PUBLIC_IMAGE_PROXY 时前缀为 null，兜底直接死胡同、只剩标题占位。
+ * 因此：未配置代理且用户未明确关闭代理时，豆瓣图床默认走内置同源代理
+ * /api/image-proxy（它发 Referer: https://movie.douban.com/ + 浏览器 UA，
+ * 且有 Cache API 缓存）；用户配了代理仍优先用用户代理，用户明确关闭
+ * （enableImageProxy=false）则尊重选择、直连。非豆瓣图床行为不变。
  */
+export const BUILTIN_IMAGE_PROXY_PREFIX = '/api/image-proxy?url=';
+
+/** 是否为豆瓣图床：只有这类地址被实测确认必须带豆瓣 Referer 才放行。 */
+export function isDoubanioPosterUrl(url: string): boolean {
+  try {
+    return new URL(url).hostname.toLowerCase().endsWith('.doubanio.com');
+  } catch {
+    return false;
+  }
+}
+
+/** 用户是否明确关闭了图片代理（localStorage enableImageProxy=false）。 */
+export function isImageProxyExplicitlyDisabled(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    const raw = localStorage.getItem('enableImageProxy');
+    return raw !== null && JSON.parse(raw) === false;
+  } catch {
+    return false;
+  }
+}
+
 export function processImageUrl(originalUrl: string): string {
   if (!originalUrl) return originalUrl;
 
   const proxyUrl = getImageProxyUrl();
-  if (!proxyUrl) return originalUrl;
+  if (proxyUrl) return `${proxyUrl}${encodeURIComponent(originalUrl)}`;
 
-  return `${proxyUrl}${encodeURIComponent(originalUrl)}`;
+  // 用户明确关闭代理时尊重选择，不强制走内置代理（失败兜底仍可救一次）。
+  if (isImageProxyExplicitlyDisabled()) return originalUrl;
+
+  // 豆瓣图床直连会被 418，默认走内置同源代理。
+  if (isDoubanioPosterUrl(originalUrl)) {
+    return `${BUILTIN_IMAGE_PROXY_PREFIX}${encodeURIComponent(originalUrl)}`;
+  }
+
+  return originalUrl;
 }
 
 /**
  * 获取原始图片代理前缀（不论用户代理开关是否开启）。
- * 服务端 RUNTIME_CONFIG.IMAGE_PROXY 优先，其次 localStorage 的 imageProxyUrl。
+ * 服务端 RUNTIME_CONFIG.IMAGE_PROXY 优先，其次 localStorage 的 imageProxyUrl；
+ * 两处都未配置时返回内置同源代理前缀 /api/image-proxy?url=，兜底链不断。
  * 仅在海报加载失败的兜底路径调用，不参与首屏渲染，故不走 memo 缓存、每次读最新值。
  * 失败路径不输出任何 URL 以外的信息。
  */
@@ -71,13 +113,17 @@ export function getRawImageProxyPrefix(): string | null {
   const rawUrl = localStorage.getItem('imageProxyUrl');
   if (rawUrl && rawUrl.trim()) return rawUrl.trim();
 
-  return null;
+  return BUILTIN_IMAGE_PROXY_PREFIX;
 }
 
 /**
- * 海报失败兜底决策（纯函数）：
- * - 已重试过 / 无代理前缀 / 原图为空 / 当前已是代理地址 → 返回 null（显示可见占位，不再重试）
- * - 否则返回代理地址（整张海报生命周期内仅重试一次，默认路由不变）
+ * 海报失败兜底决策（纯函数），双向只试一次：
+ * - 当前是直连（与原图相同）→ 返回代理地址；
+ * - 当前已是代理地址（直连或代理首选失败，如豆瓣图床默认走内置代理）→
+ *   返回直连原图再试一次（覆盖代理本身故障、但直连可达的网络）；
+ * - 已重试过 / 无代理前缀 / 原图为空 → 返回 null（显示可见占位，不再重试）。
+ * 注意：调用方（VideoCard）用 imgRetried 只调一次本函数，整张海报生命
+ * 周期内最多换一次源，不会来回横跳。
  */
 export function nextPosterFallbackSrc(
   currentSrc: string,
@@ -89,8 +135,9 @@ export function nextPosterFallbackSrc(
   if (!originalUrl || !proxyPrefix) return null;
 
   const proxied = `${proxyPrefix}${encodeURIComponent(originalUrl)}`;
-  if (currentSrc === proxied) return null;
-
+  // 已是代理地址：回退直连再试一次。
+  if (currentSrc === proxied) return originalUrl;
+  // 直连失败：走代理重试一次；其他未知状态也走代理（旧行为）。
   return proxied;
 }
 
