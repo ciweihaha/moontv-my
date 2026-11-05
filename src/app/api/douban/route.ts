@@ -12,6 +12,7 @@ import { fetchTop250 } from '@/lib/doubanTop250';
 import { reportError } from '@/lib/errorReport';
 import { fetchWithRetry } from '@/lib/fetchRetry';
 import { jsonWithCache } from '@/lib/http';
+import { parsePageInt } from '@/lib/pageParams';
 import { DoubanItem, DoubanResult } from '@/lib/types';
 import { doUpstreamSearch } from '@/lib/upstreamSearch';
 
@@ -186,8 +187,12 @@ export async function GET(request: Request) {
   // 获取参数
   const type = searchParams.get('type');
   const tag = searchParams.get('tag');
-  const pageSize = parseInt(searchParams.get('pageSize') || '16');
-  const pageStart = parseInt(searchParams.get('pageStart') || '0');
+  // 深查第 4 轮：裸 parseInt('abc') 得 NaN，而 NaN 与任何数比较均为
+  // false，旧校验（< 1 / > 100 / < 0）拦不住，NaN 会流进上游 URL
+  //（page_limit=NaN）、Top250（start=NaN）与缓存 key。现用
+  // parsePageInt：非数字返回 null，此处回 400；缺参仍回默认值。
+  const pageSize = parsePageInt(searchParams.get('pageSize'), 16);
+  const pageStart = parsePageInt(searchParams.get('pageStart'), 0);
 
   // 验证参数
   if (!type || !tag) {
@@ -204,14 +209,14 @@ export async function GET(request: Request) {
     );
   }
 
-  if (pageSize < 1 || pageSize > 100) {
+  if (pageSize === null || pageSize < 1 || pageSize > 100) {
     return NextResponse.json(
       { error: 'pageSize 必须在 1-100 之间' },
       { status: 400 }
     );
   }
 
-  if (pageStart < 0) {
+  if (pageStart === null || pageStart < 0) {
     return NextResponse.json(
       { error: 'pageStart 不能小于 0' },
       { status: 400 }
