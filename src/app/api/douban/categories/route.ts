@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getCacheTime } from '@/lib/config';
 import { fetchDoubanData } from '@/lib/doubanCategories';
 import { jsonWithCache } from '@/lib/http';
+import { parsePageInt } from '@/lib/pageParams';
 import { DoubanItem, DoubanResult } from '@/lib/types';
 
 export const runtime = 'edge';
@@ -14,8 +15,11 @@ export async function GET(request: Request) {
   const kind = searchParams.get('kind') || 'movie';
   const category = searchParams.get('category');
   const type = searchParams.get('type');
-  const pageLimit = parseInt(searchParams.get('limit') || '20');
-  const pageStart = parseInt(searchParams.get('start') || '0');
+  // 深查第 4 轮：与 /api/douban 同因——裸 parseInt('abc') 得 NaN，
+  // 旧比较校验拦不住，NaN 会流进上游 URL（limit=NaN/start=NaN）。
+  // 非数字返回 null，此处回 400；缺参仍回默认值。
+  const pageLimit = parsePageInt(searchParams.get('limit'), 20);
+  const pageStart = parsePageInt(searchParams.get('start'), 0);
 
   // 验证参数
   if (!kind || !category || !type) {
@@ -32,14 +36,14 @@ export async function GET(request: Request) {
     );
   }
 
-  if (pageLimit < 1 || pageLimit > 100) {
+  if (pageLimit === null || pageLimit < 1 || pageLimit > 100) {
     return NextResponse.json(
       { error: 'pageSize 必须在 1-100 之间' },
       { status: 400 }
     );
   }
 
-  if (pageStart < 0) {
+  if (pageStart === null || pageStart < 0) {
     return NextResponse.json(
       { error: 'pageStart 不能小于 0' },
       { status: 400 }
