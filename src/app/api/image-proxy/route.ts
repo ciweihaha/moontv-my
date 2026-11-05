@@ -295,6 +295,43 @@ const TOTAL_TIMEOUT_MS = 20000;
 // AUDIT-R3 P0-C: 最大重定向跳数
 const MAX_REDIRECTS = 5; /* ROUND2 F5: per-isolate concurrency, edge memory is not shared */ /* 2026-11-01 列表页批量图片修复：50→150，热门/Top250 页一次性几十张海报，叠加同 isolate 其他用户请求极易触发 429（配合新增的 Cache API 结果缓存，命中请求不再占用额度） */ const MAX_CONCURRENT_IMAGE_PROXY = 150; let activeImageProxyRequests = 0;
 
+// 深查第 1 轮：按 IP 固定窗口速率限制。已有并发上限（150）只挡瞬时并发，
+// 不挡持续刷图（一个 IP 长期以低于 150 并发、无限总量抓图仍会拖垮上游与 DoH）。
+// 放在缓存命中之后：缓存命中已在前面返回，不计入限额，正常 Top250 首屏
+// 约 250 张新图在 600/分钟内，不会误伤正常浏览；仅挡持续高频刷图。
+// 重要限制：edge 内存按 isolate，不跨 isolate 全局，故本限制是每 isolate
+// 600/分钟，不是全局 600/分钟，不得声称已全局限流；全局限流须 KV/DO，另轮另做。
+// 无 IP 时不限制（fail-open，避免把所有未知 IP 合并成一个桶误伤）。
+const IMAGE_PROXY_RATE_LIMIT = 600;
+const IMAGE_PROXY_RATE_WINDOW_MS = 60_000;
+const imageProxyRateBuckets = new Map<string, { count: number; resetAt: number }>();
+function getImageProxyClientIp(request: Request): string | null {
+  const cf = request.headers.get('cf-connecting-ip');
+  if (cf) return cf.trim();
+  const fwd = request.headers.get('x-forwarded-for');
+  if (fwd) return fwd.split(',')[0]?.trim() || null;
+  const real = request.headers.get('x-real-ip');
+  return real ? real.trim() : null;
+}
+function checkImageProxyRateLimit(ip: string, now: number): boolean {
+  const b = imageProxyRateBuckets.get(ip);
+  if (!b || now >= b.resetAt) {
+    if (imageProxyRateBuckets.size >= 1000) {
+      for (const [k, v] of imageProxyRateBuckets) {
+        if (v.resetAt <= now) imageProxyRateBuckets.delete(k);
+      }
+      if (imageProxyRateBuckets.size >= 1000) {
+        const first = imageProxyRateBuckets.keys().next().value;
+        if (first !== undefined) imageProxyRateBuckets.delete(first);
+      }
+    }
+    imageProxyRateBuckets.set(ip, { count: 1, resetAt: now + IMAGE_PROXY_RATE_WINDOW_MS });
+    return true;
+  }
+  b.count += 1;
+  return b.count <= IMAGE_PROXY_RATE_LIMIT;
+}
+
 // AUDIT-R5 P1: DNS-over-HTTPS 解析配置（防 DNS 重绑定）
 // 仅对非 IP 字面量的主机名做 DoH 解析，验证其 A/AAAA 记录全部为公网 IP。
 // 2026-10-19 方案 B（fail-closed）：DoH 查不到（NXDOMAIN/SERVFAIL/超时/空记录）
@@ -600,6 +637,12 @@ export async function GET(request: Request) {
         return cached;
       }
     } catch { /* 缓存读取失败走正常路径 */ }
+  }
+
+  // 深查第 1 轮：缓存命中已返回，不计入限额；此处只对新图请求限流。
+  const clientIp = getImageProxyClientIp(request);
+  if (clientIp && !checkImageProxyRateLimit(clientIp, Date.now())) {
+    return NextResponse.json({ error: 'Too many image proxy requests' }, { status: 429, headers: { 'Retry-After': '60' } });
   }
 
   if (activeImageProxyRequests >= MAX_CONCURRENT_IMAGE_PROXY) { return NextResponse.json({ error: 'Too many concurrent image proxy requests' }, { status: 429 }); } activeImageProxyRequests++; const deadline = Date.now() + TOTAL_TIMEOUT_MS;
