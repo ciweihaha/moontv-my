@@ -17,72 +17,14 @@
  * 注意：mock fetch 的停滞流需模拟真实 fetch 的 abort 语义——signal
  * abort 时让流 error，否则 reader.read() 永远等不到信号（真实网络流
  * abort 时 reader.read() 会 reject，此处如实模拟）。
- * WHATWG 垫片与动态导入沿用详情路由超时测试（route-timeout-abort.test.ts）
- * 的既有做法：jest node 环境不暴露 Request/Response/Headers，须先垫片
- * 再导入引用了 next/server 的路由模块。
+ * fetchDoubanData 放在 src/lib/doubanCategories.ts（不在路由文件里，
+ * 否则 next build 路由类型校验会报错），测试直接导入该模块，不经过
+ * next/server，因此不需要 WHATWG 垫片。
  */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-class ShimHeaders {
-  private map = new Map<string, string>();
-  constructor(init?: Record<string, string> | ShimHeaders) {
-    if (init instanceof ShimHeaders) {
-      init.map.forEach((v, k) => this.map.set(k, v));
-    } else if (init) {
-      for (const k of Object.keys(init)) this.map.set(k.toLowerCase(), init[k]);
-    }
-  }
-  set(name: string, value: string): void {
-    this.map.set(name.toLowerCase(), value);
-  }
-  get(name: string): string | null {
-    return this.map.get(name.toLowerCase()) ?? null;
-  }
-}
-
-class ShimResponse {
-  readonly status: number;
-  readonly headers: ShimHeaders;
-  private readonly body: unknown;
-  static json(
-    body: unknown,
-    init?: { status?: number; headers?: Record<string, string> | ShimHeaders }
-  ): ShimResponse {
-    const headers =
-      init?.headers instanceof ShimHeaders
-        ? init.headers
-        : new ShimHeaders(init?.headers);
-    headers.set('content-type', 'application/json');
-    return new ShimResponse(JSON.stringify(body), {
-      status: init?.status ?? 200,
-      headers,
-    });
-  }
-  constructor(body?: unknown, init?: { status?: number; headers?: unknown }) {
-    this.status = init?.status ?? 200;
-    this.headers =
-      init?.headers instanceof ShimHeaders
-        ? init.headers
-        : new ShimHeaders(init?.headers as Record<string, string> | undefined);
-    this.body = body;
-  }
-  async json(): Promise<any> {
-    return JSON.parse(String(this.body));
-  }
-}
-
-class ShimRequest {
-  readonly url: string;
-  constructor(url: string) {
-    this.url = url;
-  }
-}
-
-const g = globalThis as any;
-if (typeof g.Request === 'undefined') g.Request = ShimRequest;
-if (typeof g.Response === 'undefined') g.Response = ShimResponse;
-if (typeof g.Headers === 'undefined') g.Headers = ShimHeaders;
+import { fetchDoubanData } from '@/lib/doubanCategories';
 
 jest.setTimeout(10000);
 
@@ -91,28 +33,6 @@ const originalFetch = global.fetch;
 afterEach(() => {
   global.fetch = originalFetch;
   jest.restoreAllMocks();
-});
-
-type FetchDoubanData = (
-  url: string,
-  options?: { timeoutMs?: number }
-) => Promise<{
-  total: number;
-  items: Array<{
-    id: string;
-    title: string;
-    card_subtitle: string;
-    pic: { large: string; normal: string };
-    rating: { value: number };
-  }>;
-}>;
-
-let fetchDoubanData: FetchDoubanData;
-beforeAll(async () => {
-  const mod = (await import(
-    '@/app/api/douban/categories/route'
-  )) as typeof import('@/app/api/douban/categories/route');
-  fetchDoubanData = mod.fetchDoubanData;
 });
 
 /** 最小的 Response 形状：readBodyWithLimit 只用 .body 与 .arrayBuffer() */
