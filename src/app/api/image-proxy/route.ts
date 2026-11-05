@@ -322,9 +322,11 @@ function checkImageProxyRateLimit(ip: string, now: number): boolean {
   const b = imageProxyRateBuckets.get(ip);
   if (!b || now >= b.resetAt) {
     if (imageProxyRateBuckets.size >= 1000) {
-      for (const [k, v] of imageProxyRateBuckets) {
+      // TS2802: tsconfig target is es5, for...of cannot iterate a Map; use forEach.
+      // Deleting inside forEach is safe (deleted entries are not visited again).
+      imageProxyRateBuckets.forEach((v, k) => {
         if (v.resetAt <= now) imageProxyRateBuckets.delete(k);
-      }
+      });
       if (imageProxyRateBuckets.size >= 1000) {
         const first = imageProxyRateBuckets.keys().next().value;
         if (first !== undefined) imageProxyRateBuckets.delete(first);
