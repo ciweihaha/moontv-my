@@ -103,7 +103,8 @@ export default function VideoCard({
   const actualTitle = aggregateData?.first.title ?? title;
   const actualPoster = aggregateData?.first.poster ?? poster;
 
-  // 海报兜底链：直连失败 → 代理重试一次 → 再失败显示可见占位（骨架不永久挂起）
+  // 海报兜底链（双向只换一次源）：豆瓣图床首选内置代理、失败则直连再试；
+  // 其他图床直连失败则走代理重试一次；再失败显示可见占位（骨架不永久挂起）
   const [imgSrc, setImgSrc] = useState(() => processImageUrl(actualPoster));
   const [imgRetried, setImgRetried] = useState(false);
   const [imgFailed, setImgFailed] = useState(false);
