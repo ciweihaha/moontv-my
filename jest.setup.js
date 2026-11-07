@@ -62,6 +62,37 @@ if (typeof globalThis.DOMException === 'undefined') {
   };
 }
 
+// Node 22 + Jest: Symbol.dispose is not a well-known symbol inside Jest's
+// vm sandbox (Node 22 only has the internal Symbol(nodejs.dispose); the
+// standard Symbol.dispose arrived with Node 24 and is shared across realms
+// there). undici 8 cleans up fetch abort listeners via
+// events.addAbortListener(...)[Symbol.dispose]; in the sandbox that lookup
+// yields undefined, so every real undici fetch crashes at response end with
+// "TypeError: removeAbortListener is not a function" (only the real-fetch
+// image-proxy lifecycle suite hits this on Node 22; Node 24 is unaffected).
+// Alias the host's internal dispose symbol onto the sandbox Symbol so the
+// lookup resolves. No-op on Node 24+ (probe[Symbol.dispose] is already a
+// function there). Probe listener is disposed right after extracting the
+// symbol.
+// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
+const { addAbortListener: nodeAddAbortListener } = require('node:events');
+// eslint-disable-next-line no-undef
+const disposeProbe = nodeAddAbortListener(new AbortController().signal, () => {});
+const nodeDisposeSymbol = Object.getOwnPropertySymbols(disposeProbe).find(
+  (s) => s.description === 'nodejs.dispose'
+);
+if (
+  nodeDisposeSymbol &&
+  // eslint-disable-next-line no-undef
+  typeof disposeProbe[Symbol.dispose] !== 'function'
+) {
+  // eslint-disable-next-line no-undef
+  Symbol.dispose = nodeDisposeSymbol;
+}
+if (nodeDisposeSymbol && typeof disposeProbe[nodeDisposeSymbol] === 'function') {
+  disposeProbe[nodeDisposeSymbol]();
+}
+
 // Allow router mocks.
 // eslint-disable-next-line no-undef
 jest.mock('next/router', () => require('next-router-mock'));
