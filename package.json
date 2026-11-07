@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "npm run gen:runtime && npm run gen:manifest && next dev -H 0.0.0.0",
-    "build": "npm run gen:runtime && npm run gen:manifest && TSC_COMPILE_ON_BUILD=false next build --no-lint",
-    "build:cf": "npm run gen:runtime && npm run gen:manifest && CF_PAGES=1 next build",
+    "build": "npm run gen:runtime && npm run gen:manifest && TSC_COMPILE_ON_BUILD=false next build --webpack",
+    "build:cf": "npm run gen:runtime && npm run gen:manifest && CF_PAGES=1 next build --webpack",
     "start": "next start",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx --no-cache src",
     "lint:fix": "eslint src --fix && npm run format",
@@ -23,7 +23,7 @@
     "gen:version": "node scripts/generate-version.js",
     "postbuild": "echo 'Build completed - sitemap generation disabled'",
     "prepare": "husky install",
-    "pages:build": "npm run gen:runtime && npm run gen:manifest && TSC_COMPILE_ON_BUILD=false next build --no-lint && npx @cloudflare/next-on-pages --experimental-minify"
+    "pages:build": "npm run gen:runtime && npm run gen:manifest && TSC_COMPILE_ON_BUILD=false next build --webpack && npx @cloudflare/next-on-pages --experimental-minify"
   },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.13.16",
