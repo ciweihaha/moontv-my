@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.19.0"
   },
   "scripts": {
     "dev": "npm run gen:runtime && npm run gen:manifest && next dev -H 0.0.0.0",
@@ -52,7 +52,7 @@
     "sweetalert2": "^11.11.0",
     "swiper": "^11.2.8",
     "tailwind-merge": "^2.6.0",
-    "undici": "^6.29.1",
+    "undici": "^8.12.3",
     "zod": "^4.6.7"
   },
   "devDependencies": {
