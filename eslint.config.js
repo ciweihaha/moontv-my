@@ -19,8 +19,10 @@ module.exports = [
   // TypeScript recommended (flat)
   ...tsPlugin.configs['flat/recommended'],
   // Next.js recommended + core-web-vitals (flat)
-  nextPlugin.flatConfig.recommended,
-  nextPlugin.flatConfig.coreWebVitals,
+  // v16 removed the `flatConfig` namespace; the flat configs now live
+  // under `configs` (same rule sets as before).
+  nextPlugin.configs.recommended,
+  nextPlugin.configs['core-web-vitals'],
   // Prettier: turns off rules that conflict with Prettier
   prettier,
   // Project-specific language options, plugins and custom rules
