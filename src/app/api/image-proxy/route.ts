@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { NextResponse } from 'next/server';
 import type { LookupFunction } from 'node:net';
 
@@ -16,7 +17,27 @@ const BLOCKED_HOSTNAMES = new Set([
 // Initial list: hostnames of api fields in config.json api_site, deduplicated.
 // Non-listed hostname returns 403 before any fetch.
 // 2026-10-25 OrionTV 海报回归，豆瓣封面来自 img*.doubanio.com，不在 api 域名表里导致全 403，只放行 doubanio 公共图床后缀，仍走后面的 DNS 校验与内网拦截。
-const ALLOWED_IMAGE_HOSTNAME_SUFFIXES = ['.doubanio.com'];
+// 2026-10-31 海报全量 403 修复：采集 API 返回的 vod_pic 全部托管在独立图床 CDN（youkupic/jinyingimage/ppqrrs 等），
+// 不在 api 域名表里导致所有海报 403。实测聚合接口全库采样得到下列 16 个图床域，按「域名家族后缀」放行
+// （子域名会轮换，如 v10/v11.ppqrrs.com、pic/pic3），仍逐跳走 DNS 校验与内网拦截，SSRF 防护不变。
+const ALLOWED_IMAGE_HOSTNAME_SUFFIXES = [
+  '.doubanio.com',
+  // 2026-10-31 新增：采集站点公共图床（按后缀放行，覆盖子域名轮换）
+  '.youkupic.com',
+  '.jinyingimage.com',
+  '.guangsuimage.com',
+  '.jisuimage.com',
+  '.lzipic.com',
+  '.ukuapi88.com',
+  '.ppqrrs.com',
+  '.yzzyimg.online',
+  '.mdzypic.com',
+  '.hongniuzyimage.com',
+  '.huyajs.com',
+  '.jegms.com',
+  '.xltupian.com',
+  '.bfvp26.com',
+];
 function isAllowedImageHostname(hostname: string): boolean {
     const h = hostname.toLowerCase();
     if (ALLOWED_IMAGE_HOSTNAMES.has(h)) return true;
@@ -52,7 +73,14 @@ const ALLOWED_IMAGE_HOSTNAMES = new Set([
   'm3u8.apiyhzy.com',
   'caiji.dyttzyapi.com',
   'www.hongniuzy2.com',
-  'www.moduzy.com',]);
+  'www.moduzy.com',
+  // 2026-10-31 新增：无子域名/特殊前缀的图床裸域（endsWith 后缀匹配不含裸域，需精确条目）
+  'hongniuzyimage.com',
+  'ynztctv.com',
+  // 2026-10-31 新增：自建聚合服务域名（部分数据源的 vod_pic 已封装为聚合站图片代理 URL）
+  'ysp.ciweihaha.win',
+  'live.ciweihaha.win',
+]);
 
 
 /** IPv4 内网/特殊段检查（输入应为规范点分十进制） */
@@ -265,7 +293,51 @@ const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // 10MB
 // AUDIT-R2: 总超时覆盖「建连 + 响应头 + 完整响应体读取」
 const TOTAL_TIMEOUT_MS = 20000;
 // AUDIT-R3 P0-C: 最大重定向跳数
-const MAX_REDIRECTS = 5; /* ROUND2 F5: per-isolate concurrency, edge memory is not shared */ const MAX_CONCURRENT_IMAGE_PROXY = 50; let activeImageProxyRequests = 0;
+const MAX_REDIRECTS = 5; /* ROUND2 F5: per-isolate concurrency, edge memory is not shared */ /* 2026-11-01 列表页批量图片修复：50→150，热门/Top250 页一次性几十张海报，叠加同 isolate 其他用户请求极易触发 429（配合新增的 Cache API 结果缓存，命中请求不再占用额度） */ const MAX_CONCURRENT_IMAGE_PROXY = 150; let activeImageProxyRequests = 0;
+
+// 深查第 1 轮：按 IP 固定窗口速率限制。已有并发上限（150）只挡瞬时并发，
+// 不挡持续刷图（一个 IP 长期以低于 150 并发、无限总量抓图仍会拖垮上游与 DoH）。
+// 放在缓存命中之后：缓存命中已在前面返回，不计入限额，正常 Top250 首屏
+// 约 250 张新图在 600/分钟内，不会误伤正常浏览；仅挡持续高频刷图。
+// 重要限制：edge 内存按 isolate，不跨 isolate 全局，故本限制是每 isolate
+// 600/分钟，不是全局 600/分钟，不得声称已全局限流；全局限流须 KV/DO，另轮另做。
+// 无 IP 时不限制（fail-open，避免把所有未知 IP 合并成一个桶误伤）。
+const IMAGE_PROXY_RATE_LIMIT = 600;
+const IMAGE_PROXY_RATE_WINDOW_MS = 60_000;
+const imageProxyRateBuckets = new Map<string, { count: number; resetAt: number }>();
+function getImageProxyClientIp(request: Request): string | null {
+  // PR #27 CI 修复：测试的最小请求对象只有 url、没有 headers（旧 handler
+  // 只读 request.url），直接读 request.headers.get 会抛
+  // Cannot read properties of undefined (reading 'get')，导致 36 个测试失败。
+  // request 或 headers 缺失时返回 null，走 fail-open（不限制），不改限流数值。
+  if (!request || !request.headers) return null;
+  const cf = request.headers.get('cf-connecting-ip');
+  if (cf) return cf.trim();
+  const fwd = request.headers.get('x-forwarded-for');
+  if (fwd) return fwd.split(',')[0]?.trim() || null;
+  const real = request.headers.get('x-real-ip');
+  return real ? real.trim() : null;
+}
+function checkImageProxyRateLimit(ip: string, now: number): boolean {
+  const b = imageProxyRateBuckets.get(ip);
+  if (!b || now >= b.resetAt) {
+    if (imageProxyRateBuckets.size >= 1000) {
+      // TS2802: tsconfig target is es5, for...of cannot iterate a Map; use forEach.
+      // Deleting inside forEach is safe (deleted entries are not visited again).
+      imageProxyRateBuckets.forEach((v, k) => {
+        if (v.resetAt <= now) imageProxyRateBuckets.delete(k);
+      });
+      if (imageProxyRateBuckets.size >= 1000) {
+        const first = imageProxyRateBuckets.keys().next().value;
+        if (first !== undefined) imageProxyRateBuckets.delete(first);
+      }
+    }
+    imageProxyRateBuckets.set(ip, { count: 1, resetAt: now + IMAGE_PROXY_RATE_WINDOW_MS });
+    return true;
+  }
+  b.count += 1;
+  return b.count <= IMAGE_PROXY_RATE_LIMIT;
+}
 
 // AUDIT-R5 P1: DNS-over-HTTPS 解析配置（防 DNS 重绑定）
 // 仅对非 IP 字面量的主机名做 DoH 解析，验证其 A/AAAA 记录全部为公网 IP。
@@ -273,7 +345,7 @@ const MAX_REDIRECTS = 5; /* ROUND2 F5: per-isolate concurrency, edge memory is n
 // 或解析出任一内网/特殊地址时都拒绝请求，仅全部记录为公网 IP 时放行。
 const DOH_ENDPOINT = 'https://cloudflare-dns.com/dns-query';
 const DOH_TIMEOUT_MS = 5000;
-const DNS_CACHE_TTL_MS = 600 * 1000; // 2026-10-28 海报提速：60 秒 → 600 秒，减少每页海报重复 DoH 解析；SSRF 校验、allowlist、大小上限、重定向校验与总超时 20 秒均不动
+const DNS_CACHE_TTL_MS = 60 * 1000; // 2026-11-05 改回 60 秒（2026-10-28 海报提速曾改为 600 秒）；SSRF 校验、allowlist、大小上限、重定向校验与总超时 20 秒均不动
 const dnsCache = new Map<string, { ips: string[]; expires: number }>();
 
 /**
@@ -517,6 +589,21 @@ async function validateUrlForFetch(
   return { ok: true, ips: dnsCheck.ips };
 }
 
+/**
+ * 2026-11-01：Cloudflare Pages edge 的 Cache API 暴露 caches.default（非标准扩展，
+ * 同 PoP 共享缓存）；TS 标准 CacheStorage 类型无该属性，这里断言为扩展形态。
+ * nodejs 自托管运行时无 caches 全局或无 default 时返回 null，行为与旧版一致。
+ */
+function getEdgeDefaultCache(): Cache | null {
+  if (typeof caches === 'undefined') return null;
+  try {
+    const ext = caches as unknown as { default?: Cache };
+    return ext.default ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const imageUrl = searchParams.get('url');
@@ -544,6 +631,25 @@ export async function GET(request: Request) {
   // 3. 长度上限
   if (imageUrl.length > 2048) {
     return NextResponse.json({ error: 'URL too long' }, { status: 400 });
+  }
+
+  // 2026-11-01 列表页图片批量挂载修复：Cache API 结果缓存（edge 运行时）。
+  // 同一张海报（热门/Top250/分类页反复出现）二次请求直接命中，不再重走 DoH+上游抓取；
+  // 命中不占用并发额度、不计入 20s 总超时，列表页二次加载与多用户共享显著提速。
+  const edgeCache = getEdgeDefaultCache();
+  if (edgeCache) {
+    try {
+      const cached = await edgeCache.match(new Request(request.url, { method: 'GET' }));
+      if (cached && (cached.headers.get('content-type') || '').startsWith('image/')) {
+        return cached;
+      }
+    } catch { /* 缓存读取失败走正常路径 */ }
+  }
+
+  // 深查第 1 轮：缓存命中已返回，不计入限额；此处只对新图请求限流。
+  const clientIp = getImageProxyClientIp(request);
+  if (clientIp && !checkImageProxyRateLimit(clientIp, Date.now())) {
+    return NextResponse.json({ error: 'Too many image proxy requests' }, { status: 429, headers: { 'Retry-After': '60' } });
   }
 
   if (activeImageProxyRequests >= MAX_CONCURRENT_IMAGE_PROXY) { return NextResponse.json({ error: 'Too many concurrent image proxy requests' }, { status: 429 }); } activeImageProxyRequests++; const deadline = Date.now() + TOTAL_TIMEOUT_MS;
@@ -713,7 +819,14 @@ export async function GET(request: Request) {
     headers.set('X-Content-Type-Options', 'nosniff'); headers.set('Cache-Control', 'public, max-age=15720000, s-maxage=15720000');
     headers.set('CDN-Cache-Control', 'public, s-maxage=15720000');
 
-    return new Response(body, { status: 200, headers });
+    const imageResp = new Response(body, { status: 200, headers });
+    // 2026-11-01 成功结果写入 Cache API（edge）：≤5MB 才缓存（海报均 <200KB），
+    // 写入失败不影响本次响应。与响应头的长 Cache-Control 互补：那个只对
+    // 同一浏览器会话生效，Cache API 让同 PoP 的其他用户/重新打开的会话也命中。
+    if (edgeCache && totalBytes <= 5 * 1024 * 1024) {
+      try { await edgeCache.put(new Request(request.url, { method: 'GET' }), imageResp.clone()); } catch { /* 写缓存失败忽略 */ }
+    }
+    return imageResp;
   } catch (err) {
     if (err instanceof Error && err.name === 'AbortError') {
       return NextResponse.json({ error: 'Image fetch timeout' }, { status: 504 });

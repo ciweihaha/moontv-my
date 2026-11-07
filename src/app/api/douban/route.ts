@@ -8,9 +8,11 @@ import {
   getCachedDouban,
   setCachedDouban,
 } from '@/lib/doubanCache';
+import { fetchTop250 } from '@/lib/doubanTop250';
 import { reportError } from '@/lib/errorReport';
 import { fetchWithRetry } from '@/lib/fetchRetry';
 import { jsonWithCache } from '@/lib/http';
+import { parsePageInt } from '@/lib/pageParams';
 import { DoubanItem, DoubanResult } from '@/lib/types';
 import { doUpstreamSearch } from '@/lib/upstreamSearch';
 
@@ -185,8 +187,12 @@ export async function GET(request: Request) {
   // 获取参数
   const type = searchParams.get('type');
   const tag = searchParams.get('tag');
-  const pageSize = parseInt(searchParams.get('pageSize') || '16');
-  const pageStart = parseInt(searchParams.get('pageStart') || '0');
+  // 深查第 4 轮：裸 parseInt('abc') 得 NaN，而 NaN 与任何数比较均为
+  // false，旧校验（< 1 / > 100 / < 0）拦不住，NaN 会流进上游 URL
+  //（page_limit=NaN）、Top250（start=NaN）与缓存 key。现用
+  // parsePageInt：非数字返回 null，此处回 400；缺参仍回默认值。
+  const pageSize = parsePageInt(searchParams.get('pageSize'), 16);
+  const pageStart = parsePageInt(searchParams.get('pageStart'), 0);
 
   // 验证参数
   if (!type || !tag) {
@@ -203,14 +209,14 @@ export async function GET(request: Request) {
     );
   }
 
-  if (pageSize < 1 || pageSize > 100) {
+  if (pageSize === null || pageSize < 1 || pageSize > 100) {
     return NextResponse.json(
       { error: 'pageSize 必须在 1-100 之间' },
       { status: 400 }
     );
   }
 
-  if (pageStart < 0) {
+  if (pageStart === null || pageStart < 0) {
     return NextResponse.json(
       { error: 'pageStart 不能小于 0' },
       { status: 400 }
@@ -317,58 +323,13 @@ export async function GET(request: Request) {
 }
 
 function handleTop250(pageStart: number) {
-  const target = `https://movie.douban.com/top250?start=${pageStart}&filter=`;
-
-  // 直接使用 fetch 获取 HTML 页面
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-  const fetchOptions = {
-    signal: controller.signal,
-    headers: {
-      'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-      Referer: 'https://movie.douban.com/',
-      Accept:
-        'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-    },
-  };
-
-  return fetch(target, fetchOptions)
-    .then(async (fetchResponse) => {
-      clearTimeout(timeoutId);
-
-      if (!fetchResponse.ok) {
-        throw new Error(`HTTP error! Status: ${fetchResponse.status}`);
-      }
-
-      // 获取 HTML 内容
-      const html = await fetchResponse.text();
-
-      // 通过正则同时捕获影片 id、标题、封面以及评分
-      const moviePattern =
-        /<div class="item">[\s\S]*?<a[^>]+href="https?:\/\/movie\.douban\.com\/subject\/(\d+)\/"[\s\S]*?<img[^>]+alt="([^"]+)"[^>]*src="([^"]+)"[\s\S]*?<span class="rating_num"[^>]*>([^<]*)<\/span>[\s\S]*?<\/div>/g;
-      const movies: DoubanItem[] = [];
-      let match;
-
-      while ((match = moviePattern.exec(html)) !== null) {
-        const id = match[1];
-        const title = match[2];
-        const cover = match[3];
-        const rate = match[4] || '';
-
-        // 处理图片 URL，确保使用 HTTPS
-        const processedCover = cover.replace(/^http:/, 'https:');
-
-        movies.push({
-          id: id,
-          title: title,
-          poster: processedCover,
-          rate: rate,
-          year: '',
-        });
-      }
-
+  // 深查第 3 轮：取数与解析已抽到 src/lib/doubanTop250.ts（fetchTop250），
+  // 本函数只剩薄包装——拼响应结构与 500 语义均与旧实现一致。
+  // 旧实现是裸 fetch + 响应头后立即 clearTimeout + 无界 .text()：
+  // 响应体停滞时无限挂起、超大 HTML 整块读入内存；新实现超时覆盖
+  // 读体全过程且 1MB 流式限长（与同文件 fetchDoubanData 同口径）。
+  return fetchTop250(pageStart)
+    .then(async (movies) => {
       const apiResponse: DoubanResult = {
         code: 200,
         message: '获取成功',
@@ -380,7 +341,6 @@ function handleTop250(pageStart: number) {
       return jsonWithCache(apiResponse, cacheTime);
     })
     .catch((_error) => {
-      clearTimeout(timeoutId);
       // QUALITY-R3: 不向客户端泄露内部错误原文
       return NextResponse.json(
         {

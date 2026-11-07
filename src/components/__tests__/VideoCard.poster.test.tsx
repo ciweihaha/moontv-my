@@ -6,6 +6,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
+import { BUILTIN_IMAGE_PROXY_PREFIX } from '@/lib/utils';
+
 import VideoCard from '@/components/VideoCard';
 
 jest.mock('next/image', () => ({
@@ -72,9 +74,14 @@ describe('VideoCard 海报兜底', () => {
     expect(screen.queryByAltText('测试影片')).toBeNull();
   });
 
-  it('无代理可用时直连失败直接显示可见占位', () => {
+  it('无代理配置时直连失败改走内置代理重试一次，再失败显示可见占位', () => {
     const img = renderCard();
     fireEvent.error(img);
+    expect(img.getAttribute('src')).toBe(
+      `${BUILTIN_IMAGE_PROXY_PREFIX}${encodeURIComponent(POSTER)}`
+    );
+    fireEvent.error(img);
+    // 可见占位（含标题文字），且 img 已移除、骨架不再挂起
     expect(screen.getByTestId('poster-fallback')).toHaveTextContent('测试影片');
     expect(screen.queryByAltText('测试影片')).toBeNull();
   });

@@ -103,7 +103,8 @@ export default function VideoCard({
   const actualTitle = aggregateData?.first.title ?? title;
   const actualPoster = aggregateData?.first.poster ?? poster;
 
-  // 海报兜底链：直连失败 → 代理重试一次 → 再失败显示可见占位（骨架不永久挂起）
+  // 海报兜底链（双向只换一次源）：豆瓣图床首选内置代理、失败则直连再试；
+  // 其他图床直连失败则走代理重试一次；再失败显示可见占位（骨架不永久挂起）
   const [imgSrc, setImgSrc] = useState(() => processImageUrl(actualPoster));
   const [imgRetried, setImgRetried] = useState(false);
   const [imgFailed, setImgFailed] = useState(false);
@@ -385,8 +386,11 @@ export default function VideoCard({
           </div>
         )}
 
+        {/* 2026-11-05 第 2 轮：集数徽章改到评分徽章下方叠放。评分徽章在 top-2 right-2、宽高 28px，
+            原集数徽章也在同一角会把评分盖住；现改为 top-11 right-2（44px > 8+28px），与评分错开，
+            左上角仍留给豆瓣链接，不改数据源、不改任何点击逻辑。 */}
         {actualEpisodes && actualEpisodes > 1 && (
-          <div className='absolute top-2 right-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-md shadow-md transition-all duration-300 ease-out group-hover:scale-110'>
+          <div className='absolute top-11 right-2 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-md shadow-md transition-all duration-300 ease-out group-hover:scale-110'>
             {currentEpisode
               ? `${currentEpisode}/${actualEpisodes}`
               : actualEpisodes}
