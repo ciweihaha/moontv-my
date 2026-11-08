@@ -312,20 +312,20 @@ export default function VideoCard({
 
   return (
     <div
-      className='group relative w-full rounded-lg bg-transparent cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.05] hover:z-[500]'
+      className='group relative w-full rounded-lg bg-transparent cursor-pointer transition-all duration-300 ease-in-out hover:scale-[1.05] hover:z-500'
       onClick={handleClick}
     >
       {/* 海报容器 */}
-      <div className='relative aspect-[2/3] overflow-hidden rounded-lg'>
+      <div className='relative aspect-2/3 overflow-hidden rounded-lg'>
         {/* 骨架屏 */}
-        {!isLoading && <ImagePlaceholder aspectRatio='aspect-[2/3]' />}
+        {!isLoading && <ImagePlaceholder aspectRatio='aspect-2/3' />}
         {/* 图片：失败时走兜底链，最终失败显示带标题的可见占位 */}
         {imgFailed ? (
           <div
             data-testid='poster-fallback'
             className='absolute inset-0 flex items-center justify-center bg-neutral-200 p-4 dark:bg-neutral-800'
           >
-            <span className='break-words text-center text-sm text-neutral-500'>
+            <span className='wrap-break-word text-center text-sm text-neutral-500'>
               {actualTitle}
             </span>
           </div>
@@ -342,7 +342,7 @@ export default function VideoCard({
         )}
 
         {/* 悬浮遮罩 */}
-        <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100' />
+        <div className='absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100' />
 
         {/* 播放按钮 */}
         {config.showPlayButton && (

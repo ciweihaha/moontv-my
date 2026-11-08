@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
 // AUDIT-R5 P2: jsdom 没有 ReadableStream，用 Node 的 web streams polyfill（供 downstream.test.ts）
 // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef

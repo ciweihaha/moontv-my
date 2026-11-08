@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../../tailwind.config.ts';
+
+/* Tailwind v4 defaults dark mode to prefers-color-scheme; the project uses
+   class-based dark mode (see darkMode: 'class' in tailwind.config.ts). */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer utilities {
   .scrollbar-hide {

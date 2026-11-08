@@ -1,5 +1,5 @@
 # ---- 第 1 阶段：安装依赖 ----
-FROM node:22-alpine AS deps
+FROM node:26-alpine AS deps
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # ---- 第 2 阶段：构建项目 ----
-FROM node:22-alpine AS builder
+FROM node:26-alpine AS builder
 WORKDIR /app
 
 # 复制依赖
@@ -31,7 +31,7 @@ RUN sed -i "/const inter = Inter({ subsets: \['latin'] });/a export const dynami
 RUN npm run build
 
 # ---- 第 3 阶段：生成运行时镜像 ----
-FROM node:22-alpine AS runner
+FROM node:26-alpine AS runner
 
 # 创建非 root 用户
 RUN addgroup -g 1001 -S nodejs && adduser -u 1001 -S nextjs -G nodejs
