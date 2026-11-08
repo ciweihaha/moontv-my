@@ -98,7 +98,7 @@ class ShimAbortController {
   }
 }
 
-// eslint-disable-next-line no-undef
+ 
 const g = globalThis as any;
 if (typeof g.Request === 'undefined') g.Request = ShimRequest;
 if (typeof g.Response === 'undefined') g.Response = ShimResponse;

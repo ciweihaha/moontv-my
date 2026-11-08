@@ -14,7 +14,7 @@
 
 import { webcrypto } from 'crypto';
 
-import { sitesFingerprint, FingerprintSite } from '../searchCache';
+import { FingerprintSite,sitesFingerprint } from '../searchCache';
 
 // jest 27 的 node 环境未暴露 WebCrypto 全局（生产 Edge/Node 20 自带）；
 // searchCache 的 sha256Hex 运行时才调用 crypto.subtle，故在此补齐即可。

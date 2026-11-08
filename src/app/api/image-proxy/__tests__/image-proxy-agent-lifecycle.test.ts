@@ -20,7 +20,7 @@
  * （route 模块不导出内部函数；语义由 ssrf 套件的钉死用例另行覆盖）。
  */
 import { readdirSync } from 'node:fs';
-import { type Server,createServer } from 'node:http';
+import { createServer,type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { Agent, fetch as undiciFetch } from 'undici';
 

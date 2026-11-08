@@ -19,7 +19,7 @@
  * 触达上游 mock）不受影响。
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 jest.mock('next/server', () => ({
   NextResponse: {

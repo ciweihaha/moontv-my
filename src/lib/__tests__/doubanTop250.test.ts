@@ -24,7 +24,7 @@
  * next/server，因此不需要 WHATWG 垫片。
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 import { fetchTop250 } from '@/lib/doubanTop250';
 

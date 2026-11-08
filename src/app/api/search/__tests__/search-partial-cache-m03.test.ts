@@ -100,7 +100,7 @@ class ShimAbortController {
   }
 }
 
-// eslint-disable-next-line no-undef
+ 
 const g = globalThis as any;
 if (typeof g.Request === 'undefined') g.Request = ShimRequest;
 if (typeof g.Response === 'undefined') g.Response = ShimResponse;
@@ -108,7 +108,7 @@ if (typeof g.Headers === 'undefined') g.Headers = ShimHeaders;
 if (typeof g.AbortController === 'undefined')
   g.AbortController = ShimAbortController;
 if (typeof g.crypto === 'undefined') {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   g.crypto = require('crypto').webcrypto;
 }
 

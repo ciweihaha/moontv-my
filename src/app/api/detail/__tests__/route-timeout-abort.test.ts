@@ -126,7 +126,7 @@ beforeAll(async () => {
 /** 反复让出微任务队列，推进路由内部的 await 链 */
 async function flushMicrotasks(rounds = 30): Promise<void> {
   for (let i = 0; i < rounds; i++) {
-    // eslint-disable-next-line no-await-in-loop
+     
     await Promise.resolve();
   }
 }

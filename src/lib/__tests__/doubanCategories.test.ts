@@ -22,7 +22,7 @@
  * next/server，因此不需要 WHATWG 垫片。
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 import { fetchDoubanData } from '@/lib/doubanCategories';
 

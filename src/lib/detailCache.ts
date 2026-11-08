@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 
 import { SearchResult } from '@/lib/types';
 

@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 
 import { DoubanResult } from '@/lib/types';
 

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console */
+ 
 
 import { SearchResult } from '@/lib/types';
 

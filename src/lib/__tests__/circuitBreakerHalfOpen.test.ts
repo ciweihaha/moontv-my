@@ -14,7 +14,7 @@
  * 用 jest.spyOn(Date, 'now') 注入可控时钟；每个用例使用独立 key 隔离状态。
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 import {
   recordUpstreamFailure,
