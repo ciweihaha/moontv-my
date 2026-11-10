@@ -60,9 +60,10 @@ const MAX_VERSION_BODY_BYTES = 4 * 1024;
  *
  * 不能直接复用 src/lib/downstream 的 readBodyWithLimit：downstream →
  * config → db → d1.db 会把服务端存储代码拖进客户端 bundle；本函数
- * 零依赖，可安全用于 'use client' 模块。
+ * 零依赖，可安全用于 'use client' 模块。深查第 6 轮起亦由
+ * douban.client.ts 复用（客户端代理路径的豆瓣 JSON 读取同需限长）。
  */
-async function readTextWithLimit(
+export async function readTextWithLimit(
   response: Response,
   maxBytes: number,
   signal?: AbortSignal
