@@ -12,6 +12,7 @@ import {
   getSearchHistory,
   subscribeToDataUpdates,
 } from '@/lib/db.client';
+import { sortSearchResults } from '@/lib/searchSort';
 import { SearchResult } from '@/lib/types';
 import { containsYellow } from '@/lib/yellow';
 
@@ -196,33 +197,12 @@ function SearchPageClient() {
           return !containsYellow(checkText);
         });
       }
-      setSearchResults(
-        results.sort((a: SearchResult, b: SearchResult) => {
-          // 优先排序：标题与搜索词完全一致的排在前面
-          const aExactMatch = a.title === query.trim();
-          const bExactMatch = b.title === query.trim();
-
-          if (aExactMatch && !bExactMatch) return -1;
-          if (!aExactMatch && bExactMatch) return 1;
-
-          // 如果都匹配或都不匹配，则按原来的逻辑排序
-          if (a.year === b.year) {
-            return a.title.localeCompare(b.title);
-          } else {
-            // 处理 unknown 的情况
-            if (a.year === 'unknown' && b.year === 'unknown') {
-              return 0;
-            } else if (a.year === 'unknown') {
-              return 1; // a 排在后面
-            } else if (b.year === 'unknown') {
-              return -1; // b 排在后面
-            } else {
-              // 都是数字年份，按数字大小排序（大的在前面）
-              return parseInt(a.year) > parseInt(b.year) ? -1 : 1;
-            }
-          }
-        })
-      );
+      // 深查第 16 轮：排序比较器抽到 src/lib/searchSort.ts（纯函数）。
+      // 旧内联比较器 parseInt(a.year) > parseInt(b.year) ? -1 : 1 违反
+      // 全序：空年份 parseInt 得 NaN、两方向都返 1，空年份浮到有年份
+      // 前面；相等年份恒返 1。行为：精确匹配在前、unknown/无效年份
+      // 沉底、年份降序、同年按标题。
+      setSearchResults(sortSearchResults(results, query));
       setShowResults(true);
     } catch (error) {
       // UX-R4: 区分"搜索失败"与"无结果"，给用户明确反馈
