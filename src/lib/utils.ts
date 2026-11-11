@@ -11,6 +11,27 @@ import Hls from 'hls.js';
  */
 let _imgProxyCacheKey = '\0';
 let _imgProxyCacheVal: string | null = null;
+
+/**
+ * 深查第 7 轮：localStorage 代理开关值解析容错。
+ * enableImageProxy / enableDoubanProxy 由用户或旧版本写入，值损坏
+ *（如 "yes"、截断写入）时 JSON.parse 抛 SyntaxError；旧实现无
+ * try/catch，getImageProxyUrl 在 VideoCard 渲染路径（processImageUrl）
+ * 被调用，整页渲染崩溃，getDoubanProxyUrl 同理拖垮豆瓣请求。
+ * db.client.ts 与 isImageProxyExplicitlyDisabled 的同类解析均已包
+ * try/catch，唯独这两处漏网。损坏值按“未明确关闭”处理（默认启用
+ * 代理），与 isImageProxyExplicitlyDisabled 的容错口径一致；
+ * 可解析值保持原语义不变。
+ */
+function parseProxyEnabled(raw: string | null): boolean {
+  if (raw === null) return true;
+  try {
+    return JSON.parse(raw) as boolean;
+  } catch {
+    return true;
+  }
+}
+
 export function getImageProxyUrl(): string | null {
   if (typeof window === 'undefined') return null;
 
@@ -22,7 +43,7 @@ export function getImageProxyUrl(): string | null {
   let result: string | null = null;
   // 本地未开启图片代理，则不使用代理
   if (rawEnable !== null) {
-    if (!(JSON.parse(rawEnable) as boolean)) {
+    if (!parseProxyEnabled(rawEnable)) {
       _imgProxyCacheKey = cacheKey;
       _imgProxyCacheVal = null;
       return null;
@@ -67,15 +88,11 @@ export function isDoubanioPosterUrl(url: string): boolean {
   }
 }
 
-/** 用户是否明确关闭了图片代理（localStorage enableImageProxy=false）。 */
+/** 用户是否明确关闭了图片代理（localStorage enableImageProxy=false）。损坏值按未关闭处理（见 parseProxyEnabled）。 */
 export function isImageProxyExplicitlyDisabled(): boolean {
   if (typeof window === 'undefined') return false;
-  try {
-    const raw = localStorage.getItem('enableImageProxy');
-    return raw !== null && JSON.parse(raw) === false;
-  } catch {
-    return false;
-  }
+  const raw = localStorage.getItem('enableImageProxy');
+  return raw !== null && !parseProxyEnabled(raw);
 }
 
 export function processImageUrl(originalUrl: string): string {
@@ -157,9 +174,9 @@ export function getDoubanProxyUrl(): string | null {
   if (cacheKey === _doubanProxyCacheKey) return _doubanProxyCacheVal;
 
   let result: string | null = null;
-  // 本地未开启豆瓣代理，则不使用代理
+  // 本地未开启豆瓣代理，则不使用代理（损坏值按启用处理，见 parseProxyEnabled）
   if (rawEnable !== null) {
-    if (!(JSON.parse(rawEnable) as boolean)) {
+    if (!parseProxyEnabled(rawEnable)) {
       _doubanProxyCacheKey = cacheKey;
       _doubanProxyCacheVal = null;
       return null;
