@@ -104,13 +104,32 @@ export async function DELETE(request: NextRequest) {
       await db.deletePlayRecord(username, source, id);
     } else {
       // 未提供 key，则清空全部播放记录
-      // 目前 DbManager 没有对应方法，这里直接遍历删除
+      // 目前 DbManager 没有对应方法，这里直接遍历删除；分批（每批 5 并发，
+      // 与收藏清空、cron 批处理同口径）+ allSettled 汇总——旧实现 Promise.all
+      // 无界扇出，任一失败即整单 500、局部已删被掩盖。深查第 19 轮。
       const all = await db.getAllPlayRecords(username);
-      await Promise.all(
-        Object.keys(all).map(async (k) => {
-          const [s, i] = k.split('+');
-          if (s && i) await db.deletePlayRecord(username, s, i);
-        })
+      const keys = Object.keys(all);
+      let deleted = 0;
+      let failed = 0;
+      const CONCURRENCY = 5;
+      for (let i = 0; i < keys.length; i += CONCURRENCY) {
+        const batch = keys.slice(i, i + CONCURRENCY);
+        const settled = await Promise.allSettled(
+          batch.map(async (k) => {
+            const [s, i] = k.split('+');
+            if (!s || !i) return false; // 无效键不删除、不计数
+            await db.deletePlayRecord(username, s, i);
+            return true;
+          })
+        );
+        for (const r of settled) {
+          if (r.status === 'fulfilled' && r.value) deleted += 1;
+          else if (r.status === 'rejected') failed += 1;
+        }
+      }
+      return NextResponse.json(
+        { success: true, deleted, failed },
+        { status: 200 }
       );
     }
 
