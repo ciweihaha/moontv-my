@@ -95,3 +95,91 @@ describe('VideoCard 海报兜底', () => {
     expect(screen.queryByTestId('poster-fallback')).toBeNull();
   });
 });
+
+describe('VideoCard 豆瓣链接（深查第 17 轮）', () => {
+  const item = (overrides: Record<string, unknown> = {}) => ({
+    id: '100',
+    title: '测试影片',
+    poster: POSTER,
+    episodes: ['https://cdn.example.com/1.m3u8'],
+    source: 's1',
+    source_name: '源1',
+    year: '2024',
+    ...overrides,
+  });
+
+  function doubanLink(): HTMLAnchorElement | null {
+    return document.querySelector(
+      'a[href*="movie.douban.com/subject/"]'
+    ) as HTMLAnchorElement | null;
+  }
+
+  it('聚合搜索卡片无豆瓣 id → 不渲染豆瓣链接（旧实现链到 subject/undefined）', () => {
+    render(
+      <VideoCard from="search" items={[item(), item({ id: '101' })] as any} />
+    );
+    expect(doubanLink()).toBeNull();
+  });
+
+  it('单条搜索卡片 douban_id 缺失 → 不渲染豆瓣链接', () => {
+    render(
+      <VideoCard
+        from="search"
+        id="100"
+        title="测试影片"
+        poster={POSTER}
+        source="s1"
+        source_name="源1"
+      />
+    );
+    expect(doubanLink()).toBeNull();
+  });
+
+  it('douban_id 为 "0" → 不渲染豆瓣链接（subject/0 同样 404）', () => {
+    render(
+      <VideoCard
+        from="search"
+        id="100"
+        title="测试影片"
+        poster={POSTER}
+        source="s1"
+        source_name="源1"
+        douban_id="0"
+      />
+    );
+    expect(doubanLink()).toBeNull();
+  });
+
+  it('有豆瓣 id 时正常渲染链接（回归基线）', () => {
+    render(
+      <VideoCard
+        from="search"
+        id="100"
+        title="测试影片"
+        poster={POSTER}
+        source="s1"
+        source_name="源1"
+        douban_id="1234567"
+      />
+    );
+    const link = doubanLink();
+    expect(link).not.toBeNull();
+    expect(link!.getAttribute('href')).toBe(
+      'https://movie.douban.com/subject/1234567'
+    );
+  });
+
+  it('聚合卡片取众数豆瓣 id：有 id 的组正常渲染', () => {
+    render(
+      <VideoCard
+        from="search"
+        items={[item({ douban_id: 777 }), item({ douban_id: 777 })] as any}
+      />
+    );
+    const link = doubanLink();
+    expect(link).not.toBeNull();
+    expect(link!.getAttribute('href')).toBe(
+      'https://movie.douban.com/subject/777'
+    );
+  });
+});

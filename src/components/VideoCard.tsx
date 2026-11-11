@@ -134,9 +134,19 @@ export default function VideoCard({
   }, [imgSrc, actualPoster, imgRetried]);
   const actualSource = aggregateData?.first.source ?? source;
   const actualId = aggregateData?.first.id ?? id;
-  const actualDoubanId = String(
-    aggregateData?.mostFrequentDoubanId ?? douban_id
-  );
+  // 深查第 17 轮：无豆瓣 id 时不渲染豆瓣链接。旧实现
+  // String(mostFrequentDoubanId ?? douban_id) 在两处都缺时得字符串
+  // "undefined"（douban_id 为 0 时得 "0"），!! 判断恒真，搜索卡片
+  // 会渲染指向 movie.douban.com/subject/undefined（404）的绿链。
+  // 缺失/0/"undefined" 一律按无 id 处理。
+  const rawDoubanId = aggregateData?.mostFrequentDoubanId ?? douban_id;
+  const actualDoubanId =
+    rawDoubanId === undefined ||
+    rawDoubanId === null ||
+    String(rawDoubanId) === '0' ||
+    String(rawDoubanId) === 'undefined'
+      ? undefined
+      : String(rawDoubanId);
   const actualEpisodes = aggregateData?.mostFrequentEpisodes ?? episodes;
   const actualYear = aggregateData?.first.year ?? year;
   const actualQuery = query || '';
