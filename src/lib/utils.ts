@@ -32,6 +32,25 @@ function parseProxyEnabled(raw: string | null): boolean {
   }
 }
 
+/**
+ * 解析 localStorage 里的布尔开关：损坏值（非法 JSON/非布尔）按 fallback
+ * 处理，不抛错。深查第 24 轮：UserMenu 挂载 effect 里 4 处裸 JSON.parse，
+ * 任一损坏都会让 effect 抛错、触发全局错误边界，且“重新加载”重试也
+ * 过不去（同一损坏值反复触发），只能手动清 localStorage 才能恢复。
+ */
+export function parseStoredBoolean(
+  raw: string | null,
+  fallback: boolean
+): boolean {
+  if (raw === null) return fallback;
+  try {
+    const v: unknown = JSON.parse(raw);
+    return typeof v === 'boolean' ? v : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export function getImageProxyUrl(): string | null {
   if (typeof window === 'undefined') return null;
 

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { clearClientSession, fetchSessionInfo } from '@/lib/auth';
+import { parseStoredBoolean } from '@/lib/utils';
 import { checkForUpdates, CURRENT_VERSION, UpdateStatus } from '@/lib/version';
 
 interface AuthInfo {
@@ -69,14 +70,16 @@ export const UserMenu: React.FC = () => {
         'defaultAggregateSearch'
       );
       if (savedAggregateSearch !== null) {
-        setDefaultAggregateSearch(JSON.parse(savedAggregateSearch));
+        setDefaultAggregateSearch(
+          parseStoredBoolean(savedAggregateSearch, true)
+        );
       }
 
       const savedEnableDoubanProxy = localStorage.getItem('enableDoubanProxy');
       const defaultDoubanProxy =
         (window as any).RUNTIME_CONFIG?.DOUBAN_PROXY || '';
       if (savedEnableDoubanProxy !== null) {
-        setEnableDoubanProxy(JSON.parse(savedEnableDoubanProxy));
+        setEnableDoubanProxy(parseStoredBoolean(savedEnableDoubanProxy, false));
       } else if (defaultDoubanProxy) {
         setEnableDoubanProxy(true);
       }
@@ -92,7 +95,7 @@ export const UserMenu: React.FC = () => {
       const defaultImageProxy =
         (window as any).RUNTIME_CONFIG?.IMAGE_PROXY || '';
       if (savedEnableImageProxy !== null) {
-        setEnableImageProxy(JSON.parse(savedEnableImageProxy));
+        setEnableImageProxy(parseStoredBoolean(savedEnableImageProxy, false));
       } else if (defaultImageProxy) {
         setEnableImageProxy(true);
       }
@@ -107,7 +110,9 @@ export const UserMenu: React.FC = () => {
       const savedEnableOptimization =
         localStorage.getItem('enableOptimization');
       if (savedEnableOptimization !== null) {
-        setEnableOptimization(JSON.parse(savedEnableOptimization));
+        setEnableOptimization(
+          parseStoredBoolean(savedEnableOptimization, true)
+        );
       }
     }
   }, []);
