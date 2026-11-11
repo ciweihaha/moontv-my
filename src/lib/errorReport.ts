@@ -47,10 +47,18 @@ export function reportError(
     time: new Date().toISOString(),
   };
 
-  // fire-and-forget：不 await，不阻塞主流程
+  // fire-and-forget：不 await，不阻塞主流程。
+  // 深查第 12 轮：旧实现无任何超时，webhook 侧挂起时上报 fetch 在
+  // isolate 内无限滞留；错误高发时滞留连接成批堆积。5 秒硬截止，
+  // 超时即 abort（上报失败静默，不影响主流程）。用显式 AbortController
+  // ＋ setTimeout（与 fetchDoubanJson / fetchRetry 同例），不用
+  // AbortSignal.timeout 以便假定时器可测。
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 5000);
   fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    signal: controller.signal,
     body: JSON.stringify({
       msgtype: 'text',
       text: {
@@ -62,5 +70,8 @@ export function reportError(
     }),
   }).catch((err) => {
     console.error('[errorReport] webhook 上报失败:', err);
+  }).finally(() => {
+    // 上报落定（成功/失败/超时）后清掉截止定时器，不留悬挂句柄
+    clearTimeout(timeoutId);
   });
 }
