@@ -35,6 +35,7 @@ import Swal from 'sweetalert2';
 
 import { AdminConfig, AdminConfigResult } from '@/lib/admin.types';
 import { fetchSessionInfo } from '@/lib/auth';
+import { resolveDragIndices } from '@/lib/utils';
 
 import PageLayout from '@/components/PageLayout';
 
@@ -745,10 +746,16 @@ const VideoSourceConfig = ({
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const oldIndex = sources.findIndex((s) => s.key === active.id);
-    const newIndex = sources.findIndex((s) => s.key === over.id);
-    setSources((prev) => arrayMove(prev, oldIndex, newIndex));
+    // 深查第 27 轮：下标查不到（拖拽中途列表被刷新、id 过期）时忽略
+    // 本次拖拽，勿把 -1 喂给 arrayMove（会静默挪错元素）。
+    const indices = resolveDragIndices(
+      sources,
+      active.id,
+      over?.id,
+      (s) => s.key
+    );
+    if (!indices) return;
+    setSources((prev) => arrayMove(prev, indices.oldIndex, indices.newIndex));
     setOrderChanged(true);
   };
 
@@ -1091,14 +1098,15 @@ const CategoryConfig = ({
   const handleDragEnd = (event: any) => {
     if (isD1Storage || isUpstashStorage) return;
     const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const oldIndex = categories.findIndex(
-      (c) => `${c.query}:${c.type}` === active.id
+    // 深查第 27 轮：同视频源拖拽，下标查不到时忽略本次拖拽。
+    const indices = resolveDragIndices(
+      categories,
+      active.id,
+      over?.id,
+      (c) => `${c.query}:${c.type}`
     );
-    const newIndex = categories.findIndex(
-      (c) => `${c.query}:${c.type}` === over.id
-    );
-    setCategories((prev) => arrayMove(prev, oldIndex, newIndex));
+    if (!indices) return;
+    setCategories((prev) => arrayMove(prev, indices.oldIndex, indices.newIndex));
     setOrderChanged(true);
   };
 

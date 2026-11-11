@@ -251,6 +251,27 @@ export function compareSaveTimeDesc(
 }
 
 /**
+ * 解析拖拽排序的起止下标：任一下标查不到（拖拽中途列表被刷新、id 过期）
+ * 即返回 null，调用方直接忽略本次拖拽。
+ * 深查第 27 轮：旧实现把 findIndex 的 -1 直接喂给 dnd-kit 的 arrayMove，
+ * 而 arrayMove(list, -1, 1) 会把最后一个元素挪到位置 1（arrayMove(list,
+ * 0, -1) 则把首元素挪到末尾）——一次过期拖拽就静默打乱顺序，还会把
+ * setOrderChanged(true) 置上、让用户把错序保存到服务端。
+ */
+export function resolveDragIndices<T>(
+  items: T[],
+  activeId: unknown,
+  overId: unknown,
+  keyOf: (item: T) => string
+): { oldIndex: number; newIndex: number } | null {
+  if (!overId || activeId === overId) return null;
+  const oldIndex = items.findIndex((it) => keyOf(it) === activeId);
+  const newIndex = items.findIndex((it) => keyOf(it) === overId);
+  if (oldIndex < 0 || newIndex < 0) return null;
+  return { oldIndex, newIndex };
+}
+
+/**
  * 从播放记录解析续播状态：只接受有限非负整数的 index（1 起）。
  * 深查第 26 轮：脏记录 index 为 0/缺失/非数值时，旧实现算出 -1/NaN
  * 的选集索引，updateVideoUrl 的越界守卫拦不住（-1/NaN >= length 为
