@@ -56,8 +56,12 @@ export async function GET(request: Request) {
     // 调用豆瓣 API
     const doubanData = await fetchDoubanData(target);
 
+    // 深查第 14 轮：豆瓣被拦时有时回 200 但无 items 数组（与 /api/douban
+    // 的 subjects 同形态），旧实现直接 .map 抛 TypeError → 500；无 items
+    // 按空结果处理（回 200 空列表），与列表接口“空结果不算失败”一致。
+    const items = Array.isArray(doubanData?.items) ? doubanData.items : [];
     // 转换数据格式
-    const list: DoubanItem[] = doubanData.items.map((item) => ({
+    const list: DoubanItem[] = items.map((item) => ({
       id: item.id,
       title: item.title,
       poster: item.pic?.normal || item.pic?.large || '',
