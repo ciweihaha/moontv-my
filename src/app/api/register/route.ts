@@ -4,9 +4,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { buildSessionSignData, generateSignature, getSessionSecret } from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
+import {
+  checkRateLimit,
+  getClientIp,
+} from '@/lib/rateLimit';
 import { validateCredentials } from '@/lib/userValidation';
 
 export const runtime = 'edge';
+
+// SEC-R2: 注册限频配置（与登录同口径，防批量刷号）
+// 深查第 20 轮：登录早有 10 次/分钟限频，注册却全无——开放注册时
+// 每次注册都写 D1 用户表 + 全量 admin config 读改写，可被无限刷号
+// 拖垮，并发注册还可能互相冲掉配置里的 Users 写入。
+const REGISTER_RATE_LIMIT = 10; // 每窗口最大尝试次数
+const REGISTER_RATE_WINDOW_MS = 60_000; // 1 分钟窗口
 
 // 读取存储类型环境变量，默认 localstorage
 const STORAGE_TYPE =
@@ -40,6 +51,21 @@ async function generateAuthCookie(username: string): Promise<string> {
 
 export async function POST(req: NextRequest) {
   try {
+    // SEC-R2: 注册限频，防批量刷号（429）
+    const clientIp = getClientIp(req);
+    if (
+      !checkRateLimit(
+        `register:${clientIp}`,
+        REGISTER_RATE_LIMIT,
+        REGISTER_RATE_WINDOW_MS
+      )
+    ) {
+      return NextResponse.json(
+        { error: '尝试过于频繁，请稍后再试' },
+        { status: 429 }
+      );
+    }
+
     // localstorage 模式下不支持注册
     if (STORAGE_TYPE === 'localstorage') {
       return NextResponse.json(
