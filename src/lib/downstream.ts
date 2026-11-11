@@ -434,11 +434,30 @@ export async function getDetailFromApi(
   }
 
   const videoDetail = data.list[0];
+  // 深查第 9 轮：详情是单条目，无“跳过单条”可退，只能归一化。
+  // 旧实现直接 .split/.match/cleanHtmlTags 上游字段，类型错位（数字/
+  // 对象）时整个详情请求抛错；与第 8 轮搜索路径同口径逐字段归一化，
+  // 保持旧输入行为不变（字符串原样、空值仍为 unknown/空串）。
+  const detailPlayUrl =
+    typeof videoDetail.vod_play_url === 'string'
+      ? videoDetail.vod_play_url
+      : '';
+  const detailContent =
+    typeof videoDetail.vod_content === 'string'
+      ? videoDetail.vod_content
+      : '';
+  const detailYear = !videoDetail.vod_year
+    ? 'unknown'
+    : typeof videoDetail.vod_year === 'string'
+      ? videoDetail.vod_year.match(/\d{4}/)?.[0] || ''
+      : typeof videoDetail.vod_year === 'number'
+        ? String(videoDetail.vod_year).match(/\d{4}/)?.[0] || ''
+        : 'unknown';
   let episodes: string[] = [];
 
   // 处理播放源拆分
-  if (videoDetail.vod_play_url) {
-    const playSources = videoDetail.vod_play_url.split('$$$');
+  if (detailPlayUrl) {
+    const playSources = detailPlayUrl.split('$$$');
     if (playSources.length > 0) {
       const mainSource = playSources[0];
       const episodeList = mainSource.split('#');
@@ -455,25 +474,36 @@ export async function getDetailFromApi(
   }
 
   // 如果播放源为空，则尝试从内容中解析 m3u8
-  if (episodes.length === 0 && videoDetail.vod_content) {
-    const matches = videoDetail.vod_content.match(M3U8_PATTERN) || [];
+  if (episodes.length === 0 && detailContent) {
+    const matches = detailContent.match(M3U8_PATTERN) || [];
     episodes = matches.map((link: string) => link.replace(/^\$/, ''));
   }
 
   return {
     id: id.toString(),
-    title: videoDetail.vod_name,
-    poster: videoDetail.vod_pic,
+    title:
+      typeof videoDetail.vod_name === 'string'
+        ? videoDetail.vod_name
+        : String(videoDetail.vod_name ?? ''),
+    poster:
+      typeof videoDetail.vod_pic === 'string' ? videoDetail.vod_pic : '',
     episodes,
     source: apiSite.key,
     source_name: apiSite.name,
-    class: videoDetail.vod_class,
-    year: videoDetail.vod_year
-      ? videoDetail.vod_year.match(/\d{4}/)?.[0] || ''
-      : 'unknown',
-    desc: cleanHtmlTags(videoDetail.vod_content),
-    type_name: videoDetail.type_name,
-    douban_id: videoDetail.vod_douban_id,
+    class:
+      typeof videoDetail.vod_class === 'string'
+        ? videoDetail.vod_class
+        : undefined,
+    year: detailYear,
+    desc: cleanHtmlTags(detailContent),
+    type_name:
+      typeof videoDetail.type_name === 'string'
+        ? videoDetail.type_name
+        : undefined,
+    douban_id:
+      typeof videoDetail.vod_douban_id === 'number'
+        ? videoDetail.vod_douban_id
+        : undefined,
   };
 }
 
