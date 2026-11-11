@@ -411,6 +411,10 @@ export async function getDetailFromApi(
   }
 
   if (!response.ok) {
+    // 深查第 10 轮：丢弃跟踪响应体前先 cancel（与超限分支/搜索路径同口径）。
+    // 旧实现直接抛错，fetchWithRetry 的跟踪流计时器与连接悬到 10s 超时
+    // 才释放；上游批量 4xx 时定时器/连接成批滞留。
+    await response.body?.cancel().catch(() => {});
     throw new Error(`详情请求失败: ${response.status}`);
   }
 
@@ -529,6 +533,8 @@ async function handleSpecialSourceDetail(
   }
 
   if (!response.ok) {
+    // 深查第 10 轮：与 getDetailFromApi 同口径，丢弃跟踪响应体前先 cancel。
+    await response.body?.cancel().catch(() => {});
     throw new Error(`详情页请求失败: ${response.status}`);
   }
 
