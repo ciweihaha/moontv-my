@@ -68,13 +68,23 @@ const Sidebar = ({ onToggle, activePath = '/' }: SidebarProps) => {
     return false; // 默认展开
   });
 
-  // 首次挂载时读取 localStorage，以便刷新后仍保持上次的折叠状态
+  // 首次挂载时读取 localStorage，以便刷新后仍保持上次的折叠状态。
+  // 深查第 22 轮：旧实现裸 JSON.parse——localStorage 被篡改/写坏时
+  // （如 "yes"）在 useLayoutEffect 里抛错，整个侧边栏挂载失败；
+  // 且解析出的非布尔值（如 123）也会直接进状态。损坏或非布尔值
+  // 一律忽略、保持默认展开。
   useLayoutEffect(() => {
-    const saved = localStorage.getItem('sidebarCollapsed');
-    if (saved !== null) {
-      const val = JSON.parse(saved);
-      setIsCollapsed(val);
-      window.__sidebarCollapsed = val;
+    try {
+      const saved = localStorage.getItem('sidebarCollapsed');
+      if (saved !== null) {
+        const val: unknown = JSON.parse(saved);
+        if (typeof val === 'boolean') {
+          setIsCollapsed(val);
+          window.__sidebarCollapsed = val;
+        }
+      }
+    } catch {
+      // 损坏的 localStorage 值不影响挂载
     }
   }, []);
 
