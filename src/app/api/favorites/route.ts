@@ -135,13 +135,34 @@ export async function DELETE(request: NextRequest) {
       }
       await db.deleteFavorite(username, source, id);
     } else {
-      // 清空全部
+      // 清空全部：分批删除（每批 5 并发，与 cron 播放记录批处理同口径），
+      // 避免收藏量大时 N 个 D1 写操作同时扇出；单条失败不中断整批，
+      // 用 allSettled 汇总已删/失败数——旧实现 Promise.all 遇任一失败
+      // 即整单 500，局部已删的成功被掩盖、客户端误以为全未删除。
+      // 深查第 18 轮。
       const all = await db.getAllFavorites(username);
-      await Promise.all(
-        Object.keys(all).map(async (k) => {
-          const [s, i] = k.split('+');
-          if (s && i) await db.deleteFavorite(username, s, i);
-        })
+      const keys = Object.keys(all);
+      let deleted = 0;
+      let failed = 0;
+      const CONCURRENCY = 5;
+      for (let i = 0; i < keys.length; i += CONCURRENCY) {
+        const batch = keys.slice(i, i + CONCURRENCY);
+        const settled = await Promise.allSettled(
+          batch.map(async (k) => {
+            const [s, i] = k.split('+');
+            if (!s || !i) return false; // 无效键不删除、不计数
+            await db.deleteFavorite(username, s, i);
+            return true;
+          })
+        );
+        for (const r of settled) {
+          if (r.status === 'fulfilled' && r.value) deleted += 1;
+          else if (r.status === 'rejected') failed += 1;
+        }
+      }
+      return NextResponse.json(
+        { success: true, deleted, failed },
+        { status: 200 }
       );
     }
 
