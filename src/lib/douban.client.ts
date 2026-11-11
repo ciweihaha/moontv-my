@@ -135,8 +135,11 @@ export async function fetchDoubanCategories(
       { timeoutMs }
     );
 
+    // 深查第 15 轮：与服务端分类路由（第 14 轮）同口径，代理回 200 但无
+    // items 数组时按空结果处理，不抛错、不弹全局错误。
+    const items = Array.isArray(doubanData?.items) ? doubanData.items : [];
     // 转换数据格式
-    const list: DoubanItem[] = doubanData.items.map((item) => ({
+    const list: DoubanItem[] = items.map((item) => ({
       id: item.id,
       title: item.title,
       poster: item.pic?.normal || item.pic?.large || '',
@@ -261,8 +264,10 @@ export async function fetchDoubanList(
       { timeoutMs }
     );
 
+    // 深查第 15 轮：与 fetchDoubanCategories 同口径，无 items 按空结果处理。
+    const items = Array.isArray(doubanData?.items) ? doubanData.items : [];
     // 转换数据格式
-    const list: DoubanItem[] = doubanData.items.map((item) => ({
+    const list: DoubanItem[] = items.map((item) => ({
       id: item.id,
       title: item.title,
       poster: item.pic?.normal || item.pic?.large || '',

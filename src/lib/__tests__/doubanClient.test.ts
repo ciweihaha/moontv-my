@@ -247,3 +247,25 @@ describe('fetchDoubanList（客户端代理路径）', () => {
     8000
   );
 });
+
+describe('无 items 数组按空结果处理（深查第 15 轮）', () => {
+  it('fetchDoubanCategories：代理回 200 但无 items → 200 空列表，不抛错', async () => {
+    global.fetch = jest.fn(async () =>
+      makeJsonResponse({ total: 0 })
+    ) as unknown as typeof fetch;
+
+    await expect(
+      fetchDoubanCategories({ kind: 'tv', category: 'tv', type: 'tv' })
+    ).resolves.toEqual({ code: 200, message: '获取成功', list: [] });
+  });
+
+  it('fetchDoubanList：代理回 200 但无 items → 200 空列表，不抛错', async () => {
+    global.fetch = jest.fn(async () =>
+      makeJsonResponse({ subjects: [] })
+    ) as unknown as typeof fetch;
+
+    await expect(
+      fetchDoubanList({ tag: '热门', type: 'movie' })
+    ).resolves.toEqual({ code: 200, message: '获取成功', list: [] });
+  });
+});
