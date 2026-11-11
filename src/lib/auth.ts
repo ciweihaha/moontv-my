@@ -209,7 +209,11 @@ export async function fetchSessionInfo(): Promise<ClientSession | null> {
   try {
     const res = await fetch('/api/auth/session', { credentials: 'same-origin' });
     if (!res.ok) {
-      memCachedSession = null;
+      // 深查第 13 轮：失败不进内存缓存。旧实现把失败也缓存为 null，
+      // 会话接口一次瞬时抖动（500/断网）后，本页生命周期内再也不重试，
+      // 用户明明已登录、界面却一直显示未登录，直到整页刷新；登录页
+      // 登录后刷新会话也可能撞上此次缓存。只缓存成功结果，失败留
+      // undefined（下次调用重新请求）。
       return null;
     }
     const data = await res.json();
@@ -232,7 +236,7 @@ export async function fetchSessionInfo(): Promise<ClientSession | null> {
     }
     return memCachedSession;
   } catch {
-    memCachedSession = null;
+    // 深查第 13 轮：同上，网络异常/解析失败不缓存，下次调用重试。
     return null;
   }
 }
