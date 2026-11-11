@@ -22,7 +22,11 @@ import {
   subscribeToDataUpdates,
 } from '@/lib/db.client';
 import { SearchResult } from '@/lib/types';
-import { getVideoResolutionFromM3u8, processImageUrl } from '@/lib/utils';
+import {
+  getVideoResolutionFromM3u8,
+  processImageUrl,
+  resolveResumeState,
+} from '@/lib/utils';
 
 import EpisodeSelector from '@/components/EpisodeSelector';
 import PageLayout from '@/components/PageLayout';
@@ -850,16 +854,19 @@ function PlayPageClient() {
         const record = allRecords[key];
 
         if (record) {
-          const targetIndex = record.index - 1;
-          const targetTime = record.play_time;
+          // 深查第 26 轮：脏记录的 index 为 0/缺失/非数值时不恢复选集
+          // 与进度（resolveResumeState），否则选集索引 -1/NaN 会让
+          // 视频地址置空、无法播放。
+          const resumed = resolveResumeState(record);
+          if (resumed) {
+            // 更新当前选集索引
+            if (resumed.episodeIndex !== currentEpisodeIndex) {
+              setCurrentEpisodeIndex(resumed.episodeIndex);
+            }
 
-          // 更新当前选集索引
-          if (targetIndex !== currentEpisodeIndex) {
-            setCurrentEpisodeIndex(targetIndex);
+            // 保存待恢复的播放进度，待播放器就绪后跳转
+            resumeTimeRef.current = resumed.resumeTime;
           }
-
-          // 保存待恢复的播放进度，待播放器就绪后跳转
-          resumeTimeRef.current = targetTime;
         }
       } catch (err) {
         console.error('读取播放记录失败:', err);

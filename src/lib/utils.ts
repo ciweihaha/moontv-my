@@ -250,6 +250,27 @@ export function compareSaveTimeDesc(
   return tb - ta;
 }
 
+/**
+ * 从播放记录解析续播状态：只接受有限非负整数的 index（1 起）。
+ * 深查第 26 轮：脏记录 index 为 0/缺失/非数值时，旧实现算出 -1/NaN
+ * 的选集索引，updateVideoUrl 的越界守卫拦不住（-1/NaN >= length 为
+ * false），episodes[-1/NaN] 得 undefined → 视频地址置空、无法播放。
+ * 非法时返回 null，调用方按无记录处理（从第 1 集播起）。
+ */
+export function resolveResumeState(record: {
+  index?: unknown;
+  play_time?: unknown;
+}): { episodeIndex: number; resumeTime: number | null } | null {
+  const targetIndex =
+    typeof record.index === 'number' ? record.index - 1 : NaN;
+  if (!Number.isInteger(targetIndex) || targetIndex < 0) return null;
+  return {
+    episodeIndex: targetIndex,
+    resumeTime:
+      typeof record.play_time === 'number' ? record.play_time : null,
+  };
+}
+
 export function cleanHtmlTags(text: string): string {
   if (!text) return '';
   return text
