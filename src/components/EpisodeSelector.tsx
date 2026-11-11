@@ -89,8 +89,15 @@ const EpisodeSelector: React.FC<EpisodeSelectorProps> = ({
     totalEpisodes > 1 ? 'episodes' : 'sources'
   );
 
-  // 当前分页索引（0 开始）
-  const initialPage = Math.floor((value - 1) / episodesPerPage);
+  // 当前分页索引（0 开始）。
+  // 深查第 25 轮：value 越界/非数值时钳制到合法页。脏播放记录的 index
+  // 为 0/缺失时，播放页 currentEpisodeIndex 为 -1/NaN，value = index+1
+  // 得 0/NaN，旧实现 initialPage 得 -1/NaN：-1 渲染出 -49..0 的负集数
+  // 按钮，NaN 则集数网格全空。非法值按第 1 页，超界按最后一页。
+  const rawInitialPage = Math.floor((value - 1) / episodesPerPage);
+  const initialPage = Number.isFinite(rawInitialPage)
+    ? Math.min(Math.max(0, rawInitialPage), Math.max(0, pageCount - 1))
+    : 0;
   const [currentPage, setCurrentPage] = useState<number>(initialPage);
 
   // 是否倒序显示
