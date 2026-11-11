@@ -31,9 +31,13 @@ export default function ContinueWatching({ className }: ContinueWatchingProps) {
       key,
     }));
 
-    // 按 save_time 降序排序（最新的在前面）
+    // 按 save_time 降序排序（最新的在前面）；缺失/非数值的 save_time
+    // （脏记录，如旧版或损坏的 localStorage）按最旧沉底，避免 NaN
+    // 破坏比较器的全序、导致顺序不稳定。深查第 21 轮。
+    const timeOf = (r: PlayRecord) =>
+      Number.isFinite(r.save_time) ? (r.save_time as number) : -Infinity;
     const sortedRecords = recordsArray.sort(
-      (a, b) => b.save_time - a.save_time
+      (a, b) => timeOf(b) - timeOf(a)
     );
 
     setPlayRecords(sortedRecords);
@@ -73,10 +77,21 @@ export default function ContinueWatching({ className }: ContinueWatchingProps) {
     return null;
   }
 
-  // 计算播放进度百分比
+  // 计算播放进度百分比：脏记录（total_time 缺失/0/非数值、play_time
+  // 缺失/非数值）旧实现直接相除得 NaN，VideoCard 渲染出 width: NaN%
+  // 的无效样式；play_time 超过 total_time 时进度溢出 100%。缺失按 0、
+  // 结果夹在 [0, 100]。深查第 21 轮。
   const getProgress = (record: PlayRecord) => {
-    if (record.total_time === 0) return 0;
-    return (record.play_time / record.total_time) * 100;
+    const total = record.total_time;
+    const played = record.play_time;
+    if (
+      !Number.isFinite(total) ||
+      !Number.isFinite(played) ||
+      (total as number) <= 0
+    ) {
+      return 0;
+    }
+    return Math.min(100, Math.max(0, ((played as number) / (total as number)) * 100));
   };
 
   // 从 key 中解析 source 和 id
