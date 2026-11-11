@@ -14,6 +14,7 @@ import {
 } from '@/lib/db.client';
 import { sortSearchResults } from '@/lib/searchSort';
 import { SearchResult } from '@/lib/types';
+import { parseStoredBoolean } from '@/lib/utils';
 import { containsYellow } from '@/lib/yellow';
 
 import PageLayout from '@/components/PageLayout';
@@ -36,12 +37,15 @@ function SearchPageClient() {
   // UX-R4: 在途请求去重（表单提交会直接调一次 + router.push 触发 useEffect 再调一次）
   const inFlightQueryRef = useRef<string | null>(null);
 
-  // 获取默认聚合设置：只读取用户本地设置，默认为 true
+  // 获取默认聚合设置：只读取用户本地设置，默认为 true。
+  // 深查第 28 轮：旧实现裸 JSON.parse，在 useState 初始化器里调用——
+  // localStorage 损坏时搜索页首次渲染即抛错进全局错误边界，且重试
+  // 也过不去（与 UserMenu 第 24 轮同款）。损坏/非布尔按默认 true。
   const getDefaultAggregate = () => {
     if (typeof window !== 'undefined') {
       const userSetting = localStorage.getItem('defaultAggregateSearch');
       if (userSetting !== null) {
-        return JSON.parse(userSetting);
+        return parseStoredBoolean(userSetting, true);
       }
     }
     return true; // 默认启用聚合
