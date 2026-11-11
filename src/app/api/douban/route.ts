@@ -41,6 +41,10 @@ async function fetchDoubanData(url: string): Promise<DoubanApiResponse> {
   );
 
   if (!response.ok) {
+    // 深查第 11 轮：与详情路径（第 10 轮）同口径，丢弃跟踪响应体前先
+    // cancel，否则计时器与连接悬到 10s 超时才释放；豆瓣 403/404 高发，
+    // recommend/new_score 两次尝试会成批滞留。
+    await response.body?.cancel().catch(() => undefined);
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
@@ -48,6 +52,8 @@ async function fetchDoubanData(url: string): Promise<DoubanApiResponse> {
   const MAX_DOUBAN_BODY_BYTES = 1 * 1024 * 1024;
   const contentLength = response.headers.get('content-length');
   if (contentLength && parseInt(contentLength, 10) > MAX_DOUBAN_BODY_BYTES) {
+    // 深查第 11 轮：同上，超限丢弃前先 cancel（不读体）。
+    await response.body?.cancel().catch(() => undefined);
     throw new Error('豆瓣响应体过大');
   }
   if (!response.body) {
