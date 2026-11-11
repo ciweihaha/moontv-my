@@ -32,7 +32,9 @@ function extractSearchEpisodes(
   vodPlayUrl: string | undefined,
   splitBest: boolean
 ): string[] {
-  if (!vodPlayUrl) return [];
+  // 深查第 8 轮：上游字段类型不可信，非字符串 vod_play_url 在 .split
+  // 处抛错，整源结果被拖垮；此处与 mapSearchItem 同口径直接返回 []。
+  if (!vodPlayUrl || typeof vodPlayUrl !== 'string') return [];
   let episodes: string[] = [];
   if (splitBest) {
     const vod_play_url_array = vodPlayUrl.split('$$$');
@@ -55,8 +57,16 @@ function extractSearchEpisodes(
   });
 }
 
-/** 将上游搜索条目映射为统一 SearchResult */
-function mapSearchItem(
+/**
+ * 将上游搜索条目映射为统一 SearchResult。
+ * 深查第 8 轮：上游 JSON 完全不可信，旧实现只守卫 vod_id/vod_name 为空，
+ * 类型错位（数字/对象）的字段在 .trim()/.match()/cleanHtmlTags 内抛错，
+ * 第一页 .map 在 searchFromApiWithOutcome 外层 try 内，单条脏数据拖垮
+ * 整个源的全部结果（记 failed，甚至触发熔断）。逐字段校验/归一化：
+ * 关键字段类型不对只跳过单条（返回 null），非关键字段退化为空值。
+ * AUDIT-R5 P2 口径：导出以便单元测试（与 readBodyWithLimit 同例）。
+ */
+export function mapSearchItem(
   item: ApiSearchItem,
   source: string,
   sourceName: string,
@@ -66,18 +76,38 @@ function mapSearchItem(
   if (item.vod_id == null || item.vod_name == null) {
     return null;
   }
+  // id 接受字符串/数字，其余类型（如对象 → "[object Object]"）跳过单条
+  if (typeof item.vod_id !== 'string' && typeof item.vod_id !== 'number') {
+    return null;
+  }
+  // 标题必须为字符串：数字标题在 .trim() 处抛错是本轮主因
+  if (typeof item.vod_name !== 'string') {
+    return null;
+  }
+  const yearText = !item.vod_year
+    ? 'unknown'
+    : typeof item.vod_year === 'string'
+      ? item.vod_year.match(/\d{4}/)?.[0] || ''
+      : typeof item.vod_year === 'number'
+        ? String(item.vod_year).match(/\d{4}/)?.[0] || ''
+        : 'unknown';
   return {
-    id: item.vod_id.toString(),
+    id: String(item.vod_id),
     title: item.vod_name.trim().replace(/\s+/g, ' '),
-    poster: item.vod_pic,
+    poster: typeof item.vod_pic === 'string' ? item.vod_pic : '',
     episodes: extractSearchEpisodes(item.vod_play_url, splitBest),
     source,
     source_name: sourceName,
-    class: item.vod_class,
-    year: item.vod_year ? item.vod_year.match(/\d{4}/)?.[0] || '' : 'unknown',
-    desc: cleanHtmlTags(item.vod_content || ''),
-    type_name: item.type_name,
-    douban_id: item.vod_douban_id,
+    class: typeof item.vod_class === 'string' ? item.vod_class : undefined,
+    year: yearText,
+    desc:
+      typeof item.vod_content === 'string'
+        ? cleanHtmlTags(item.vod_content)
+        : '',
+    type_name:
+      typeof item.type_name === 'string' ? item.type_name : undefined,
+    douban_id:
+      typeof item.vod_douban_id === 'number' ? item.vod_douban_id : undefined,
   };
 }
 
