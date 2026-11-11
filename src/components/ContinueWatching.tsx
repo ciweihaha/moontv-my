@@ -9,6 +9,7 @@ import {
   getAllPlayRecords,
   subscribeToDataUpdates,
 } from '@/lib/db.client';
+import { compareSaveTimeDesc } from '@/lib/utils';
 
 import ScrollableRow from '@/components/ScrollableRow';
 import VideoCard from '@/components/VideoCard';
@@ -32,12 +33,9 @@ export default function ContinueWatching({ className }: ContinueWatchingProps) {
     }));
 
     // 按 save_time 降序排序（最新的在前面）；缺失/非数值的 save_time
-    // （脏记录，如旧版或损坏的 localStorage）按最旧沉底，避免 NaN
-    // 破坏比较器的全序、导致顺序不稳定。深查第 21 轮。
-    const timeOf = (r: PlayRecord) =>
-      Number.isFinite(r.save_time) ? (r.save_time as number) : -Infinity;
-    const sortedRecords = recordsArray.sort(
-      (a, b) => timeOf(b) - timeOf(a)
+    // 按最旧沉底（compareSaveTimeDesc，深查第 23 轮收敛第 21 轮的内联实现）。
+    const sortedRecords = recordsArray.sort((a, b) =>
+      compareSaveTimeDesc(a, b)
     );
 
     setPlayRecords(sortedRecords);

@@ -210,6 +210,27 @@ export function processDoubanUrl(originalUrl: string): string {
   return `${proxyUrl}${encodeURIComponent(originalUrl)}`;
 }
 
+/**
+ * 按 save_time 降序比较（最新在前）：缺失/非数值的 save_time（脏记录，
+ * 如旧版或损坏的 localStorage）按最旧沉底，避免 `b - a` 得 NaN 破坏
+ * 比较器的全序、导致排序不稳定。首页收藏与继续观看共用。深查第 23 轮。
+ */
+export function compareSaveTimeDesc(
+  a: { save_time?: unknown },
+  b: { save_time?: unknown }
+): number {
+  const timeOf = (r: { save_time?: unknown }) =>
+    typeof r.save_time === 'number' && Number.isFinite(r.save_time)
+      ? r.save_time
+      : -Infinity;
+  const ta = timeOf(a);
+  const tb = timeOf(b);
+  // 两边同为 -Infinity（都缺失）时直接相减得 NaN，破坏自反性，
+  // 必须先判等。
+  if (ta === tb) return 0;
+  return tb - ta;
+}
+
 export function cleanHtmlTags(text: string): string {
   if (!text) return '';
   return text

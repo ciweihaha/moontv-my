@@ -15,6 +15,7 @@ import {
 } from '@/lib/db.client';
 import { getDoubanCategories } from '@/lib/douban.client';
 import { DoubanItem } from '@/lib/types';
+import { compareSaveTimeDesc } from '@/lib/utils';
 
 import CapsuleSwitch from '@/components/CapsuleSwitch';
 import ContinueWatching from '@/components/ContinueWatching';
@@ -102,9 +103,10 @@ function HomeClient() {
   const updateFavoriteItems = async (allFavorites: Record<string, any>) => {
     const allPlayRecords = await getAllPlayRecords();
 
-    // 根据保存时间排序（从近到远）
+    // 根据保存时间排序（从近到远）；缺失/非数值的 save_time 按最旧沉底
+    //（compareSaveTimeDesc，深查第 23 轮）。
     const sorted = Object.entries(allFavorites)
-      .sort(([, a], [, b]) => b.save_time - a.save_time)
+      .sort(([, a], [, b]) => compareSaveTimeDesc(a, b))
       .map(([key, fav]) => {
         const plusIndex = key.indexOf('+');
         const source = key.slice(0, plusIndex);
