@@ -1,5 +1,5 @@
 name = "moontv"
-compatibility_date = "2024-01-01"
+compatibility_date = "2025-01-01"
 
 [vars]
 # 与 src/lib/db.ts 默认 'localstorage' 保持一致（原为 "d1" 口径不一致）
@@ -9,10 +9,14 @@ SITE_NAME = "MoonTV"
 [[d1_databases]]
 binding = "DB"
 database_name = "moontv-db"
+# L10: ⚠️ 部署前必须替换为真实 D1 数据库 ID（wrangler d1 create 后填入）；
+# 保留占位符部署会导致 D1 绑定失败、数据库模式全站不可用。
 database_id = "YOUR_D1_DATABASE_ID"
 
+# L10: 构建命令与实际 Pages 发布流程统一为 pages:build（含 next-on-pages 适配）；
+# 旧命令只跑 npm run build，缺适配步骤。
 [build]
-command = "npm ci && npm run gen:runtime && npm run gen:manifest && npm run build"
+command = "npm ci && npm run pages:build"
 watch_dir = "src"
 
 [dev]

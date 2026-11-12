@@ -50,7 +50,29 @@ export async function GET(request: Request) {
     );
   }
 
-  const target = `https://m.douban.com/rexxar/api/v2/subject/recent_hot/${kind}?start=${pageStart}&limit=${pageLimit}&category=${category}&type=${type}`;
+  // L4: category/type 限长并拒绝控制字符，避免注入 & 篡改上游查询参数
+  // （不用含控制字符的正则，no-control-regex 会报错，改用 charCode 判断）
+  const hasControlChars = (s: string): boolean => {
+    for (let i = 0; i < s.length; i++) {
+      const code = s.charCodeAt(i);
+      if (code <= 0x1f || code === 0x7f) return true;
+    }
+    return false;
+  };
+  if (
+    category.length > 50 ||
+    type.length > 50 ||
+    hasControlChars(category) ||
+    hasControlChars(type)
+  ) {
+    return NextResponse.json(
+      { error: 'category 或 type 参数非法' },
+      { status: 400 }
+    );
+  }
+
+  // L4: 用户参数编码后拼进上游 URL（与 /api/douban 的 tag 同口径）
+  const target = `https://m.douban.com/rexxar/api/v2/subject/recent_hot/${kind}?start=${pageStart}&limit=${pageLimit}&category=${encodeURIComponent(category)}&type=${encodeURIComponent(type)}`;
 
   try {
     // 调用豆瓣 API

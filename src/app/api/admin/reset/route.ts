@@ -1,4 +1,4 @@
- 
+/* eslint-disable no-console */
 
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -28,12 +28,8 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        error: '重置管理员配置失败',
-        details: (error as Error).message,
-      },
-      { status: 500 }
-    );
+    // L3: 只记日志，不向客户端回显内部错误原文
+    console.error('重置管理员配置失败:', error);
+    return NextResponse.json({ error: '重置管理员配置失败' }, { status: 500 });
   }
 }

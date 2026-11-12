@@ -108,12 +108,16 @@ jest.mock('@/lib/errorReport', () => ({ reportError: () => undefined }));
 let GET: (request: any) => Promise<Response>;
 beforeAll(async () => {
   process.env.NEXT_PUBLIC_STORAGE_TYPE = 'd1';
+  // L13: 未配 CRON_SECRET 时匿名触发限频（每 5 分钟 1 次），多用例会
+  // 互相 429；测试配密钥并走 ?secret= 调用，绕开匿名限频。
+  process.env.CRON_SECRET = 'test-secret';
   const mod = (await import('../route')) as typeof import('../route');
   GET = mod.GET;
 });
 
 afterAll(() => {
   delete process.env.NEXT_PUBLIC_STORAGE_TYPE;
+  delete process.env.CRON_SECRET;
   delete process.env.CRON_BUDGET_MS;
 });
 
@@ -170,7 +174,9 @@ beforeEach(() => {
 });
 
 async function callCron(): Promise<any> {
-  const res = await GET(new ShimRequest('http://localhost/api/cron'));
+  const res = await GET(
+    new ShimRequest('http://localhost/api/cron?secret=test-secret')
+  );
   return res.json();
 }
 

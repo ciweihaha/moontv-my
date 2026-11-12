@@ -88,6 +88,17 @@ export default async function RootLayout({
     CUSTOM_CATEGORIES: customCategories,
   };
 
+  // H2: 注入 <script> 的 JSON 必须转义 < > & 及 U+2028/U+2029——
+  // JSON.stringify 本身不转义 `</script>`，管理员配置里的恶意字符串
+  // 可跳出脚本块造成存储型 XSS（admin→owner 提权）。转义后仍为合法
+  // JS 字符串字面量，浏览器解析结果不变。
+  const runtimeConfigJson = JSON.stringify(runtimeConfig)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+
   return (
     <html lang='zh-CN' suppressHydrationWarning>
       <head>
@@ -99,7 +110,7 @@ export default async function RootLayout({
         { }
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.RUNTIME_CONFIG = ${JSON.stringify(runtimeConfig)};`,
+            __html: `window.RUNTIME_CONFIG = ${runtimeConfigJson};`,
           }}
         />
       </head>

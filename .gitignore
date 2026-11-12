@@ -9,3 +9,8 @@ tsconfig.tsbuildinfo
 # 提交锁文件会导致生产构建失败。CI 在运行时按需生成并用 --frozen-lockfile 验证。
 # package.json 保留 packageManager 字段供工具识别。
 pnpm-lock.yaml
+# L11: next-pwa 生成产物，构建时生成，不提交——旧提交的过期 sw.js
+# 会缓存旧 chunk（预缓存的 chunk hash 来自某次旧构建），且 CF_PAGES
+# 构建禁用 PWA 生成时会直接部署这份过期 SW。
+public/sw.js
+public/workbox-*.js
