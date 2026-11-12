@@ -386,7 +386,8 @@ export async function getDetailFromApi(
   signal?: AbortSignal
 ): Promise<SearchResult> {
   // P1-6: id 格式校验（纵深防御，与 /api/detail 路由层一致）
-  if (!/^[\w-]+$/.test(id)) {
+  // agg 聚合源的视频 ID 带站点命名空间（形如 sync7~39605），~ 是 URL 安全字符，校验需放行
+  if (!/^[\w~-]+$/.test(id)) {
     throw new Error('无效的视频ID格式');
   }
   if (apiSite.detail) {

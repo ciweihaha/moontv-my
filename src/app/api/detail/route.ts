@@ -27,7 +27,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: '缺少必要参数' }, { status: 400 });
   }
 
-  if (!/^[\w-]+$/.test(id)) {
+  // agg 聚合源的视频 ID 带站点命名空间（形如 sync7~39605），~ 是 URL 安全字符，校验需放行
+  if (!/^[\w~-]+$/.test(id)) {
     return NextResponse.json({ error: '无效的视频ID格式' }, { status: 400 });
   }
 
