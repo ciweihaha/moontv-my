@@ -1003,13 +1003,12 @@ const CategoryConfig = ({
     from: 'config',
   });
 
-  // 检测存储类型是否为 d1 或 upstash
-  const isD1Storage =
-    typeof window !== 'undefined' &&
-    (window as any).RUNTIME_CONFIG?.STORAGE_TYPE === 'd1';
-  const isUpstashStorage =
-    typeof window !== 'undefined' &&
-    (window as any).RUNTIME_CONFIG?.STORAGE_TYPE === 'upstash';
+  // M5: 分类管理接口已在所有存储模式下停用（见 /api/admin/category），
+  // 分类一律改 config.json 的 custom_category 后重新部署；此处只读展示，
+  // 全部写操作（添加/启用/禁用/删除/排序）禁用。旧的 d1/upstash 门控
+  // 收敛为单一只读标志，最小改动。
+
+  const isCategoryReadOnly = true;
 
   // dnd-kit 传感器
   const sensors = useSensors(
@@ -1096,7 +1095,7 @@ const CategoryConfig = ({
   };
 
   const handleDragEnd = (event: any) => {
-    if (isD1Storage || isUpstashStorage) return;
+    if (isCategoryReadOnly) return;
     const { active, over } = event;
     // 深查第 27 轮：同视频源拖拽，下标查不到时忽略本次拖拽。
     const indices = resolveDragIndices(
@@ -1139,12 +1138,12 @@ const CategoryConfig = ({
       >
         <td
           className={`px-2 py-4 ${
-            isD1Storage || isUpstashStorage
+            isCategoryReadOnly
               ? 'text-gray-200'
               : 'cursor-grab text-gray-400'
           }`}
           style={{ touchAction: 'none' }}
-          {...(isD1Storage || isUpstashStorage
+          {...(isCategoryReadOnly
             ? {}
             : { ...attributes, ...listeners })}
         >
@@ -1184,13 +1183,12 @@ const CategoryConfig = ({
         <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2'>
           <button
             onClick={() =>
-              !isD1Storage &&
-              !isUpstashStorage &&
+              !isCategoryReadOnly &&
               handleToggleEnable(category.query, category.type)
             }
-            disabled={isD1Storage || isUpstashStorage}
+            disabled={isCategoryReadOnly}
             className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${
-              isD1Storage || isUpstashStorage
+              isCategoryReadOnly
                 ? 'bg-gray-400 cursor-not-allowed text-white'
                 : !category.disabled
                 ? 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-900/60'
@@ -1199,7 +1197,7 @@ const CategoryConfig = ({
           >
             {!category.disabled ? '禁用' : '启用'}
           </button>
-          {category.from !== 'config' && !isD1Storage && !isUpstashStorage && (
+          {category.from !== 'config' && !isCategoryReadOnly && (
             <button
               onClick={() => handleDelete(category.query, category.type)}
               className='inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-700/40 dark:hover:bg-gray-700/60 dark:text-gray-200 transition-colors'
@@ -1226,24 +1224,17 @@ const CategoryConfig = ({
       <div className='flex items-center justify-between'>
         <h4 className='text-sm font-medium text-gray-700 dark:text-gray-300'>
           自定义分类列表
-          {isD1Storage && (
-            <span className='ml-2 text-xs text-gray-500 dark:text-gray-400'>
-              (D1 环境下请通过配置文件修改)
-            </span>
-          )}
-          {isUpstashStorage && (
-            <span className='ml-2 text-xs text-gray-500 dark:text-gray-400'>
-              (Upstash 环境下请通过配置文件修改)
-            </span>
-          )}
+          <span className='ml-2 text-xs text-gray-500 dark:text-gray-400'>
+            （分类请在 config.json 的 custom_category 中修改，修改后重新部署）
+          </span>
         </h4>
         <button
           onClick={() =>
-            !isD1Storage && !isUpstashStorage && setShowAddForm(!showAddForm)
+            !isCategoryReadOnly && setShowAddForm(!showAddForm)
           }
-          disabled={isD1Storage || isUpstashStorage}
+          disabled={isCategoryReadOnly}
           className={`px-3 py-1 text-sm rounded-lg transition-colors ${
-            isD1Storage || isUpstashStorage
+            isCategoryReadOnly
               ? 'bg-gray-400 cursor-not-allowed text-white'
               : 'bg-green-600 hover:bg-green-700 text-white'
           }`}
@@ -1252,7 +1243,7 @@ const CategoryConfig = ({
         </button>
       </div>
 
-      {showAddForm && !isD1Storage && !isUpstashStorage && (
+      {showAddForm && !isCategoryReadOnly && (
         <div className='p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 space-y-4'>
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
             <input
@@ -1323,7 +1314,7 @@ const CategoryConfig = ({
             </tr>
           </thead>
           <DndContext
-            sensors={isD1Storage || isUpstashStorage ? [] : sensors}
+            sensors={isCategoryReadOnly ? [] : sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
             autoScroll={false}
@@ -1347,7 +1338,7 @@ const CategoryConfig = ({
       </div>
 
       {/* 保存排序按钮 */}
-      {orderChanged && !isD1Storage && !isUpstashStorage && (
+      {orderChanged && !isCategoryReadOnly && (
         <div className='flex justify-end'>
           <button
             onClick={handleSaveOrder}

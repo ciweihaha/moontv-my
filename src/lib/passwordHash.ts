@@ -125,7 +125,14 @@ export async function verifyPassword(
     const parts = stored.split('$');
     if (parts.length !== 4) return { ok: false, needsUpgrade: false };
     const iterations = parseInt(parts[1], 10);
-    if (!Number.isFinite(iterations) || iterations <= 0) {
+    // L1: 迭代次数设上限——被植入/损坏的高迭代值（如 pbkdf2$100000000$…）
+    // 会让该账号每次登录耗尽 CPU（Workers 上超过 10 万次直接抛错 → 500）。
+    // 上限与 PBKDF2_ITERATIONS 常量及 Workers 平台上限对齐。
+    if (
+      !Number.isFinite(iterations) ||
+      iterations <= 0 ||
+      iterations > PBKDF2_ITERATIONS
+    ) {
       return { ok: false, needsUpgrade: false };
     }
     let salt: Uint8Array;

@@ -2,12 +2,17 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
-import { getStorage } from '@/lib/db';
+import { db, getStorage } from '@/lib/db';
+import { checkRateLimit, getClientIp } from '@/lib/rateLimit';
 import { IStorage } from '@/lib/types';
+import { requireUser } from '@/lib/userAuth';
 import { validateNewPassword } from '@/lib/userValidation';
 
 export const runtime = 'edge';
+
+// M2: 改密限频（与登录同口径，防会话被盗后暴力改密），按 IP+用户
+const CHANGE_PASSWORD_RATE_LIMIT = 5; // 每窗口最大尝试次数
+const CHANGE_PASSWORD_RATE_WINDOW_MS = 60_000; // 1 分钟窗口
 
 export async function POST(request: NextRequest) {
   const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
@@ -24,12 +29,26 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { newPassword } = body;
+    const { currentPassword, newPassword } = body;
 
-    // 获取认证信息
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
+
+    // M2: 改密限频（5 次/分钟/IP+用户）
+    const clientIp = getClientIp(request);
+    if (
+      !checkRateLimit(
+        `change-password:${clientIp}:${username}`,
+        CHANGE_PASSWORD_RATE_LIMIT,
+        CHANGE_PASSWORD_RATE_WINDOW_MS
+      )
+    ) {
+      return NextResponse.json(
+        { error: '尝试过于频繁，请稍后再试' },
+        { status: 429 }
+      );
     }
 
     // 验证新密码：repo-hardening 第 18 项，走共享校验（最小长度统一 8，
@@ -39,14 +58,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: newPasswordError }, { status: 400 });
     }
 
-    const username = authInfo.username;
-
     // 不允许站长修改密码（站长用户名等于 process.env.USERNAME）
     if (username === process.env.USERNAME) {
       return NextResponse.json(
         { error: '站长不能通过此接口修改密码' },
         { status: 403 }
       );
+    }
+
+    // M2: 要求提交当前密码并校验——仅凭有效会话即可改密时，会话一旦被盗
+    // （XSS、共享设备未登出），攻击者可直接改密并永久锁定原用户
+    if (typeof currentPassword !== 'string' || !currentPassword) {
+      return NextResponse.json({ error: '当前密码不能为空' }, { status: 400 });
+    }
+    const currentOk = await db.verifyUser(username, currentPassword);
+    if (!currentOk) {
+      return NextResponse.json({ error: '当前密码错误' }, { status: 401 });
     }
 
     // 获取存储实例

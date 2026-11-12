@@ -18,14 +18,11 @@ COPY --from=deps /app/node_modules ./node_modules
 # 复制全部源代码
 COPY . .
 
-# 在构建阶段也显式设置 DOCKER_ENV，
-# 确保 Next.js 在编译时即选择 Node Runtime 而不是 Edge Runtime
-RUN find ./src -type f -name "route.ts" -print0 \
-  | xargs -0 sed -i "s/export const runtime = 'edge';/export const runtime = 'nodejs';/g"
+# L7: 构建预处理改由脚本完成（路由 runtime 翻为 nodejs + layout 注入
+# force-dynamic）。旧 sed 锚点失效时会静默不做任何事、构建仍成功；
+# 脚本在锚点缺失/替换失败时直接失败构建。
+RUN node scripts/prepare-docker-build.js
 ENV DOCKER_ENV=true
-
-# For Docker builds, force dynamic rendering to read runtime environment variables.
-RUN sed -i "/const inter = Inter({ subsets: \['latin'] });/a export const dynamic = 'force-dynamic';" src/app/layout.tsx
 
 # 生成生产构建
 RUN npm run build
@@ -57,6 +54,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/config.json ./config.json
 USER nextjs
 
 EXPOSE 3000
+
+# L7: 健康检查（/api/health 不鉴权，供监控与编排系统调用）
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://127.0.0.1:3000/api/health || exit 1
 
 # 使用自定义启动脚本，先预加载配置再启动服务器
 CMD ["node", "start.js"] 

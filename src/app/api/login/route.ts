@@ -1,7 +1,13 @@
 /* eslint-disable no-console,@typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 
-import { buildSessionSignData, generateSignature, getSessionSecret } from '@/lib/auth';
+import {
+  buildSessionSignData,
+  generateSignature,
+  getSessionSecret,
+  isSessionSecretConfigError,
+  shouldUseSecureCookie,
+} from '@/lib/auth';
 import { getConfig } from '@/lib/config';
 import { db } from '@/lib/db';
 import {
@@ -109,7 +115,9 @@ export async function POST(req: NextRequest) {
         expires,
         sameSite: 'lax', // 改为 lax 以支持 PWA
         httpOnly: true, // 安全加固：禁止 JS 读取
-        secure: true, // 安全加固：仅 HTTPS 传输
+        // L14：按请求协议动态决定 secure——局域网纯 HTTP 的 Docker 自托管下
+        // secure: true 会导致浏览器拒绝设置 Cookie、登录后仍跳回登录页
+        secure: shouldUseSecureCookie(req),
       });
 
       return response;
@@ -146,7 +154,9 @@ export async function POST(req: NextRequest) {
         expires,
         sameSite: 'lax', // 改为 lax 以支持 PWA
         httpOnly: true, // 安全加固：禁止 JS 读取
-        secure: true, // 安全加固：仅 HTTPS 传输
+        // L14：按请求协议动态决定 secure——局域网纯 HTTP 的 Docker 自托管下
+        // secure: true 会导致浏览器拒绝设置 Cookie、登录后仍跳回登录页
+        secure: shouldUseSecureCookie(req),
       });
 
       return response;
@@ -156,8 +166,12 @@ export async function POST(req: NextRequest) {
 
     const config = await getConfig();
     const user = config.UserConfig.Users.find((u) => u.username === username);
+    // L2: 封禁与密码错误返回同一文案，防用户名/封禁状态枚举
     if (user && user.banned) {
-      return NextResponse.json({ error: '用户被封禁' }, { status: 401 });
+      return NextResponse.json(
+        { error: '用户名或密码错误' },
+        { status: 401 }
+      );
     }
 
     // 校验用户密码
@@ -186,7 +200,9 @@ export async function POST(req: NextRequest) {
         expires,
         sameSite: 'lax', // 改为 lax 以支持 PWA
         httpOnly: true, // 安全加固：禁止 JS 读取
-        secure: true, // 安全加固：仅 HTTPS 传输
+        // L14：按请求协议动态决定 secure——局域网纯 HTTP 的 Docker 自托管下
+        // secure: true 会导致浏览器拒绝设置 Cookie、登录后仍跳回登录页
+        secure: shouldUseSecureCookie(req),
       });
 
       return response;
@@ -196,6 +212,13 @@ export async function POST(req: NextRequest) {
     }
   } catch (error) {
     console.error('登录接口异常', error);
+    // H1: 生产未配 SESSION_SECRET 时返回明确的 503 配置错误而非裸 500
+    if (isSessionSecretConfigError(error)) {
+      return NextResponse.json(
+        { error: '服务器未配置 SESSION_SECRET，请联系管理员' },
+        { status: 503 }
+      );
+    }
     return NextResponse.json({ error: '服务器错误' }, { status: 500 });
   }
 }
