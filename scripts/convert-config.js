@@ -41,7 +41,6 @@ try {
 // Prepare TypeScript file content
 const tsContent =
   `// 该文件由 scripts/convert-config.js 自动生成，请勿手动修改\n` +
-  `/* eslint-disable */\n\n` +
   `export const config = ${JSON.stringify(config, null, 2)} as const;\n\n` +
   `export type RuntimeConfig = typeof config;\n\n` +
   `export default config;\n`;
