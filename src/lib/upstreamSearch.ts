@@ -104,10 +104,10 @@ export function rankSearchResults(
 }
 
 /** 搜索总超时默认值（毫秒） */
-const SEARCH_TOTAL_TIMEOUT_MS = 10000;
+const SEARCH_TOTAL_TIMEOUT_MS = 20000;
 
 /** 原搜索主流程下沉为函数：44 上游并行 → 黄词过滤，便于缓存层复用
- * M-03: 导出供回归测试；totalTimeoutMs 可注入（默认 10s，生产行为不变），
+ * M-03: 导出供回归测试；totalTimeoutMs 可注入（默认 20s，生产行为不变），
  * 返回 {results, partial}，partial 表示总超时截断、结果可能不完整。 */
 export async function doUpstreamSearch(
   sitesByApi: Map<string, ApiSiteEntry[]>,
