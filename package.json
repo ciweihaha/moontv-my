@@ -91,7 +91,7 @@
     "lint-staged": "^17.6.0",
     "next-router-mock": "^1.0.5",
     "postcss": "^8.5.32",
-    "prettier": "^3.10.0",
+    "prettier": "^3.10.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.3.5",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
