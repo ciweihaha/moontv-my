@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+
+import { shouldUseSecureCookie } from '@/lib/auth';
 
 export const runtime = 'edge';
 
-export async function POST() {
+export async function POST(request: NextRequest) {
   try {
     const response = NextResponse.json({ ok: true });
 
@@ -15,7 +17,9 @@ export async function POST() {
       sameSite: 'lax',
       // R10-S1: 与 login 保持一致，确保 Cookie 正确清除
       httpOnly: true,
-      secure: true,
+      // L14: 清除时 secure 属性须与登录设置时一致，否则浏览器可能
+      // 无法清除该 Cookie；与 login 同口径按请求协议动态决定
+      secure: shouldUseSecureCookie(request),
     });
 
     return response;

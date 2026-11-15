@@ -23,8 +23,9 @@ const mockDb = {
 };
 
 jest.mock('@/lib/db', () => ({ db: mockDb }));
-jest.mock('@/lib/auth', () => ({
-  getAuthInfoFromCookie: () => ({ username: 'alice' }),
+// M1: 路由改走 requireUser 自验签名，mock 该助手而非裸 Cookie 解析
+jest.mock('@/lib/userAuth', () => ({
+  requireUser: async () => ({ username: 'alice', error: null }),
 }));
 
 let DELETE: (request: any) => Promise<Response>;

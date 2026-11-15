@@ -7,12 +7,16 @@
  * D1 用户表 + 全量 admin config 读改写，可被无限刷号。
  * 路由级测试：mock config/db/auth；限频桶是模块内内存 Map，用不同
  * cf-connecting-ip 隔离各用例的计数。
+ * M3：代理 IP 头默认不再信任，测试须显式置 TRUST_PROXY_HEADERS=true
+ * 模拟 Cloudflare 部署，否则全部请求落入 'unknown' 共享桶。
  */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // 路由在模块顶层读取 NEXT_PUBLIC_STORAGE_TYPE，必须在 import 路由前置为 d1
 process.env.NEXT_PUBLIC_STORAGE_TYPE = 'd1';
+// M3：测试用 cf-connecting-ip 隔离各用例的限频桶，须显式开启代理头信任
+process.env.TRUST_PROXY_HEADERS = 'true';
 
 class ShimRequest {
   readonly url: string;
@@ -34,17 +38,22 @@ class ShimRequest {
 const mockDb = {
   checkUserExist: jest.fn(),
   registerUser: jest.fn(),
+  // M9: 注册在锁内重新读取最新配置再合并
+  getAdminConfig: jest.fn(),
   saveAdminConfig: jest.fn(),
 };
 
 jest.mock('@/lib/config', () => ({
   getConfig: jest.fn(),
+  invalidateConfigCache: jest.fn(),
 }));
 jest.mock('@/lib/db', () => ({ db: mockDb }));
 jest.mock('@/lib/auth', () => ({
   buildSessionSignData: () => 'sign-data',
   generateSignature: async () => 'sig',
   getSessionSecret: () => 'test-secret',
+  isSessionSecretConfigError: () => false,
+  shouldUseSecureCookie: () => false,
 }));
 
 import { getConfig } from '@/lib/config';
@@ -64,6 +73,8 @@ function allowRegisterConfig() {
 beforeEach(() => {
   mockDb.checkUserExist.mockReset().mockResolvedValue(false);
   mockDb.registerUser.mockReset().mockResolvedValue(undefined);
+  // M9: 锁内重读返回 null 时回退到 getConfig 的快照（与旧行为一致）
+  mockDb.getAdminConfig.mockReset().mockResolvedValue(null);
   mockDb.saveAdminConfig.mockReset().mockResolvedValue(undefined);
   mockedGetConfig.mockReset().mockImplementation(allowRegisterConfig);
 });

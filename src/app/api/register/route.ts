@@ -1,9 +1,17 @@
 /* eslint-disable no-console,@typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 
-import { buildSessionSignData, generateSignature, getSessionSecret } from '@/lib/auth';
-import { getConfig } from '@/lib/config';
+import { AdminConfig } from '@/lib/admin.types';
+import {
+  buildSessionSignData,
+  generateSignature,
+  getSessionSecret,
+  isSessionSecretConfigError,
+  shouldUseSecureCookie,
+} from '@/lib/auth';
+import { getConfig, invalidateConfigCache } from '@/lib/config';
 import { db } from '@/lib/db';
+import { ADMIN_CONFIG_LOCK_KEY, withLock } from '@/lib/mutex';
 import {
   checkRateLimit,
   getClientIp,
@@ -90,25 +98,60 @@ export async function POST(req: NextRequest) {
     }
 
     // 检查是否和管理员重复
+    // L2: 与"用户已存在"返回同一通用文案，防用户名枚举
     if (username === process.env.USERNAME) {
-      return NextResponse.json({ error: '用户已存在' }, { status: 400 });
+      return NextResponse.json({ error: '注册失败' }, { status: 400 });
     }
 
     try {
-      // 检查用户是否已存在
-      const exist = await db.checkUserExist(username);
-      if (exist) {
-        return NextResponse.json({ error: '用户已存在' }, { status: 400 });
+      // M9: 整个 check-then-insert + 配置读-改-写在进程内锁下串行化，
+      // 与管理端用户写操作互斥；锁内重新读取最新配置再合并，避免并发
+      // 注册互相覆盖 Users。返回 true 表示用户名已存在（或并发撞唯一约束）。
+      const duplicate = await withLock(
+        ADMIN_CONFIG_LOCK_KEY,
+        async (): Promise<boolean> => {
+          // 检查用户是否已存在
+          const exist = await db.checkUserExist(username);
+          if (exist) return true;
+
+          try {
+            await db.registerUser(username, password);
+          } catch (err) {
+            // 并发同名注册撞唯一约束：返回 400 而非 500（不泄露已存在）
+            if (
+              err instanceof Error &&
+              /UNIQUE constraint/i.test(err.message)
+            ) {
+              return true;
+            }
+            throw err;
+          }
+
+          // 锁内重新读取最新配置再合并（不用锁外 getConfig 的旧快照）
+          let target: AdminConfig | null = null;
+          try {
+            target = await db.getAdminConfig();
+          } catch {
+            target = null;
+          }
+          const base = target ?? config;
+          if (
+            !base.UserConfig.Users.some((u) => u.username === username)
+          ) {
+            base.UserConfig.Users.push({
+              username,
+              role: 'user',
+            });
+          }
+          await db.saveAdminConfig(base);
+          // M6: 写配置后主动失效 D1 配置缓存
+          invalidateConfigCache();
+          return false;
+        }
+      );
+      if (duplicate) {
+        return NextResponse.json({ error: '注册失败' }, { status: 400 });
       }
-
-      await db.registerUser(username, password);
-
-      // 添加到配置中并保存
-      config.UserConfig.Users.push({
-        username,
-        role: 'user',
-      });
-      await db.saveAdminConfig(config);
 
       // 注册成功，设置认证cookie
       const response = NextResponse.json({ ok: true });
@@ -122,7 +165,9 @@ export async function POST(req: NextRequest) {
         sameSite: 'lax',
         // R9-S1: 与 login 路由保持一致，禁止 JS 读取、仅 HTTPS 传输
         httpOnly: true,
-        secure: true,
+        // L14：按请求协议动态决定 secure（HTTP 自托管下 secure 会导致
+        // Cookie 无法设置）
+        secure: shouldUseSecureCookie(req),
       });
 
       return response;
@@ -132,6 +177,13 @@ export async function POST(req: NextRequest) {
     }
   } catch (error) {
     console.error('注册接口异常', error);
+    // H1: 生产未配 SESSION_SECRET 时返回明确的 503 配置错误而非裸 500
+    if (isSessionSecretConfigError(error)) {
+      return NextResponse.json(
+        { error: '服务器未配置 SESSION_SECRET，请联系管理员' },
+        { status: 503 }
+      );
+    }
     return NextResponse.json({ error: '服务器错误' }, { status: 500 });
   }
 }

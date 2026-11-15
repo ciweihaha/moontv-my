@@ -2,9 +2,10 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { Favorite } from '@/lib/types';
+import { requireUser } from '@/lib/userAuth';
+import { validateFavorite } from '@/lib/userContentValidation';
 
 export const runtime = 'edge';
 
@@ -17,11 +18,10 @@ export const runtime = 'edge';
  */
 export async function GET(request: NextRequest) {
   try {
-    // 从 cookie 获取用户信息
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
 
     const { searchParams } = new URL(request.url);
     const key = searchParams.get('key');
@@ -35,12 +35,12 @@ export async function GET(request: NextRequest) {
           { status: 400 }
         );
       }
-      const fav = await db.getFavorite(authInfo.username, source, id);
+      const fav = await db.getFavorite(username, source, id);
       return NextResponse.json(fav, { status: 200 });
     }
 
     // 查询全部收藏
-    const favorites = await db.getAllFavorites(authInfo.username);
+    const favorites = await db.getAllFavorites(username);
     return NextResponse.json(favorites, { status: 200 });
   } catch (err) {
     console.error('获取收藏失败', err);
@@ -57,11 +57,10 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    // 从 cookie 获取用户信息
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
 
     const body = await request.json();
     const { key, favorite }: { key: string; favorite: Favorite } = body;
@@ -73,12 +72,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 验证必要字段
-    if (!favorite.title || !favorite.source_name) {
-      return NextResponse.json(
-        { error: 'Invalid favorite data' },
-        { status: 400 }
-      );
+    // L5: 验证字段类型与长度上限
+    const favoriteError = validateFavorite(favorite);
+    if (favoriteError) {
+      return NextResponse.json({ error: favoriteError }, { status: 400 });
     }
 
     const [source, id] = key.split('+');
@@ -94,7 +91,7 @@ export async function POST(request: NextRequest) {
       save_time: favorite.save_time ?? Date.now(),
     } as Favorite;
 
-    await db.saveFavorite(authInfo.username, source, id, finalFavorite);
+    await db.saveFavorite(username, source, id, finalFavorite);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (err) {
@@ -114,13 +111,11 @@ export async function POST(request: NextRequest) {
  */
 export async function DELETE(request: NextRequest) {
   try {
-    // 从 cookie 获取用户信息
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
 
-    const username = authInfo.username;
     const { searchParams } = new URL(request.url);
     const key = searchParams.get('key');
 

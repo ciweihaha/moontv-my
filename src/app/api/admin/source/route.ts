@@ -3,11 +3,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { requireAdmin } from '@/lib/adminAuth';
-import { getConfig } from '@/lib/config';
+import { getConfig, invalidateConfigCache } from '@/lib/config';
 import { getStorage } from '@/lib/db';
+import { validateExternalUrl } from '@/lib/ssrf';
 import { IStorage } from '@/lib/types';
 
 export const runtime = 'edge';
+
+// M4: 视频源字段长度上限
+const SOURCE_KEY_MAX_LENGTH = 64;
+const SOURCE_NAME_MAX_LENGTH = 100;
 
 // 支持的操作类型
 type Action = 'add' | 'disable' | 'enable' | 'delete' | 'sort';
@@ -45,8 +50,41 @@ export async function POST(request: NextRequest) {
           api?: string;
           detail?: string;
         };
-        if (!key || !name || !api) {
+        if (
+          !key ||
+          !name ||
+          !api ||
+          typeof key !== 'string' ||
+          typeof name !== 'string' ||
+          typeof api !== 'string' ||
+          (detail !== undefined && typeof detail !== 'string')
+        ) {
           return NextResponse.json({ error: '缺少必要参数' }, { status: 400 });
+        }
+        if (
+          key.length > SOURCE_KEY_MAX_LENGTH ||
+          name.length > SOURCE_NAME_MAX_LENGTH
+        ) {
+          return NextResponse.json({ error: '参数过长' }, { status: 400 });
+        }
+        // M4: 校验 api/detail 为合法公网 http(s) URL，复用 image-proxy 的
+        // 内网段拦截逻辑——否则 role=admin 可植入内网/元数据地址，
+        // 搜索/详情接口随后以服务端身份请求，造成 SSRF（Docker 自托管下可打宿主机内网）
+        const apiError = validateExternalUrl(api);
+        if (apiError) {
+          return NextResponse.json(
+            { error: `视频源地址无效：${apiError}` },
+            { status: 400 }
+          );
+        }
+        if (detail) {
+          const detailError = validateExternalUrl(detail);
+          if (detailError) {
+            return NextResponse.json(
+              { error: `详情地址无效：${detailError}` },
+              { status: 400 }
+            );
+          }
         }
         if (adminConfig.SourceConfig.some((s) => s.key === key)) {
           return NextResponse.json({ error: '该源已存在' }, { status: 400 });
@@ -126,6 +164,8 @@ export async function POST(request: NextRequest) {
     // 持久化到存储
     if (storage && typeof (storage as any).setAdminConfig === 'function') {
       await (storage as any).setAdminConfig(adminConfig);
+      // M6: 写配置后主动失效 D1 配置缓存
+      invalidateConfigCache();
     }
 
     return NextResponse.json(
@@ -137,13 +177,8 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
+    // L3: 只记日志，不向客户端回显内部错误原文
     console.error('视频源管理操作失败:', error);
-    return NextResponse.json(
-      {
-        error: '视频源管理操作失败',
-        details: (error as Error).message,
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: '视频源管理操作失败' }, { status: 500 });
   }
 }

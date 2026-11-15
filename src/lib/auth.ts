@@ -134,6 +134,40 @@ export interface VerifiedSession {
 }
 
 /**
+ * H1: 是否为生产未配 SESSION_SECRET 的配置错误。调用方据此返回明确的
+ * 503 配置错误而非裸 500（登录/注册路由的 outer catch 与 middleware）。
+ */
+export function isSessionSecretConfigError(error: unknown): boolean {
+  return error instanceof Error && error.message.includes('SESSION_SECRET');
+}
+
+/**
+ * L14: 按请求协议动态决定 auth Cookie 的 secure 属性。
+ *
+ * 局域网纯 HTTP 的 Docker 自托管下，secure: true 会导致浏览器拒绝设置
+ * Cookie、登录后仍跳回登录页；HTTPS（Cloudflare Pages / HTTPS 反代）
+ * 下仍保持 secure: true。
+ * 判断：优先 x-forwarded-proto（反代透传），否则看请求 URL 协议；
+ * COOKIE_SECURE 环境变量可显式覆盖（'true'/'false'）。
+ * 注意：该头仅影响本次登录的 Cookie 属性，不做鉴权决策，伪造它只会
+ * 影响伪造者自己的 Cookie。
+ */
+export function shouldUseSecureCookie(request: NextRequest): boolean {
+  const override = process.env.COOKIE_SECURE;
+  if (override === 'true') return true;
+  if (override === 'false') return false;
+  const forwardedProto = request.headers.get('x-forwarded-proto');
+  if (forwardedProto) {
+    return forwardedProto.split(',')[0]?.trim().toLowerCase() === 'https';
+  }
+  try {
+    return new URL(request.url).protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+/**
  * AUDIT-R3 P0-B: 构建规范化会话签名数据。
  * 签名必须绑定 username + role + timestamp，防止篡改时间戳绕过过期、
  * 篡改 role 提权。格式：subject|role|timestamp

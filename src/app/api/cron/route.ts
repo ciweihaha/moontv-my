@@ -10,6 +10,12 @@ import { SearchResult } from '@/lib/types';
 
 export const runtime = 'edge';
 
+// L13: 未配 CRON_SECRET 时的匿名触发最小间隔（进程内，尽力而为）。
+// 匿名者可反复触发最长 120 秒的上游刷新任务造成资源滥用；生产部署
+// 应按文档将 CRON_SECRET 列为必填。
+let lastAnonymousCronAt = 0;
+const ANONYMOUS_CRON_MIN_INTERVAL_MS = 5 * 60_000;
+
 export async function GET(request: NextRequest) {
   try {
     // SEC-R5: cron 接口认证。配置 CRON_SECRET 环境变量后，调用方必须携带
@@ -29,6 +35,16 @@ export async function GET(request: NextRequest) {
       console.warn(
         '警告: 未配置 CRON_SECRET，/api/cron 允许匿名触发，建议配置后加强防护'
       );
+      // L13: 未配密钥时匿名触发限频（每 5 分钟最多 1 次），防资源滥用；
+      // 正常定时任务的触发间隔远大于此，不受影响
+      const now = Date.now();
+      if (now - lastAnonymousCronAt < ANONYMOUS_CRON_MIN_INTERVAL_MS) {
+        return NextResponse.json(
+          { error: 'Cron triggered too frequently' },
+          { status: 429 }
+        );
+      }
+      lastAnonymousCronAt = now;
     }
 
     // O4: 结构化日志，方便过滤和告警

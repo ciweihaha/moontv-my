@@ -56,6 +56,18 @@ let initPromise: Promise<void> | null = null;
 // 现在记录 initError，getConfig 在缓存仍为空时抛 ConfigInitError。
 let initError: Error | null = null;
 
+// M6: D1 模式进程内配置缓存（短 TTL）。此前 D1 分支每次 getConfig 都读
+// 库，单次搜索触发 2 次全量配置读取（配置含全部源 + 全部用户，JSON 不小）；
+// cachedConfig 只在 localstorage 模式使用。管理端写配置后须调用
+// invalidateConfigCache() 主动失效（见各 admin 路由与 register 路由）。
+const DB_CONFIG_CACHE_TTL_MS = 60_000;
+let dbConfigCache: { config: AdminConfig; expiresAt: number } | null = null;
+
+/** 主动失效 D1 配置缓存（管理端写配置 / 重置配置后调用） */
+export function invalidateConfigCache(): void {
+  dbConfigCache = null;
+}
+
 export class ConfigInitError extends Error {
   constructor(message: string, cause?: unknown) {
     super(message);
@@ -316,6 +328,10 @@ export async function getConfig(): Promise<AdminConfig> {
     await initConfig();
     return ensureCachedConfigOrThrow();
   }
+  // M6: D1 模式短 TTL 缓存命中时直接返回，避免每次请求都读库
+  if (dbConfigCache && Date.now() < dbConfigCache.expiresAt) {
+    return dbConfigCache.config;
+  }
   // 非 docker 环境且 DB 存储，直接读 db 配置
   const storage = getStorage();
   let adminConfig: AdminConfig | null = null;
@@ -412,9 +428,20 @@ export async function getConfig(): Promise<AdminConfig> {
       });
     }
     cachedConfig = adminConfig;
+    dbConfigCache = {
+      config: adminConfig,
+      expiresAt: Date.now() + DB_CONFIG_CACHE_TTL_MS,
+    };
   } else {
     // DB 无配置，执行一次初始化
     await initConfig();
+    // initConfig 已填充 cachedConfig，同样进缓存
+    if (cachedConfig) {
+      dbConfigCache = {
+        config: cachedConfig,
+        expiresAt: Date.now() + DB_CONFIG_CACHE_TTL_MS,
+      };
+    }
   }
   // 第 21 项：初始化失败时 cachedConfig 仍为空——抛明确错误，
   // 不把 undefined 当配置返回给调用方。
@@ -422,7 +449,6 @@ export async function getConfig(): Promise<AdminConfig> {
 }
 
 export async function resetConfig() {
-  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
   const storage = getStorage();
   // 获取所有用户名，用于补全 Users
   let userNames: string[] = [];
@@ -477,16 +503,16 @@ export async function resetConfig() {
       from: 'config',
       disabled: false,
     })),
-    CustomCategories:
-      storageType === 'redis'
-        ? customCategories?.map((category) => ({
-            name: category.name,
-            type: category.type,
-            query: category.query,
-            from: 'config',
-            disabled: false,
-          })) || []
-        : [],
+    // M8: 重置时始终用 config.json 的默认值重建自定义分类。旧实现
+    // `storageType === 'redis' ? ... : []` 中 redis 存储从未实现
+    // （db.ts 会显式抛错），条件恒为 false，每次重置都清空全部自定义分类。
+    CustomCategories: customCategories.map((category) => ({
+      name: category.name,
+      type: category.type,
+      query: category.query,
+      from: 'config',
+      disabled: false,
+    })),
   } as AdminConfig;
 
   if (storage && typeof (storage as any).setAdminConfig === 'function') {
@@ -500,6 +526,8 @@ export async function resetConfig() {
   cachedConfig.UserConfig = adminConfig.UserConfig;
   cachedConfig.SourceConfig = adminConfig.SourceConfig;
   cachedConfig.CustomCategories = adminConfig.CustomCategories;
+  // M6: 重置后失效 D1 配置缓存，下次读取走库里的新配置
+  invalidateConfigCache();
 }
 
 export async function getCacheTime(): Promise<number> {

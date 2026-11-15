@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 
-import { parseAuthCookieValue, verifyAuthSession } from '@/lib/auth';
+import {
+  isSessionSecretConfigError,
+  parseAuthCookieValue,
+  verifyAuthSession,
+} from '@/lib/auth';
 
 export const runtime = 'edge';
 
@@ -15,7 +19,20 @@ export async function GET(request: Request) {
   const match = cookieHeader.match(/(?:^|;\s*)auth=([^;]*)/);
   const authInfo = parseAuthCookieValue(match?.[1]);
 
-  const session = await verifyAuthSession(authInfo);
+  // H1: 生产未配 SESSION_SECRET 时 verifyAuthSession 抛错，返回明确的
+  // 503 配置错误而非裸 500
+  let session = null;
+  try {
+    session = await verifyAuthSession(authInfo);
+  } catch (err) {
+    if (isSessionSecretConfigError(err)) {
+      return NextResponse.json(
+        { error: '服务器未配置 SESSION_SECRET，请联系管理员' },
+        { status: 503 }
+      );
+    }
+    throw err;
+  }
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

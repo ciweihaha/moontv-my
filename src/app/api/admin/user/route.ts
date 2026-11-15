@@ -3,7 +3,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { requireAdmin } from '@/lib/adminAuth';
+import { getConfig, invalidateConfigCache } from '@/lib/config';
 import { getStorage } from '@/lib/db';
+import { ADMIN_CONFIG_LOCK_KEY, withLock } from '@/lib/mutex';
 import { IStorage } from '@/lib/types';
 import { validateNewPassword, validateUsername } from '@/lib/userValidation';
 
@@ -22,12 +24,28 @@ const ACTIONS = [
 ] as const;
 
 export async function POST(request: NextRequest) {
-  // R3-A3: 统一 admin 鉴权
-  const { user, config, error } = await requireAdmin(request);
+  // R3-A3: 统一 admin 鉴权（只做鉴权，配置在锁内重新读取，见 M9）
+  const { user, error } = await requireAdmin(request);
   if (error) return error;
-  const adminConfig = config!;
   const username = user!.username;
   const operatorRole = user!.role;
+
+  // M9: 用户写操作（注册与管理端）共用一把进程内锁串行化，避免
+  // 并发读-改-写互相覆盖 Users；锁内重新读取最新配置再合并。
+  return withLock(ADMIN_CONFIG_LOCK_KEY, () =>
+    handleUserPost(request, username, operatorRole)
+  );
+}
+
+async function handleUserPost(
+  request: NextRequest,
+  username: string,
+  operatorRole: 'owner' | 'admin'
+): Promise<NextResponse> {
+  // M9: 锁内先失效缓存再读库，拿到最新配置（requireAdmin 返回的配置
+  // 可能已被并发写入者覆盖）
+  invalidateConfigCache();
+  const adminConfig = await getConfig();
 
   try {
     const body = await request.json();
@@ -311,6 +329,8 @@ export async function POST(request: NextRequest) {
     // 将更新后的配置写入数据库
     if (storage && typeof (storage as any).setAdminConfig === 'function') {
       await (storage as any).setAdminConfig(adminConfig);
+      // M6: 写配置后主动失效 D1 配置缓存
+      invalidateConfigCache();
     }
 
     return NextResponse.json(
@@ -322,13 +342,8 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
+    // L3: 只记日志，不向客户端回显内部错误原文
     console.error('用户管理操作失败:', error);
-    return NextResponse.json(
-      {
-        error: '用户管理操作失败',
-        details: (error as Error).message,
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: '用户管理操作失败' }, { status: 500 });
   }
 }

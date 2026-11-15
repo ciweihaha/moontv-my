@@ -2,21 +2,21 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { PlayRecord } from '@/lib/types';
+import { requireUser } from '@/lib/userAuth';
+import { validatePlayRecord } from '@/lib/userContentValidation';
 
 export const runtime = 'edge';
 
 export async function GET(request: NextRequest) {
   try {
-    // 从 cookie 获取用户信息
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
 
-    const records = await db.getAllPlayRecords(authInfo.username);
+    const records = await db.getAllPlayRecords(username);
     return NextResponse.json(records, { status: 200 });
   } catch (err) {
     console.error('获取播放记录失败', err);
@@ -29,11 +29,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    // 从 cookie 获取用户信息
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
 
     const body = await request.json();
     const { key, record }: { key: string; record: PlayRecord } = body;
@@ -45,12 +44,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 验证播放记录数据
-    if (!record.title || !record.source_name || record.index < 1) {
-      return NextResponse.json(
-        { error: 'Invalid record data' },
-        { status: 400 }
-      );
+    // L5: 验证字段类型与长度上限（index 必须为整数且 >= 1，旧实现
+    // `record.index < 1` 在 index 为 undefined 时为 false，可绕过校验）
+    const recordError = validatePlayRecord(record);
+    if (recordError) {
+      return NextResponse.json({ error: recordError }, { status: 400 });
     }
 
     // 从key中解析source和id
@@ -67,7 +65,7 @@ export async function POST(request: NextRequest) {
       save_time: record.save_time ?? Date.now(),
     } as PlayRecord;
 
-    await db.savePlayRecord(authInfo.username, source, id, finalRecord);
+    await db.savePlayRecord(username, source, id, finalRecord);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (err) {
@@ -81,13 +79,11 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    // 从 cookie 获取用户信息
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
 
-    const username = authInfo.username;
     const { searchParams } = new URL(request.url);
     const key = searchParams.get('key');
 

@@ -90,6 +90,7 @@ if (typeof g.Headers === 'undefined') g.Headers = ShimHeaders;
 // ---- admin/user 路由 mock ----
 const mockRegisterUser = jest.fn(async () => undefined);
 const mockStorageChangePassword = jest.fn(async () => undefined);
+const mockVerifyUser = jest.fn(async () => true);
 const mockAdminConfig: any = {
   UserConfig: { AllowRegister: true, Users: [] as any[] },
 };
@@ -102,7 +103,16 @@ jest.mock('@/lib/adminAuth', () => ({
   }),
 }));
 
+// M9: admin/user 在锁内重新读取配置（不再用 requireAdmin 返回的快照），
+// 故 mock getConfig 返回同一 mockAdminConfig
+jest.mock('@/lib/config', () => ({
+  getConfig: async () => mockAdminConfig,
+  invalidateConfigCache: jest.fn(),
+}));
+
 jest.mock('@/lib/db', () => ({
+  // M2: 自助改密需校验当前密码
+  db: { verifyUser: (...args: any[]) => mockVerifyUser(...args) },
   getStorage: () => ({
     registerUser: mockRegisterUser,
     changePassword: mockStorageChangePassword,
@@ -111,8 +121,9 @@ jest.mock('@/lib/db', () => ({
 }));
 
 // ---- change-password 路由 mock（与 admin 共用 '@/lib/db' mock） ----
-jest.mock('@/lib/auth', () => ({
-  getAuthInfoFromCookie: () => ({ username: 'alice', password: 'x' }),
+// M1: 自助改密改走 requireUser 自验签名，mock 该助手而非裸 Cookie 解析
+jest.mock('@/lib/userAuth', () => ({
+  requireUser: async () => ({ username: 'alice', error: null }),
 }));
 
 let validateUsername: any;
@@ -224,7 +235,10 @@ describe('自助改密走共享校验', () => {
 
   test('7 位新密码被拒（旧内联口径 ≥4 会放行）', async () => {
     const res = await selfPOST(
-      req('http://localhost/api/change-password', { newPassword: '1234567' })
+      req('http://localhost/api/change-password', {
+        currentPassword: 'oldpassword123',
+        newPassword: '1234567',
+      })
     );
     expect(res.status).toBe(400);
     expect(mockStorageChangePassword.mock.calls.length).toBe(0);
@@ -232,9 +246,23 @@ describe('自助改密走共享校验', () => {
 
   test('8 位新密码通过', async () => {
     const res = await selfPOST(
-      req('http://localhost/api/change-password', { newPassword: '12345678' })
+      req('http://localhost/api/change-password', {
+        currentPassword: 'oldpassword123',
+        newPassword: '12345678',
+      })
     );
     expect(res.status).toBe(200);
     expect(mockStorageChangePassword.mock.calls.length).toBe(1);
+  });
+
+  // M2: 不提交当前密码时被拒（防会话被盗后直接改密）
+  test('缺当前密码被拒', async () => {
+    const res = await selfPOST(
+      req('http://localhost/api/change-password', {
+        newPassword: '12345678',
+      })
+    );
+    expect(res.status).toBe(400);
+    expect(mockStorageChangePassword.mock.calls.length).toBe(0);
   });
 });

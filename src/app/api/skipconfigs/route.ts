@@ -2,18 +2,18 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAuthInfoFromCookie } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { SkipConfig } from '@/lib/types';
+import { requireUser } from '@/lib/userAuth';
 
 export const runtime = 'edge';
 
 export async function GET(request: NextRequest) {
   try {
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: '未登录' }, { status: 401 });
-    }
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
 
     const { searchParams } = new URL(request.url);
     const source = searchParams.get('source');
@@ -21,11 +21,11 @@ export async function GET(request: NextRequest) {
 
     if (source && id) {
       // 获取单个配置
-      const config = await db.getSkipConfig(authInfo.username, source, id);
+      const config = await db.getSkipConfig(username, source, id);
       return NextResponse.json(config);
     } else {
       // 获取所有配置
-      const configs = await db.getAllSkipConfigs(authInfo.username);
+      const configs = await db.getAllSkipConfigs(username);
       return NextResponse.json(configs);
     }
   } catch (error) {
@@ -39,10 +39,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: '未登录' }, { status: 401 });
-    }
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
 
     const body = await request.json();
     const { key, config } = body;
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       outro_time: Number(config.outro_time) || 0,
     };
 
-    await db.setSkipConfig(authInfo.username, source, id, skipConfig);
+    await db.setSkipConfig(username, source, id, skipConfig);
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -78,10 +78,10 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const authInfo = getAuthInfoFromCookie(request);
-    if (!authInfo || !authInfo.username) {
-      return NextResponse.json({ error: '未登录' }, { status: 401 });
-    }
+    // M1: 统一走 requireUser 自验会话签名，不再只信任 Cookie 里的用户名
+    const auth = await requireUser(request);
+    if (auth.error) return auth.error;
+    const username = auth.username;
 
     const { searchParams } = new URL(request.url);
     const key = searchParams.get('key');
@@ -96,7 +96,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: '无效的key格式' }, { status: 400 });
     }
 
-    await db.deleteSkipConfig(authInfo.username, source, id);
+    await db.deleteSkipConfig(username, source, id);
 
     return NextResponse.json({ success: true });
   } catch (error) {

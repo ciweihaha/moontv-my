@@ -1,189 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any,no-console */
-
-import { NextRequest, NextResponse } from 'next/server';
-
-import { requireAdmin } from '@/lib/adminAuth';
-import { getStorage } from '@/lib/db';
-import { IStorage } from '@/lib/types';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
-// 支持的操作类型
-type Action = 'add' | 'disable' | 'enable' | 'delete' | 'sort';
-
-interface BaseBody {
-  action?: Action;
-}
-
-export async function POST(request: NextRequest) {
-  const storageType = process.env.NEXT_PUBLIC_STORAGE_TYPE || 'localstorage';
-  if (storageType === 'd1' || storageType === 'upstash') {
-    return NextResponse.json(
-      {
-        error: 'D1 和 Upstash 实例请通过配置文件调整',
-      },
-      { status: 400 }
-    );
-  }
-
-  // R3-A3: 统一 admin 鉴权（requireAdmin 已含 localstorage 400 检查）
-  const { user, config, error } = await requireAdmin(request);
-  if (error) return error;
-  const adminConfig = config!;
-  const username = user!.username;
-
-  try {
-    const body = (await request.json()) as BaseBody & Record<string, any>;
-    const { action } = body;
-
-    // 基础校验
-    const ACTIONS: Action[] = ['add', 'disable', 'enable', 'delete', 'sort'];
-    if (!username || !action || !ACTIONS.includes(action)) {
-      return NextResponse.json({ error: '参数格式错误' }, { status: 400 });
-    }
-
-    // 获取存储
-    const storage: IStorage | null = getStorage();
-
-    switch (action) {
-      case 'add': {
-        const { name, type, query } = body as {
-          name?: string;
-          type?: 'movie' | 'tv';
-          query?: string;
-        };
-        if (!name || !type || !query) {
-          return NextResponse.json({ error: '缺少必要参数' }, { status: 400 });
-        }
-        // 检查是否已存在相同的查询和类型组合
-        if (
-          adminConfig.CustomCategories.some(
-            (c) => c.query === query && c.type === type
-          )
-        ) {
-          return NextResponse.json({ error: '该分类已存在' }, { status: 400 });
-        }
-        adminConfig.CustomCategories.push({
-          name,
-          type,
-          query,
-          from: 'custom',
-          disabled: false,
-        });
-        break;
-      }
-      case 'disable': {
-        const { query, type } = body as {
-          query?: string;
-          type?: 'movie' | 'tv';
-        };
-        if (!query || !type)
-          return NextResponse.json(
-            { error: '缺少 query 或 type 参数' },
-            { status: 400 }
-          );
-        const entry = adminConfig.CustomCategories.find(
-          (c) => c.query === query && c.type === type
-        );
-        if (!entry)
-          return NextResponse.json({ error: '分类不存在' }, { status: 404 });
-        entry.disabled = true;
-        break;
-      }
-      case 'enable': {
-        const { query, type } = body as {
-          query?: string;
-          type?: 'movie' | 'tv';
-        };
-        if (!query || !type)
-          return NextResponse.json(
-            { error: '缺少 query 或 type 参数' },
-            { status: 400 }
-          );
-        const entry = adminConfig.CustomCategories.find(
-          (c) => c.query === query && c.type === type
-        );
-        if (!entry)
-          return NextResponse.json({ error: '分类不存在' }, { status: 404 });
-        entry.disabled = false;
-        break;
-      }
-      case 'delete': {
-        const { query, type } = body as {
-          query?: string;
-          type?: 'movie' | 'tv';
-        };
-        if (!query || !type)
-          return NextResponse.json(
-            { error: '缺少 query 或 type 参数' },
-            { status: 400 }
-          );
-        const idx = adminConfig.CustomCategories.findIndex(
-          (c) => c.query === query && c.type === type
-        );
-        if (idx === -1)
-          return NextResponse.json({ error: '分类不存在' }, { status: 404 });
-        const entry = adminConfig.CustomCategories[idx];
-        if (entry.from === 'config') {
-          return NextResponse.json(
-            { error: '该分类不可删除' },
-            { status: 400 }
-          );
-        }
-        adminConfig.CustomCategories.splice(idx, 1);
-        break;
-      }
-      case 'sort': {
-        const { order } = body as { order?: string[] };
-        if (!Array.isArray(order)) {
-          return NextResponse.json(
-            { error: '排序列表格式错误' },
-            { status: 400 }
-          );
-        }
-        const map = new Map(
-          adminConfig.CustomCategories.map((c) => [`${c.query}:${c.type}`, c])
-        );
-        const newList: typeof adminConfig.CustomCategories = [];
-        order.forEach((key) => {
-          const item = map.get(key);
-          if (item) {
-            newList.push(item);
-            map.delete(key);
-          }
-        });
-        // 未在 order 中的保持原顺序
-        adminConfig.CustomCategories.forEach((item) => {
-          if (map.has(`${item.query}:${item.type}`)) newList.push(item);
-        });
-        adminConfig.CustomCategories = newList;
-        break;
-      }
-      default:
-        return NextResponse.json({ error: '未知操作' }, { status: 400 });
-    }
-
-    // 持久化到存储
-    if (storage && typeof (storage as any).setAdminConfig === 'function') {
-      await (storage as any).setAdminConfig(adminConfig);
-    }
-
-    return NextResponse.json(
-      { ok: true },
-      {
-        headers: {
-          'Cache-Control': 'no-store',
-        },
-      }
-    );
-  } catch (error) {
-    console.error('分类管理操作失败:', error);
-    return NextResponse.json(
-      {
-        error: '分类管理操作失败',
-        details: (error as Error).message,
-      },
-      { status: 500 }
-    );
-  }
+/**
+ * M5: 分类管理接口已停用。
+ *
+ * 该接口在所有存储模式下都不可用：d1/upstash 下 getConfig 每次都用
+ * config.json 的 custom_category 覆盖分类（写入即丢失），localstorage
+ * 模式无管理端数据库，redis 从未实现。管理后台分类区已改为只读展示
+ * （见 src/app/admin/page.tsx 的 CategoryConfig）。
+ *
+ * 分类请直接修改 config.json 的 custom_category 后重新部署。
+ */
+export async function POST() {
+  return NextResponse.json(
+    {
+      error:
+        '分类管理请通过配置文件 config.json 的 custom_category 修改，本接口已停用',
+    },
+    { status: 400 }
+  );
 }
