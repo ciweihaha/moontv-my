@@ -5,10 +5,6 @@ export const config = {
     "agg": {
       "api": "https://ysp.ciweihaha.win/agg",
       "name": "多站合一"
-    },
-    "asia": {
-      "api": "https://oktv-asia.pages.dev/agg",
-      "name": "亚洲合集"
     }
   }
 } as const;
